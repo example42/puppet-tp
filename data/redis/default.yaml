@@ -1,0 +1,36 @@
+---
+  redis::packages:
+    redis:
+      ensure: present
+      alias: 'redis'
+
+  redis::services:
+    redis:
+      ensure: running
+      enable: true
+      alias: 'redis'
+      require: Package[redis]
+
+  redis::files:
+    '/etc/redis/redis.conf':
+      ensure: present
+      owner: root
+      group: root
+      mode: 0644
+      alias: 'redis.conf'
+      notify: Service[redis]
+
+  redis::settings:
+    config_file_path: '/etc/redis/redis.conf'
+    config_file_owner: 'root'
+    config_file_group: 'root'
+    config_file_mode: '0644'
+    config_file_notify: 'Service[redis]'
+    config_dir_path: '/etc/redis'
+    tcp_port: '6379'
+    pid_file_path: '/var/run/redis.pid'
+    log_file_path: '/var/log/redis.log'
+    log_dir_path: ''
+    process_user: 'redis'
+    process_group: 'redis'
+#    log_dir_path: '/var/log/redis'
