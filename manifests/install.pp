@@ -16,9 +16,13 @@ define tp::install (
 
   ) {
 
-  $real_packages=tp_lookup($title,'packages')
-  $real_services=tp_lookup($title,'services')
-  $real_files=tp_lookup($title,'files')
+  $tp_packages=tp_lookup($title,'packages')
+  $tp_services=tp_lookup($title,'services')
+  $tp_files=tp_lookup($title,'files')
+
+  $real_packages=merge($tp_packages,$packages)
+  $real_services=merge($tp_services,$services)
+  $real_files=merge($tp_files,$files)
 
   if $real_packages {
     create_resources('package', $real_packages)

@@ -11,3 +11,10 @@ tp::install { 'redis':
     'redis' => { ensure => stopped , enable => true } ,
   },
 }
+
+notice('Config change')
+tp::install { 'apache':
+  files  => {
+    '/etc/apache/apache.conf' => { content => 'test' } ,
+  },
+}
