@@ -1,6 +1,0 @@
----
- :hierarchy:
-   - "operatingsystem/%{::operatingsystem}-%{::operatingsystemrelease}"
-   - "operatingsystem/%{::operatingsystem}"
-   - "osfamily/%{::osfamily}"
-   - default

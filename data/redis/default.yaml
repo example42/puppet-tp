@@ -21,6 +21,10 @@
       notify: Service[redis]
 
   redis::settings:
+    package_name: 'redis'
+    service_name: 'redis'
+    service_ensure: 'running'
+    service_enable: 'true'
     config_file_path: '/etc/redis/redis.conf'
     config_file_owner: 'root'
     config_file_group: 'root'
