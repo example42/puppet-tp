@@ -12,7 +12,7 @@ define tp::install (
   $services  = { } ,
   $files     = { } ,
 
-  $configs   = { } ,
+  $settings  = { } ,
 
   ) {
 
