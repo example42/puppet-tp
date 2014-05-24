@@ -11,15 +11,6 @@
       alias: 'redis'
       require: Package[redis]
 
-  redis::files:
-    '/etc/redis/redis.conf':
-      ensure: present
-      owner: root
-      group: root
-      mode: 0644
-      alias: 'redis.conf'
-      notify: Service[redis]
-
   redis::settings:
     package_name: 'redis'
     service_name: 'redis'

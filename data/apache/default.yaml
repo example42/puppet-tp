@@ -1,0 +1,31 @@
+---
+  apache::packages:
+    apache:
+      ensure: present
+      alias: 'apache'
+
+  apache::services:
+    apache:
+      ensure: running
+      enable: true
+      alias: 'apache'
+      require: Package[apache]
+
+  apache::settings:
+    package_name: 'apache'
+    service_name: 'apache'
+    service_ensure: 'running'
+    service_enable: 'true'
+    config_file_path: '/etc/apache/apache.conf'
+    config_file_owner: 'root'
+    config_file_group: 'root'
+    config_file_mode: '0644'
+    config_file_notify: 'Service[apache]'
+    config_dir_path: '/etc/apache'
+    tcp_port: '6379'
+    pid_file_path: '/var/run/apache.pid'
+    log_file_path: '/var/log/apache.log'
+    log_dir_path: ''
+    process_user: 'apache'
+    process_group: 'apache'
+#    log_dir_path: '/var/log/apache'
