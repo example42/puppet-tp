@@ -1,7 +1,11 @@
 # Tiny Puppet
 
-Note: his project is at arly development stage
-Consider what follows as "ReadMe Drivn Development"
+Note: This project is at early development stage.
+
+Consider what follows as "ReadMe Driven Development"
+
+Do not expect it to work out of the box, yet ;-)
+
 
 ## Usage in manifests
 
@@ -14,6 +18,13 @@ Configure a file of an application providing a custom a template:
 
     tp::conf { 'redis::redis.conf':
       template    => 'site/redis/redis.conf.erb',
+    }
+
+
+Configure a file of an application providing a custom epp template:
+
+    tp::conf { 'redis::redis.conf':
+      epp   => 'site/redis/redis.conf.epp',
     }
 
 
@@ -40,6 +51,7 @@ Configure a fragment of a given file:
 
 
 Install an application and provide custom settings for internally used parameter:
+
     tp::install { 'redis':
       settings => {
         config_dir_path => '/opt/redis/conf',
