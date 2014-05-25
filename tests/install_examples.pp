@@ -8,13 +8,16 @@ tp::install { 'redis':
     'redis2' => { ensure => present } ,
   },
   services  => {
-    'redis' => { ensure => stopped , enable => true } ,
+    'redis' => { ensure => stopped , enable => false } ,
+  },
+  files  => {
+    '/tmp/redis.conf' => { content => 'test' } ,
   },
 }
 
 notice('Config change')
 tp::install { 'apache':
   files  => {
-    '/etc/apache/apache.conf' => { content => 'test' } ,
+    '/tmp/apache.conf' => { content => 'test' } ,
   },
 }
