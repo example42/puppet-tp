@@ -7,6 +7,9 @@ module Puppet::Parser::Functions
     raise Puppet::ParseError, ("tp_lookup(): wrong number of arguments (#{args.length}; must be 2)")
   end
 
+  # TODO: Make this function honour the expected hierarchy ( such as in data/hiera.yaml )
+  # TODO: Support alternative merge behaviours
+
   app = args[0]
   res = args[1]
   key = app + "::" + res
