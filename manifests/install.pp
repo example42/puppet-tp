@@ -14,6 +14,11 @@ define tp::install (
 
   $settings  = { } ,
 
+  $extra_class               = undef,
+  $dependency_class          = undef,
+  $monitor_class             = undef,
+  $firewall_class            = undef,
+
   ) {
 
   $tp_packages=tp_lookup($title,'packages')
@@ -24,6 +29,12 @@ define tp::install (
   $real_services=merge($tp_services,$services)
   $real_files=merge($tp_files,$files)
 
+
+  # Dependency class
+  if $dependency_class { include $dependency_class }
+
+
+  # Resources
   if $real_packages {
     create_resources('package', $real_packages)
   }
@@ -35,5 +46,11 @@ define tp::install (
   if $real_files {
     create_resources('file', $real_files)
   }
+
+
+  # Extra classes
+  if $extra_class { include $extra_class }
+  if $monitor_class { include $monitor_class }
+  if $firewall_class { include $firewall_class }
 
 }
