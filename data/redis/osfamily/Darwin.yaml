@@ -1,0 +1,31 @@
+---
+  redis::packages:
+    redis-darwin:
+      ensure: present
+      alias: 'redis-darwin'
+
+  redis::services:
+    redis:
+      ensure: stopped
+      enable: false
+      alias: 'redis'
+      require: Package[redis]
+
+  redis::settings:
+    package_name: 'redis'
+    service_name: 'redis'
+    service_ensure: 'running'
+    service_enable: 'true'
+    config_file_path: '/etc/redis/redis.conf'
+    config_file_owner: 'root'
+    config_file_group: 'root'
+    config_file_mode: '0644'
+    config_file_notify: 'Service[redis]'
+    config_dir_path: '/etc/redis'
+    tcp_port: '6379'
+    pid_file_path: '/var/run/redis.pid'
+    log_file_path: '/var/log/redis.log'
+    log_dir_path: ''
+    process_user: 'redis'
+    process_group: 'redis'
+#    log_dir_path: '/var/log/redis'
