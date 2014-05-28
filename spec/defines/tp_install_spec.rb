@@ -2,6 +2,7 @@ require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
 
 describe 'tp::install', :type => :define do
   let(:title) { 'redis' }
+  let(:facts) { {:osfamily => 'Darwin', :operatingsystem => 'Darwin', :operatingsystemrelease => '13.2.0'} }
 
   context 'with default parameters' do
     it do
