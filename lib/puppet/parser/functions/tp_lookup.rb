@@ -16,6 +16,7 @@ module Puppet::Parser::Functions
     key = app + "::" + res
 
 
+    value = { }
 
     if mp = Puppet::Module.find("tp", compiler.environment.to_s)
       hiera_file_path  = mp.path + '/data/hiera.yaml'
@@ -28,15 +29,16 @@ module Puppet::Parser::Functions
           operatingsystemrelease: lookupvar('::operatingsystemrelease')
       }
 
-      hiera[:hierarchy].each { | p |
+       
+      hiera[:hierarchy].reverse!.each { | p |
         conf_file_path = mp.path + '/data/' + p % model + '.yaml'
 
         if File.exist?(conf_file_path)
-          puts "Loading file: " + conf_file_path
-          value = YAML::load(File.open(conf_file_path))[key]
+          # puts "Loading file: " + conf_file_path
+          got_value = YAML::load(File.open(conf_file_path))[key]
 
-          unless value.nil?
-            return value
+          unless got_value.nil?
+            value.merge!(got_value)
           end
         end
       }
@@ -44,5 +46,8 @@ module Puppet::Parser::Functions
     else
       raise(Puppet::ParseError, "Could not find module tp in environment #{compiler.environment}")
     end
+
+    return value
+
   end
 end
