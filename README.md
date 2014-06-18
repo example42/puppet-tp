@@ -6,6 +6,15 @@ Consider what follows as "ReadMe Driven Development"
 
 Do not expect it to work out of the box, yet ;-)
 
+This module provides the following defines:
+
+- ```tp::install```. It just installs an application and starts its service, by default
+- ```tp::conf```. It allows to manage configuration files of an application with whatever method possible for files (as an ERB template, as an EPP template, via the fileserver, managing directly its content...)
+- ```tp::dir```. Manages the content of a directory, either sourced from the fileserver or from repositories of most common VCS tools (Git, Mercurial, Subversion, Bazaar, CVS)
+- ```tp::install_stdmod```. Manages the installation of an application using StdMod compliant parameters.
+- ```tp::line```. (TODO) Manages single lines in a configuration file
+- ```tp::concat```. (TODO) Manages file fragments of a configuration file
+
 
 ## Usage in manifests
 
