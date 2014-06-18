@@ -96,14 +96,16 @@ define tp::install_stdmod (
     }
   }
 
-  if $real_settings[config_source] {
+  if $real_settings[config_file_source]
+  or $manage_config_file_content
+  or $config_file_ensure = 'absent' {
     file { $real_settings[config_file_path]:
       ensure  => $config_file_ensure,
       path    => $real_settings[config_file_path],
       mode    => $real_settings[config_file_mode],
       owner   => $real_settings[config_file_owner],
       group   => $real_settings[config_file_group],
-      source  => $config_file_source,
+      source  => $real_settings[config_file_source],
       content => $manage_config_file_content,
       notify  => $manage_config_file_notify,
       require => $real_settings[config_file_require],
