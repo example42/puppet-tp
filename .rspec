@@ -1,4 +1,3 @@
 --color
---format
+--format documentation
 progress
---backtrace
