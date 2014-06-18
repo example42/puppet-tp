@@ -19,7 +19,7 @@ module Puppet::Parser::Functions
     value = { }
 
     if mp = Puppet::Module.find("tp", compiler.environment.to_s)
-      hiera_file_path  = mp.path + '/data/hiera.yaml'
+      hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
       hiera = YAML::load(File.open(hiera_file_path))
 
       model = {
