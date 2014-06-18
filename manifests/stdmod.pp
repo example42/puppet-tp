@@ -1,18 +1,21 @@
 #
-# = Define: tp::install_stdmod
+# = Define: tp::stdmod
 #
-# This defines installs and manages a tp supported application
-# It exposes stdmod compiant parameters for standard package, service,
-# configuration setups.
+# This defines reproduces a standard module based
+# on a this stdmod standard template
+# (https://github.com/stdmod/puppet-skeleton-standard)
 #
-define tp::install_stdmod (
+# The define exposes stdmod compiant parameters for
+# standard package, service, configuration setups.
+#
+define tp::stdmod (
 
   $package_name              = undef,
-  $package_ensure            = 'present',
+  $package_ensure            = undef,
 
   $service_name              = undef,
-  $service_ensure            = 'running',
-  $service_enable            = true,
+  $service_ensure            = undef,
+  $service_enable            = undef,
 
   $config_file_path          = undef,
   $config_file_replace       = undef,
@@ -41,8 +44,9 @@ define tp::install_stdmod (
   ) {
 
   # TODO: Find the right way to merge parameters and default settings
-  $tp_settings = tp_lookup($title,'settings')
-  $params_settings = inline_template('<%= scope.to_hash %>')
+  $tp_settings = tp_lookup($title,'settings','merge')
+  # $params_settings = inline_template('<%= scope.to_hash %>')
+  $params_settings = {}
   $real_settings = merge($params_settings,$tp_settings)
 
 
@@ -98,7 +102,7 @@ define tp::install_stdmod (
 
   if $real_settings[config_file_source]
   or $manage_config_file_content
-  or $config_file_ensure = 'absent' {
+  or $config_file_ensure == 'absent' {
     file { $real_settings[config_file_path]:
       ensure  => $config_file_ensure,
       path    => $real_settings[config_file_path],
