@@ -13,7 +13,7 @@ define tp::conf (
   $owner                = undef,
   $group                = undef,
 
-  $config_file_notify   = 'class_default',
+  $config_file_notify   = 'default',
   $config_file_require  = undef,
 
   $options_hash         = undef,
@@ -27,8 +27,7 @@ define tp::conf (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
-  $settings = tp_lookup($app,"settings")
-
+  $settings = tp_lookup($app,"settings","merge")
   $manage_path    = tp_pick($path, "${settings[config_dir_path]}/${file}")
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
@@ -36,9 +35,10 @@ define tp::conf (
   $manage_group   = tp_pick($group, $settings[config_file_group])
   $manage_require = tp_pick($config_file_require, $settings[config_file_require])
   $manage_notify  = $config_file_notify ? {
-    'class_default' => $settings[config_file_notify],
-    'undef'         => undef,
-    default         => $config_file_notify,
+    'default' => $settings[config_file_notify],
+    'undef'   => undef,
+    ''        => undef,
+    default   => $config_file_notify,
   }
 
   file { "tp_conf_${manage_path}":
@@ -54,4 +54,3 @@ define tp::conf (
   }
 
 }
-

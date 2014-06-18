@@ -28,15 +28,14 @@ define tp::dir (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $dir = $title_elements[1]
-  $settings = tp_lookup($app,"settings")
-  $service_name = $settings['service_name']
+  $settings = tp_lookup($app,"settings","merge")
   $manage_path    = tp_pick($path, $settings[config_dir_path])
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
   $manage_require = tp_pick($config_dir_require, $settings[config_dir_require])
   $manage_notify  = $config_dir_notify ? {
-    'default'       => Service[$service_name],
+    'default'       => $settings[config_file_notify],
     'undef'         => undef,
     ''              => undef,
     default         => $config_dir_notify,
