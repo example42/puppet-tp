@@ -1,0 +1,18 @@
+---
+  redis::packages:
+    redis-server:
+      ensure: present
+      alias: 'redis'
+
+  redis::services:
+    redis-server:
+      ensure: running
+      enable: true
+      alias: 'redis'
+      require: Package[redis]
+
+  redis::settings:
+    package_name: 'redis-server'
+    service_name: 'redis-server'
+    config_file_notify: 'Service[redis-server]'
+    config_dir_notify: 'Service[redis-server]'
