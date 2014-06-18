@@ -163,7 +163,7 @@ describe 'tp::dir', :type => :define do
       }
     }
     it do 
-      should contain_vcsrepo('tp_dir_/etc/redis').with({
+      should contain_vcsrepo('/etc/redis').with({
         'ensure'   => 'present',                           
         'provider' => 'git',             
         'source'   => 'https://github.com/example42/puppet-tp.git',

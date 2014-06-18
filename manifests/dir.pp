@@ -28,7 +28,7 @@ define tp::dir (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $dir = $title_elements[1]
-  $settings = tp_lookup($app,"settings","merge")
+  $settings = tp_lookup($app,'settings','merge')
   $manage_path    = tp_pick($path, $settings[config_dir_path])
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])

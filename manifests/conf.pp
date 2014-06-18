@@ -27,7 +27,7 @@ define tp::conf (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
-  $settings = tp_lookup($app,"settings","merge")
+  $settings = tp_lookup($app,'settings','merge')
   $manage_path    = tp_pick($path, "${settings[config_dir_path]}/${file}")
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
