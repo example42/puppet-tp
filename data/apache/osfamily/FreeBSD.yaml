@@ -1,0 +1,5 @@
+---
+  apache::settings:
+    config_file_path: '/usr/local/etc/apache20/httpd.conf'
+    config_dir_path: '/usr/local/etc/apache20'
+    config_file_group: 'wheel'
