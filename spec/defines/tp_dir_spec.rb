@@ -158,8 +158,9 @@ describe 'tp::dir', :type => :define do
   context 'with vcsrepo' do
     let(:params) {
       {
-        'vcsrepo'      => 'git',
-        'source'       => 'https://github.com/example42/puppet-tp.git',
+        'vcsrepo' => 'git',
+        'source'  => 'https://github.com/example42/puppet-tp.git',
+        'owner'   => 'mytest',
       }
     }
     it do 
@@ -167,7 +168,9 @@ describe 'tp::dir', :type => :define do
         'ensure'   => 'present',                           
         'provider' => 'git',             
         'source'   => 'https://github.com/example42/puppet-tp.git',
+        'owner'    => 'mytest',
+        'group'    => 'root',
       })
     end
-  end    
+  end
 end
