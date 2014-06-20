@@ -51,8 +51,10 @@ define tp::dir (
   if $vcsrepo {
     vcsrepo { $manage_path:
       ensure   => $manage_ensure,
-      provider => $vcsrepo,
       source   => $source,
+      provider => $vcsrepo,
+      owner    => $manage_owner,
+      group    => $manage_group,
     }
   } else {
     file { "tp_dir_${manage_path}":
