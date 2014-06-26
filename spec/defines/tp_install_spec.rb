@@ -78,6 +78,22 @@ describe 'tp::install', :type => :define do
     end
   end
 
+
+  context 'with Debian osfamily on apache' do
+    let(:title) { 'apache' }
+    let(:facts) {
+      {
+        :osfamily => 'Debian',
+      }
+    }
+    it do
+      should contain_package('apache2').with_ensure('present')
+      should contain_service('apache2').with_ensure('stopped')
+      should contain_service('apache2').with_enable('false')
+    end
+  end
+
+
   context 'with custom classes' do
     let(:params) {
       {
