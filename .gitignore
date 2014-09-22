@@ -8,3 +8,4 @@ spec/fixtures
 .*.sw[a-z]
 Gemfile.lock
 *.un~
+/.vagrant
