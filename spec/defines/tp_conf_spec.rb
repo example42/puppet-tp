@@ -13,6 +13,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0644',
         'owner'   => 'root',
         'group'   => 'root',
+        'require' => 'Package[redis]',
         'notify'  => 'Service[redis]',
       })
     end
@@ -32,6 +33,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0644',
         'owner'   => 'test',
         'group'   => 'test',
+        'require' => 'Package[redis-test]',
         'notify'  => 'Service[redis-test]',
       })
     end
@@ -52,6 +54,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0644',
         'owner'   => 'test',
         'group'   => 'test',
+        'require' => 'Package[redis-testos]',
         'notify'  => 'Service[redis-testos]',
       })
     end
@@ -73,6 +76,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0644',
         'owner'   => 'test',
         'group'   => 'test',
+        'require' => 'Package[redis-testos001]',
         'notify'  => 'Service[redis-testos001]',
       })
     end
@@ -97,6 +101,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
+        'require' => 'Package[redis]',                    
         'notify'  => 'Service[redis]',                    
       })                                                  
     end                                                   
@@ -127,6 +132,7 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
+        'require' => 'Package[redis-testos001]',
         'notify'  => 'Service[redis-testos001]',
       })
     end
