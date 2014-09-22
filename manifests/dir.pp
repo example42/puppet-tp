@@ -6,8 +6,10 @@ define tp::dir (
   $ensure               = 'present',
 
   $source               = undef,
-
   $vcsrepo              = undef,
+
+  # TODO: Use prefix
+  $prefix               = 'config',
 
   $path                 = undef,
   $mode                 = undef,
@@ -33,12 +35,12 @@ define tp::dir (
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
-  $manage_require = tp_pick($config_dir_require, $settings[config_dir_require])
+  $manage_require = "Package[${settings[package_name]}]"
   $manage_notify  = $config_dir_notify ? {
-    'default'       => $settings[config_file_notify],
-    'undef'         => undef,
-    ''              => undef,
-    default         => $config_dir_notify,
+    'default'  => "Service[${settings[service_name]}]",
+    'undef'    => undef,
+    ''         => undef,
+    default    => $config_dir_notify,
   }
   $manage_ensure = $ensure ? {
     'present' => $vcsrepo ? {

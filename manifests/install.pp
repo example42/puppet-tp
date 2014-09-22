@@ -9,11 +9,13 @@
 #
 define tp::install (
 
-  $packages  = { } ,
-  $services  = { } ,
-  $files     = { } ,
+  $ensure                    = present,
 
-  $settings  = { } ,
+  $packages                  = { } ,
+  $services                  = { } ,
+  $files                     = { } ,
+
+  $settings_hash             = { } ,
 
   $extra_class               = undef,
   $dependency_class          = undef,
@@ -22,26 +24,35 @@ define tp::install (
 
   ) {
 
-  $tp_packages=tp_lookup($title,'packages')
-  $tp_services=tp_lookup($title,'services')
-  $tp_files=tp_lookup($title,'files')
-
-  $real_packages=merge($tp_packages,$packages)
-  $real_services=merge($tp_services,$services)
-  $real_files=merge($tp_files,$files)
+  $tp_settings=tp_lookup($title,'settings','merge')
+  # $settings=$tp_settings
+  $settings=merge($tp_settings,$settings_hash)
 
 
   # Dependency class
-  if $dependency_class { include $dependency_class }
+  if $dependency_class { require $dependency_class }
 
 
   # Resources
-  if $real_packages {
-    create_resources('package', $real_packages)
+  if ! empty($packages) {
+    create_resources('package', $packages)
+  } else {
+    if $settings[package_name] {
+      package { $settings[package_name]:
+        ensure => $ensure,
+      }
+    }
   }
 
   if $real_services {
-    create_resources('service', $real_services)
+    create_resources('service', $services)
+  } else {
+    if $settings[service_name] {
+      service { $settings[service_name]:
+        ensure => running,
+        enable => true,
+      }
+    }
   }
 
   if $real_files {

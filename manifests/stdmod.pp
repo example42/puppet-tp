@@ -43,16 +43,30 @@ define tp::stdmod (
 
   ) {
 
-  # TODO: Find the right way to merge parameters and default settings
   $tp_settings = tp_lookup($title,'settings','merge')
-  # $params_settings = inline_template('<%= scope.to_hash %>')
-  $params_settings = {}
-  $real_settings = merge($params_settings,$tp_settings)
-
+  $user_settings = {
+    package_name              => $package_name,
+    package_ensure            => $package_ensure,
+    service_name              => $service_name,
+    service_ensure            => $service_ensure,
+    service_enable            => $service_enable,
+    config_file_path          => $config_file_path, 
+    config_file_replace       => $config_file_replace,
+    config_file_require       => $config_file_require,
+    config_file_notify        => $config_file_notify,
+    config_file_owner         => $config_file_owner,
+    config_file_group         => $config_file_group,
+    config_file_mode          => $config_file_mode,
+    config_dir_path           => $config_dir_path,
+    config_dir_purge          => $config_dir_purge,
+    config_dir_force          => $config_dir_force,
+    config_dir_recurse        => $config_dir_recurse,
+  }
+  $settings = merge($tp_settings,$user_settings)
 
   # Internal variables
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
-
+  $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
     'default' => "Service[$title]",
     'undef'   => undef,
@@ -87,45 +101,45 @@ define tp::stdmod (
 
   # Resources
 
-  if $real_settings[package_name] {
-    package { $real_settings[package_name]:
+  if $settings[package_name] {
+    package { $settings[package_name]:
       ensure => $ensure,
     }
   }
 
-  if $real_settings[service_name] {
-    service { $real_settings[service_name]:
-      ensure => $real_settings[service_ensure],
-      enable => $real_settings[service_enable],
+  if $settings[service_name] {
+    service { $settings[service_name]:
+      ensure => $settings[service_ensure],
+      enable => $settings[service_enable],
     }
   }
 
-  if $real_settings[config_file_source]
+  if $settings[config_file_source]
   or $manage_config_file_content
   or $config_file_ensure == 'absent' {
-    file { $real_settings[config_file_path]:
+    file { $settings[config_file_path]:
       ensure  => $config_file_ensure,
-      path    => $real_settings[config_file_path],
-      mode    => $real_settings[config_file_mode],
-      owner   => $real_settings[config_file_owner],
-      group   => $real_settings[config_file_group],
-      source  => $real_settings[config_file_source],
+      path    => $settings[config_file_path],
+      mode    => $settings[config_file_mode],
+      owner   => $settings[config_file_owner],
+      group   => $settings[config_file_group],
+      source  => $settings[config_file_source],
       content => $manage_config_file_content,
       notify  => $manage_config_file_notify,
-      require => $real_settings[config_file_require],
+      require => $manage_config_file_require,
     }
   }
 
   if $config_dir_source {
-    file { $real_settings[config_dir_path]:
+    file { $settings[config_dir_path]:
       ensure  => $config_dir_ensure,
-      path    => $real_settings[config_dir_path],
+      path    => $settings[config_dir_path],
       source  => $config_dir_source,
-      recurse => $real_settings[config_dir_recurse],
-      purge   => $real_settings[config_dir_purge],
-      force   => $real_settings[config_dir_force],
-      notify  => $real_settings[manage_config_file_notify],
-      require => $real_settings[config_file_require],
+      recurse => $settings[config_dir_recurse],
+      purge   => $settings[config_dir_purge],
+      force   => $settings[config_dir_force],
+      notify  => $manage_config_file_notify,
+      require => $manage_config_file_require,
     }
   }
 

@@ -8,14 +8,10 @@ module Puppet::Parser::Functions
       raise Puppet::ParseError, ("tp_lookup(): wrong number of arguments (#{args.length}; must be 2 or 3)")
     end
 
-    # TODO: Make this function honour the expected hierarchy ( such as in data/hiera.yaml )
-    # TODO: Support alternative merge behaviours
-
     app = args[0]
     res = args[1]
     args[2].to_s.length!=0 ? look = args[2] : look = 'direct'
     key = app + "::" + res
-
 
     value = { }
 
@@ -29,24 +25,27 @@ module Puppet::Parser::Functions
 
       hiera = YAML::load(File.open(hiera_file_path))
       model = {
-          title: app,
-          osfamily: lookupvar('::osfamily'),
-          operatingsystem: lookupvar('::operatingsystem'),
-          operatingsystemrelease: lookupvar('::operatingsystemrelease')
+        title: app,
+        osfamily: lookupvar('::osfamily'),
+        operatingsystem: lookupvar('::operatingsystem'),
+        operatingsystemrelease: lookupvar('::operatingsystemrelease'),
+        dependency_class: lookupvar('dependency_class')
       }
-
        
       hiera[:hierarchy].reverse!.each { | p |
         conf_file_path = mp.path + '/data/' + p % model + '.yaml'
 
         if File.exist?(conf_file_path)
-          # puts "Loading file: " + conf_file_path
-          got_value = YAML::load(File.open(conf_file_path))[key]
+          got_value = YAML::load(File.open(conf_file_path))
+
+          got_value = got_value.include?(key) ? got_value[key] : got_value['default::settings']
 
           unless got_value.nil?
+            value = function_deep_merge([value,got_value]) if look=='deep_merge'
             value.merge!(got_value) if look=='merge'
             value=got_value if look=='direct'
           end
+          # puts "value: #{key} - #{conf_file_path} - #{value.inspect}"
         end
       }
 

@@ -33,9 +33,13 @@ define tp::conf (
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
-  $manage_require = tp_pick($config_file_require, $settings[config_file_require])
+  $manage_require = $settings[package_name] ? {
+    'undef'   => undef,
+    ''        => undef,
+    default   => "Package[${settings[package_name]}]"
+  }
   $manage_notify  = $config_file_notify ? {
-    'default' => $settings[config_file_notify],
+    'default' => "Service[${settings[service_name]}]",
     'undef'   => undef,
     ''        => undef,
     default   => $config_file_notify,
