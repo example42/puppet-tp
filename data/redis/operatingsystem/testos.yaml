@@ -1,16 +1,4 @@
 ---
-  redis::packages:
-    redis-testos:
-      ensure: present
-      alias: 'redis'
-
-  redis::services:
-    redis-testos:
-      ensure: running
-      enable: true
-      alias: 'redis'
-      require: Package[redis-testos]
-
   redis::settings:
     package_name: 'redis-testos'
     service_name: 'redis-testos'
@@ -20,5 +8,4 @@
     config_file_owner: 'test'
     config_file_group: 'test'
     config_file_mode: '0644'
-    config_file_notify: 'Service[redis-testos]'
     config_dir_path: '/etc/redis-testos'

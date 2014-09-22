@@ -2,8 +2,6 @@
   openssh::settings:
     package_name: 'openssh-server'
     service_name: 'ssh'
-    config_file_notify: 'Service[ssh]'
-    config_dir_notify: 'Service[ssh]'
 
     config_file_mode: '0644'
     init_file_path: '/var/default/ssh'

@@ -3,8 +3,6 @@
     package_name: 'httpd'
     service_name: 'httpd'
     config_file_path: '/etc/httpd/conf/httpd.conf'
-    config_file_mode: '0644'
-    config_file_notify: 'Service[apache]'
     config_dir_path: '/etc/httpd'
     tcp_port: '80'
     pid_file_path: '/var/run/httpd.pid'

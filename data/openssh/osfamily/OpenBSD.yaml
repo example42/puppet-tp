@@ -2,8 +2,6 @@
   openssh::settings:
     package_name: ''
     service_name: 'sshd'
-    config_file_notify: 'Service[sshd]'
-    config_dir_notify: 'Service[sshd]'
 
     config_file_mode: '0644'
     config_file_group: 'wheel'
