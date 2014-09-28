@@ -3,7 +3,7 @@ require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
 describe 'tp::stdmod', :type => :define do
   let(:title) { 'redis' }
 
-  pending 'with default parameters' do
+  context 'with default parameters' do
     it do
       should contain_package('redis').with_ensure('present')
       should contain_service('redis').with_ensure('running')
@@ -11,7 +11,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'with custom packages' do
+  context 'with custom packages' do
     let(:params) {
       {
         'package_name' => 'redis-test',
@@ -23,7 +23,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'with custom services' do
+  context 'with custom services' do
     let(:params) {
       {
         'service_name' => 'redis-test'
@@ -36,7 +36,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'with custom erb template and options_hash' do
+  context 'with custom erb template and options_hash' do
     let(:params) {
       {
         'config_file_path' => '/etc/redis/redis-test.conf',
@@ -57,7 +57,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'with test osfamily' do
+  context 'with test osfamily' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -70,7 +70,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'with testos operatingsystem' do
+  context 'with testos operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -84,7 +84,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  pending 'custom settings on testos 0.0.1 operatingsystem' do
+  context 'custom settings on testos 0.0.1 operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',

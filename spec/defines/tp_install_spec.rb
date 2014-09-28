@@ -58,8 +58,8 @@ describe 'tp::install', :type => :define do
     }
     it do
       should contain_package('redis-testos').with_ensure('present')
-      should contain_service('redis-testos').with_ensure('running')
-      should contain_service('redis-testos').with_enable('true')
+      should contain_service('redis-testos').with_ensure('stopped')
+      should contain_service('redis-testos').with_enable('false')
     end
   end
 
@@ -73,8 +73,8 @@ describe 'tp::install', :type => :define do
     }
     it do
       should contain_package('redis-testos001').with_ensure('present')
-      should contain_service('redis-testos001').with_ensure('running')
-      should contain_service('redis-testos001').with_enable('true')
+      should contain_service('redis-testos001').with_ensure('stopped')
+      should contain_service('redis-testos001').with_enable('false')
     end
   end
 
@@ -88,8 +88,8 @@ describe 'tp::install', :type => :define do
     }
     it do
       should contain_package('apache2').with_ensure('present')
-      should contain_service('apache2').with_ensure('stopped')
-      should contain_service('apache2').with_enable('false')
+      should contain_service('apache2').with_ensure('running')
+      should contain_service('apache2').with_enable('true')
     end
   end
 

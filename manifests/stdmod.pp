@@ -5,7 +5,7 @@
 # on a this stdmod standard template
 # (https://github.com/stdmod/puppet-skeleton-standard)
 #
-# The define exposes stdmod compiant parameters for
+# The define exposes stdmod compliant parameters for
 # standard package, service, configuration setups.
 #
 define tp::stdmod (
@@ -20,7 +20,7 @@ define tp::stdmod (
   $config_file_path          = undef,
   $config_file_replace       = undef,
   $config_file_require       = undef,
-  $config_file_notify        = undef,
+  $config_file_notify        = 'default',
   $config_file_source        = undef,
   $config_file_template      = undef,
   $config_file_epp           = undef,
@@ -50,7 +50,7 @@ define tp::stdmod (
     service_name              => $service_name,
     service_ensure            => $service_ensure,
     service_enable            => $service_enable,
-    config_file_path          => $config_file_path, 
+    config_file_path          => $config_file_path,
     config_file_replace       => $config_file_replace,
     config_file_require       => $config_file_require,
     config_file_notify        => $config_file_notify,
@@ -63,12 +63,13 @@ define tp::stdmod (
     config_dir_recurse        => $config_dir_recurse,
   }
   $settings = merge($tp_settings,$user_settings)
+  notice($settings)
 
   # Internal variables
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
-    'default' => "Service[$title]",
+    'default' => "Service[$settings[service_name]",
     'undef'   => undef,
     ''        => undef,
     default   => $config_file_notify,
@@ -103,7 +104,7 @@ define tp::stdmod (
 
   if $settings[package_name] {
     package { $settings[package_name]:
-      ensure => $ensure,
+      ensure => $settings[package_ensure],
     }
   }
 
@@ -111,10 +112,10 @@ define tp::stdmod (
     service { $settings[service_name]:
       ensure => $settings[service_ensure],
       enable => $settings[service_enable],
-    }
+    } 
   }
 
-  if $settings[config_file_source]
+  if $config_file_source
   or $manage_config_file_content
   or $config_file_ensure == 'absent' {
     file { $settings[config_file_path]:

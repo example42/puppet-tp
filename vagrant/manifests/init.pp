@@ -9,9 +9,10 @@ tp::install { 'apache':
 
 tp::conf { 'apache::test':
   content => test,
+}
 tp::conf { 'openssh::test':
   content => test,
 }
-tp::conf { 'apache::test':
+tp::conf { 'redis::test':
   content => test,
 }

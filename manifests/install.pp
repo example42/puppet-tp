@@ -44,19 +44,19 @@ define tp::install (
     }
   }
 
-  if $real_services {
+  if ! empty($services) {
     create_resources('service', $services)
   } else {
     if $settings[service_name] {
       service { $settings[service_name]:
-        ensure => running,
-        enable => true,
+        ensure => $settings[service_ensure],
+        enable => $settings[service_enable],
       }
     }
   }
 
-  if $real_files {
-    create_resources('file', $real_files)
+  if ! empty($files) {
+    create_resources('file', $files)
   }
 
 
