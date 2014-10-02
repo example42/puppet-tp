@@ -1,0 +1,11 @@
+---
+  sysklogd::settings:
+    package_name: 'sysklogd'
+    service_name: 'syslog'
+    config_file_path: '/etc/syslog.conf'
+    init_file_path: '/etc/sysconfig/sysklogd'
+    pid_file_path: '/var/run/syslogd.pid'
+    log_file_path: '/var/log/messages'
+    process_name: 'syslogd'
+    process_user: 'syslog'
+    process_group: 'syslog'

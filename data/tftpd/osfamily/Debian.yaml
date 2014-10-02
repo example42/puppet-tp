@@ -1,0 +1,8 @@
+---
+  tftpd::settings:
+    package_name: 'tftpd-hpa'
+    service_name: 'tftpd-hpa'
+    init_file_path: '/etc/default/tftpd-hpa'
+    pid_file_path: '/var/run/tftpd-hpa.pid'
+    log_file_path: '/var/log/syslog'
+    data_dir_path: '/srv/tftp'

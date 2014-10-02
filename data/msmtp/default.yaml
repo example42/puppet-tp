@@ -1,0 +1,6 @@
+---
+  msmtp::settings:
+    package_name: 'msmtp'
+    config_file_path: '/etc/msmtprc'
+    process_user: 'msmtp'
+    process_group: 'msmtp'
