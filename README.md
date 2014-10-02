@@ -121,3 +121,8 @@ Check if an application is running correctly (TODO)
 
     puppet tp check redis
 
+
+Tail the log(s) of the specified application (TODO)
+
+    puppet tp log redis
+
