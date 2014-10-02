@@ -1,0 +1,6 @@
+---
+  samba::settings:
+    service_name: 'samba'
+    init_file_path: '/etc/default/samba'
+    pid_file_path: '/var/run/samba/smbd.pid'
+

@@ -1,0 +1,15 @@
+---
+  samba::settings:
+    package_name: 'samba'
+    service_name: 'smb'
+    config_file_path: '/etc/samba/smb.conf'
+    config_dir_path: '/etc/samba'
+    init_file_path: '/etc/sysconfig/samba'
+    tcp_port: '445'
+    pid_file_path: '/var/run/smbd.pid'
+    log_file_path:
+      - '/var/log/samba/log.smdb'
+      - '/var/log/samba/log.nmdb'
+    log_dir_path: ''
+    process_user: 'samba'
+    process_group: 'samba'

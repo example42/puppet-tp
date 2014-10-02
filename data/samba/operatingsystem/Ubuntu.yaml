@@ -1,0 +1,4 @@
+---
+  samba::settings:
+    service_name: 'smdb'
+
