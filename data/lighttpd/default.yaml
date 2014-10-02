@@ -1,0 +1,16 @@
+---
+  lighttpd::settings:
+    package_name: 'lighttpd'
+    service_name: 'lighttpd'
+    config_file_path: '/etc/lighttpd/lighttpd.conf'
+    init_file_path: '/etc/sysconfig/lighttpd'
+    pid_file_path: '/var/run/lighttpd.pid'
+    log_file_path: '/var/log/lighttpd/lighttpd.log'
+    config_dir_path: '/etc/lighttpd'
+    conf_dir_path: '/etc/lighttpd/conf.d'
+    log_dir_path: '/var/log/lighttpd'
+    data_dir_path: '/var/www'
+    tcp_port: '80'
+    process_name: 'lighttpd'
+    process_user: 'lighttpd'
+    process_group: 'lighttpd'
