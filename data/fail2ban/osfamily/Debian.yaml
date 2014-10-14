@@ -1,0 +1,4 @@
+---
+  fail2ban::settings:
+    init_file_path: '/etc/default/fail2ban'
+    pid_file_path: '/var/run/fail2ban/fail2ban.pid'
