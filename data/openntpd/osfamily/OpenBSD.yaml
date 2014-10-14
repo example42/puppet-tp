@@ -1,0 +1,9 @@
+---
+  openntpd::settings:
+    package_name: ''
+    service_name: 'ntpd'
+    config_file_path: '/etc/ntpd.conf'
+    init_file_path: ''
+    config_dir_path: ''
+    process_user: '_ntp'
+    process_group: '_ntp'
