@@ -1,0 +1,5 @@
+---
+  rsyslog::settings:
+    init_file_path: '/etc/default/rsyslog'
+    pid_file_path: '/var/run/rsyslogd.pid'
+    log_file_path: '/var/log/syslog'
