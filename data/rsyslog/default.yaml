@@ -3,7 +3,7 @@
     package_name: 'rsyslog'
     service_name: 'rsyslog'
     config_file_path: '/etc/rsyslog.conf'
-    confing_dir_path: '/etc/rsyslog.d'
+    config_dir_path: '/etc/rsyslog.d'
     conf_dir_path: '/etc/rsyslog.d'
     data_dir_path: '/var/log'
     init_file_path: '/etc/sysconfig/rsyslog'
