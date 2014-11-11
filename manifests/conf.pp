@@ -28,7 +28,11 @@ define tp::conf (
   $app = $title_elements[0]
   $file = $title_elements[1]
   $settings = tp_lookup($app,'settings','merge')
-  $manage_path    = tp_pick($path, "${settings[config_dir_path]}/${file}")
+  $auto_path = $file ? {
+    undef   => $settings[config_file_path],
+    default => "${settings[config_dir_path]}/${file}",
+  }
+  $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])

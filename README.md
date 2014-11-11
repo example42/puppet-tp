@@ -117,6 +117,20 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
       vcsrepo     => 'git',
     }
 
+## Testing and playing with Tiny Puppet (WIP)
+
+You can (try to) test Tiny Puppet on different Operating Systems with Vagrant:
+
+    vagrant status
+
+The default Vagrantfile uses the cachier plugin, you can install it with:
+
+    vagrant plugin install vagrant-cachier
+
+The manifest file used for Puppet provisioning is ```vagrant/manifests/site.pp```, you can play with Tiny Puppet there.
+
+Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
+
 
 ## Usage on the Command Line (TODO)
 
