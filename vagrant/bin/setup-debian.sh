@@ -11,7 +11,7 @@ esac
 if [ "x$1" != "xoriginal" ] ; then
   if [ ! -f puppetlabs-release-precise.deb ] ; then 
     echo "## Installing Puppetlabs repository"
-    wget http://apt.puppetlabs.com/puppetlabs-release-${codename}.deb >/dev/null 
+    wget -q http://apt.puppetlabs.com/puppetlabs-release-${codename}.deb >/dev/null 
     dpkg -i puppetlabs-release-${codename}.deb >/dev/null 
     apt-get update >/dev/null 
   fi

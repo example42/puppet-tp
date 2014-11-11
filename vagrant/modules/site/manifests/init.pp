@@ -1,12 +1,9 @@
 class site {
 
-  tp::conf { 'redis::red.conf':
-      content => 'test',
-  }
+  include site::general
 
-  tp::dir { 'redis':
-      source => 'puppet:///modules/site/redis/test',
+  if $role { 
+    include site::role::$role
   }
-
 
 }

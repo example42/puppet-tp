@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
         puppet.working_directory = '/vagrant/vagrant/hieradata'
         puppet.manifests_path = "vagrant/manifests"
         puppet.module_path = [ '.' , 'vagrant/modules' ]
-        puppet.manifest_file = "init.pp"
+        puppet.manifest_file = "site.pp"
         puppet.options = [
          '--verbose',
          '--report',
