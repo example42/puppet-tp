@@ -1,17 +1,25 @@
 # Tiny Puppet
 
-Note: This project is at early development stage.
+Yet Another Puppet Abstraction Layer.
 
-Consider what follows as "ReadMe Driven Development"
+Tiny Puppet makes it easy and quick to manage the installation and configuration of applications via Puppet.
 
-Do not expect it to work out of the box, yet ;-)
 
-This module provides the following defines:
+It provides a tool set of Puppet defines that allow quick, yet powerful, management of a quickly growing set of applications on different Operating Systems.
+
+It's complementary to the current Puppet modules you may component application modules.
+
+**Note**: This project is at Alpha stage.
+
+Basic installation and configuration of applications work.
+Some planned features are not yet implemented.
+
+Tiny Puppet provides the following defines:
 
 - ```tp::install```. It just installs an application and starts its service, by default
 - ```tp::conf```. It allows to manage configuration files of an application with whatever method possible for files (as an ERB template, as an EPP template, via the fileserver, managing directly its content...)
 - ```tp::dir```. Manages the content of a directory, either sourced from the fileserver or from repositories of most common VCS tools (Git, Mercurial, Subversion, Bazaar, CVS)
-- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters.
+- ```tp::stdmod```. (TODO) Manages the installation of an application using StdMod compliant parameters.
 - ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::concat```. (TODO) Manages file fragments of a configuration file
 
@@ -22,13 +30,13 @@ Install an application with default settings (package installed, service started
 
     tp::install { 'redis': }
 
-Install an application specifying a custom dependency class (where, for example, you can add a custom package rpository)
+Install an application specifying a custom dependency class (where, for example, you can add a custom package repository)
 
     tp::install { 'redis':
-      dependency_class => 'site::redis::redis_dependency',
+      dependency_class => 'site::redis::repo',
     }
 
-Install custom packages:
+Install custom packages (if the $packages hash is provided, is feed to create_resources('package',$packages))
 
     tp::install { 'redis':
       packages => {
@@ -51,34 +59,40 @@ Note that tp::stdmod is alternative to tp::install and may be complementary to t
     }
 
 
-Configure a file of an application providing a custom erb template:
+Configure the application main configuration file a custom erb template:
 
-    tp::conf { 'redis::redis.conf':
+    tp::conf { 'redis':
       template    => 'site/redis/redis.conf.erb',
     }
 
+Configure any configuration file of an application providing a custom erb template:
 
-Configure a file of an application providing a custom epp template:
+    tp::conf { 'openssh::ssh_config':
+      template    => 'site/openssh/ssh_config.erb',
+    }
 
-    tp::conf { 'redis::redis.conf':
+
+Configure a file providing a custom epp template:
+
+    tp::conf { 'redis:
       epp   => 'site/redis/redis.conf.epp',
     }
 
 
 Provide a file via the fileserver:
 
-    tp::conf { 'redis::redis.conf':
+    tp::conf { 'redis':
       source      => 'puppet:///modules/site/redis/redis.conf',
     }
 
 
-Provide a whole configuration directory:
+Manage a whole configuration directory:
 
     tp::dir { 'redis':
       source      => 'puppet:///modules/site/redis/',
     }
 
-Provide a whole configuration directory from a Git repository (it requires Puppet Labs' vcsrepo module):
+Clone a whole configuration directory from a Git repository (it requires Puppet Labs' vcsrepo module):
 
     tp::dir { 'redis':
       source      => 'https://git.example.42/puppet/redis/conf/',
@@ -104,7 +118,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
     }
 
 
-## Usage on the Command Line
+## Usage on the Command Line (TODO)
 
  
 Install a specific application (TODO)
@@ -125,4 +139,5 @@ Check if an application is running correctly (TODO)
 Tail the log(s) of the specified application (TODO)
 
     puppet tp log redis
+
 
