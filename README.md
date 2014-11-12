@@ -2,17 +2,22 @@
 
 Yet Another Puppet Abstraction Layer.
 
-Tiny Puppet makes it easy and quick to manage the installation and configuration of applications via Puppet.
+Tiny Puppet manages the installation and configuration of applications via Puppet.
 
+It offers a consistent interface to the management of applications, see the [list of supported applications](https://github.com/example42/puppet-tp/tree/master/data).
 
 It provides a tool set of Puppet defines that allow quick, yet powerful, management of a quickly growing set of applications on different Operating Systems.
 
-It's complementary to the current Puppet modules you may component application modules.
+Support for a new application is just a matter of adding Yaml files in a directory.
 
-**Note**: This project is at Alpha stage.
+Tiny Puppet is intended to be used in abstraction classes: local site modules, custom profiles and stacks.
 
-Basic installation and configuration of applications work.
-Some planned features are not yet implemented.
+It's complementary to existing Puppet modules, it can coexist with them, you are free to decide how and where to use ```tp``` defines.
+
+**Note**: This project is at Alpha stage:
+  - Basic installation and configuration of applications work.
+  - Some features described here are not yet implemented
+  - Ongoing works on various parts
 
 Tiny Puppet provides the following defines:
 
@@ -22,9 +27,12 @@ Tiny Puppet provides the following defines:
 - ```tp::stdmod```. (TODO) Manages the installation of an application using StdMod compliant parameters.
 - ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::concat```. (TODO) Manages file fragments of a configuration file
+- ```tp::instance```. (TODO) Manages an application instance
 
 
 ## Usage in manifests
+
+### Essential usage patterns
 
 Install an application with default settings (package installed, service started)
 
@@ -35,6 +43,22 @@ Install an application specifying a custom dependency class (where, for example,
     tp::install { 'redis':
       dependency_class => 'site::redis::repo',
     }
+
+Configure the application main configuration file a custom erb template:
+
+    tp::conf { 'redis':
+      template    => 'site/redis/redis.conf.erb',
+    }
+
+Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
+
+    tp::conf { 'redis':
+      template     => 'site/redis/redis.conf.erb',
+      options_hash => hiera('redis::options_hash'),
+    }
+
+
+### Installation alternatives
 
 Install custom packages (if the $packages hash is provided, is feed to create_resources('package',$packages))
 
@@ -58,6 +82,8 @@ Note that tp::stdmod is alternative to tp::install and may be complementary to t
       config_file_template => 'site/redis/redis.conf',
     }
 
+
+### Configuration options
 
 Configure the application main configuration file a custom erb template:
 
@@ -116,6 +142,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
       source      => 'https://git.example.42/apps/my_app/',
       vcsrepo     => 'git',
     }
+
 
 ## Testing and playing with Tiny Puppet (WIP)
 
