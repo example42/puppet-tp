@@ -1,9 +1,10 @@
 class site {
 
-  include site::general
+  include ::site::test
+  include ::site::general
 
   if $role { 
-    include site::role::$role
+    include ::site::role::$role
   }
 
 }
