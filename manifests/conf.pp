@@ -13,8 +13,8 @@ define tp::conf (
   $owner                = undef,
   $group                = undef,
 
-  $config_file_notify   = 'default',
-  $config_file_require  = undef,
+  $config_file_notify   = true, # If Package[$title] exists, require it
+  $config_file_require  = true, # If Service[$title] exists, notify it
 
   $options_hash         = undef,
 
@@ -37,15 +37,28 @@ define tp::conf (
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
-  $manage_require = $settings[package_name] ? {
-    'undef'   => undef,
+
+  if defined("Package[${settings[package_name]}]") {
+    $package_ref = "Package[${settings[package_name]}]"
+  } else {
+    $package_ref = undef
+  }
+  $manage_require = $config_file_require ? {
     ''        => undef,
-    default   => "Package[${settings[package_name]}]"
+    false     => undef,
+    true      => $package_ref,
+    default   => $config_file_require,
+  }
+
+  if defined("Service[${settings[service_name]}]") {
+    $service_ref = "Service[${settings[service_name]}]"
+  } else {
+    $service_ref = undef
   }
   $manage_notify  = $config_file_notify ? {
-    'default' => "Service[${settings[service_name]}]",
-    'undef'   => undef,
     ''        => undef,
+    false     => undef,
+    true      => $service_ref,
     default   => $config_file_notify,
   }
 
