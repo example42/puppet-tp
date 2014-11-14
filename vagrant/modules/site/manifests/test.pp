@@ -1,6 +1,6 @@
 # Some basic tests
 
-class site::site {
+class site::test {
 
   tp::install { 'mailx': }
   tp::install { 'openssh': }
