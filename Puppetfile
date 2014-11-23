@@ -1,5 +1,5 @@
 # Extra modules needed for Vagrant test environment. Install them with:
-# librarian-puppet install --puppetfile Puppetfile --path vagrant/modules 
+# librarian-puppet install --puppetfile Puppetfile --path vagrant/modules/public
 
 forge "http://forge.puppetlabs.com"
 
