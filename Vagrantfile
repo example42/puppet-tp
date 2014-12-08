@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
         puppet.hiera_config_path = 'vagrant/hiera.yaml'
         puppet.working_directory = '/vagrant/vagrant/hieradata'
         puppet.manifests_path = "vagrant/manifests"
-        puppet.module_path = [ '.' , 'vagrant/modules' ]
+        puppet.module_path = [ '../.' , 'vagrant/modules/local' , 'vagrant/modules/public' ]
         puppet.manifest_file = "site.pp"
         puppet.options = [
          '--verbose',
