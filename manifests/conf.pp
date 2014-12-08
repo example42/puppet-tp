@@ -3,6 +3,8 @@
 #
 define tp::conf (
 
+  $ensure               = present,
+
   $source               = undef,
   $template             = undef,
   $epp                  = undef,
@@ -18,24 +20,29 @@ define tp::conf (
 
   $options_hash         = undef,
 
-  $ensure               = present,
+  $debug                = false,
+  $debug_dir            = '/tmp',
 
   ) {
 
+  validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
   $settings = tp_lookup($app,'settings','merge')
-  $auto_path = $file ? {
-    undef   => $settings[config_file_path],
-    default => "${settings[config_dir_path]}/${file}",
+
+  if $file {
+    $auto_path => "${settings[config_dir_path]}/${file}",
+  } else {
+    $auto_path => $settings[config_file_path],
   }
   $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
+
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
   if defined("Package[${settings[package_name]}]") {
@@ -72,6 +79,31 @@ define tp::conf (
     group   => $manage_group,
     require => $manage_require,
     notify  => $manage_notify,
+  }
+
+  if $debug == true {
+ 
+    $debug_file_params = "
+    file { 'tp_conf_${manage_path}':
+     ensure  => $ensure,
+      source  => $source,
+      content => $manage_content,
+      path    => $manage_path,
+      mode    => $manage_mode,
+      owner   => $manage_owner,
+      group   => $manage_group,
+      require => $manage_require,
+      notify  => $manage_notify,
+    }
+    "
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}\n"
+
+    file { "tp_conf_debug_${title}":
+      ensure  => present,
+      content => $manage_debug_content,
+      path    => "${debug_dir}/tp_conf_debug_${title}",
+    }
   }
 
 }
