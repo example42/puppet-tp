@@ -2,13 +2,22 @@ require 'spec_helper'
 
 describe 'tp::conf', :type => :define do
 
+  let(:facts) { {
+    :osfamily => 'RedHat'   
+  } }
+
   let :title do
     'redis'
   end
   context 'with default parameters' do
-    it do
-      should contain_file('tp_conf_/etc/redis/redis.conf')
-    end
+    it { should compile }
+    it { should have_file_resource_count(1) }
+    it { should contain_file("tp_conf_/etc/redis/redis.conf") } 
+    it { should_not contain_file("tp_conf_") } 
+    it { should_not contain_file("tp_conf_redis") } 
+    it { should_not contain_file("tp_conf_/etc/redis/") } 
+    it { should_not contain_file("tp_conf_/etc/redis/:") } 
+    it { should_not contain_file("tp_conf_/etc/redis/::") } 
   end
 
   context 'with default parameters  have correct values' do
@@ -282,6 +291,20 @@ describe 'tp::conf', :type => :define do
     end
   end
 
+  context 'with path explicitly set' do
+    let(:params) {
+      {
+        'path'   => '/opt/etc/redis/redis.conf',
+      }
+    }
+    it do
+      should contain_file('tp_conf_/opt/etc/redis/redis.conf').with({
+        'ensure'  => 'present',                           
+        'path'    => '/opt/etc/redis/redis.conf',             
+      })                                                  
+    end                                                   
+  end 
+
 
   context 'with custom parameters and forced path' do
     let(:params) {
@@ -301,8 +324,6 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
-#        'require' => 'Package[redis]',                    
-#        'notify'  => 'Service[redis]',                    
       })                                                  
     end                                                   
   end 
@@ -332,8 +353,6 @@ describe 'tp::conf', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
-#        'require' => 'Package[redis-testos001]',
-#        'notify'  => 'Service[redis-testos001]',
       })
     end
   end
@@ -396,9 +415,5 @@ describe 'tp::conf', :type => :define do
       })                                                  
     end                                                   
   end 
-
-
-
-
 
 end
