@@ -34,9 +34,9 @@ define tp::conf (
   $settings = tp_lookup($app,'settings','merge')
 
   if $file {
-    $auto_path => "${settings[config_dir_path]}/${file}",
+    $auto_path = "${settings[config_dir_path]}/${file}"
   } else {
-    $auto_path => $settings[config_file_path],
+    $auto_path = $settings[config_file_path]
   }
   $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
