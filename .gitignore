@@ -10,3 +10,5 @@ spec/fixtures
 Gemfile.lock
 *.un~
 /.vagrant
+/vagrant/modules/public
+
