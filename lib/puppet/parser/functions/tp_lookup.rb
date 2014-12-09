@@ -25,11 +25,11 @@ module Puppet::Parser::Functions
 
       hiera = YAML::load(File.open(hiera_file_path))
       model = {
-        title:app,
-        osfamily:lookupvar('::osfamily'),
-        operatingsystem:lookupvar('::operatingsystem'),
-        operatingsystemrelease:lookupvar('::operatingsystemrelease'),
-        dependency_class:lookupvar('dependency_class')
+        :title => app,
+        :osfamily => lookupvar("::osfamily"),
+        :operatingsystem => lookupvar("::operatingsystem"),
+        :operatingsystemrelease => lookupvar("::operatingsystemrelease"),
+        :dependency_class => lookupvar("dependency_class")
       }
        
       hiera[:hierarchy].reverse!.each { | p |
