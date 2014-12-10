@@ -36,15 +36,15 @@ define tp::conf (
   if $file {
     $auto_path = "${settings[config_dir_path]}/${file}"
   } else {
-    $auto_path = $settings[config_file_path]
+    $auto_path = $settings['config_file_path']
   }
   $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
-
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
+  # Set require if package resource is present 
   if defined("Package[${settings[package_name]}]") {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
@@ -57,6 +57,7 @@ define tp::conf (
     default   => $config_file_require,
   }
 
+  # Set notify if service resource is present 
   if defined("Service[${settings[service_name]}]") {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
@@ -69,7 +70,7 @@ define tp::conf (
     default   => $config_file_notify,
   }
 
-  file { "tp_conf_${manage_path}":
+  file { $manage_path:
     ensure  => $ensure,
     source  => $source,
     content => $manage_content,
@@ -97,7 +98,7 @@ define tp::conf (
     }
     "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}\n"
+    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}"
 
     file { "tp_conf_debug_${title}":
       ensure  => present,
