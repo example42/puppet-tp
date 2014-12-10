@@ -2,32 +2,36 @@
 
 Yet Another Puppet Abstraction Layer.
 
-Tiny Puppet manages the installation and configuration of applications via Puppet.
+Tiny Puppet provides:
 
-It offers a consistent interface to the management of applications, see the [list of supported applications](https://github.com/example42/puppet-tp/tree/master/data).
+  - A set of defines to quickly manage applications:
 
-It provides a tool set of Puppet defines that allow quick, yet powerful, management of a quickly growing set of applications on different Operating Systems.
+    - tp::install  - Install packages and manage services
+    - tp::conf     - Manage configuration files
+    - tp::dir      - Manage [configuration] directories
+ 
+  - Easily expandable support for new applications [list of currently supported ones](https://github.com/example42/puppet-tp/tree/master/data).
 
-Support for a new application is just a matter of adding Yaml files in a directory.
+  - Out of the box and easily expandable support for most common Operating Systems
 
-Tiny Puppet is intended to be used in abstraction classes: local site modules, custom profiles and stacks.
+  - The possibility to customize and use however you need
 
-It's complementary to existing Puppet modules, it can coexist with them, you are free to decide how and where to use ```tp``` defines.
+Tiny Puppet can coexist smoothly with any Puppet modules setup.
 
-**Note**: This project is at Alpha stage:
-  - Basic installation and configuration of applications work.
-  - Some features described here are not yet implemented
-  - Ongoing works on various parts
+When used, it replaces or complements the relevant modules.
+
+As any application module, is intended to be use in higher abstraction classes: local site modules, custom profiles and stacks.
 
 Tiny Puppet provides the following defines:
 
 - ```tp::install```. It just installs an application and starts its service, by default
 - ```tp::conf```. It allows to manage configuration files of an application with whatever method possible for files (as an ERB template, as an EPP template, via the fileserver, managing directly its content...)
 - ```tp::dir```. Manages the content of a directory, either sourced from the fileserver or from repositories of most common VCS tools (Git, Mercurial, Subversion, Bazaar, CVS)
-- ```tp::stdmod```. (TODO) Manages the installation of an application using StdMod compliant parameters.
+- ```tp::stdmod```. (WIP) Manages the installation of an application using StdMod compliant parameters.
 - ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::concat```. (TODO) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
+- ```tp::puppi```. (WIP) Puppi integration (Don't worry, fully optional) 
 
 
 ## Usage in manifests
@@ -40,21 +44,21 @@ Install an application with default settings (package installed, service started
 
 Install an application specifying a custom dependency class (where, for example, you can add a custom package repository)
 
-    tp::install { 'redis':
-      dependency_class => 'site::redis::repo',
+    tp::install { 'lighttpd':
+      dependency_class => 'site::lighttpd::repo',
     }
 
 Configure the application main configuration file a custom erb template:
 
-    tp::conf { 'redis':
-      template    => 'site/redis/redis.conf.erb',
+    tp::conf { 'openssh':
+      template    => 'site/openssh/sshd_config.erb',
     }
 
 Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
 
-    tp::conf { 'redis':
-      template     => 'site/redis/redis.conf.erb',
-      options_hash => hiera('redis::options_hash'),
+    tp::conf { 'rsyslog':
+      template     => 'site/rsyslog/rsyslog.conf.erb',
+      options_hash => hiera('rsyslog::options_hash'),
     }
 
 
@@ -76,7 +80,8 @@ Install custom packages ( The packages parameter might be populated from a Hiera
     }
 
 Use the tp::stdmod define to manage an application using stdmod compliant parameters.
-Note that tp::stdmod is alternative to tp::install and may be complementary to tp::conf.
+
+Note that tp::stdmod is alternative to tp::install (both of them manage packages and services) and may be complementary to tp::conf.
 
     tp::stdmod { 'redis':
       config_file_template => 'site/redis/redis.conf',
