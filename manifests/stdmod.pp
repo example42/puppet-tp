@@ -11,7 +11,7 @@
 define tp::stdmod (
 
   $package_name              = undef,
-  $package_ensure            = undef,
+  $package_ensure            = 'present',
 
   $service_name              = undef,
   $service_ensure            = undef,
@@ -41,6 +41,9 @@ define tp::stdmod (
   $monitor_class             = undef,
   $firewall_class            = undef,
 
+  $debug                     = false,
+  $debug_dir                 = '/tmp',
+
   ) {
 
   $tp_settings = tp_lookup($title,'settings','merge')
@@ -62,8 +65,10 @@ define tp::stdmod (
     config_dir_force          => $config_dir_force,
     config_dir_recurse        => $config_dir_recurse,
   }
-  $settings = merge($tp_settings,$user_settings)
-  notice($settings)
+  $user_settings_clean = delete_undef_values($user_settings)  
+  $settings = merge($tp_settings,$user_settings_clean)
+
+  # notice($settings)
 
   # Internal variables
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
@@ -149,5 +154,51 @@ define tp::stdmod (
   if $extra_class { include $extra_class }
   if $monitor_class { include $monitor_class }
   if $firewall_class { include $firewall_class }
+
+
+  if $debug == true {
+ 
+    $debug_file_params = "
+    package { ${settings[package_name]}:
+      ensure => ${settings[package_ensure]},
+    }
+
+    service { ${settings[service_name]}:
+      ensure => ${settings[service_ensure]},
+      enable => ${settings[service_enable]},
+    } 
+
+    file { ${settings[config_file_path]}:
+      ensure  => $config_file_ensure,
+      path    => ${settings[config_file_path]},
+      mode    => ${settings[config_file_mode]},
+      owner   => ${settings[config_file_owner]},
+      group   => ${settings[config_file_group]},
+      source  => ${settings[config_file_source]},
+      content => $manage_config_file_content,
+      notify  => $manage_config_file_notify,
+      require => $manage_config_file_require,
+    }
+
+    file { ${settings[config_dir_path]}:
+      ensure  => $config_dir_ensure,
+      path    => ${settings[config_dir_path]},
+      source  => $config_dir_source,
+      recurse => ${settings[config_dir_recurse]},
+      purge   => ${settings[config_dir_purge]},
+      force   => ${settings[config_dir_force]},
+      notify  => $manage_config_file_notify,
+      require => $manage_config_file_require,
+    }
+    "
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}"
+
+    file { "tp_stdmod_debug_${title}":
+      ensure  => present,
+      content => $manage_debug_content,
+      path    => "${debug_dir}/tp_stdmod_debug_${title}",
+    }
+  }
 
 }

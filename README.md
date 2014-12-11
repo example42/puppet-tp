@@ -1,26 +1,31 @@
 # Tiny Puppet
 
-Yet Another Puppet Abstraction Layer.
+## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet provides:
+We usually deal with different kind of Puppet modules:
 
-  - A set of defines to quickly manage applications:
-
-    - tp::install  - Install packages and manage services
-    - tp::conf     - Manage configuration files
-    - tp::dir      - Manage [configuration] directories
+  A - Public modules that manage single applications (apache, openssh, redis ...)
+  B - Custom local modules that manage applications in th way we need
  
-  - Easily expandable support for new applications [list of currently supported ones](https://github.com/example42/puppet-tp/tree/master/data).
+  C - Local site modules where we place our custom resources and logic (site, $project ...)
+  D - Public modules that manage application stacks with multiple components (profiles, stacks...)
+
+Tiny Puppet can be used as replacement or complementary for modules as in point A and B.
+
+It features: 
+
+  - Quick, easy to use, standard, coherent, powerful interface to the managed resources
 
   - Out of the box and easily expandable support for most common Operating Systems
 
-  - The possibility to customize and use however you need
+  - Support of an quickly an easily growing [list of applications](https://github.com/example42/puppet-tp/tree/master/data).
 
-Tiny Puppet can coexist smoothly with any Puppet modules setup.
+  - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
-When used, it replaces or complements the relevant modules.
+It is intended to be used in modules that operate at an higher abstraction layer (as the ones in points C and D) where we assemble and use different application modules to achieve the setup we need.
 
-As any application module, is intended to be use in higher abstraction classes: local site modules, custom profiles and stacks.
+
+## Provided Resources
 
 Tiny Puppet provides the following defines:
 
@@ -48,17 +53,19 @@ Install an application specifying a custom dependency class (where, for example,
       dependency_class => 'site::lighttpd::repo',
     }
 
-Configure the application main configuration file a custom erb template:
-
-    tp::conf { 'openssh':
-      template    => 'site/openssh/sshd_config.erb',
-    }
-
 Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
 
     tp::conf { 'rsyslog':
       template     => 'site/rsyslog/rsyslog.conf.erb',
       options_hash => hiera('rsyslog::options_hash'),
+    }
+
+Populate any custom directory from a Git repository (it requires Puppet Labs' vcsrepo module):
+
+    tp::dir { 'my_app': 
+      path        => '/opt/apps/my_app',
+      source      => 'https://git.example.42/apps/my_app/',
+      vcsrepo     => 'git',
     }
 
 
@@ -88,7 +95,7 @@ Note that tp::stdmod is alternative to tp::install (both of them manage packages
     }
 
 
-### Configuration options
+### Managing configurations
 
 Configure the application main configuration file a custom erb template:
 
@@ -117,6 +124,8 @@ Provide a file via the fileserver:
     }
 
 
+### Managing directories
+
 Manage a whole configuration directory:
 
     tp::dir { 'redis':
@@ -132,9 +141,9 @@ Clone a whole configuration directory from a Git repository (it requires Puppet 
 
 Populate any custom directory from a Subversion repository (it requires Puppet Labs' vcsrepo module):
 
-    tp::dir { 'logstash': # The title is irrilevant, when path argument is used 
+    tp::dir { 'my_app': # The title is irrilevant, when path argument is used 
       path        => '/opt/apps/my_app',
-      source      => 'https://git.example.42/apps/my_app/',
+      source      => 'https://svn.example.42/apps/my_app/',
       vcsrepo     => 'svn',
     }
 
