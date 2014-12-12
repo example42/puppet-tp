@@ -62,8 +62,7 @@ Configure the application main configuration file a custom erb template which us
 
 Populate any custom directory from a Git repository (it requires Puppet Labs' vcsrepo module):
 
-    tp::dir { 'my_app': 
-      path        => '/opt/apps/my_app',
+    tp::dir { '/opt/apps/my_app': 
       source      => 'https://git.example.42/apps/my_app/',
       vcsrepo     => 'git',
     }
@@ -130,6 +129,17 @@ Manage a whole configuration directory:
 
     tp::dir { 'redis':
       source      => 'puppet:///modules/site/redis/',
+    }
+
+Manage a specific directory type. Currently defined directories types are:
+  - 'config' : The application [main] configuration directory (Default value)
+  - 'conf' : A directory where you can place single configuration files (typically called ./conf.d )
+  - 'data' : Directory where application data resides
+  - 'log' : Dedicated directory for logs, if present
+
+    tp::dir { 'apache':
+      dir_type => 'data',
+      source   => 'puppet:///modules/site/apache/default_site',
     }
 
 Clone a whole configuration directory from a Git repository (it requires Puppet Labs' vcsrepo module):

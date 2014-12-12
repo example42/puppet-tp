@@ -2,12 +2,11 @@ require 'spec_helper'
 
 describe 'tp::dir', :type => :define do
 
-  let :title do
-    'redis'
-  end
-  context 'with default parameters' do
+  let (:title) { 'redis' }
+
+  context 'with title redis' do
     it do
-      should contain_file('tp_dir_/etc/redis').only_with({
+      should contain_file('/etc/redis').only_with({
         'ensure'  => 'directory',
         'path'    => '/etc/redis',
         'mode'    => '0755',
@@ -20,14 +19,14 @@ describe 'tp::dir', :type => :define do
   end
 
 
-  context 'with default parameters on test osfamily' do
+  context 'with title redis on test osfamily' do
     let(:facts) {
       {
         :osfamily => 'test',
       } 
     }
     it do
-      should contain_file('tp_dir_/etc/redis-test').only_with({
+      should contain_file('/etc/redis-test').only_with({
         'ensure'  => 'directory',
         'path'    => '/etc/redis-test',
         'mode'    => '0755',
@@ -40,7 +39,7 @@ describe 'tp::dir', :type => :define do
   end
 
 
-  context 'with default parameters on testos operatingsystem' do
+  context 'with title redis on testos operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -48,7 +47,7 @@ describe 'tp::dir', :type => :define do
       } 
     }
     it do
-      should contain_file('tp_dir_/etc/redis-testos').only_with({
+      should contain_file('/etc/redis-testos').only_with({
         'ensure'  => 'directory',
         'path'    => '/etc/redis-testos',
         'mode'    => '0755',
@@ -61,7 +60,7 @@ describe 'tp::dir', :type => :define do
   end
 
 
-  context 'with default parameters on testos 0.0.1 operatingsystem' do
+  context 'with title redis on testos 0.0.1 operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -70,7 +69,7 @@ describe 'tp::dir', :type => :define do
       } 
     }
     it do
-      should contain_file('tp_dir_/etc/redis-testos001').with({
+      should contain_file('/etc/redis-testos001').with({
         'ensure'  => 'directory',
         'path'    => '/etc/redis-testos001',
         'mode'    => '0755',
@@ -82,8 +81,28 @@ describe 'tp::dir', :type => :define do
     end
   end
 
+  context 'with custom source, path and vcsrepo' do
+    let(:params) {
+      {
+        'source'  => 'https:///github.com/example42/puppet-tp',
+        'path'    => '/opt/tp',
+        'vcsrepo' => 'git',
+      }
+    }
+    it do
+      should contain_vcsrepo('/opt/tp').only_with({
+        'ensure'   => 'present',
+        'path'     => '/opt/tp',             
+        'source'   => 'https:///github.com/example42/puppet-tp',
+        'owner'    => 'root',
+        'group'    => 'root',
+        'provider' => 'git',
+      })
+    end
+    it { should have_file_resource_count(0) }
+  end 
 
-  context 'with custom parameters' do
+  context 'with custom source, path and permissions' do
     let(:params) {
       {
         'source' => 'puppet:///modules/site/redis/redis.conf',
@@ -94,7 +113,7 @@ describe 'tp::dir', :type => :define do
       }
     }
     it do
-      should contain_file('tp_dir_/opt/etc/redis').with({
+      should contain_file('/opt/etc/redis').only_with({
         'ensure'  => 'directory',
         'path'    => '/opt/etc/redis',             
         'source'  => 'puppet:///modules/site/redis/redis.conf',
@@ -108,7 +127,7 @@ describe 'tp::dir', :type => :define do
   end 
 
 
-  context 'with custom parameters on testos 0.0.1 operatingsystem' do
+  context 'with title redis and custom parameters on testos 0.0.1 operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -125,7 +144,7 @@ describe 'tp::dir', :type => :define do
       }
     }
     it do
-      should contain_file('tp_dir_/etc/redis-testos001').with({
+      should contain_file('/etc/redis-testos001').with({
         'ensure'  => 'directory',
         'path'    => '/etc/redis-testos001',
         'source'  => 'puppet:///modules/site/redis/redis.conf',
@@ -139,7 +158,7 @@ describe 'tp::dir', :type => :define do
   end
 
 
-  context 'with dir purging' do
+  context 'with title redis and recursive dir purging' do
     let(:params) {
       {
         'purge'        => true,
@@ -149,7 +168,7 @@ describe 'tp::dir', :type => :define do
       }
     }
     it do 
-      should contain_file('tp_dir_/etc/redis').with({
+      should contain_file('/etc/redis').with({
         'ensure'  => 'directory',                           
         'path'    => '/etc/redis',             
         'source'  => 'puppet:///modules/site/redis/redis.conf',
@@ -161,7 +180,27 @@ describe 'tp::dir', :type => :define do
   end 
 
 
-  context 'with vcsrepo' do
+  context 'with title apache on RedHat with dir_type = data' do
+    let(:title) { 'apache' }
+    let(:params) { {
+        'dir_type'  => 'data',
+        'source'    => 'puppet:///modules/site/apache/default_site',
+    } }
+    let(:facts) { {
+        'osfamily'     => 'RedHat',
+    } }
+
+    it do 
+      should contain_file('/var/www/html').with({
+        'ensure'  => 'directory',                           
+        'path'    => '/var/www/html',             
+        'source'  => 'puppet:///modules/site/apache/default_site',
+      })                                                  
+      end
+  end 
+
+
+  context 'with title redis and vcsrepo' do
     let(:params) {
       {
         'vcsrepo' => 'git',
@@ -179,4 +218,5 @@ describe 'tp::dir', :type => :define do
       })
     end
   end
+
 end

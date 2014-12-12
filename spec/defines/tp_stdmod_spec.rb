@@ -57,7 +57,7 @@ describe 'tp::stdmod', :type => :define do
     end
   end
 
-  context 'with test osfamily' do
+  context 'with title redis and test osfamily' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -68,7 +68,7 @@ describe 'tp::stdmod', :type => :define do
     it { should contain_service('redis-test').with_enable('false') }
   end
 
-  context 'with testos operatingsystem' do
+  context 'with title redis and testos operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
@@ -80,7 +80,7 @@ describe 'tp::stdmod', :type => :define do
     it { should contain_service('redis-testos').with_enable('false') }
   end
 
-  context 'custom settings on testos 0.0.1 operatingsystem' do
+  context 'with title redis and custom settings on testos 0.0.1 operatingsystem' do
     let(:facts) {
       {
         :osfamily => 'test',
