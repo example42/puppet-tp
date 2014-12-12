@@ -20,8 +20,9 @@ module Puppet::Parser::Functions
       hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
 
       unless File.exist?(hiera_file_path)
-        raise Puppet::ParseError, ("Can't find #{hiera_file_path}")
+        raise Puppet::ParseError, ("Can't find #{hiera_file_path}. It looks like #{app} is not yet supported")
       end
+
 
       hiera = YAML::load(File.open(hiera_file_path))
       model = {
