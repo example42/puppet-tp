@@ -30,7 +30,14 @@ define tp::dir (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $dir = $title_elements[1]
-  $settings = tp_lookup($app,'settings','merge')
+  if $title =~ /^\/.*$/ {
+    # If title is an absolute path do a safe lookup to
+    # a dummy app
+    $settings = tp_lookup('test','settings','merge')
+    $title_path = $title
+  } else {
+    $settings = tp_lookup($app,'settings','merge')
+  }
   $dir_type_path = $dir_type ? {
     'config' => $settings[config_dir_path],
     'confd'  => $settings[confd_dir_path],
@@ -38,17 +45,37 @@ define tp::dir (
     'data'   => $settings[data_dir_path],
     default  => undef,
   }
-  $manage_path    = tp_pick($path, $dir_type_path)
+  $manage_path    = tp_pick($path, $title_path, $dir_type_path)
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
-  $manage_require = "Package[${settings[package_name]}]"
-  $manage_notify  = $config_dir_notify ? {
-    'default'  => "Service[${settings[service_name]}]",
-    'undef'    => undef,
-    ''         => undef,
-    default    => $config_dir_notify,
+
+  # Set require if package resource is present 
+  if defined("Package[${settings[package_name]}]") {
+    $package_ref = "Package[${settings[package_name]}]"
+  } else {
+    $package_ref = undef
   }
+  $manage_require = $config_file_require ? {
+    ''        => undef,
+    false     => undef,
+    true      => $package_ref,
+    default   => $config_file_require,
+  }
+
+  # Set notify if service resource is present 
+  if defined("Service[${settings[service_name]}]") {
+    $service_ref = "Service[${settings[service_name]}]"
+  } else {
+    $service_ref = undef
+  }
+  $manage_notify  = $config_file_notify ? {
+    ''        => undef,
+    false     => undef,
+    true      => $service_ref,
+    default   => $config_file_notify,
+  }
+
   $manage_ensure = $ensure ? {
     'present' => $vcsrepo ? {
       undef   => 'directory',

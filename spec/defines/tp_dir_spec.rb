@@ -12,8 +12,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'root',
         'group'   => 'root',
-        'require' => 'Package[redis]',
-        'notify'  => 'Service[redis]',
+#        'require' => 'Package[redis]',
+#        'notify'  => 'Service[redis]',
       })
     end
   end
@@ -32,8 +32,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-        'require' => 'Package[redis-test]',
-        'notify'  => 'Service[redis-test]',
+#        'require' => 'Package[redis-test]',
+#        'notify'  => 'Service[redis-test]',
       })
     end
   end
@@ -53,8 +53,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-        'require' => 'Package[redis-testos]',
-        'notify'  => 'Service[redis-testos]',
+#        'require' => 'Package[redis-testos]',
+#        'notify'  => 'Service[redis-testos]',
       })
     end
   end
@@ -75,8 +75,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-        'require' => 'Package[redis-testos001]',
-        'notify'  => 'Service[redis-testos001]',
+#        'require' => 'Package[redis-testos001]',
+#        'notify'  => 'Service[redis-testos001]',
       })
     end
   end
@@ -120,8 +120,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
-        'require' => 'Package[redis]',                    
-        'notify'  => 'Service[redis]',                    
+ #       'require' => 'Package[redis]',                    
+ #       'notify'  => 'Service[redis]',                    
       })                                                  
     end                                                   
   end 
@@ -151,8 +151,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
-        'require' => 'Package[redis-testos001]',
-        'notify'  => 'Service[redis-testos001]',
+#        'require' => 'Package[redis-testos001]',
+#        'notify'  => 'Service[redis-testos001]',
       })
     end
   end
@@ -200,7 +200,8 @@ describe 'tp::dir', :type => :define do
   end 
 
 
-  context 'with title redis and vcsrepo' do
+  context 'with an absolute path as title and vcsrepo' do
+    let (:title) { '/opt/tp' }
     let(:params) {
       {
         'vcsrepo' => 'git',
@@ -209,7 +210,7 @@ describe 'tp::dir', :type => :define do
       }
     }
     it do 
-      should contain_vcsrepo('/etc/redis').with({
+      should contain_vcsrepo('/opt/tp').with({
         'ensure'   => 'present',                           
         'provider' => 'git',             
         'source'   => 'https://github.com/example42/puppet-tp.git',
@@ -218,5 +219,19 @@ describe 'tp::dir', :type => :define do
       })
     end
   end
+
+  context 'with an absolute path as title and source' do
+    let (:title) { '/opt/tools' }
+    let(:params) { {
+        'source'  => 'puppet:///modules/site/tools',
+    } }
+    it do 
+      should contain_file('/opt/tools').with({
+        'ensure'  => 'directory',                          
+        'path'    => '/opt/tools',             
+        'source'  => 'puppet:///modules/site/tools',
+      })                                                  
+    end                                                   
+  end 
 
 end
