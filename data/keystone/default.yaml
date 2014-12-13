@@ -1,0 +1,11 @@
+---
+  keystone::settings:
+    service_name: 'keystone'
+    config_file_path: '/etc/keystone/keystone.conf'
+    config_dir_path: '/etc/keystone'
+    pid_file_path: '/var/run/keystone.pid'
+    log_file_path: '/var/log/keystone/keystone.log'
+    log_dir_path: '/var/log/keystone'
+    process_name: 'keystone'
+    process_user: 'keystone'
+    process_group: 'keystone'

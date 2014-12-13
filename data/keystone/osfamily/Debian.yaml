@@ -1,0 +1,6 @@
+---
+  keystone::settings:
+    package_name:
+      - 'python-keystone'
+      - 'keystone'
+    init_file_path: '/etc/default/keystone'
