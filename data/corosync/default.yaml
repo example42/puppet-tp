@@ -1,0 +1,11 @@
+---
+  corosync::settings:
+    package_name: 'corosync'
+    service_name: 'corosync'
+    config_file_path: '/etc/corosync/corosync.conf'
+    config_dir_path: '/etc/corosync'
+    log_file_path: '/var/log/corosync/corosync.log'
+    log_dir_path: '/var/log/corosync'
+    process_name: 'corosync'
+    process_user: 'corosync'
+    process_group: 'corosync'
