@@ -1,0 +1,7 @@
+---
+  apt::settings:
+    package_name: 'apt'
+    config_file_path: '/etc/apt/apt.conf'
+    config_dir_path: '/etc/apt'
+    log_file_path: '/var/log/apt'
+    process_name: 'apt'

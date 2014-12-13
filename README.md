@@ -5,9 +5,11 @@
 We usually deal with different kind of Puppet modules:
 
   A - Public modules that manage single applications (apache, openssh, redis ...)
+
   B - Custom local modules that manage applications in th way we need
  
   C - Local site modules where we place our custom resources and logic (site, $project ...)
+
   D - Public modules that manage application stacks with multiple components (profiles, stacks...)
 
 Tiny Puppet can be used as replacement or complementary for modules as in point A and B.
@@ -74,7 +76,7 @@ Install custom packages (if the $packages hash is provided, is feed to create_re
 
     tp::install { 'redis':
       packages => {
-        'redis' => { 'ensure' => 'present' }
+        'redis'        => { 'ensure' => 'present' }
         'redis-addons' => { 'ensure' => 'present' }
       },
     }
@@ -96,10 +98,10 @@ Note that tp::stdmod is alternative to tp::install (both of them manage packages
 
 ### Managing configurations
 
-Configure the application main configuration file a custom erb template:
+Configure an application main configuration file directly providing its content:
 
     tp::conf { 'redis':
-      template    => 'site/redis/redis.conf.erb',
+      content => 'my content is king',
     }
 
 Configure any configuration file of an application providing a custom erb template:
@@ -136,6 +138,7 @@ Manage a specific directory type. Currently defined directories types are:
   - 'conf' : A directory where you can place single configuration files (typically called ./conf.d )
   - 'data' : Directory where application data resides
   - 'log' : Dedicated directory for logs, if present
+
 
     tp::dir { 'apache':
       dir_type => 'data',
