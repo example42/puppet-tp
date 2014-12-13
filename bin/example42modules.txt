@@ -7,12 +7,12 @@
 +bind
 +bluepill
 -bundler
-ceilometer
-ceph
-cinder
++ceilometer
++ceph
++cinder
 +clvm
-collectd
-corosync
++collectd
++corosync
 ddclient
 dhcpd
 django
@@ -25,7 +25,7 @@ exim
 foreman
 +freeradius
 git
-glance
++glance
 graylog2
 haproxy
 +heartbeat
@@ -36,7 +36,7 @@ iptables
 java
 jboss
 jenkins
-keystone
++keystone
 kibana
 +libvirt
 +lighttpd
@@ -61,7 +61,7 @@ nagios
 newrelic
 nfs
 +nginx
-nova
++nova
 nrpe
 ntp
 nut
@@ -83,7 +83,7 @@ puppet
 puppetdashboard
 puppetdb
 quagga
-quantum
++quantum
 rabbitmq
 rclocal
 +redis
