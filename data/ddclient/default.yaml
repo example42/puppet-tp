@@ -1,0 +1,13 @@
+---
+  ddclient::settings:
+    package_name: 'ddclient'
+    service_name: 'ddclient'
+    config_file_path: '/etc/ddclient/ddclient.conf'
+    config_dir_path: '/etc/ddclient'
+    conf_dir_path: '/etc/ddclient/conf.d'
+    pid_file_path: '/var/run/ddclient.pid'
+    log_file_path: '/var/log/ddclient/ddclient.log'
+    log_dir_path: '/var/log/ddclient'
+    process_name: 'ddclient'
+    process_user: 'ddclient'
+    process_group: 'ddclient'
