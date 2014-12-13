@@ -1,0 +1,3 @@
+---
+  bind::settings:
+    service_name: 'bind9'
