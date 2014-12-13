@@ -1,3 +1,4 @@
 ---
+  package_name: 'openstack-ceilometer-common
   init_file_path: '/etc/sysconfig/ceilometer'
 
