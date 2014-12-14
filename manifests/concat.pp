@@ -42,11 +42,11 @@ define tp::concat (
   $app = $title_elements[0]
   $fragment = $title_elements[1]
   $settings = tp_lookup($app,'settings',$data_module,'merge')
-  $manage_path    = tp_pick($path, $settings['config_file_path'])
+  $manage_path = tp_pick($path, $settings['config_file_path'])
   $manage_content = tp_content($content, $template, $epp)
-  $manage_mode    = tp_pick($mode, $settings[config_file_mode])
-  $manage_owner   = tp_pick($owner, $settings[config_file_owner])
-  $manage_group   = tp_pick($group, $settings[config_file_group])
+  $manage_mode = tp_pick($mode, $settings[config_file_mode])
+  $manage_owner = tp_pick($owner, $settings[config_file_owner])
+  $manage_group = tp_pick($group, $settings[config_file_group])
 
   # Set require if package resource is present 
   if defined("Package[${settings[package_name]}]") {
@@ -75,8 +75,8 @@ define tp::concat (
   }
 
   # Concat resources
-  if !defined("Concat[$manage_path]") {
-    concat { $manage_path:
+  if !defined("::Concat[$manage_path]") {
+    ::concat { $manage_path:
       ensure         => present,
       path           => $manage_path,
       mode           => $manage_mode,
@@ -91,7 +91,7 @@ define tp::concat (
     }
   }
 
-  concat::fragment { "${manage_path}_${fragment}":
+  ::concat::fragment { "${manage_path}_${fragment}":
     ensure         => $ensure,
     source         => $source,
     content        => $manage_content,
