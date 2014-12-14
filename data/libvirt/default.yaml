@@ -3,7 +3,6 @@
     package_name: 'libvirt'
     service_name: 'libvirtd'
     config_file_path: '/etc/libvirt/libvirtd.conf'
-    init_file_path: '/etc/sysconfig/libvirtd'
     pid_file_path: '/var/run/libvirt/network/default.pid'
     log_file_path: '/var/log/libvirt/libvirtd.log'
     config_dir_path: '/etc/libvirt'

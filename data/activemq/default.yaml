@@ -4,7 +4,6 @@
     service_name: 'activemq'
     config_file_path: '/etc/activemq/activemq.xml'
     config_dir_path: '/etc/activemq'
-    init_file_path: '/etc/sysconfig/activemq'
     tpp_port: '8161'
     pid_file_path: '/var/run/activemq/activemq.pid'
     log_file_path: '/var/log/activemq'

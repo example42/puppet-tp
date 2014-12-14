@@ -4,7 +4,6 @@
     service_name: 'radiusd'
     config_file_path: '/etc/raddb/radiusd.conf'
     config_file_group: 'radiusd'
-    init_file_path: '/etc/sysconfig/radiusd'
     pid_file_path: '/var/run/radiusd/radiusd.pid'
     log_file_path: '/var/log/radius/radius.log'
     config_dir_path: '/etc/raddb'

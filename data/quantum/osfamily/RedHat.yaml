@@ -1,5 +1,6 @@
 ---
-  package_name: 'openstack-quantum'
-  service_name: 'openstack-quantum-server'
-  init_file_path: '/etc/sysconfig/quantum'
+  quantum::settings:
+    package_name: 'openstack-quantum'
+    service_name: 'openstack-quantum-server'
+    init_file_path: '/etc/sysconfig/quantum'
 

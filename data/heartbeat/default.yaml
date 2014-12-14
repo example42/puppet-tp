@@ -3,7 +3,6 @@
     package_name: 'heartbeat'
     service_name: 'heartbeat'
     config_file_path: '/etc/ha.d/ha.cf'
-    init_file_path: '/etc/sysconfig/heartbeat'
     pid_file_path: '/var/run/heartbeat/heartbeat.pid'
     log_file_path:
       - '/var/log/ha-log'

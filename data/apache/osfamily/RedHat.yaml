@@ -5,6 +5,7 @@
     config_file_path: '/etc/httpd/conf/httpd.conf'
     config_file_mode: '0644'
     config_dir_path: '/etc/httpd'
+    init_file_path: '/etc/sysconfig/httpd'
     tcp_port: '80'
     pid_file_path: '/var/run/httpd.pid'
     log_file_path: [ '/var/log/httpd/access.log' , '/var/log/httpd/error.log' ]

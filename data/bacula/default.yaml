@@ -2,7 +2,6 @@
   bacula::settings:
     package_name: 'bacula'
     config_dir_path: '/etc/bacula'
-    init_file_path: '/etc/sysconfig/bacula'
     log_file_path: '/var/log/bacula/bacula.log'
     log_dir_path: '/var/log/bacula'
     process_user: 'bacula'

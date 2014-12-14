@@ -6,7 +6,6 @@
     config_dir_path: '/etc/bind.d'
     conf_dir_path: '/etc/bind.d'
     log_dir_path: '/var/log/bind'
-    init_file_path: '/etc/sysconfig/bind'
     udp_port: '53'
     pid_file_path: '/var/run/bind.pid'
     log_file_path: '/var/log/syslog'

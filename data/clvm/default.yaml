@@ -3,7 +3,6 @@
     package_name: 'lvm2-cluster'
     service_name: 'clvmd'
     config_file_path: '/etc/lvm/lvm.conf'
-    init_file_path: '/etc/sysconfig/clvmd'
     config_dir_path: '/etc/lvm'
     tcp_port: ''
     pid_file_path: '/var/run/clvmd.pid'
