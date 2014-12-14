@@ -31,24 +31,23 @@ define tp::concat (
   $debug                = false,
   $debug_dir            = '/tmp',
 
+  $data_module          = 'tp',
+
   ) {
 
   validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
-  $title_elements = split ($title, '::')
+  $title_elements = split($title,'::')
   $app = $title_elements[0]
   $fragment = $title_elements[1]
-  notify { "App: $app": }
-  $settings = tp_lookup($app,'settings','merge')
-
+  $settings = tp_lookup($app,'settings',$data_module,'merge')
   $manage_path    = tp_pick($path, $settings['config_file_path'])
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
-  notify { "Path: $manage_path": }
   # Set require if package resource is present 
   if defined("Package[${settings[package_name]}]") {
     $package_ref = "Package[${settings[package_name]}]"
@@ -76,7 +75,7 @@ define tp::concat (
   }
 
   # Concat resources
-  if ! defined(Concat[$manage_path]) {
+  if !defined("Concat[$manage_path]") {
     concat { $manage_path:
       ensure         => present,
       path           => $manage_path,

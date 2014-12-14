@@ -1,28 +1,29 @@
 
 module Puppet::Parser::Functions
 
-  newfunction(:tp_lookup, :type => :rvalue, :doc => "Looks for tp   data. Usage:
-  $tp_packages=tp_lookup($title,'packages')
+  newfunction(:tp_lookup, :type => :rvalue, :doc => "
+  Looks for tp data. Usage:
+  $tp_settings=tp_lookup($title,'settings','site','merge')
   ") do |args|
-    unless args.length >= 2
+    unless args.length >= 3
       raise Puppet::ParseError, ("tp_lookup(): wrong number of arguments (#{args.length}; must be 2 or 3)")
     end
 
     app = args[0]
     res = args[1]
-    args[2].to_s.length!=0 ? look = args[2] : look = 'direct'
+    data_module = args[2]
+    args[3].to_s.length!=0 ? look = args[3] : look = 'direct'
     key = app + "::" + res
 
     value = { }
 
-    if mp = Puppet::Module.find("tp", compiler.environment.to_s)
+    if mp = Puppet::Module.find(data_module, compiler.environment.to_s)
       
       hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
 
       unless File.exist?(hiera_file_path)
-        raise Puppet::ParseError, ("Can't find #{hiera_file_path}. It looks like #{app} is not yet supported")
+        raise Puppet::ParseError, ("Can't find #{hiera_file_path}. It looks like #{app} is not yet supported on #{data_module}")
       end
-
 
       hiera = YAML::load(File.open(hiera_file_path))
       model = {
@@ -46,7 +47,7 @@ module Puppet::Parser::Functions
             value.merge!(got_value) if look=='merge'
             value=got_value if look=='direct'
           end
-          # puts "value: #{key} - #{conf_file_path} - #{value.inspect}"
+          # puts "value: #{key} - #{conf_file_path} - #{value.inspect}"
         end
       }
 

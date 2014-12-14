@@ -19,7 +19,9 @@ define tp::puppi (
 
   $options_hash   = { },
  
-  $settings_hash  = { },
+  $settings_hash  = { },
+
+  $data_module    = 'tp',
 
   ) {
 
@@ -30,11 +32,11 @@ define tp::puppi (
   validate_hash($settings_hash)
 
 
-  # Settings
-  $tp_settings=tp_lookup($title,'settings','merge')
+  # Settings
+  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
 
-  # Default options 
+  # Default options 
   $puppi_defaults = {
     check_timeout          = '10',
 
@@ -110,7 +112,7 @@ define tp::puppi (
   }
 
 
-  # Puppi info
+  # Puppi info
   if $info_enable == true {
     puppi::info::module { $title:
       description  => "Info about ${title}",

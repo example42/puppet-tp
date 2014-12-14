@@ -22,12 +22,12 @@ define tp::install (
   $monitor_class             = undef,
   $firewall_class            = undef,
 
+  $data_module               = 'tp',
+
   ) {
 
-  $tp_settings=tp_lookup($title,'settings','merge')
-  # $settings=$tp_settings
+  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
-
 
   # Dependency class
   if $dependency_class { require $dependency_class }

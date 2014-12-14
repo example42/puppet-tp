@@ -23,6 +23,8 @@ define tp::conf (
   $debug                = false,
   $debug_dir            = '/tmp',
 
+  $data_module          = 'tp',
+
   ) {
 
   validate_bool($debug)
@@ -31,7 +33,7 @@ define tp::conf (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
-  $settings = tp_lookup($app,'settings','merge')
+  $settings = tp_lookup($app,'settings',$data_module,'merge')
 
   if $file {
     $auto_path = "${settings[config_dir_path]}/${file}"
