@@ -1,0 +1,61 @@
+{
+  "name": "example42-tp",
+  "version": "0.1.0",
+  "summary": "Tiny Puppet",
+  "license": "Apache 2.0",
+  "author": "Alessandro Franceschi",
+  "types": [],
+  "checksums": {},
+  "source": "https://github.com/example42/puppet-tp",
+  "project_page": "https://github.com/example42/puppet-tp",
+  "issues_url": "https://github.com/example42/puppet-tp/issues",
+  "operatingsystem_support": [
+    {
+      "osfamily": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04",
+        "14.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">=2.7.20"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0 < 5.0.0"
+    }
+  ],
+  "optional_dependencies": [
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetlabs/vcsrespo",
+      "version_requirement": ">= 1.0.0"
+    }
+  ]
+}
