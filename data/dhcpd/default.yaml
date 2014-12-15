@@ -1,0 +1,11 @@
+---
+  dhcpd::settings:
+    package_name: 'dhcpd'
+    service_name: 'dhcpd'
+    config_file_path: '/etc/dhcpd/dhcpd.conf'
+    config_dir_path: '/etc/dhcpd'
+    pid_file_path: '/var/run/dhcpd.pid'
+    process_name: 'dhcpd'
+    process_user: 'dhcpd'
+    process_group: 'dhcpd'
+    udp_port: '67'

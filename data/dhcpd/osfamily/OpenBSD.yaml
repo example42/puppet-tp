@@ -1,0 +1,10 @@
+---
+  dhcpd::settings:
+    package_name: ''
+    config_file_path: '/etc/dhcpd.conf'
+    config_file_group: 'wheel'
+    config_dir_path: ''
+    pid_file_path: ''
+    data_dir_path: ''
+    process_user: '_dhcp'
+    process_group: '_dhcp'
