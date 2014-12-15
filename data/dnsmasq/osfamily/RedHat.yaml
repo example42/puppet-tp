@@ -1,0 +1,4 @@
+---
+  dnsmasq::settings:
+    process_user: 'nobody'
+    init_file_path: '/etc/sysconfig/dnsmasq'

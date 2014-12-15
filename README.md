@@ -2,7 +2,7 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is Puppet module that can replace or integrate other module ([List of supported applications](https://github.com/example42/puppet-tp/tree/master/data)).
+Tiny Puppet is Puppet module that can replace or integrate other modules ([List of supported applications](https://github.com/example42/puppet-tp/tree/master/data)).
 
 
 It features:
