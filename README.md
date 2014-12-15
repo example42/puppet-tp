@@ -2,7 +2,7 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is Puppet module that can replace or integrate other [Puppet modules](https://github.com/example42/puppet-tp/tree/master/data).
+Tiny Puppet is Puppet module that can replace or integrate other module ([List of supported applications](https://github.com/example42/puppet-tp/tree/master/data)).
 
 
 It features:
@@ -15,7 +15,7 @@ It features:
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
-It is intended to be used in modules that operate at an higher abstraction layer (as the ones in points C and D) where we assemble and use different application modules to achieve the setup we need.
+It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
 
 ## Provided Resources
@@ -130,6 +130,7 @@ Manage a specific directory type. Currently defined directories types are:
   - 'data' : Directory where application data resides
   - 'log' : Dedicated directory for logs, if present
 
+Note that some of these directory types might not be defined for every application.
 
     tp::dir { 'apache':
       dir_type => 'data',
