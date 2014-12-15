@@ -1,0 +1,9 @@
+---
+  dovecot::settings:
+    package_name: 
+      - 'dovecot2'
+      - 'dovecot-pigeonhole'
+    config_file_path: '/usr/local/etc/dovecot/dovecot.conf'
+    config_dir_path: '/usr/local/etc/dovecot'
+    conf_dir_path: ''
+    pid_file_path: '/var/run/dovecot.pid'

@@ -1,0 +1,7 @@
+---
+  dovecot::settings:
+    package_name:        
+      - 'dovecot-imadp'       
+      - 'dovecot-pop3d'
+    init_file_path: '/etc/default/dovecot'
+    run_file_path: '/var/run/dovecot/master.pid'
