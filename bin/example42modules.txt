@@ -1,6 +1,10 @@
+# Example42 modules conversion list
+# + Module data migrated to tp
+# - Module won't be migrated and will be removed for Ex42 modules 3.x
+# = Module will remain on Ex42
 +activemq
-+apache
-+apt
++=apache
++=apt
 -auth
 +autofs
 +bacula
@@ -13,26 +17,26 @@
 +clvm
 +collectd
 +corosync
-ddclient
-dhcpd
-django
-dnsmasq
-dovecot
-elasticsearch
-exim
++ddclient
++dhcpd
+-django
++dnsmasq
++dovecot
++elasticsearch
++exim
 +fail2ban
 -firewall
-foreman
+-foreman
 +freeradius
-git
+=git
 +glance
 graylog2
 haproxy
 +heartbeat
-hosts
+=hosts
 icinga
 icinga2
-iptables
+=iptables
 java
 jboss
 jenkins
@@ -68,7 +72,7 @@ nut
 +openntpd
 +openssh
 openvpn
-openvswitch
++openvswitch
 orientdb
 pacemaker
 pam
@@ -85,7 +89,7 @@ puppetdb
 quagga
 +quantum
 rabbitmq
-rclocal
+=rclocal
 +redis
 =resolver
 rhcs
@@ -122,6 +126,6 @@ vsftpd
 wget
 -wordpress
 +xinetd
-yum
+=yum
 zabbix_agent
 zip
