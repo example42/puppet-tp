@@ -1,0 +1,13 @@
+---
+  exim::settings:
+    package_name: 'exim'
+    service_name: 'exim'
+    config_file_path: '/etc/exim/exim.conf'
+    config_dir_path: '/etc/exim'
+    pid_file_path: '/var/run/exim.pid'
+    log_file_path: '/var/log/exim/exim.log'
+    log_dir_path: '/var/log/exim'
+    process_name: 'exim'
+    process_user: 'exim'
+    process_group: 'exim'
+    tcp_port: '25'
