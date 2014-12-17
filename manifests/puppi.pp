@@ -3,8 +3,11 @@
 # = Define: tp::puppi
 #
 # Manages Puppi integration
-#
-#
+# Usage of this define is optional.
+# When used, it requires Puppi.
+# But sure to include puppi class before using
+# the tp::puppi define.
+# 
 # == Parameters
 #
 define tp::puppi (
@@ -12,8 +15,10 @@ define tp::puppi (
   $ensure         = present,
 
   $check_enable   = true ,
+
   $info_enable    = true ,
   $info_template  = 'tp/puppi/info.erb',
+  $info_defaults  = true,
 
   $log_enable     = true ,
 
@@ -23,11 +28,15 @@ define tp::puppi (
 
   $data_module    = 'tp',
 
+  $verbose        = false,
+
   ) {
 
   validate_bool($check_enable)
   validate_bool($info_enable)
+  validate_bool($info_defaults)
   validate_bool($log_enable)
+  validate_bool($verbose)
   validate_hash($options_hash)
   validate_hash($settings_hash)
 
@@ -84,10 +93,11 @@ define tp::puppi (
   if $check_enable == true {
 
     if $settings[tcp_port] {
+
       puppi::check { "${title}_port":
         description => "Check ${title} TCP port ${settings[tcp_port]}",
         command     => $real_check_port_command,
-        base_dir    => $real_check_base_dir],
+        base_dir    => $real_check_base_dir,
         hostwide    => true,
       }
     }
@@ -114,28 +124,44 @@ define tp::puppi (
 
   # Puppi info
   if $info_enable == true {
-    puppi::info::module { $title:
-      description  => "Info about ${title}",
-      packagename  => $settings[package_name],
-      servicename  => $settings[service_name],
-      processname  => $settings[process_name],
-      configfile   => $settings[config_file_path],
-      configdir    => $settings[config_dir_path],
-      pidfile      => $settings[pid_file_path],
-      datadir      => $settings[data_dir_path],
-      logdir       => $settings[log_dir_path],
-      protocol     => 'tcp',
-      port         => $settings[tcp_port],
-      templatefile => $info_template,
+    if $info_defaults == true {
+      file { "${::puppi::params::infodir}/${title}":
+        ensure  => $ensure,
+        mode    => '0750',
+        owner   => $::puppi::params::configfile_owner,
+        group   => $::puppi::params::configfile_group,
+        require => Class['puppi'],
+        content => template($info_template),
+        tag     => 'tp_puppi_info',
+      }
+    }
+
+    if $settings[info_commands] {
+      $infos = any2array($settings[info_commands])
+      file { "${::puppi::params::infodir}/${title}_extra":
+        ensure  => $ensure,
+        mode    => '0750',
+        owner   => $::puppi::params::configfile_owner,
+        group   => $::puppi::params::configfile_group,
+        require => Class['puppi'],
+        content => inline_template("<% @infos.each do |cmd| %><%= cmd %><% end %>"),
+        tag     => 'tp_puppi_info',
+      }
     }
   }
 
 
   # Puppi log
   if $log_enable == true {
-    puppi::log { $title:
-      description => "Logs of ${title}",
-      log         => $settings[log_file],
+    $logs = any2array($settings[log_file_path])
+    file { "${::puppi::params::logdir}/${title}":
+      ensure  => $ensure,
+      mode    => '0750',
+      owner   => $::puppi::params::configfile_owner,
+      group   => $::puppi::params::configfile_group,
+      require => Class['puppi'],
+      content => inline_template("<% @logs.each do |path| %><%= path %><% end %>"),
+      tag     => 'tp_puppi_log',
     }
   }
 

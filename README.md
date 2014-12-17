@@ -165,7 +165,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
 
 ## Usage with Hiera
 
-You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
+You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
 
 Although such approach is very powerful (and totally optional) we recommend not to abuse of it.
 
