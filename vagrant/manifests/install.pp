@@ -18,22 +18,3 @@ tp::install { 'samba': }
 # tp::install { 'tftpd': }
 tp::install { 'xinetd': }
 
-
-# Tests
-/*
-tp::install { 'apache':
-  files  => {
-    '/tmp/apache.conf' => { content => 'test' } ,
-  },
-}
-
-tp::conf { 'apache::test':
-  content => test,
-}
-tp::conf { 'openssh::test':
-  content => test,
-}
-tp::conf { 'redis::test':
-  content => test,
-}
-*/

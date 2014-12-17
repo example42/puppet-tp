@@ -52,7 +52,7 @@ module Puppet::Parser::Functions
       }
 
     else
-      raise(Puppet::ParseError, "Could not find module tp in environment #{compiler.environment}")
+      raise(Puppet::ParseError, "Could not find module #{data_module} in environment #{compiler.environment}")
     end
 
     return value

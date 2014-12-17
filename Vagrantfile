@@ -78,7 +78,8 @@ Vagrant.configure("2") do |config|
          '--pluginsync',
          '--summarize',
 #         '--profile',
-#        '--evaltrace',
+        '--evaltrace',
+        '--trace',
 #        '--debug',
 #        '--parser future',
         ]

@@ -27,6 +27,7 @@ define tp::install (
   ) {
 
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
+
   $settings=merge($tp_settings,$settings_hash)
 
   # Dependency class
