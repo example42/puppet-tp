@@ -1,0 +1,13 @@
+---
+  graylog2::settings:
+    package_name: 'graylog2-server'
+    service_name: 'graylog2-server'
+    config_file_path: '/etc/graylog2.conf'
+    config_dir_path: '/etc/graylog2'
+    conf_dir_path: '/etc/graylog2/conf.d'
+    pid_file_path: '/var/run/graylog2.pid'
+    process_name: 'java'
+    process_args: 'graylog2'
+    process_user: 'graylog2'
+    process_group: 'graylog2'
+    udp_port: '514'
