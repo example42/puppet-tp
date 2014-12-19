@@ -30,8 +30,8 @@
 +freeradius
 =git
 +glance
-graylog2
-haproxy
++graylog2
++haproxy
 +heartbeat
 =hosts
 icinga
