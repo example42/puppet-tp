@@ -1,0 +1,16 @@
+---
+  haproxy::settings:
+    package_name: 'haproxy'
+    service_name: 'haproxy'
+    config_file_path: '/etc/haproxy/haproxy.cfg'
+    config_dir_path: '/etc/haproxy'
+    conf_dir_path: '/etc/haproxy/conf.d'
+    pid_file_path: '/var/run/haproxy.pid'
+    log_file_path: '/var/log/haproxy/haproxy.log'
+    log_dir_path: '/var/log/haproxy'
+    process_name: 'haproxy'
+    process_user: 'haproxy'
+    process_group: 'haproxy'
+    tcp_port:
+      - '80'
+      - '443'
