@@ -1,0 +1,6 @@
+---
+  icinga2::settings:
+    init_file_path: '/etc/sysconfig/icinga2'
+    config_file_owner: 'icinga'
+    config_file_owner: 'icinga'
+    config_file_mode: '0640'
