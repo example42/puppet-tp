@@ -1,9 +1,0 @@
----
-  bacula::settings:
-    package_name: 'bacula'
-    config_dir_path: '/etc/bacula'
-    log_file_path: '/var/log/bacula/bacula.log'
-    log_dir_path: '/var/log/bacula'
-    process_user: 'bacula'
-    process_group: 'bacula'
-

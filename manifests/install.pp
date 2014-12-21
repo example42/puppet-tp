@@ -22,7 +22,7 @@ define tp::install (
   $monitor_class             = undef,
   $firewall_class            = undef,
 
-  $data_module               = 'tp',
+  $data_module               = 'tpdata',
 
   ) {
 

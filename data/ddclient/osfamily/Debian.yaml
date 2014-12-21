@@ -1,3 +1,0 @@
----
-  ddclient::settings:
-    init_file_path: '/etc/default/ddclient'

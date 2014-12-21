@@ -31,7 +31,7 @@ define tp::concat (
   $debug                = false,
   $debug_dir            = '/tmp',
 
-  $data_module          = 'tp',
+  $data_module          = 'tpdata',
 
   ) {
 
@@ -75,6 +75,8 @@ define tp::concat (
   }
 
   # Concat resources
+  include concat
+  
   if !defined("::Concat[$manage_path]") {
     ::concat { $manage_path:
       ensure         => present,

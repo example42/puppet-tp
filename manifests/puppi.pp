@@ -26,7 +26,7 @@ define tp::puppi (
  
   $settings_hash  = { },
 
-  $data_module    = 'tp',
+  $data_module    = 'tpdata',
 
   $verbose        = false,
 

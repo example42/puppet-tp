@@ -1,8 +1,8 @@
-# Tiny Puppet
+# Tiny Puppet 
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is Puppet module that can replace or integrate other modules ([List of supported applications](https://github.com/example42/puppet-tp/tree/master/data)).
+Tiny Puppet is Puppet module that can replace or integrate other modules ([List of supported applications](https://github.com/example42/puppet-tpdata/tree/master/data)).
 
 
 It features:
@@ -11,12 +11,13 @@ It features:
 
   - Out of the box and easily expandable support for most common Operating Systems
 
-  - Support of an quickly an easily growing [list of applications](https://github.com/example42/puppet-tp/tree/master/data).
+  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/puppet-tpdata/tree/master/data) via the companion ```tpdata``` module.
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
+**NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Some functionality may be reduced if a clean **package, service, configuration file(s)** setup is not reproducible
 
 ## Provided Resources
 
@@ -30,6 +31,18 @@ Tiny Puppet provides the following defines:
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. (WIP) Puppi integration (Don't worry, fully optional) 
+
+
+## Module data
+
+Tiny Puppet need a separated module where are stored all the application specific data.
+Each time you use a ```tp``` define you can provide a custom data module with the ```data_module``` parameter (the default value is ```tpdata```).
+
+The ```tpdata``` module is an essential (but still replaceable) companion of ```tp```, it provides:
+
+ - The settings for the different supported applications
+ - Optional additional classes and defines for some applications (for example dependency classes)
+ - Optional sample templates and default configuration options for specific applications
 
 
 ## Usage in manifests
@@ -237,7 +250,11 @@ Do not expect everything to work seamlessly, this is a test environment to verif
 
 ## Usage on the Command Line (TODO)
 
- 
+The following actions are going to be implemented as Puppet faces.
+
+Their functionality is going to be similar to the one currently provided, via ```puppi``` by the ```tp::puppi``` define.
+
+
 Install a specific application (TODO)
 
     puppet tp install redis

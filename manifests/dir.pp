@@ -25,7 +25,7 @@ define tp::dir (
   $debug                = false,
   $debug_dir            = '/tmp', 
 
-  $data_module          = 'tp',
+  $data_module          = 'tpdata',
 
   ) {
 
@@ -35,7 +35,7 @@ define tp::dir (
   if $title =~ /^\/.*$/ {
     # If title is an absolute path do a safe lookup to
     # a dummy app
-    $settings = tp_lookup('test','settings','tp','merge')
+    $settings = tp_lookup('test','settings','tpdata','merge')
     $title_path = $title
   } else {
     $settings = tp_lookup($app,'settings',$data_module,'merge')

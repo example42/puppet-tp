@@ -1,7 +1,0 @@
----
-  dhcpd::settings:
-    package_name: 'dhcp-server'
-    config_dir_path: '/etc/dhcpd.d'
-    conf_dir_path: '/etc/dhcpd.d'
-    data_dir_path: '/var/lib/dhcp'
-

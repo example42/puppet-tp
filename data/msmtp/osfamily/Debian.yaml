@@ -1,3 +1,0 @@
----
-  msmtp::settings:
-    package_name: 'msmtp-mta'
