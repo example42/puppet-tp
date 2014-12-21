@@ -17,7 +17,7 @@ define tp::puppi (
   $check_enable   = true ,
 
   $info_enable    = true ,
-  $info_template  = 'tp/puppi/info.erb',
+  $info_template  = 'tpdata/puppi/info.erb',
   $info_defaults  = true,
 
   $log_enable     = true ,
