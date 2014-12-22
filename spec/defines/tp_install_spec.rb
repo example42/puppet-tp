@@ -1,4 +1,4 @@
-require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
+require 'spec_helper'
 
 describe 'tp::install', :type => :define do
   let(:title) { 'redis' }
@@ -80,7 +80,7 @@ describe 'tp::install', :type => :define do
   end
 
 
-  context 'with title redis and custom classes' do
+  context 'with custom classes' do
     let(:params) {
       {
         :extra_class      => 'tpdata::spec::extra',

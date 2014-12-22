@@ -3,6 +3,7 @@
 /.rvmrc
 build
 pkg/
+coverage/
 Session.vim
 spec/fixtures
 .*.sw[a-z]

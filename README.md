@@ -2,7 +2,7 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is Puppet module that can replace or integrate other modules ([List of supported applications](https://github.com/example42/puppet-tpdata/tree/master/data)).
+Tiny Puppet is Puppet module that can replace or integrate other ([modules](https://github.com/example42/puppet-tpdata/tree/master/data)).
 
 
 It features:
@@ -275,3 +275,5 @@ Tail the log(s) of the specified application (TODO)
     puppet tp log redis
 
 
+[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
+[![Coverage Status](https://coveralls.io/repos/alvagante/puppet-tp/badge.png)](https://coveralls.io/r/alvagante/puppet-tp)
