@@ -1,0 +1,2 @@
+#!/bin/sh
+cd /vagrant/vagrant/hieradata && puppet apply --verbose --report --show_diff --pluginsync --summarize --evaltrace --trace --modulepath '/tmp/vagrant-puppet-1/modules-0:/tmp/vagrant-puppet-1/modules-1:/tmp/vagrant-puppet-1/modules-2:/etc/puppet/modules' --hiera_config=/tmp/vagrant-puppet-1/hiera.yaml --manifestdir /tmp/vagrant-puppet-1/manifests --detailed-exitcodes /tmp/vagrant-puppet-1/manifests/site.pp
