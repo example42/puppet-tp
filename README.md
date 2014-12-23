@@ -17,7 +17,6 @@ It features:
 
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
-**NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Some functionality may be reduced if a clean **package, service, configuration file(s)** setup is not reproducible
 
 ## Provided Resources
 
@@ -32,6 +31,23 @@ Tiny Puppet provides the following defines:
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. (WIP) Puppi integration (Don't worry, fully optional) 
+
+
+## Prerequisites and limitations
+
+Tiny Puppet is currently developed and mostly tested on Ruby 1.9.3, it's expected to work on more recent versions and **does not** work on Ruby 1.8.7.
+
+This means that your Puppet Master should run on stock setups on these OS:
+  - Ubuntu 14.04
+  - Debian 7
+  - RedHat 7
+  - CentOS 7
+
+Your clients may run on different Operating Systems and are actually supported in TP data.
+
+Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
+
+**Note well:**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services.
 
 
 ## Usage in manifests

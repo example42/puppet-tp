@@ -39,7 +39,7 @@
 =iptables
 =java
 +jboss
-jenkins
++jenkins
 +keystone
 kibana
 +libvirt

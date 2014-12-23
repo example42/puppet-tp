@@ -15,6 +15,7 @@ class tp () {
   $concat_hash  = hiera_hash('tp::concat_hash')
   $stdmod_hash  = hiera_hash('tp::stdmod_hash')
   $puppi_hash   = hiera_hash('tp::puppi_hash')
+  $repo_hash    = hiera_hash('tp::repo_hash')
 
   # TODO Be smarter here
   validate_hash($install_hash)
@@ -23,6 +24,7 @@ class tp () {
   validate_hash($concat_hash)
   validate_hash($stdmod_hash)
   validate_hash($puppi_hash)
+  validate_hash($repo_hash)
 
   if $install_hash != {} {
     create_resources('tp::install', $install_hash )
@@ -41,6 +43,9 @@ class tp () {
   }
   if $puppi_hash != {} {
     create_resources('tp::puppi', $puppi_hash )
+  }
+  if $repo_hash != {} {
+    create_resources('tp::repo', $repo_hash )
   }
 
 }

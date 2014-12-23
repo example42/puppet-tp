@@ -11,3 +11,4 @@ Gemfile.lock
 *.un~
 /.vagrant
 /vagrant/modules/public
+.coveralls.yml
