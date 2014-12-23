@@ -1,0 +1,10 @@
+---
+  cinder::settings:
+    config_file_path: '/etc/cinder/cinder.conf'
+    config_dir_path: '/etc/cinder'
+    pid_file_path: '/var/run/cinder.pid'
+    log_file_path: '/var/log/cinder/cinder.log'
+    log_dir_path: '/var/log/cinder'
+    process_name: 'cinder'
+    process_user: 'cinder'
+    process_group: 'cinder'

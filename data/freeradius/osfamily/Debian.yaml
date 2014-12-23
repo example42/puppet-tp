@@ -1,0 +1,15 @@
+---
+  freeradius::settings:
+    service_name: 'freeradius'
+    process_name: 'freeradius'
+    process_user: 'freerad'
+    process_group: 'freerad'
+    init_file_path: '/etc/default/freeradius'
+    config_file_path: '/etc/freeradius/radiusd.conf'
+    config_file_mode: '0640'
+    config_file_group: 'freerad'
+    config_dir_path: '/etc/freeradius'
+    pid_file_path: '/var/run/freeradius/freeradius.pid'
+    data_dir_path: '/var/lib/freeradius'
+    log_file_path: '/var/log/freeradius/radius.log'
+    log_dir_path: '/var/log/freeradius'

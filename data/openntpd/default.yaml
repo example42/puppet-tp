@@ -1,0 +1,13 @@
+---
+  openntpd::settings:
+    package_name: 'openntpd'
+    service_name: 'openntpd'
+    config_file_path: '/etc/openntpd/ntpd.conf'
+    init_file_path: '/etc/sysconfig/openntpd'
+    pid_file_path: '/var/run/openntpd.pid'
+    log_file_path: ''
+    config_dir_path: '/etc/openntpd'
+    udp_port: '123'
+    process_name: 'ntpd'
+    process_user: 'openntpd'
+    process_group: 'openntpd'

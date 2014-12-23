@@ -1,0 +1,14 @@
+---
+  redis::settings:
+    package_name: 'redis-test'
+    service_name: 'redis-test'
+    service_ensure: 'stopped'
+    service_enable: 'false'
+    config_file_path: '/etc/redis-test/redis.conf'
+    config_file_owner: 'test'
+    config_file_group: 'test'
+    config_file_mode: '0644'
+    config_dir_path: '/etc/redis-test'
+    config_dir_owner: 'test'
+    config_dir_group: 'test'
+    config_dir_mode: '0755'

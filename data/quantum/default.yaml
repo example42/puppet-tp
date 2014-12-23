@@ -1,0 +1,10 @@
+---
+  quantum::settings:
+    config_file_path: '/etc/quantum/quantum.conf'
+    config_dir_path: '/etc/quantum'
+    pid_file_path: '/var/run/quantum.pid'
+    log_file_path: '/var/log/quantum/quantum.log'
+    log_dir_path: '/var/log/quantum'
+    process_name: 'quantum'
+    process_user: 'quantum'
+    process_group: 'quantum'

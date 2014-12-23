@@ -1,0 +1,5 @@
+---
+  glance::settings:
+    package_name: 'openstack-glance'
+    init_file_path: '/etc/sysconfig/glance'
+

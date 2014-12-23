@@ -1,0 +1,15 @@
+---
+  rsyslog::settings:
+    package_name: 'rsyslog'
+    service_name: 'rsyslog'
+    config_file_path: '/etc/rsyslog.conf'
+    config_dir_path: '/etc/rsyslog.d'
+    conf_dir_path: '/etc/rsyslog.d'
+    data_dir_path: '/var/log'
+    init_file_path: '/etc/sysconfig/rsyslog'
+    udp_port: '69'
+    pid_file_path: '/var/run/rsyslog.pid'
+    log_file_path: '/var/log/messages'
+    process_name: 'rsyslogd'
+    process_user: 'root'
+    process_group: 'root'

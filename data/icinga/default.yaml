@@ -1,0 +1,14 @@
+---
+  icinga::settings:
+    package_name: 'icinga'
+    service_name: 'icinga'
+    config_file_path: '/etc/icinga/icinga.conf'
+    config_dir_path: '/etc/icinga'
+    conf_dir_path: '/etc/icinga/conf.d'
+    pid_file_path: '/var/run/icinga.pid'
+    log_file_path: '/var/log/icinga/icinga.log'
+    log_dir_path: '/var/log/icinga'
+    data_dir_path: '/var/lib/icinga'
+    process_name: 'icinga'
+    process_user: 'icinga'
+    process_group: 'icinga'

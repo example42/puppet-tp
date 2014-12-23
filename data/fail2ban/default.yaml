@@ -1,0 +1,14 @@
+---
+  fail2ban::settings:
+    package_name: 'fail2ban'
+    service_name: 'fail2ban'
+    config_file_path: '/etc/fail2ban/fail2ban.local'
+    init_file_path: '/etc/sysconfig/fail2ban'
+    pid_file_path: '/var/run/fail2ban.pid'
+    log_file_path: '/var/log/fail2ban/fail2ban.log'
+    config_dir_path: '/etc/fail2ban'
+    log_dir_path: '/var/log/fail2ban'
+    tcp_port: ''
+    process_name: 'fail2ban-server'
+    process_user: 'fail2ban'
+    process_group: 'fail2ban'

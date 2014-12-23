@@ -1,0 +1,4 @@
+---
+  bind::settings:
+    init_file_path: '/etc/sysconfig/bind'
+    service_name: 'bind9'

@@ -1,0 +1,15 @@
+---
+  libvirt::settings:
+    package_name: 'libvirt'
+    service_name: 'libvirtd'
+    config_file_path: '/etc/libvirt/libvirtd.conf'
+    pid_file_path: '/var/run/libvirt/network/default.pid'
+    log_file_path: '/var/log/libvirt/libvirtd.log'
+    config_dir_path: '/etc/libvirt'
+    conf_dir_path: '/etc/libvirt/conf.d'
+    log_dir_path: '/var/log/libvirt'
+    data_dir_path: '/var/lib/libvirt'
+    tcp_port: ''
+    process_name: 'libvirtd'
+    process_user: 'root'
+    process_group: 'root'

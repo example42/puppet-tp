@@ -1,0 +1,5 @@
+---
+  nginx::settings:
+    init_file_path: '/etc/default/nginx'
+    process_user: 'www-data'
+    process_group: 'www-data'

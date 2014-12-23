@@ -1,0 +1,4 @@
+---
+  redis::settings:
+    package_name: 'redis-server'
+    service_name: 'redis-server'

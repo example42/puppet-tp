@@ -4,7 +4,7 @@ describe 'tp::concat', :type => :define do
 
   context 'with redis defaults' do
     let(:title) { 'redis' }
-    it { should compile }
+    it { should compile.with_all_deps }
     it { should have_concat_resource_count(1) }
     it { should have_concat_fragment_resource_count(1) }
     it { should contain_concat("/etc/redis/redis.conf") } 

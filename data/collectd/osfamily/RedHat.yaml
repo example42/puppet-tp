@@ -1,0 +1,7 @@
+---
+  collectd::settings:
+    init_file_path: '/etc/sysconfig/collectd'
+    config_file_path: '/etc/collectd.conf'
+    config_dir_path: '/etc/collectd.d'
+    conf_dir_path: '/etc/collectd.d'
+

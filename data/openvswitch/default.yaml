@@ -1,0 +1,12 @@
+---
+  openvswitch::settings:
+    package_name: 'openvswitch-switch'
+    service_name: 'openvswitch-switch'
+    config_dir_path: '/etc/openvswitch'
+    conf_dir_path: '/etc/openvswitch/conf.d'
+    pid_file_path: '/var/run/openvswitch.pid'
+    log_file_path: '/var/log/openvswitch/openvswitch.log'
+    log_dir_path: '/var/log/openvswitch'
+    process_name: 'openvswitch'
+    process_user: 'openvswitch'
+    process_group: 'openvswitch'

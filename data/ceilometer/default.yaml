@@ -1,0 +1,13 @@
+---
+  ceilometer::settings:
+    package_name: 'ceilometer'
+    config_file_path: '/etc/ceilometer/ceilometer.conf'
+    config_dir_path: '/etc/ceilometer'
+    config_dir_owner: 'ceilometer'
+    config_dir_group: 'ceilometer'
+    pid_file_path: '/var/run/ceilometer.pid'
+    log_file_path: '/var/log/ceilometer/ceilometer.log'
+    log_dir_path: '/var/log/ceilometer'
+    process_name: 'ceilometer'
+    process_user: 'ceilometer'
+    process_group: 'ceilometer'

@@ -1,0 +1,8 @@
+---
+  openssh::settings:
+    package_name: 'openssh-server'
+    service_name: 'ssh'
+
+    config_file_mode: '0644'
+    init_file_path: '/var/default/ssh'
+    log_file_path: '/var/log/syslog'

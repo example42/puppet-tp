@@ -1,0 +1,4 @@
+---
+  glance::settings:
+    package_name: 'glance'
+    init_file_path: '/etc/default/glance'

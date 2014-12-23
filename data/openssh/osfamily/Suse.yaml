@@ -1,0 +1,7 @@
+---
+  openssh::settings:
+    package_name: 'openssh'
+    service_name: 'sshd'
+
+    config_file_mode: '0640'
+    init_file_path: '/etc/sysconfig/sshd'

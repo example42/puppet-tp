@@ -26,12 +26,13 @@ define tp::puppi (
  
   $settings_hash  = { },
 
-  $data_module    = 'tpdata',
+  $data_module    = 'tp',
 
   $verbose        = false,
 
   ) {
 
+  # Parameters validation
   validate_bool($check_enable)
   validate_bool($info_enable)
   validate_bool($info_defaults)
@@ -41,7 +42,7 @@ define tp::puppi (
   validate_hash($settings_hash)
 
 
-  # Settings
+  # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
 

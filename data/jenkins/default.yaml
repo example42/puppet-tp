@@ -1,0 +1,14 @@
+---
+  jenkins::settings:
+    package_name: 'jenkins'
+    service_name: 'jenkins'
+    config_dir_path: '/etc/jenkins'
+    conf_dir_path: '/etc/jenkins/conf.d'
+    pid_file_path: '/var/run/jenkins.pid'
+    log_file_path: '/var/log/jenkins/jenkins.log'
+    log_dir_path: '/var/log/jenkins'
+    process_name: 'java'
+    process_args: 'jenkins'
+    process_user: 'jenkins'
+    process_group: 'jenkins'
+    tcp_port: '8080'

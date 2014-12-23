@@ -1,0 +1,9 @@
+---
+  openssh::settings:
+    package_name: ''
+    service_name: 'sshd'
+
+    config_file_mode: '0644'
+    config_file_group: 'wheel'
+    init_file_path: ''
+    log_file_path: '/var/log/authlog'

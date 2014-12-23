@@ -1,0 +1,11 @@
+---
+  collectd::settings:
+    package_name: 'collectd'
+    service_name: 'collectd'
+    config_file_path: '/etc/collectd/collectd.conf'
+    config_dir_path: '/etc/collectd'
+    conf_dir_path: '/etc/collectd/collectd.d'
+    pid_file_path: '/var/run/collectd.pid'
+    log_file_path: '/var/log/collectd.log'
+    process_user: 'collectd'
+    process_group: 'collectd'

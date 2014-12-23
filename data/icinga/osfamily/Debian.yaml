@@ -1,0 +1,6 @@
+---
+  icinga::settings:
+    init_file_path: '/etc/default/icinga'
+    process_user: 'nagios'
+    process_group: 'nagios'
+    pid_file_path: '/var/run/icinga/icinga.pid'

@@ -1,0 +1,14 @@
+---
+  bind::settings:
+    package_name: 'bind'
+    service_name: 'bind'
+    config_file_path: '/etc/bind.conf'
+    config_dir_path: '/etc/bind.d'
+    conf_dir_path: '/etc/bind.d'
+    log_dir_path: '/var/log/bind'
+    udp_port: '53'
+    pid_file_path: '/var/run/bind.pid'
+    log_file_path: '/var/log/syslog'
+    process_name: 'named'
+    process_user: 'bind'
+    process_group: 'bind'

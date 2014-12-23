@@ -1,0 +1,15 @@
+---
+  xinetd::settings:
+    package_name: 'xinetd'
+    service_name: 'xinetd'
+    config_file_path: '/etc/xinetd.conf'
+    init_file_path: '/etc/sysconfig/xinetd'
+    pid_file_path: '/var/run/xinetd.pid'
+    log_file_path: ''
+    config_dir_path: '/etc/xinetd.d'
+    log_dir_path: ''
+    data_dir_path: ''
+    tcp_port: ''
+    process_name: 'xinetd'
+    process_user: 'xinetd'
+    process_group: 'xinetd'

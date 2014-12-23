@@ -1,0 +1,14 @@
+---
+  apache::settings:
+    package_name: 'httpd'
+    service_name: 'httpd'
+    config_file_path: '/etc/httpd/conf/httpd.conf'
+    config_dir_path: '/etc/httpd'
+    tcp_port: '80'
+    pid_file_path: '/var/run/httpd.pid'
+    log_file_path: [ '/var/log/httpd/access.log' , '/var/log/httpd/error.log' ]
+    log_dir_path: '/var/log/httpd'
+    data_dir_path: '/var/www/html'
+    process_name: 'httpd'
+    process_user: 'apache'
+    process_group: 'apache'

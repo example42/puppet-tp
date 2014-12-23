@@ -1,0 +1,14 @@
+---
+  tftpd::settings:
+    package_name: 'tftpd'
+    service_name: 'tftpd'
+    config_file_path: '/etc/tftpd/tftpd.conf'
+    config_dir_path: '/etc/tftpd'
+    data_dir_path: '/tftproot'
+    init_file_path: '/etc/sysconfig/tftpd-hpa'
+    udp_port: '69'
+    pid_file_path: '/var/run/tftpd.pid'
+    log_file_path: '/var/log/messages'
+    process_name: 'in.tftpd'
+    process_user: 'root'
+    process_group: 'root'

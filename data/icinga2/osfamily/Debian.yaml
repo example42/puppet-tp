@@ -1,0 +1,3 @@
+---
+  icinga2::settings:
+    init_file_path: '/etc/default/icinga2'

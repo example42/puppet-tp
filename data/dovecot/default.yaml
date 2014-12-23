@@ -1,0 +1,14 @@
+---
+  dovecot::settings:
+    package_name: 'dovecot'
+    service_name: 'dovecot'
+    config_file_path: '/etc/dovecot/dovecot.conf'
+    config_dir_path: '/etc/dovecot'
+    conf_dir_path: '/etc/dovecot/conf.d'
+    pid_file_path: '/var/run/dovecot.pid'
+    log_file_path: '/var/log/dovecot/dovecot.log'
+    log_dir_path: '/var/log/dovecot'
+    process_name: 'dovecot'
+    process_user: 'dovecot'
+    process_group: 'dovecot'
+    tcp_port: '143'

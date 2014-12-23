@@ -1,0 +1,13 @@
+---
+  autofs::settings:
+    package_name: 'autofs'
+    service_name: 'autofs'
+    config_file_path: '/etc/auto.master'
+    init_file_path: '/etc/sysconfig/autofs'
+    config_dir_path: ''
+    tcp_port: ''
+    pid_file_path: '/var/run/autofs.pid'
+    log_file_path: ''
+    log_dir_path: ''
+    process_user: 'root'
+    process_group: 'root'

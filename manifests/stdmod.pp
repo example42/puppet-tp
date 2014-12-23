@@ -44,10 +44,15 @@ define tp::stdmod (
   $debug                     = false,
   $debug_dir                 = '/tmp',
 
-  $data_module               = 'tpdata',
+  $data_module               = 'tp',
 
   ) {
 
+  # Parameters validation
+  validate_bool($debug)
+  
+
+  # Settings evaluation
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $user_settings = {
     package_name              => $package_name,
@@ -70,9 +75,6 @@ define tp::stdmod (
   $user_settings_clean = delete_undef_values($user_settings)  
   $settings = merge($tp_settings,$user_settings_clean)
 
-  # notice($settings)
-
-  # Internal variables
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
@@ -108,7 +110,6 @@ define tp::stdmod (
 
 
   # Resources
-
   if $settings[package_name] {
     package { $settings[package_name]:
       ensure => $settings[package_ensure],
@@ -158,6 +159,7 @@ define tp::stdmod (
   if $firewall_class { include $firewall_class }
 
 
+  # Debugging
   if $debug == true {
  
     $debug_file_params = "

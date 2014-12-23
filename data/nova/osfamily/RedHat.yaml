@@ -1,0 +1,7 @@
+---
+  nova::settings:
+    package_name:
+      - 'python-nova'
+      - 'openstack-nova-common'
+    init_file_path: '/etc/sysconfig/nova'
+

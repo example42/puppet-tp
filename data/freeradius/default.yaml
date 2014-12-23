@@ -1,0 +1,15 @@
+---
+  freeradius::settings:
+    package_name: 'freeradius'
+    service_name: 'radiusd'
+    config_file_path: '/etc/raddb/radiusd.conf'
+    config_file_group: 'radiusd'
+    pid_file_path: '/var/run/radiusd/radiusd.pid'
+    log_file_path: '/var/log/radius/radius.log'
+    config_dir_path: '/etc/raddb'
+    log_dir_path: '/var/log/radius'
+    data_dir_path: '/var/lib/radiusd'
+    tcp_port: '1812'
+    process_name: 'radiusd'
+    process_user: 'radiusd'
+    process_group: 'radiusd'

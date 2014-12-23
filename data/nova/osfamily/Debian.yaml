@@ -1,0 +1,6 @@
+---
+  nova::settings:
+    package_name:
+      - 'python-nova'
+      - 'nova-common'
+    init_file_path: '/etc/default/nova'

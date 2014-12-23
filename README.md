@@ -2,7 +2,7 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is Puppet module that can replace or integrate other ([modules](https://github.com/example42/puppet-tpdata/tree/master/data)).
+Tiny Puppet is single Puppet module that manages virtually any [application](https://github.com/example42/puppet-tp/tree/master/data). It can replace or integrate existing component application modules.
 
 
 It features:
@@ -11,7 +11,7 @@ It features:
 
   - Out of the box and easily expandable support for most common Operating Systems
 
-  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/puppet-tpdata/tree/master/data) via the companion ```tpdata``` module.
+  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/puppet-tp/tree/master/data).
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
@@ -26,23 +26,12 @@ Tiny Puppet provides the following defines:
 - ```tp::install```. It just installs an application and starts its service, by default
 - ```tp::conf```. It allows to manage configuration files of an application with whatever method possible for files (as an ERB template, as an EPP template, via the fileserver, managing directly its content...)
 - ```tp::dir```. Manages the content of a directory, either sourced from the fileserver or from repositories of most common VCS tools (Git, Mercurial, Subversion, Bazaar, CVS)
-- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters.
+- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
 - ```tp::line```. (TODO) Manages single lines in a configuration file
+- ```tp::repo```. (WIP) Manages extra repositories for the supported applications
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. (WIP) Puppi integration (Don't worry, fully optional) 
-
-
-## Module data
-
-Tiny Puppet need a separated module where are stored all the application specific data.
-Each time you use a ```tp``` define you can provide a custom data module with the ```data_module``` parameter (the default value is ```tpdata```).
-
-The ```tpdata``` module is an essential (but still replaceable) companion of ```tp```, it provides:
-
- - The settings for the different supported applications
- - Optional additional classes and defines for some applications (for example dependency classes)
- - Optional sample templates and default configuration options for specific applications
 
 
 ## Usage in manifests
@@ -53,7 +42,7 @@ Install an application with default settings (package installed, service started
 
     tp::install { 'redis': }
 
-Install an application specifying a custom dependency class (where, for example, you can add a custom package repository)
+Install an application specifying a custom dependency class (where, for example, you can add a custom package repository. Note however that for some applications and Operating System TP provides and manages automatically the upstream repository)
 
     tp::install { 'lighttpd':
       dependency_class => 'site::lighttpd::repo',
@@ -252,7 +241,7 @@ Do not expect everything to work seamlessly, this is a test environment to verif
 
 The following actions are going to be implemented as Puppet faces.
 
-Their functionality is going to be similar to the one currently provided, via ```puppi``` by the ```tp::puppi``` define.
+Their functionality is going to be similar to the one currently provided, via ```puppi``` by the ```tp::puppi``` define.
 
 
 Install a specific application (TODO)

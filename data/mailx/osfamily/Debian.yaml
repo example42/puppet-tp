@@ -1,0 +1,3 @@
+---
+  mailx::settings:
+    package_name: 'bsd-mailx'

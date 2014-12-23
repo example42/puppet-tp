@@ -23,13 +23,16 @@ define tp::conf (
   $debug                = false,
   $debug_dir            = '/tmp',
 
-  $data_module          = 'tpdata',
+  $data_module          = 'tp',
 
   ) {
 
+  # Parameters validation
   validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
+
+  # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
@@ -72,6 +75,8 @@ define tp::conf (
     default   => $config_file_notify,
   }
 
+
+  # Resources
   file { $manage_path:
     ensure  => $ensure,
     source  => $source,
@@ -84,6 +89,8 @@ define tp::conf (
     notify  => $manage_notify,
   }
 
+
+  # Debugging
   if $debug == true {
  
     $debug_file_params = "

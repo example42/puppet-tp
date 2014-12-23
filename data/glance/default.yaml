@@ -1,0 +1,10 @@
+---
+  glance::settings:
+    config_file_path: '/etc/glance/glance.conf'
+    config_dir_path: '/etc/glance'
+    pid_file_path: '/var/run/glance.pid'
+    log_file_path: '/var/log/glance/glance.log'
+    log_dir_path: '/var/log/glance'
+    process_name: 'glance'
+    process_user: 'glance'
+    process_group: 'glance'

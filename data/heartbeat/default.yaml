@@ -1,0 +1,16 @@
+---
+  heartbeat::settings:
+    package_name: 'heartbeat'
+    service_name: 'heartbeat'
+    config_file_path: '/etc/ha.d/ha.cf'
+    pid_file_path: '/var/run/heartbeat/heartbeat.pid'
+    log_file_path:
+      - '/var/log/ha-log'
+      - '/var/log/ha-debug'
+    config_dir_path: '/etc/ha.d'
+    log_dir_path: ''
+    data_dir_path: '/var/lib/heartbeat'
+    tcp_port: ''
+    process_name: 'heartbeat'
+    process_user: 'root'
+    process_group: 'root'

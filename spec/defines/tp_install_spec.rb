@@ -83,16 +83,16 @@ describe 'tp::install', :type => :define do
   context 'with custom classes' do
     let(:params) {
       {
-        :extra_class      => 'tpdata::spec::extra',
-        :dependency_class => 'tpdata::spec::dependency',
-        :monitor_class    => 'tpdata::spec::monitor',
-        :firewall_class   => 'tpdata::spec::firewall',
+        :extra_class      => 'tp::spec::extra',
+        :dependency_class => 'tp::spec::dependency',
+        :monitor_class    => 'tp::spec::monitor',
+        :firewall_class   => 'tp::spec::firewall',
       }
     }
-    it { should contain_class('tpdata::spec::extra') }
-    it { should contain_class('tpdata::spec::dependency') }
-    it { should contain_class('tpdata::spec::monitor') }
-    it { should contain_class('tpdata::spec::firewall') }
+    it { should contain_class('tp::spec::extra') }
+    it { should contain_class('tp::spec::dependency') }
+    it { should contain_class('tp::spec::monitor') }
+    it { should contain_class('tp::spec::firewall') }
   end
 
 end

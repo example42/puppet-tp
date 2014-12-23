@@ -1,0 +1,18 @@
+---
+  nginx::settings:
+    package_name: 'nginx'
+    service_name: 'nginx'
+    config_file_path: '/etc/nginx/nginx.conf'
+    init_file_path: '/etc/sysconfig/nginx'
+    pid_file_path: '/var/run/nginx.pid'
+    log_file_path:
+      - '/var/log/nginx/access.log'
+      - '/var/log/nginx/error.log'
+    config_dir_path: '/etc/nginx'
+    conf_dir_path: '/etc/nginx/conf.d'
+    log_dir_path: '/var/log/nginx'
+    data_dir_path: '/usr/share/nginx/html'
+    tcp_port: '80'
+    process_name: 'nginx'
+    process_user: 'nginx'
+    process_group: 'nginx'

@@ -1,0 +1,4 @@
+---
+  mailx::settings:
+    package_name: 'mailx'
+    config_file_path: '/etc/mail.rc'

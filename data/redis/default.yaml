@@ -1,0 +1,12 @@
+---
+  redis::settings:
+    package_name: 'redis'
+    service_name: 'redis'
+    config_file_path: '/etc/redis/redis.conf'
+    config_dir_path: '/etc/redis'
+    tcp_port: '6379'
+    pid_file_path: '/var/run/redis.pid'
+    log_file_path: '/var/log/redis.log'
+    log_dir_path: ''
+    process_user: 'redis'
+    process_group: 'redis'

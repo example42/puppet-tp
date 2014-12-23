@@ -1,0 +1,13 @@
+---
+  openssh::settings:
+    package_name: 'openssh-server'
+    service_name: 'ssh'
+    config_file_path: '/etc/ssh/sshd_config'
+    config_file_mode: '0600'
+    config_dir_path: '/etc/ssh'
+    tcp_port: '22'
+    pid_file_path: '/var/run/sshd.pid'
+    log_file_path: '/var/log/messages'
+    process_name: 'sshd'
+    process_user: 'root'
+    process_group: 'root'

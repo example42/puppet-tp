@@ -139,8 +139,8 @@ describe 'tp::conf', :type => :define do
     let(:params) {
       {
         'content'      => "custom content",
-        'epp'          => 'tpdata/spec/spec.epp',
-        'template'     => 'tpdata/spec/spec.erb',
+        'epp'          => 'tp/spec/spec.epp',
+        'template'     => 'tp/spec/spec.erb',
         'source'       => 'puppet:///modules/site/redis/redis.conf',
       }
     }
@@ -158,7 +158,7 @@ describe 'tp::conf', :type => :define do
     let(:title) { 'redis' }
     let(:params) {
       {
-        'template'     => 'tpdata/spec/spec.erb',
+        'template'     => 'tp/spec/spec.erb',
         'options_hash' => { 
           'key_a'  => 'value_a',
           'key_b'  => 'value_b',
@@ -179,7 +179,7 @@ describe 'tp::conf', :type => :define do
     let(:title) { 'redis' }
     let(:params) {
       {
-        'epp'          => 'tpdata/spec/spec.epp',
+        'epp'          => 'tp/spec/spec.epp',
         'options_hash' => { 
           'key_a'  => 'value_a',
           'key_b'  => 'value_b',
@@ -364,7 +364,7 @@ describe 'tp::conf', :type => :define do
   pending 'with custom epp template and options_hash' do
     let(:title) { 'redis' }
     let(:params) { {
-      'epp'          => 'tpdata/spec/spec.epp',
+      'epp'          => 'tp/spec/spec.epp',
       'options_hash' => { 
         'key_a'  => 'value_a',
         'key_b'  => 'value_b',

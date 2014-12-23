@@ -17,21 +17,40 @@ define tp::install (
 
   $settings_hash             = { } ,
 
+  $auto_repo                 = true,
+
   $extra_class               = undef,
   $dependency_class          = undef,
   $monitor_class             = undef,
   $firewall_class            = undef,
 
-  $data_module               = 'tpdata',
+  $data_module               = 'tp',
 
   ) {
 
-  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
+  # Parameters validation
+  validate_bool($auto_repo)
+  validate_hash($packages)
+  validate_hash($services)
+  validate_hash($files)
 
+
+  # Settings evaluation
+  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
+
 
   # Dependency class
   if $dependency_class { require $dependency_class }
+
+
+  # Automatic repo management
+  if $auto_repo == true
+  and $settings[repo_url] {
+    tp::repo { $title:
+      before => Package[$settings[package_name]],
+    }
+  }
 
 
   # Resources

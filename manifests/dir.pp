@@ -25,17 +25,22 @@ define tp::dir (
   $debug                = false,
   $debug_dir            = '/tmp', 
 
-  $data_module          = 'tpdata',
+  $data_module          = 'tp',
 
   ) {
 
+  # Parameters validation
+  validate_bool($debug)
+
+
+  # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $dir = $title_elements[1]
   if $title =~ /^\/.*$/ {
     # If title is an absolute path do a safe lookup to
     # a dummy app
-    $settings = tp_lookup('test','settings','tpdata','merge')
+    $settings = tp_lookup('test','settings','tp','merge')
     $title_path = $title
   } else {
     $settings = tp_lookup($app,'settings',$data_module,'merge')
@@ -110,6 +115,8 @@ define tp::dir (
     }
   }
 
+
+  # Debugging
   if $debug == true {
  
     $debug_file_params = "

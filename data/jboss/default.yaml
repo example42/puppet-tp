@@ -1,0 +1,14 @@
+---
+  jboss::settings:
+    package_name: 'jboss'
+    service_name: 'jboss'
+    config_file_path: '/etc/jboss/jboss.conf'
+    config_dir_path: '/etc/jboss'
+    conf_dir_path: '/etc/jboss/conf.d'
+    pid_file_path: '/var/run/jboss.pid'
+    log_file_path: '/var/log/jboss/jboss.log'
+    log_dir_path: '/var/log/jboss'
+    process_name: 'jboss'
+    process_user: 'jboss'
+    process_group: 'jboss'
+    tcp_port: '8080'

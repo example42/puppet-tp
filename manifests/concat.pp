@@ -31,13 +31,16 @@ define tp::concat (
   $debug                = false,
   $debug_dir            = '/tmp',
 
-  $data_module          = 'tpdata',
+  $data_module          = 'tp',
 
   ) {
 
+  # Parameters validation
   validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
+
+  # Settings evaluation
   $title_elements = split($title,'::')
   $app = $title_elements[0]
   $fragment = $title_elements[1]
@@ -74,6 +77,7 @@ define tp::concat (
     default   => $config_file_notify,
   }
 
+
   # Concat resources
   include concat
   
@@ -102,6 +106,7 @@ define tp::concat (
   }
 
 
+  # Debugging
   if $debug == true {
  
     $debug_file_params = "
@@ -135,4 +140,5 @@ define tp::concat (
       path    => "${debug_dir}/tp_concat_debug_${title}",
     }
   }
+
 }

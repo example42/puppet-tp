@@ -1,0 +1,13 @@
+---
+  ceph::settings:
+    package_name: 'ceph'
+    service_name: 'ceph'
+    config_file_path: '/etc/ceph/ceph.conf'
+    config_dir_path: '/etc/ceph'
+    conf_dir_path: '/etc/ceph/conf.d'
+    pid_file_path: '/var/run/ceph.pid'
+    log_file_path: '/var/log/ceph/ceph.log'
+    log_dir_path: '/var/log/ceph'
+    process_name: 'ceph'
+    process_user: 'ceph'
+    process_group: 'ceph'

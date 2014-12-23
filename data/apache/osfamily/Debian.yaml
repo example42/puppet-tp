@@ -1,0 +1,15 @@
+---
+  apache::settings:
+    package_name: 'apache2'
+    service_name: 'apache2'
+    config_file_path: '/etc/apache2/apache2.conf'
+    init_file_path: '/etc/default/apache2'
+    config_dir_path: '/etc/apache2'
+    pid_file_path: '/var/run/apache2.pid'
+    log_file_path: [ '/var/log/apache2/access.log' , '/var/log/apache2/error.log' ]
+    log_dir_path: '/var/log/apache2'
+    data_dir_path: '/var/www'
+    process_name: 'apache2'
+    process_user: 'www-data'
+    process_group: 'www-data'
+

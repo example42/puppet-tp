@@ -1,0 +1,9 @@
+---
+  nova::settings:
+    config_file_path: '/etc/nova/nova.conf'
+    config_dir_path: '/etc/nova'
+    log_file_path: '/var/log/nova/nova.log'
+    log_dir_path: '/var/log/nova'
+    process_name: 'nova'
+    process_user: 'nova'
+    process_group: 'nova'

@@ -1,0 +1,4 @@
+---
+  sysklogd::settings:
+    init_file_path: '/etc/default/sysklogd'
+    log_file_path: '/var/log/syslog'

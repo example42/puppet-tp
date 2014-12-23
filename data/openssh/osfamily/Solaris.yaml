@@ -1,0 +1,7 @@
+---
+  openssh::settings:
+    package_name: ''
+    service_name: 'ssh'
+
+    config_file_mode: '0600'
+    log_file_path: '/var/adm/authlog'

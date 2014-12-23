@@ -1,0 +1,13 @@
+---
+  activemq::settings:
+    package_name: 'activemq'
+    service_name: 'activemq'
+    config_file_path: '/etc/activemq/activemq.xml'
+    config_dir_path: '/etc/activemq'
+    tpp_port: '8161'
+    pid_file_path: '/var/run/activemq/activemq.pid'
+    log_file_path: '/var/log/activemq'
+    process_name: 'java'
+    process_args: 'activemq'
+    process_user: 'activemq'
+    process_group: 'activemq'

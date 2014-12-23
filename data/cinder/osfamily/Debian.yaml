@@ -1,0 +1,6 @@
+---
+  cinder::settings:
+    package_name:
+      - 'python-cinder'
+      - 'cinder-common'
+    init_file_path: '/etc/default/cinder'

@@ -1,0 +1,14 @@
+---
+  test::settings:
+    package_name: 'test'
+    service_name: 'test'
+    config_file_path: '/etc/test/test.conf'
+    config_dir_path: '/etc/test'
+    conf_dir_path: '/etc/test/conf.d'
+    pid_file_path: '/var/run/test.pid'
+    log_file_path: '/var/log/test/test.log'
+    log_dir_path: '/var/log/test'
+    process_name: 'test'
+    process_user: 'test'
+    process_group: 'test'
+    tcp_port: '6379'
