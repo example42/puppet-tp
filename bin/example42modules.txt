@@ -45,7 +45,7 @@ kibana
 +libvirt
 +lighttpd
 =limits
-logrotate
++logrotate
 logstash
 lsb
 +mailx
