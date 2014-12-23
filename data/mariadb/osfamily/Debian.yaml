@@ -1,0 +1,4 @@
+---
+  mariadb::settings:
+    package_name: 'mariadb-server'
+    init_file_path: '/etc/default/mysql'

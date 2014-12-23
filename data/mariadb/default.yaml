@@ -1,0 +1,14 @@
+---
+  mariadb::settings:
+    package_name: 'mariadb'
+    service_name: 'mysql'
+    config_file_path: '/etc/mysql/my.cnf'
+    config_dir_path: '/etc/mysql'
+    pid_file_path: '/var/run/mysql.pid'
+    log_file_path: '/var/log/mysql.log'
+    log_dir_path: '/var/log/mysql'
+    data_dir_path: '/var/lib/mysql'
+    process_name: 'mysqld'
+    process_user: 'mysql'
+    process_group: 'mysql'
+    tcp_port: '3306'
