@@ -46,8 +46,8 @@ kibana
 +lighttpd
 =limits
 +logrotate
-logstash
-lsb
++logstash
++lsb
 +mailx
 mariadb
 maven
