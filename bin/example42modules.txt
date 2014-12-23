@@ -49,8 +49,8 @@ kibana
 +logstash
 +lsb
 +mailx
-mariadb
-maven
++mariadb
+-maven
 mcollective
 memcached
 mongodb
