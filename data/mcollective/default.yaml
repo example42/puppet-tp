@@ -1,0 +1,12 @@
+---
+  mcollective::settings:
+    package_name: 'mcollective'
+    service_name: 'mcollective'
+    config_file_path: '/etc/mcollective/server.cfg'
+    config_dir_path: '/etc/mcollective'
+    pid_file_path: '/var/run/mcollective.pid'
+    log_file_path: '/var/log/mcollective.log'
+    log_dir_path: '/var/log/mcollective'
+    process_user: 'mcollective'
+    process_group: 'mcollective'
+    tcp_port: '61613'
