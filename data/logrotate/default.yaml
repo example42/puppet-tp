@@ -1,0 +1,6 @@
+---
+  logrotate::settings:
+    package_name: 'logrotate'
+    config_file_path: '/etc/logrotate.conf'
+    config_dir_path: '/etc/logrotate.d'
+    conf_dir_path: '/etc/logrotate.d'
