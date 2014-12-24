@@ -1,0 +1,7 @@
+---
+  mysql::settings:
+    package_name: 'databases/mysql56-server'
+    service_name: 'mysql-server'
+    config_file_path: '/etc/my.cnf'
+    config_file_group: 'wheel'
+

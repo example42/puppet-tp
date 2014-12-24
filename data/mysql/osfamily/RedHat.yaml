@@ -1,0 +1,5 @@
+---
+  mysql::settings:
+    service_name: 'mysqld'
+    config_file_path: '/etc/my.cnf'
+    init_file_path: '/etc/sysconfig/mysqld'
