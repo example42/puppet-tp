@@ -1,0 +1,13 @@
+---
+  monit::settings:
+    package_name: 'monit'
+    service_name: 'monit'
+    config_file_path: '/etc/monit.conf'
+    config_file_mode: '0600'
+    config_dir_path: '/etc/monit'
+    conf_dir_path: '/etc/monit.d'
+    pid_file_path: '/var/run/monit.pid'
+    log_file_path: '/var/log/monit.log'
+    process_name: 'monit'
+    process_user: 'root'
+    process_group: 'root'
