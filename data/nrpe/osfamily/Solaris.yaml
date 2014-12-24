@@ -1,0 +1,9 @@
+---
+  nrpe::settings:
+    service_name: 'cswnrpe'
+    process_user: 'nagios'
+    config_file_path: '/etc/opt/csw/nrpe.cfg'
+    config_dir_path: '/etc/opt/csw/nrpe.d'
+    conf_dir_path: '/etc/opt/csw/nrpe.d'
+    init_file_path: '/etc/opt/csw/nrpe-init'
+    pid_file_path: '/var/run/nrpe.pid'

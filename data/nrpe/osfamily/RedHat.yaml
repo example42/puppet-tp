@@ -1,0 +1,4 @@
+---
+  nrpe::settings:
+    pid_file_path: '/var/run/nrpe/nrpe.pid'
+    init_file_path: '/etc/sysconfig/nrpe'

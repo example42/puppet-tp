@@ -1,0 +1,9 @@
+---
+  nrpe::settings:
+    package_name: 'nagios-nrpe-server'
+    service_name: 'nagios-nrpe-server'
+    config_dir_path: '/etc/nagios/nrpe.d'
+    conf_dir_path: '/etc/nagios/nrpe.d'
+    process_user: 'nagios'
+    pid_file_path: '/var/run/nagios/nrpe.pid'
+    init_file_path: '/etc/default/nagios-nrpe-server'

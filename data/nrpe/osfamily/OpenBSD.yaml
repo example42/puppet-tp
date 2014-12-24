@@ -1,0 +1,6 @@
+---
+  nrpe::settings:
+    process_user: '_nrpe'
+    config_file_group: 'wheel'
+    pid_file_path: '/var/run/nrpe/nrpe.pid'
+    service_name: 'nagios-nrpe-server'
