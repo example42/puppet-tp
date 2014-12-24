@@ -1,0 +1,6 @@
+---
+  pam::settings:
+    package_name: 'pam'
+    config_file_path: '/etc/pam.conf'
+    config_dir_path: '/etc/pam.d'
+    conf_dir_path: '/etc/pam.d'
