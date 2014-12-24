@@ -1,0 +1,4 @@
+---
+  memcached::settings:
+    config_file_path: '/etc/sysconfig/memcached'
+    init_file_path: '/etc/sysconfig/memcached'

@@ -1,0 +1,12 @@
+---
+  memcached::settings:
+    package_name: 'memcached'
+    service_name: 'memcached'
+    config_file_path: '/etc/memcached.conf'
+    pid_file_path: '/var/run/memcached.pid'
+    log_file_path: '/var/log/memcached/memcached.log'
+    log_dir_path: '/var/log/memcached'
+    process_name: 'memcached'
+    process_user: 'memcached'
+    process_group: 'memcached'
+    tcp_port: '11211'
