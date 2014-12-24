@@ -1,0 +1,12 @@
+---
+  mongodb::settings:
+    package_name: 'mongodb-server'
+    service_name: 'mongodb'
+    config_file_path: '/etc/mongodb.conf'
+    pid_file_path: '/var/run/mongodb.pid'
+    log_file_path: '/var/log/mongodb/mongodb.log'
+    log_dir_path: '/var/log/mongodb'
+    process_name: 'mongod'
+    process_user: 'mongodb'
+    process_group: 'mongodb'
+    tcp_port: '27017'

@@ -1,0 +1,4 @@
+---
+  mongodb::settings:
+    pid_file_path: '/var/run/mongodb/mongodb.pid'
+    init_file_path: '/etc/default/mongodb'
