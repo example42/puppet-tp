@@ -1,0 +1,10 @@
+---
+  multipath::settings:
+    package_name: 'multipath'
+    service_name: 'multipathd'
+    config_file_path: '/etc/multipath/multipath.conf'
+    config_dir_path: '/etc/multipath'
+    pid_file_path: '/var/run/multipathd.pid'
+    process_name: 'multipathd'
+    process_user: 'root'
+    process_group: 'root'
