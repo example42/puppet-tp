@@ -1,0 +1,3 @@
+---
+  orientdb::settings:
+    init_file_path: '/etc/default/orientdb'

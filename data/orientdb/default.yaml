@@ -1,0 +1,16 @@
+---
+  orientdb::settings:
+    package_name: 'orientdb'
+    service_name: 'orientdb'
+    config_file_path: '/etc/orientdb/orientdb.conf'
+    config_dir_path: '/etc/orientdb'
+    conf_dir_path: '/etc/orientdb/conf.d'
+    pid_file_path: '/var/run/orientdb.pid'
+    log_file_path: '/var/log/orientdb/orient-server.logl.0'
+    log_dir_path: '/var/log/orientdb'
+    data_dir_path: '/var/lib/orientdb'
+    process_name: 'java'
+    process_args: 'orientdb'
+    process_user: 'orientdb'
+    process_group: 'orientdb'
+    tcp_port: '2424'
