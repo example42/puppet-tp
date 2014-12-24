@@ -1,0 +1,5 @@
+---
+  ntp::settings:
+    config_file_path: '/etc/inet/ntp.conf'
+    config_dir_path: ''
+    pid_file_path: '/var/run/ntp.pid'

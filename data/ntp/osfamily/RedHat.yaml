@@ -1,0 +1,4 @@
+---
+  ntp::settings:
+    service_name: 'ntpd'
+    init_file_path: '/etc/sysconfig/ntpd'

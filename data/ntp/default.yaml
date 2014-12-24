@@ -1,0 +1,12 @@
+---
+  ntp::settings:
+    package_name: 'ntp'
+    service_name: 'ntp'
+    config_file_path: '/etc/ntp.conf'
+    config_dir_path: '/etc/ntp'
+    conf_dir_path: '/etc/ntp/conf.d'
+    pid_file_path: '/var/run/ntpd.pid'
+    process_name: 'ntpd'
+    process_user: 'ntp'
+    process_group: 'ntp'
+    udp_port: '123'
