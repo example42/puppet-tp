@@ -47,7 +47,7 @@ define tp::repo (
     apt_repos      => $apt_repos,
     apt_pin        => $apt_pin,
   }
-  $user_settings_clean = delete_undef_values($user_settings)  
+  $user_settings_clean = delete_undef_values($user_settings)
   $settings = merge($tp_settings,$user_settings_clean)
 
   $manage_yum_gpgcheck = $yum_gpgcheck ? {
@@ -93,7 +93,7 @@ define tp::repo (
 
   # Debugging
   if $debug == true {
- 
+
     $debug_file_params = "
       yumrepo { ${title}:
         enabled        => ${enabled_num},
@@ -124,6 +124,5 @@ define tp::repo (
       path    => "${debug_dir}/tp_repo_debug_${title}",
     }
   }
-
 
 }
