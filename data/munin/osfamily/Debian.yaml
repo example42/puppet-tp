@@ -1,0 +1,4 @@
+---
+  munin::settings:
+    www_dir_path: '/var/cache/munin/www'
+    init_file_path: '/etc/default/munin'
