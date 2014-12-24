@@ -1,0 +1,10 @@
+---
+  pacemaker::settings:
+    package_name: 'pacemaker'
+    service_name: 'pacemaker'
+    pid_file_path: '/var/run/pacemaker.pid'
+    log_file_path: '/var/log/pacemaker/pacemaker.log'
+    log_dir_path: '/var/log/pacemaker'
+    process_name: 'pacemakerd'
+    process_user: 'pacemaker'
+    process_group: 'pacemaker'
