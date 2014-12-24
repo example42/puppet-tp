@@ -1,0 +1,3 @@
+---
+  newrelic::settings:
+    init_file_path: '/etc/sysconfig/newrelic-sysmond'

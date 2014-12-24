@@ -1,0 +1,12 @@
+---
+  newrelic::settings:
+    package_name: 'newrelic-sysmond'
+    service_name: 'newrelic-sysmond'
+    config_file_path: '/etc/newrelic/nrsysmond.cfg'
+    config_dir_path: '/etc/newrelic'
+    pid_file_path: '/var/run/nrsysmond.pid'
+    log_file_path: '/var/log/newrelic/nrsysmond.log'
+    log_dir_path: '/var/log/newrelic'
+    process_name: 'nrsysmond'
+    process_user: 'newrelic'
+    process_group: 'newrelic'
