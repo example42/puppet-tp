@@ -1,0 +1,13 @@
+---
+  openvpn::settings:
+    package_name: 'openvpn'
+    service_name: 'openvpn'
+    config_file_path: '/etc/openvpn/openvpn.conf'
+    config_dir_path: '/etc/openvpn'
+    pid_file_path: '/var/run/openvpn.pid'
+    log_file_path: '/var/log/openvpn/openvpn.log'
+    log_dir_path: '/var/log/openvpn'
+    process_name: 'openvpn'
+    process_user: 'openvpn'
+    process_group: 'openvpn'
+    tcp_port: '1194'
