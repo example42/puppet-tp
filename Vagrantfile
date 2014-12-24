@@ -14,18 +14,13 @@ Vagrant.configure("2") do |config|
 
   {
     :Centos7 => {
-      :box     => 'centos-7.x-64bit-puppet-3.x-vbox.4.3.14-1.box',
-      :box_url => 'http://packages.vstone.eu/vagrant-boxes/centos/7.x/centos-7.x-64bit-puppet-3.x-vbox.4.3.14-1.box',
+      :box     => 'centos7.box',
+      :box_url => 'https://f0fff3908f081cb6461b407be80daf97f07ac418.googledrive.com/host/0BwtuV7VyVTSkUG1PM3pCeDJ4dVE/centos7.box',
       :breed   => 'redhat',
     },
     :Centos65 => {
       :box     => 'centos65_64',
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box',
-      :breed   => 'redhat',
-    },
-    :Centos510 => {
-      :box     => 'centos-5.10-64bit',
-      :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/centos-510-x64-virtualbox-puppet.box',
       :breed   => 'redhat',
     },
     :Ubuntu1404 => {
@@ -38,19 +33,9 @@ Vagrant.configure("2") do |config|
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box',
       :breed   => 'debian',
     },
-    :Ubuntu1004 => {
-      :box     => 'ubuntu-server-12042-x64-vbox4210',
-      :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box',
-      :breed   => 'debian',
-    },
     :Debian7 => {
       :box     => 'debian-70rc1-x64-vbox4210',
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/debian-70rc1-x64-vbox4210.box',
-      :breed   => 'debian',
-    },
-    :Debian6 => {
-      :box     => 'debian-607-x64-vbox4210',
-      :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/debian-607-x64-vbox4210.box',
       :breed   => 'debian',
     },
     :SuseLinux11 => {
