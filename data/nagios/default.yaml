@@ -1,0 +1,12 @@
+---
+  nagios::settings:
+    package_name: 'nagios'
+    service_name: 'nagios'
+    config_file_path: '/etc/nagios/nagios.cfg'
+    config_dir_path: '/etc/nagios'
+    pid_file_path: '/var/run/nagios.pid'
+    log_file_path: '/var/log/nagios/nagios.log'
+    log_dir_path: '/var/log/nagios'
+    process_name: 'nagios'
+    process_user: 'nagios'
+    process_group: 'nagios'

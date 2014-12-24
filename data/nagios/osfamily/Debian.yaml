@@ -1,0 +1,13 @@
+---
+  nagios::settings:
+    package_name: 'nagios3'
+    service_name: 'nagios3'
+    config_file_path: '/etc/nagios3/nagios.cfg'
+    config_dir_path: '/etc/nagios3'       
+    pid_file_path: '/var/run/nagios3/nagios3.pid' 
+    log_file_path: '/var/log/nagios3/nagios.log'
+    log_dir_path: '/var/log/nagios3'
+    process_name: 'nagios3'
+    process_user: 'nagios'
+    process_group: 'nagios'
+    init_file_path: '/etc/default/nagios3'
