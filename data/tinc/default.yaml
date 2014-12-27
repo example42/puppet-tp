@@ -1,0 +1,14 @@
+---
+  tinc::settings:
+    package_name: 'tinc'
+    service_name: 'tinc'
+    config_file_path: '/etc/tinc/tinc.conf'
+    config_dir_path: '/etc/tinc'
+    conf_dir_path: '/etc/tinc/conf.d'
+    pid_file_path: '/var/run/tinc.pid'
+    log_file_path: '/var/log/tinc/tinc.log'
+    log_dir_path: '/var/log/tinc'
+    process_name: 'tincd'
+    process_user: 'tinc'
+    process_group: 'tinc'
+    tcp_port: '655'
