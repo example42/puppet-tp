@@ -1,0 +1,13 @@
+---
+  zabbix-agent::settings:
+    package_name: 'zabbix-agent'
+    service_name: 'zabbix-agent'
+    config_file_path: '/etc/zabbix/zabbix_agentd.conf'
+    config_dir_path: '/etc/zabbix'
+    pid_file_path: '/var/run/zabbix/zabbix_agentd.pid'
+    log_file_path: '/var/log/zabbix-agent/zabbix_agentd.log'
+    log_dir_path: '/var/log/zabbix-agent'
+    process_name: 'zabbix_agentd'
+    process_user: 'zabbix'
+    process_group: 'zabbix'
+    tcp_port: '10050'
