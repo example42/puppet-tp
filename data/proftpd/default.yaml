@@ -1,0 +1,14 @@
+---
+  proftpd::settings:
+    package_name: 'proftpd'
+    service_name: 'proftpd'
+    config_file_path: '/etc/proftpd/proftpd.conf'
+    config_dir_path: '/etc/proftpd'
+    conf_dir_path: '/etc/proftpd/conf.d'
+    pid_file_path: '/var/run/proftpd.pid'
+    log_file_path: '/var/log/proftpd/proftpd.log'
+    log_dir_path: '/var/log/proftpd'
+    process_name: 'proftpd'
+    process_user: 'proftpd'
+    process_group: 'proftpd'
+    tcp_port: '21'
