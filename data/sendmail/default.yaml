@@ -1,0 +1,12 @@
+---
+  sendmail::settings:
+    package_name: 'sendmail'
+    service_name: 'sendmail'
+    config_file_path: '/etc/mail/sendmail.mc'
+    config_dir_path: '/etc/mail'
+    pid_file_path: '/var/run/sendmail.pid'
+    log_file_path: '/var/log/maillog'
+    process_name: 'sendmail'
+    process_user: 'root'
+    process_group: 'root'
+    tcp_port: '25'

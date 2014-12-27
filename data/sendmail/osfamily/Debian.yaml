@@ -1,0 +1,5 @@
+---
+  sendmail::settings:
+    package_name: 'sendmail-bin'
+    log_file_path: '/var/log/mail.log'
+    init_file_path: '/etc/default/sendmail'
