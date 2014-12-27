@@ -1,0 +1,8 @@
+---
+  vsftpd::settings:
+    process_user: 'root'
+    config_file_path: '/etc/vsftpd.conf'
+    pid_file_path: '/var/run/vsftpd/vsftpd.pid'
+    data_dir_path: '/srv/ftp'
+    log_file_path: '/var/log/vsftpd.log'
+    init_file_path: '/etc/default/vsftpd'

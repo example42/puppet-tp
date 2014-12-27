@@ -1,0 +1,13 @@
+---
+  vsftpd::settings:
+    package_name: 'vsftpd'
+    service_name: 'vsftpd'
+    config_file_path: '/etc/vsftpd/vsftpd.conf'
+    config_dir_path: '/etc/vsftpd'
+    pid_file_path: '/var/run/vsftpd.pid'
+    log_file_path: '/var/log/vsftpd/vsftpd.log'
+    log_dir_path: '/var/log/vsftpd'
+    process_name: 'vsftpd'
+    process_user: 'vsftpd'
+    process_group: 'vsftpd'
+    tcp_port: '21'
