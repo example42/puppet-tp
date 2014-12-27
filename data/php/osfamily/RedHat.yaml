@@ -1,0 +1,5 @@
+---
+  php::settings:
+    config_file_path: '/etc/php.ini'
+    config_dir_path: '/etc/php.d'
+    conf_dir_path: '/etc/php.d'
