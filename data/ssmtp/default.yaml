@@ -1,0 +1,7 @@
+---
+  ssmtp::settings:
+    package_name: 'ssmtp'
+    config_file_path: '/etc/ssmtp/ssmtp.conf'
+    config_file_group: 'mail'
+    config_file_mode: '0640'
+    config_dir_path: '/etc/ssmtp'
