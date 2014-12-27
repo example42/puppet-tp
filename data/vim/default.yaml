@@ -1,0 +1,5 @@
+---
+  vim::settings:
+    package_name: 'vim-common'
+    config_file_path: '/etc/vim/vimrc'
+    config_dir_path: '/etc/vim'
