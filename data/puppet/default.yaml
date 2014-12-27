@@ -1,0 +1,11 @@
+---
+  puppet::settings:
+    package_name: 'puppet'
+    service_name: 'puppet'
+    config_file_path: '/etc/puppet/puppet.conf'
+    config_dir_path: '/etc/puppet'
+    pid_file_path: '/var/run/puppet/puppet.pid'
+    log_dir_path: '/var/log/puppet'
+    process_name: 'puppet'
+    process_user: 'root'
+    process_group: 'root'
