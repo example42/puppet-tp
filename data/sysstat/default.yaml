@@ -1,0 +1,8 @@
+---
+  sysstat::settings:
+    package_name: 'sysstat'
+    service_name: 'sysstat'
+    config_file_path: '/etc/sysstat/sysstat'
+    config_dir_path: '/etc/sysstat'
+    log_file_path: '/var/log/sysstat/sa'
+    log_dir_path: '/var/log/sysstat'
