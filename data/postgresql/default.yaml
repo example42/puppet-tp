@@ -1,0 +1,14 @@
+---
+  postgresql::settings:
+    package_name: 'postgresql'
+    service_name: 'postgresql'
+    config_file_path: '/var/lib/pgsql/data/postgresql.conf'
+    config_dir_path: '/var/lib/pgsql/data'
+    data_dir_path: '/var/lib/pgsql/data'
+    pid_file_path: '/var/run/postgresql/.s.PGSQL.5432'
+    log_file_path: '/var/lib/pgsql/data/pg_log/postgresql.log'
+    log_dir_path: '/var/lib/pgsql/data/pg_log'
+    process_name: 'postgres'
+    process_user: 'postgres'
+    process_group: 'postgres'
+    tcp_port: '5432'
