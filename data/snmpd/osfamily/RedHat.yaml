@@ -1,0 +1,5 @@
+---
+  snmpd::settings:
+    package_name: 'net-snmp'
+    config_file_mode: '0600'
+    init_file_path: '/etc/sysconfig/snmpd.options'

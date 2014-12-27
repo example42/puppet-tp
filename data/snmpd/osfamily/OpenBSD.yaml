@@ -1,0 +1,7 @@
+---
+  snmpd::settings:
+    package_name: 'net-snmp'
+    service_name: 'netsnmpd'
+    config_file_path: '/etc/snmp/snmpd.conf'
+    config_file_group: 'wheel'
+    config_dir_path: '/etc/snmp'

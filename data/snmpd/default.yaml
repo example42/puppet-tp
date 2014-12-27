@@ -1,0 +1,13 @@
+---
+  snmpd::settings:
+    package_name: 'snmpd'
+    service_name: 'snmpd'
+    config_file_path: '/etc/snmp/snmpd.conf'
+    config_dir_path: '/etc/snmp'
+    pid_file_path: '/var/run/snmpd.pid'
+    log_file_path: '/var/log/snmpd/snmpd.log'
+    log_dir_path: '/var/log/snmpd'
+    process_name: 'snmpd'
+    process_user: 'snmpd'
+    process_group: 'snmpd'
+    udp_port: '161'
