@@ -1,0 +1,14 @@
+---
+  varnish::settings:
+    package_name: 'varnish'
+    service_name: 'varnish'
+    config_file_path: '/etc/varnish/default.vcl'
+    config_dir_path: '/etc/varnish'
+    conf_dir_path: '/etc/varnish/conf.d'
+    pid_file_path: '/var/run/varnish.pid'
+    log_file_path: '/var/log/varnish/varnish.log'
+    log_dir_path: '/var/log/varnish'
+    process_name: 'varnish'
+    process_user: 'varnish'
+    process_group: 'varnish'
+    tcp_port: '6081'
