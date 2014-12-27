@@ -1,0 +1,5 @@
+---
+  subversion::settings:
+    package_name: 'subversion'
+    config_file_path: '/etc/subversion/config.conf'
+    config_dir_path: '/etc/subversion'
