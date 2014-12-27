@@ -1,0 +1,9 @@
+---
+  rsync::settings:
+    service_name: 'rsyncd'
+    config_file_path: '/usr/local/etc/rsyncd.conf'
+    config_file_group: 'wheel'
+    process_name: 'rsync'
+    process_group: 'wheel'
+    tcp_port: '873'
+

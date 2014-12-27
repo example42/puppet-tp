@@ -1,0 +1,10 @@
+---
+  rsync::settings:
+    package_name: 'rsync'
+    service_name: 'rsync'
+    config_file_path: '/etc/rsyncd.conf'
+    pid_file_path: '/var/run/rsync.pid'
+    process_name: 'rsync'
+    process_user: 'root'
+    process_group: 'root'
+    tcp_port: '873'
