@@ -1,0 +1,5 @@
+---
+  profile::settings:
+    config_file_path: '/etc/profile.d'
+    config_dir_path: '/etc/profile'
+    conf_dir_path: '/etc/profile.d'
