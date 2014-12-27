@@ -1,0 +1,10 @@
+---
+  syslog-ng::settings:
+    package_name: 'syslog-ng'
+    service_name: 'syslog-ng'
+    config_file_path: '/etc/syslog-ng/syslog-ng.conf'
+    config_dir_path: '/etc/syslog-ng'
+    pid_file_path: '/var/run/syslog-ng.pid'
+    process_name: 'syslog-ng'
+    process_user: 'syslog-ng'
+    process_group: 'syslog-ng'
