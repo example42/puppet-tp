@@ -1,0 +1,13 @@
+---
+  quagga::settings:
+    package_name: 'quagga'
+    service_name: 'quagga'
+    config_file_path: '/etc/quagga/daemons'
+    config_dir_path: '/etc/quagga'
+    conf_dir_path: '/etc/quagga/conf.d'
+    pid_file_path: '/var/run/quagga.pid'
+    log_file_path: '/var/log/quagga/quagga.log'
+    log_dir_path: '/var/log/quagga'
+    process_name: 'quagga'
+    process_user: 'quagga'
+    process_group: 'quagga'
