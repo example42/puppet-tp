@@ -1,0 +1,18 @@
+---
+  puppetdb::settings:
+    package_name: 'puppetdb'
+    service_name: 'puppetdb'
+    config_file_path: '/etc/puppetdb/puppetdb.ini'
+    config_dir_path: '/etc/puppetdb'
+    config_dir_owner: 'puppetdb'
+    config_dir_group: 'puppetdb'
+    config_dir_mode: '0640'
+    conf_dir_path: '/etc/puppetdb/conf.d'
+    pid_file_path: '/var/run/puppetdb.pid'
+    log_file_path: '/var/log/puppetdb/puppetdb.log'
+    log_dir_path: '/var/log/puppetdb'
+    process_name: 'java'
+    process_args: 'puppetdb'
+    process_user: 'puppetdb'
+    process_group: 'puppetdb'
+    tcp_port: '8080'
