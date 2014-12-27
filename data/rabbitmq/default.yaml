@@ -1,0 +1,14 @@
+---
+  rabbitmq::settings:
+    package_name: 'rabbitmq'
+    service_name: 'rabbitmq'
+    config_file_path: '/etc/rabbitmq/rabbitmq.config'
+    config_dir_path: '/etc/rabbitmq'
+    pid_file_path: '/var/run/rabbitmq.pid'
+    log_file_path: '/var/log/rabbitmq/rabbitmq.log'
+    log_dir_path: '/privater/log/rabbitmq'
+    process_name: 'beam'
+    process_name: 'rabbitmq'
+    process_user: 'rabbitmq'
+    process_group: 'rabbitmq'
+    tcp_port: '5672'
