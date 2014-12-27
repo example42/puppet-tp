@@ -1,0 +1,13 @@
+---
+  postfix::settings:
+    package_name: 'postfix'
+    service_name: 'postfix'
+    config_file_path: '/etc/postfix/main.cf'
+    config_dir_path: '/etc/postfix'
+    pid_file_path: '/var/spool/postfix/pid/master.pid'
+    log_file_path: '/var/log/maillog'
+    data_dir_path: '/var/spool/postfix'
+    process_name: 'master'
+    process_user: 'postfix'
+    process_group: 'postfix'
+    tcp_port: '25'
