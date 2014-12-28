@@ -11,10 +11,8 @@ define tp::install (
 
   $ensure                    = present,
 
-  $packages                  = { } ,
-  $services                  = { } ,
-  $files                     = { } ,
-
+  $conf_hash                 = { } ,
+  $dir_hash                  = { } ,
   $settings_hash             = { } ,
 
   $auto_repo                 = true,
@@ -30,15 +28,19 @@ define tp::install (
 
   # Parameters validation
   validate_bool($auto_repo)
-  validate_hash($packages)
-  validate_hash($services)
-  validate_hash($files)
+  validate_hash($conf_hash)
+  validate_hash($dir_hash)
+  validate_hash($settings_hash)
 
 
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
-
+  $service_require = $settings[package_name] ? {
+    ''      => undef,
+    undef   => undef,
+    default => Package[$settings[package_name]],
+  }
 
   # Dependency class
   if $dependency_class { require $dependency_class }
@@ -54,29 +56,25 @@ define tp::install (
 
 
   # Resources
-  if ! empty($packages) {
-    create_resources('package', $packages)
-  } else {
-    if $settings[package_name] {
-      package { $settings[package_name]:
-        ensure => $ensure,
-      }
+  if $settings[package_name] {
+    package { $settings[package_name]:
+      ensure => $ensure,
     }
   }
 
-  if ! empty($services) {
-    create_resources('service', $services)
-  } else {
-    if $settings[service_name] {
-      service { $settings[service_name]:
-        ensure => $settings[service_ensure],
-        enable => $settings[service_enable],
-      }
+  if $settings[service_name] {
+    service { $settings[service_name]:
+      ensure  => $settings[service_ensure],
+      enable  => $settings[service_enable],
+      require => $service_require, 
     }
   }
 
-  if ! empty($files) {
-    create_resources('file', $files)
+  if $conf_hash != {} {
+    create_resources('tp::conf', $conf_hash )
+  }
+  if $dir_hash != {} {
+    create_resources('tp::dir', $dir_hash )
   }
 
 
