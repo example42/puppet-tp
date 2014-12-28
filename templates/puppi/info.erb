@@ -5,10 +5,10 @@
 # Sources common header for Puppi scripts
 . <%= scope.lookupvar('::puppi::params::scriptsdir') %>/header || exit 10
 
-<% if @settings[package_name] != "" -%>
+<% if @settings['package_name'] and @settings['package_name'] != "" -%>
 # Show packages info
-echo_title "$HOSTNAME - <%= @title %>: Packages Installed: <% @settings[package_name].each do |item| %><%= item %><% end %>"
-<% @settings[package_name].each do |item| -%>
+echo_title "$HOSTNAME - <%= @title %>: Packages Installed: <% @array_package_name.each do |item| %><%= item %><% end %>"
+<% @array_package_name.each do |item| -%>
 show_command "<%= scope.lookupvar('::puppi::params::info_package_query') %> <%= item %>"
 <% if @verbose == true -%>
 show_command "<%= scope.lookupvar('::puppi::params::info_package_list') %> <%= item %>"
@@ -18,39 +18,33 @@ show_command "<%= scope.lookupvar('::puppi::params::info_package_list') %> <%= i
 <% end -%>
 <% end -%>
 
-<% if @settings[config_file_path] != "" -%>
+<% if @settings['config_file_path'] and @settings['config_file_path'] != "" -%>
 # Show config info
-echo_title "$HOSTNAME - <%= @title %>: Configuration Files managed: <% @settings[config_file_path].each do |item| %><%= item %><% end %>"
-<% @settings[config_file_path].each do |item| -%>
+echo_title "$HOSTNAME - <%= @title %>: Configuration File: <%= @settings['config_file_path'] %>"
 <% if @verbose == true -%>
-show_command "cat <%= item %>"
+show_command "cat <%= @settings['config_file_path'] %>"
 <% else -%> 
-show_command "head <%= item %>"
-<% end -%>
+show_command "head <%= @settings['config_file_path'] %>"
 <% end -%>
 <% end -%>
 
-<% if @settings[data_dir_path] != "" -%>
+<% if @settings['data_dir_path'] and @settings['data_dir_path'] != "" -%>
 # Show data dir
-echo_title "$HOSTNAME - <%= @title %>: Application data are in: <% @settings[data_dir_path].each do |item| %><%= item %><% end %>"
-<% @settings[data_dir_path].each do |item| -%>
-show_command "ls -latr <%= item %>"
-show_command "df <%= item %>"
-<% end -%>
+echo_title "$HOSTNAME - <%= @title %>: Application data are in: <%= @settings['data_dir_path'] %>"
+show_command "ls -latr <%= @settings['data_dir_path'] %>"
+show_command "df <%= @settings['data_dir_path'] %>"
 <% end -%>
 
-<% if @settings[log_dir_path] != "" -%>
+<% if @settings['log_dir_path'] and @settings['log_dir_path'] != "" -%>
 # Show log dir
-echo_title "$HOSTNAME - <%= @title %>: Logs are in: <% @settings[log_dir_path].each do |item| %><%= item %><% end %>"
-<% @settings[log_dir_path].each do |item| -%>
-show_command "ls -latr <%= item %>"
-<% end -%>
+echo_title "$HOSTNAME - <%= @title %>: Logs are in: <%= @settings['log_dir_path'] %>"
+show_command "ls -latr <%= @settings['log_dir_path'] %>"
 <% end -%>
 
-<% if @settings[log_file_path] != "" -%>
+<% if @settings['log_file_path'] and @settings['log_file_path'] != "" -%>
 # Show logs
-echo_title "$HOSTNAME - <%= @title %>: Last log entries: <% @settings[log_file_path].each do |item| %><%= item %><% end %>"
-<% @settings[log_file_path].each do |item| -%>
+echo_title "$HOSTNAME - <%= @title %>: Last log entries: <% @array_log_file_path.each do |item| %><%= item %><% end %>"
+<% @array_log_file_path.each do |item| -%>
 <% if @verbose == true -%>
 show_command "tail -30 <%= item %>"
 <% else -%>
@@ -59,18 +53,23 @@ show_command "tail -10 <%= item %>"
 <% end -%>
 <% end -%>
 
-<% if @settings[service_name] != "" -%>
+<% if @settings['service_name'] and @settings['service_name'] != "" -%>
 # Show service info
-echo_title "$HOSTNAME - <%= @title %>: Services: <% @settings[service_name].each do |item| %><%= item %><% end %>"
-<% @settings[service_name].each do |item| -%>
+echo_title "$HOSTNAME - <%= @title %>: Services: <% @array_service_name.each do |item| %><%= item %><% end %>"
+<% @array_service_name.each do |item| -%>
 show_command "/etc/init.d/<%= item %> status"
-<% end -%>
 <% if @verbose == "yes" -%>
-show_command "ps -adef | grep <%= @settings[process_name] %> | grep -v grep"
+show_command "ps -adef | grep <%= @item %> | grep -v grep"
 <% else -%>
-show_command "ps -adef | grep <%= @settings[process_name] %> | grep -v grep | head -20"
+show_command "ps -adef | grep <%= @item %> | grep -v grep | head -20"
 <% end -%>
-<% @port.each do |mport| -%>
+<% end -%>
+<% end -%>
+
+<% if @settings['tcp_port'] and @settings['tcp_port'] != "" -%>
+# Show ports info
+echo_title "$HOSTNAME - <%= @title %>: TCP ports: <% @array_tcp_port.each do |item| %><%= item %><% end %>"
+<% @array_tcp_port.each do |mport| -%>
 <% if @verbose == "yes" -%>
 show_command "netstat -natup | grep ':<%= mport %> '"
 <% else -%>
@@ -79,9 +78,9 @@ show_command "netstat -natup | grep ':<%= mport %> ' | head -20"
 <% end -%>
 <% end -%>
 
-<% if @settings[info_commands] -%>
+<% if @settings['info_commands'] and @settings['info_commands'] != '' -%>
 echo_title "$HOSTNAME - <%= @title %>: Info Commands"
-<% @settings[info_commands].each do |cmd| %>show_command "<%= cmd %>"
+<% @array_info_commands.split.each do |cmd| %>show_command "<%= cmd %>"
 <% end -%>
 <% end -%>
 
