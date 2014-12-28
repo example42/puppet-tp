@@ -2,15 +2,14 @@
 # 'original': As provided in the box
 # 'latest': Installed from PuppetLabs repos
 # 'x.y.z-k': Specific version, installed from PuppetLabs repos
-puppetversion = '3.7.1-1'
-
+puppetversion = 'latest'
 
 
 Vagrant.configure("2") do |config|
   config.cache.auto_detect = true
 
   # See https://github.com/mitchellh/vagrant/issues/1673
-  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  # config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
   {
     :Centos7 => {
