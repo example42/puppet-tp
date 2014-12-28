@@ -47,7 +47,17 @@ Your clients may run on different Operating Systems and are actually supported i
 
 Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
 
-**Note well:**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services.
+**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services.
+
+Tiny Puppet requires Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
+
+If you use the relevant defines, other dependencies are needed:
+
+```tp::concat``` requires Puppet Labs' [concat](https://github.com/puppetlabs/puppetlabs-concat) module.
+
+```tp::dir``` , when used with the ```vcsrepo``` argument, requires Puppet Labs' [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
+
+```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
 
 
 ## Usage in manifests
@@ -81,19 +91,13 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
 
 ### Installation alternatives
 
-Install custom packages (if the $packages hash is provided, is feed to create_resources('package',$packages))
+Install custom packages (with the ```settings_hash``` argument you can override any application specific setting)
 
     tp::install { 'redis':
-      packages => {
-        'redis'        => { 'ensure' => 'present' }
-        'redis-addons' => { 'ensure' => 'present' }
+      settings_hash => {
+        'package_name'     => 'my_redis',
+        'config_file_path' => '/opt/etc/redis',
       },
-    }
-
-Install custom packages ( The packages parameter might be populated from a Hiera call ):
-
-    tp::install { 'redis':
-      packages => hiera('redis_packages'),
     }
 
 Use the tp::stdmod define to manage an application using stdmod compliant parameters.
@@ -193,6 +197,8 @@ Tiny Puppet is intended to be used in modules like profiles, your data should ma
 
 In the class are defined Hiera lookups (using hiera_hash so thy are recursive (and this may hurt a log when abusing) that expects parameters like the ones in the following sample in Yaml.
 
+As an handy add-on, a ```create_resources``` is run also on the variables ```tp::packages```, ```tp::services```, ```tp::files``` to eventually manage the relevant Puppet resource types.
+
 Not necessarily recommended, but useful to understand the usage basic patterns.
 
     ---
@@ -237,6 +243,22 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
         mysql:
           ensure: present
 
+      tp::packages:
+        wget:
+          ensure: present
+        zip:
+          ensure: present
+        curl:
+          ensure: present
+
+      tp::services:
+        tuned:
+          ensure: stopped
+          enable: false
+        NetworkManager:
+          ensure: stopped
+          enable: false
+
 
 ## Testing and playing with Tiny Puppet (WIP)
 
@@ -249,6 +271,26 @@ The default Vagrantfile uses the cachier plugin, you can install it with:
     vagrant plugin install vagrant-cachier
 
 The manifest file used for Puppet provisioning is ```vagrant/manifests/site.pp```, you can play with Tiny Puppet there.
+
+In the ```bin``` directory there's the ```test.sh``` script which may be used to run basic installation of applications via Tiny Puppet.
+
+You need to run the VM you want to test on, and then execute commands like this:
+
+  - To test apache installation on Ubuntu1404:
+
+    bin/test.sh apache Ubuntu1404
+
+  - To test apache installation on all the VMs:
+
+    bin/test.sh apache all
+
+  - To test ALL the TP applications on Centos7:
+
+    bin/test.sh all Centos7
+
+  - To test ALL the applications an ALL the VMs and save the results in the ```acceptance``` dir:
+
+    bin/test.sh all all save
 
 Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
 
