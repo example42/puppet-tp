@@ -22,12 +22,15 @@ define tp::install (
   $monitor_class             = undef,
   $firewall_class            = undef,
 
+  $puppi_enable              = false,
+
   $data_module               = 'tp',
 
   ) {
 
   # Parameters validation
   validate_bool($auto_repo)
+  validate_bool($puppi_enable)
   validate_hash($conf_hash)
   validate_hash($dir_hash)
   validate_hash($settings_hash)
@@ -77,6 +80,9 @@ define tp::install (
     create_resources('tp::dir', $dir_hash )
   }
 
+  if $puppi_enable == true {
+    tp::puppi { $title: }
+  }
 
   # Extra classes
   if $extra_class { include $extra_class }
