@@ -1,0 +1,2 @@
+ * Checking status of ActiveMQ instance activemq       [203G [197G[ OK ]
+PROCS CRITICAL: 0 processes with command name 'java' | procs=0;1:;1:;0;

@@ -1,0 +1,3 @@
+TCP OK - 0.000 second response time on port 11211|time=0.000195s;5.000000;10.000000;0.000000;10.000000
+ * memcached is running
+PROCS OK: 1 process with command name 'memcached' | procs=1;1:;1:;0;

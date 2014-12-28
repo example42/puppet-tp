@@ -1,0 +1,2 @@
+isc-dhcp-server stop/waiting
+PROCS CRITICAL: 0 processes with command name 'dhcpd' | procs=0;1:;1:;0;

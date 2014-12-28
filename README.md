@@ -147,10 +147,10 @@ Manage a whole configuration directory:
     }
 
 Manage a specific directory type. Currently defined directories types are:
-  - 'config' : The application [main] configuration directory (Default value)
-  - 'conf' : A directory where you can place single configuration files (typically called ./conf.d )
-  - 'data' : Directory where application data resides
-  - 'log' : Dedicated directory for logs, if present
+  - ```config``` : The application [main] configuration directory (Default value)
+  - ```conf``` : A directory where you can place single configuration files (typically called ./conf.d )
+  - ```data``` : Directory where application data resides
+  - ```log``` : Dedicated directory for logs, if present
 
 Note that some of these directory types might not be defined for every application.
 
@@ -278,19 +278,19 @@ You need to run the VM you want to test on, and then execute commands like this:
 
   - To test apache installation on Ubuntu1404:
 
-    bin/test.sh apache Ubuntu1404
+    ```bin/test.sh apache Ubuntu1404```
 
   - To test apache installation on all the VMs:
 
-    bin/test.sh apache all
+    ```bin/test.sh apache all```
 
   - To test ALL the TP applications on Centos7:
 
-    bin/test.sh all Centos7
+    ```bin/test.sh all Centos7```
 
   - To test ALL the applications an ALL the VMs and save the results in the ```acceptance``` dir:
 
-    bin/test.sh all all save
+    ```bin/test.sh all all acceptance```
 
 Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
 

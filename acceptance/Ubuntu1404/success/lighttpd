@@ -1,0 +1,3 @@
+TCP OK - 0.000 second response time on port 80|time=0.000399s;5.000000;10.000000;0.000000;10.000000
+ * lighttpd is running
+PROCS OK: 1 process with command name 'lighttpd' | procs=1;1:;1:;0;

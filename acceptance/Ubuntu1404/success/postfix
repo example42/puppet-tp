@@ -1,0 +1,3 @@
+TCP OK - 0.004 second response time on port 25|time=0.004326s;5.000000;10.000000;0.000000;10.000000
+ * postfix is running
+PROCS OK: 1 process with command name 'master' | procs=1;1:;1:;0;
