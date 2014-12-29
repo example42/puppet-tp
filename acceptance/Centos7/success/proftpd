@@ -1,0 +1,14 @@
+TCP OK - 0.002 second response time on 127.0.0.1 port 21|time=0.001704s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  proftpd.service
+proftpd.service - ProFTPD FTP Server
+   Loaded: loaded (/usr/lib/systemd/system/proftpd.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:53:16 EST; 13s ago
+ Main PID: 1777 (proftpd)
+   CGroup: /system.slice/proftpd.service
+           └─1777 proftpd: (accepting connections)
+
+Dec 29 12:53:16 localhost.localdomain proftpd[1777]: [1;39m127.0.0.1 - ProFTPD 1.3.5 (stable) (built Sat May 17 2014 00:43:20 UTC) ...TARTUP[0m
+Dec 29 12:53:16 localhost.localdomain systemd[1]: PID file /run/proftpd/proftpd.pid not readable (yet?) after start.
+Dec 29 12:53:16 localhost.localdomain systemd[1]: Started ProFTPD FTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+PROCS OK: 1 process with command name 'proftpd' | procs=1;1:;1:;0;

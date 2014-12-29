@@ -1,0 +1,19 @@
+TCP OK - 0.001 second response time on 127.0.0.1 port 80|time=0.001049s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  httpd.service
+httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:34:32 EST; 9s ago
+ Main PID: 8074 (httpd)
+   Status: "Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec"
+   CGroup: /system.slice/httpd.service
+           ├─8074 /usr/sbin/httpd -DFOREGROUND
+           ├─8075 /usr/sbin/httpd -DFOREGROUND
+           ├─8078 /usr/sbin/httpd -DFOREGROUND
+           ├─8080 /usr/sbin/httpd -DFOREGROUND
+           ├─8081 /usr/sbin/httpd -DFOREGROUND
+           └─8082 /usr/sbin/httpd -DFOREGROUND
+
+Dec 29 11:34:32 localhost.localdomain httpd[8074]: AH00558: httpd: Could not reliably determine the server's fully qualified ...essage
+Dec 29 11:34:32 localhost.localdomain systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+PROCS OK: 6 processes with command name 'httpd' | procs=6;1:;1:;0;

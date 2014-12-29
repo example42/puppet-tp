@@ -1,0 +1,23 @@
+TCP OK - 0.002 second response time on 127.0.0.1 port 25|time=0.001883s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  postfix.service
+postfix.service - Postfix Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/postfix.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:49:12 EST; 24s ago
+  Process: 506 ExecStart=/usr/sbin/postfix start (code=exited, status=0/SUCCESS)
+  Process: 498 ExecStartPre=/usr/libexec/postfix/chroot-update (code=exited, status=0/SUCCESS)
+  Process: 494 ExecStartPre=/usr/libexec/postfix/aliasesdb (code=exited, status=0/SUCCESS)
+ Main PID: 586 (master)
+   CGroup: /system.slice/postfix.service
+           ├─586 /usr/libexec/postfix/master -w
+           ├─587 pickup -l -t unix -u
+           ├─588 qmgr -l -t unix -u
+           ├─624 smtpd -n smtp -t inet -u -s 2
+           └─631 proxymap -t unix -u
+
+Dec 29 12:49:12 localhost.localdomain postfix/postfix-script[584]: starting the Postfix mail system
+Dec 29 12:49:12 localhost.localdomain postfix/master[586]: daemon started -- version 2.10.1, configuration /etc/postfix
+Dec 29 12:49:12 localhost.localdomain systemd[1]: Started Postfix Mail Transport Agent.
+Dec 29 12:49:37 localhost.localdomain postfix/smtpd[624]: connect from centos7.example42.com[127.0.0.1]
+Dec 29 12:49:37 localhost.localdomain postfix/smtpd[624]: lost connection after CONNECT from centos7.example42.com[127.0.0.1]
+Dec 29 12:49:37 localhost.localdomain postfix/smtpd[624]: disconnect from centos7.example42.com[127.0.0.1]
+PROCS OK: 1 process with command name 'master' | procs=1;1:;1:;0;

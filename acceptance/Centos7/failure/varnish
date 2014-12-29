@@ -1,0 +1,1 @@
+sudo: /etc/puppi/checks/varnish: command not found

@@ -1,0 +1,14 @@
+Redirecting to /bin/systemctl status  corosync.service
+corosync.service - Corosync Cluster Engine
+   Loaded: loaded (/usr/lib/systemd/system/corosync.service; disabled)
+   Active: [1;31mfailed[0m (Result: exit-code) since Mon 2014-12-29 11:46:15 EST; 8s ago
+  Process: 13002 ExecStart=/usr/share/corosync/corosync start [1;31m(code=exited, status=1/FAILURE)[0m
+
+Dec 29 11:46:04 localhost.localdomain systemd[1]: Starting Corosync Cluster Engine...
+Dec 29 11:46:04 localhost.localdomain corosync[13008]: [1;31m[MAIN  ] Can't read file /etc/corosync/corosync.conf reason = (No such ...tory)[0m
+Dec 29 11:46:04 localhost.localdomain corosync[13008]: [1;31m[MAIN  ] Corosync Cluster Engine exiting with status 8 at main.c:1158.[0m
+Dec 29 11:46:15 localhost.localdomain corosync[13002]: [62B blob data]
+Dec 29 11:46:15 localhost.localdomain systemd[1]: [1;39mcorosync.service: control process exited, code=exited status=1[0m
+Dec 29 11:46:15 localhost.localdomain systemd[1]: [1;31mFailed to start Corosync Cluster Engine.[0m
+Dec 29 11:46:15 localhost.localdomain systemd[1]: [1;39mUnit corosync.service entered failed state.[0m
+Hint: Some lines were ellipsized, use -l to show in full.

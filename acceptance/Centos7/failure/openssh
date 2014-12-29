@@ -1,0 +1,6 @@
+TCP OK - 0.004 second response time on 127.0.0.1 port 22|time=0.003782s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  ssh.service
+ssh.service
+   Loaded: not-found (Reason: No such file or directory)
+   Active: inactive (dead)
+

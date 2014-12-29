@@ -1,0 +1,1 @@
+sudo: /etc/puppi/checks/default.yaml: command not found

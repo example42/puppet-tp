@@ -1,0 +1,12 @@
+TCP OK - 0.001 second response time on 127.0.0.1 port 4949|time=0.001412s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  munin-node.service
+munin-node.service - Munin Node Server.
+   Loaded: loaded (/usr/lib/systemd/system/munin-node.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:28:07 EST; 46s ago
+     Docs: man:munin-node
+ Main PID: 26004 (munin-node)
+   CGroup: /system.slice/munin-node.service
+           └─26004 /usr/bin/perl -wT /usr/sbin/munin-node
+
+Dec 29 12:28:07 localhost.localdomain systemd[1]: Started Munin Node Server..
+PROCS OK: 1 process with command name 'munin-node' | procs=1;1:;1:;0;

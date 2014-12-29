@@ -1,0 +1,11 @@
+Redirecting to /bin/systemctl status  libvirtd.service
+libvirtd.service - Virtualization daemon
+   Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:07:39 EST; 14s ago
+ Main PID: 20410 (libvirtd)
+   CGroup: /system.slice/libvirtd.service
+           ├─20410 /usr/sbin/libvirtd
+           └─20527 /usr/bin/python -Es /usr/bin/firewall-cmd --direct --passthrough ipv4 --table filter --insert FORWARD --in-inter...
+
+Dec 29 12:07:39 localhost.localdomain systemd[1]: Started Virtualization daemon.
+PROCS OK: 1 process with command name 'libvirtd' | procs=1;1:;1:;0;

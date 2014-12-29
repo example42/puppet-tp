@@ -1,0 +1,19 @@
+TCP OK - 0.004 second response time on 127.0.0.1 port 143|time=0.004246s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  dovecot.service
+dovecot.service - Dovecot IMAP/POP3 email server
+   Loaded: loaded (/usr/lib/systemd/system/dovecot.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:51:12 EST; 26s ago
+ Main PID: 14753 (dovecot)
+   CGroup: /system.slice/dovecot.service
+           ├─14753 /usr/sbin/dovecot -F
+           ├─14770 dovecot/anvil
+           ├─14771 dovecot/log
+           ├─14773 dovecot/config
+           └─14809 dovecot/auth
+
+Dec 29 11:51:12 localhost.localdomain systemd[1]: Started Dovecot IMAP/POP3 email server.
+Dec 29 11:51:12 localhost.localdomain dovecot[14753]: [1;31mmaster: Error: setrlimit(RLIMIT_NPROC, 5214): Operation not permitted[0m
+Dec 29 11:51:12 localhost.localdomain dovecot[14753]: master: Dovecot v2.2.10 starting up for imap, pop3, lmtp (core dumps disabled)
+Dec 29 11:51:39 localhost.localdomain dovecot[14771]: imap-login: Disconnected (disconnected before auth was ready, waited 0 s...AAAB>
+Hint: Some lines were ellipsized, use -l to show in full.
+PROCS OK: 1 process with command name 'dovecot' | procs=1;1:;1:;0;

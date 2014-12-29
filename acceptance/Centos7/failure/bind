@@ -1,0 +1,5 @@
+Redirecting to /bin/systemctl status  bind9.service
+bind9.service
+   Loaded: not-found (Reason: No such file or directory)
+   Active: inactive (dead)
+

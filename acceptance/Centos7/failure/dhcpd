@@ -1,0 +1,24 @@
+Redirecting to /bin/systemctl status  dhcpd.service
+dhcpd.service - DHCPv4 Server Daemon
+   Loaded: loaded (/usr/lib/systemd/system/dhcpd.service; disabled)
+   Active: [1;31mfailed[0m (Result: exit-code) since Mon 2014-12-29 11:48:31 EST; 9s ago
+     Docs: man:dhcpd(8)
+           man:dhcpd.conf(5)
+  Process: 14023 ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid [1;31m(code=exited, status=1/FAILURE)[0m
+ Main PID: 14023 (code=exited, status=1/FAILURE)
+
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Internet Systems Consortium DHCP Server 4.2.5
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Copyright 2004-2013 Internet Systems Consortium.
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: All rights reserved.
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: For info, please visit https://www.isc.org/software/dhcp/
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Not searching LDAP since ldap-server, ldap-port and ldap-base-dn were not...g file
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Wrote 0 leases to leases file.
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: [1;31mNo subnet declaration for enp0s3 (10.0.2.15).[0m
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: [1;31m** Ignoring requests on enp0s3.  If this is not what[0m
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: [1;31myou want, please write a subnet declaration[0m
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: [1;31min your dhcpd.conf file for the network segment[0m
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: [1;31mto which interface enp0s3 is attached. **[0m
+Dec 29 11:48:31 localhost.localdomain dhcpd[14023]: Dec 29 11:48:31 localhost.localdomain systemd[1]: [1;39mdhcpd.service: main process exited, code=exited, status=1/FAILURE[0m
+Dec 29 11:48:31 localhost.localdomain systemd[1]: [1;31mFailed to start DHCPv4 Server Daemon.[0m
+Dec 29 11:48:31 localhost.localdomain systemd[1]: [1;39mUnit dhcpd.service entered failed state.[0m
+Hint: Some lines were ellipsized, use -l to show in full.

@@ -1,0 +1,1 @@
+sudo: /etc/puppi/checks/zabbix-agent: command not found

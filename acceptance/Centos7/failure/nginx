@@ -1,0 +1,18 @@
+TCP OK - 0.002 second response time on 127.0.0.1 port 80|time=0.002063s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  nginx.service
+nginx.service - The nginx HTTP and reverse proxy server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled)
+   Active: [1;31mfailed[0m (Result: exit-code) since Mon 2014-12-29 12:35:47 EST; 14s ago
+  Process: 28004 ExecStart=/usr/sbin/nginx [1;31m(code=exited, status=1/FAILURE)[0m
+  Process: 28001 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+
+Dec 29 12:35:45 localhost.localdomain nginx[28001]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Dec 29 12:35:45 localhost.localdomain nginx[28004]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Dec 29 12:35:45 localhost.localdomain nginx[28004]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Dec 29 12:35:46 localhost.localdomain nginx[28004]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Dec 29 12:35:46 localhost.localdomain nginx[28004]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Dec 29 12:35:47 localhost.localdomain nginx[28004]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+Dec 29 12:35:47 localhost.localdomain nginx[28004]: nginx: [emerg] still could not bind()
+Dec 29 12:35:47 localhost.localdomain systemd[1]: [1;39mnginx.service: control process exited, code=exited status=1[0m
+Dec 29 12:35:47 localhost.localdomain systemd[1]: [1;31mFailed to start The nginx HTTP and reverse proxy server.[0m
+Dec 29 12:35:47 localhost.localdomain systemd[1]: [1;39mUnit nginx.service entered failed state.[0m

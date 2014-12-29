@@ -1,0 +1,1 @@
+sudo: /etc/puppi/checks/sysklogd: command not found

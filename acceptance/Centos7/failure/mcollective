@@ -1,0 +1,11 @@
+TCP OK - 0.001 second response time on 127.0.0.1 port 61613|time=0.001310s;5.000000;10.000000;0.000000;10.000000
+Redirecting to /bin/systemctl status  mcollective.service
+mcollective.service - The Marionette Collective
+   Loaded: loaded (/usr/lib/systemd/system/mcollective.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:16:42 EST; 15s ago
+ Main PID: 22945 (mcollectived)
+   CGroup: /system.slice/mcollective.service
+           └─22945 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollective/server.cfg --pidfile=/var/run/mcollective.pid --d...
+
+Dec 29 12:16:42 localhost.localdomain systemd[1]: Started The Marionette Collective.
+PROCS CRITICAL: 0 processes with command name 'ruby' | procs=0;1:;1:;0;

@@ -1,0 +1,1 @@
+sudo: /etc/puppi/checks/ceilometer: command not found

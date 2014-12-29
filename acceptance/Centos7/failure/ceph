@@ -1,0 +1,2 @@
+/etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.
+PROCS CRITICAL: 0 processes with command name 'ceph' | procs=0;1:;1:;0;
