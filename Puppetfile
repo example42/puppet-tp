@@ -9,3 +9,6 @@ mod 'puppetlabs/stdlib',
 mod 'puppetlabs/vcsrepo',
   :git => 'git://github.com/puppetlabs/puppetlabs-vcsrepo.git'
 
+mod 'example42/puppi',
+  :git => 'git://github.com/example42/puppi'
+

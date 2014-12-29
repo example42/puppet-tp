@@ -1,5 +1,5 @@
 name 'example42-tp'
-version '0.1.0beta2'
+version '0.1.0beta3'
 
 author 'Alessandro Franceschi'
 license 'Apache2'
@@ -10,5 +10,4 @@ description 'Yet Another Puppet Abstraction Layer. This module provides quick, e
 #dependency 'puppetlabs/vcsrepo', '>=0.0.1'
 #dependency 'puppetlabs/concat', '>=0.0.1'
 #dependency 'example42/puppi'
-dependency 'example42/tpdata'
 dependency 'puppetlabs/stdlib'

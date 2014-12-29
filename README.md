@@ -2,7 +2,9 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is single Puppet module that manages virtually any [application](https://github.com/example42/puppet-tp/tree/master/data). It can replace or integrate existing component application modules.
+Tiny Puppet is single Puppet module that manages virtually any application.
+
+It can replace or integrate existing component application modules.
 
 
 It features:
@@ -17,20 +19,22 @@ It features:
 
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
+The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated module.
+
 
 ## Provided Resources
 
 Tiny Puppet provides the following defines:
 
-- ```tp::install```. It just installs an application and starts its service, by default
-- ```tp::conf```. It allows to manage configuration files of an application with whatever method possible for files (as an ERB template, as an EPP template, via the fileserver, managing directly its content...)
-- ```tp::dir```. Manages the content of a directory, either sourced from the fileserver or from repositories of most common VCS tools (Git, Mercurial, Subversion, Bazaar, CVS)
+- ```tp::install```. It installs an application and starts its service, by default
+- ```tp::conf```. It allows to manage configuration files
+- ```tp::dir```. Manages the content of directories
 - ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
 - ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::repo```. (WIP) Manages extra repositories for the supported applications
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
-- ```tp::puppi```. (WIP) Puppi integration (Don't worry, fully optional) 
+- ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
 
 
 ## Prerequisites and limitations
@@ -47,7 +51,7 @@ Your clients may run on different Operating Systems and are actually supported i
 
 Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
 
-**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services.
+**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
 
 Tiny Puppet requires Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 
@@ -100,9 +104,9 @@ Install custom packages (with the ```settings_hash``` argument you can override 
       },
     }
 
-Use the tp::stdmod define to manage an application using stdmod compliant parameters.
+Use the ```tp::stdmod``` define to manage an application using stdmod compliant parameters.
 
-Note that tp::stdmod is alternative to tp::install (both of them manage packages and services) and may be complementary to tp::conf.
+Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them manage packages and services) and may be complementary to ```tp::conf``` (you can configure files with both).
 
     tp::stdmod { 'redis':
       config_file_template => 'site/redis/redis.conf',
@@ -116,6 +120,7 @@ Configure an application main configuration file directly providing its content:
     tp::conf { 'redis':
       content => 'my content is king',
     }
+
 
 Configure any configuration file of an application providing a custom erb template:
 
@@ -260,9 +265,9 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
           enable: false
 
 
-## Testing and playing with Tiny Puppet (WIP)
+## Testing and playing with Tiny Puppet
 
-You can (try to) test Tiny Puppet on different Operating Systems with Vagrant:
+You can test Tiny Puppet on different Operating Systems with Vagrant:
 
     vagrant status
 
@@ -270,29 +275,46 @@ The default Vagrantfile uses the cachier plugin, you can install it with:
 
     vagrant plugin install vagrant-cachier
 
-The manifest file used for Puppet provisioning is ```vagrant/manifests/site.pp```, you can play with Tiny Puppet there.
+You absolutely need to have the VirtualBox guest additions working on the Vagrant's VMs, if the provided ones are not updated you may use the VBguest plugin to automatically install them:
 
-In the ```bin``` directory there's the ```test.sh``` script which may be used to run basic installation of applications via Tiny Puppet.
+    vagrant plugin install vagrant-vbguest
 
-You need to run the VM you want to test on, and then execute commands like this:
+Besides the ```Vagrantfile``` all the Vagrant stuff is under the ```vagrant``` directory.
+
+The default manifest is ```vagrant/manifests/site.pp```, you can play with Tiny Puppet there and verify there what you can do with it.
+
+Public modules, which are required or optional dependencies for Tiny Puppet are under ```vagrant/modules/public```, populate them with Librarian Puppet:
+
+    librarian-puppet install --puppetfile Puppetfile --path vagrant/modules/public
+
+
+### Acceptance tests
+
+The ```bin/test.sh``` script is the quickest way to test how Tiny Puppet manages different applications on different Operating Systems.
+
+You need to run the VM you want to test on:
+
+    vagrant up Ubuntu1404
+
+and then execute commands like these:
 
   - To test apache installation on Ubuntu1404:
 
     ```bin/test.sh apache Ubuntu1404```
 
-  - To test apache installation on all the VMs:
-
-    ```bin/test.sh apache all```
-
-  - To test ALL the TP applications on Centos7:
+  - To test ALL the supported applications on Centos7:
 
     ```bin/test.sh all Centos7```
 
-  - To test ALL the applications an ALL the VMs and save the results in the ```acceptance``` dir:
+  - To test ALL the applications on Centos7 and save the results in the ```acceptance``` dir:
 
-    ```bin/test.sh all all acceptance```
+    ```bin/test.sh all Centos7 acceptance```
 
 Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
+
+Routinely the results of acceptance tests are saved in the ```acceptance``` directory: use it as a reference on the current support matrix of different applications on different Operating Systems.
+
+Note however that Tiny Puppet support may extend to other OS: the acceptance tests use directly ```puppet apply``` on ```tp``` defines, so they need to run locally and have the expected prerequisites (such as the Ruby version).
 
 
 ## Usage on the Command Line (TODO)
