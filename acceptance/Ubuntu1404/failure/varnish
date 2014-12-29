@@ -1,0 +1,2 @@
+TCP OK - 0.000 second response time on port 6081|time=0.000326s;5.000000;10.000000;0.000000;10.000000
+PROCS CRITICAL: 0 processes with command name 'varnish' | procs=0;1:;1:;0;

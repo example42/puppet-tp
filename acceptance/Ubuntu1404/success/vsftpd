@@ -1,0 +1,3 @@
+TCP OK - 0.006 second response time on port 21|time=0.006456s;5.000000;10.000000;0.000000;10.000000
+vsftpd start/running, process 10106
+PROCS OK: 1 process with command name 'vsftpd' | procs=1;1:;1:;0;

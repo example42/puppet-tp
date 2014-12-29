@@ -1,1 +1,2 @@
-sudo: /etc/puppi/checks/heartbeat: command not found
+Heartbeat not configured: /etc/ha.d/ha.cf not found. Heartbeat failure [rc=1]. Failed.
+PROCS CRITICAL: 0 processes with command name 'heartbeat' | procs=0;1:;1:;0;

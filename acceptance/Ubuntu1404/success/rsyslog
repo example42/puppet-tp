@@ -1,0 +1,2 @@
+rsyslog start/running, process 24345
+PROCS OK: 1 process with command name 'rsyslogd' | procs=1;1:;1:;0;

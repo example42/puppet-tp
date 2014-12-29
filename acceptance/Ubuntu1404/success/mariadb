@@ -1,12 +1,3 @@
-TCP OK - 0.000 second response time on port 3306|time=0.000267s;5.000000;10.000000;0.000000;10.000000
- * /usr/bin/mysqladmin  Ver 9.0 Distrib 5.5.40-MariaDB, for debian-linux-gnu on x86_64
-Copyright (c) 2000, 2014, Oracle, Monty Program Ab and others.
-
-Server version		5.5.40-MariaDB-0ubuntu0.14.04.1
-Protocol version	10
-Connection		Localhost via UNIX socket
-UNIX socket		/var/run/mysqld/mysqld.sock
-Uptime:			3 hours 33 sec
-
-Threads: 1  Questions: 82  Slow queries: 0  Opens: 55  Flush tables: 2  Open tables: 39  Queries per second avg: 0.007
+TCP OK - 0.000 second response time on port 3306|time=0.000249s;5.000000;10.000000;0.000000;10.000000
+mysql start/running, process 5726
 PROCS OK: 1 process with command name 'mysqld' | procs=1;1:;1:;0;

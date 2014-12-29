@@ -1,0 +1,3 @@
+TCP OK - 0.000 second response time on port 10050|time=0.000407s;5.000000;10.000000;0.000000;10.000000
+zabbix-agent start/running, process 13115
+PROCS OK: 6 processes with command name 'zabbix_agentd' | procs=6;1:;1:;0;

@@ -1,4 +1,4 @@
-TCP OK - 0.001 second response time on port 25|time=0.000979s;5.000000;10.000000;0.000000;10.000000
- * checking separate queue runner daemon...       [203G [197G[ OK ]
- * checking combined SMTP listener and queue runner daemon...       [203G [197G[ OK ]
+TCP OK - 0.001 second response time on port 25|time=0.000544s;5.000000;10.000000;0.000000;10.000000
+ * checking separate queue runner daemon...       [134G [128G[ OK ]
+ * checking combined SMTP listener and queue runner daemon...       [134G [128G[ OK ]
 PROCS OK: 2 processes with command name 'exim4' | procs=2;1:;1:;0;

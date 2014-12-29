@@ -1,0 +1,3 @@
+TCP OK - 0.003 second response time on port 21|time=0.002564s;5.000000;10.000000;0.000000;10.000000
+ProFTPD is started in standalone mode, currently running.
+PROCS OK: 1 process with command name 'proftpd' | procs=1;1:;1:;0;

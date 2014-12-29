@@ -1,1 +1,1 @@
-sudo: /etc/puppi/checks/nova: command not found
+PROCS CRITICAL: 0 processes with command name 'nova' | procs=0;1:;1:;0;
