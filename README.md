@@ -312,9 +312,16 @@ and then execute commands like these:
 
 Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
 
+
+### Compatibility matrix
+
 Routinely the results of acceptance tests are saved in the ```acceptance``` directory: use it as a reference on the current support matrix of different applications on different Operating Systems.
 
 Note however that Tiny Puppet support may extend to other OS: the acceptance tests use directly ```puppet apply``` on ```tp``` defines, so they need to run locally and have the expected prerequisites (such as the Ruby version).
+
+Note also that some tests fail for trivial reasons such as the absence of a valid configuration file by default or missing data to configure dedicated repositories or execution order issues while running tests on the same VM or errors in the test scripts.
+
+Check the output of the check scripts, under the ```success``` and ```failure``` directories for some details on the reasons some tests are failing.
 
 
 ## Usage on the Command Line (TODO)

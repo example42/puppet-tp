@@ -62,7 +62,7 @@ acceptance_test () {
 }
 
 if [ "x${app}" == "xall" ]; then
-  for a in $(ls -1 data | grep -v default.yaml) ; do
+  for a in $(ls -1 data | grep -v default.yaml | grep -v test) ; do
     echo_title "Installing $a on $vm"
     vagrant ssh $vm -c "$command $options -e 'tp::install { $a: $puppi_string }'"
     if [ "x${acceptance}" == "xyes" ]; then
