@@ -9,20 +9,20 @@ describe 'tp::install', :type => :define do
     it { should contain_service('redis').with_enable('true') }
   end
 
-  context 'with title redis and custom packages hash' do
+  context 'with title redis and custom package name' do
     let(:params) {
       {
-        'packages' => { 'my_redis' => { 'ensure' => 'absent' } }
+        'settings_hash' => { 'package_name' => 'my_redis' }
       }
     }
     it { should have_package_resource_count(1) }
-    it { should contain_package('my_redis').with_ensure('absent') }
+    it { should contain_package('my_redis').with_ensure('present') }
   end
 
-  context 'with title redis and custom services hash' do
+  context 'with title redis and stopped service' do
     let(:params) {
       {
-        'services' => { 'redis' => { 'ensure' => 'stopped' } }
+        'settings_hash' => { 'service_ensure' => 'stopped' }
       }
     }
     it { should have_service_resource_count(1) }
