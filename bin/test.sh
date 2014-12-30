@@ -4,7 +4,7 @@
 . $(dirname $0)/functions || exit 10
 
 # RegExp for whitelist of programs to not uninstall after test
-uninstall_whitelist='ssh|vim|lsb'
+uninstall_whitelist='ssh|vim|lsb|puppet'
 
 show_help () {
   echo
@@ -17,8 +17,11 @@ show_help () {
   echo "To test all apps on Ubuntu1404:"
   echo "$0 all Ubuntu1404 "
   echo
-  echo "To test all apps on Ubuntu1404 and save tests results:"
+  echo "To test all apps on Ubuntu1404 and save acceptance tests results:"
   echo "$0 redis Ubuntu1404 acceptance"
+  echo
+  echo "To run puppi check on Ubuntu1404 and puppi checks results:"
+  echo "$0 redis Ubuntu1404 puppi"
 }
 
 if [ "x$2" == "x" ]; then
@@ -28,13 +31,11 @@ fi
 
 app=$1
 vm=$2
-if [ "x$3" == "xacceptance" ]; then
-  acceptance=yes
-  puppi_string="puppi_enable => true,"
-else
-  acceptance=no
-  puppi_string=""
-fi
+mode=$3
+case $mode in 
+    acceptance) mode_param="test_enable => true," ;;
+    puppi) mode_param="puppi_enable => true," ;;
+esac
 options="$PUPPET_OPTIONS --verbose --report --show_diff --pluginsync --summarize --modulepath '/vagrant/vagrant/modules/local:/vagrant/vagrant/modules/:/vagrant/vagrant/modules/public:/etc/puppet/modules' "
 command="sudo puppet apply"
 
@@ -42,14 +43,14 @@ acceptance_test () {
   echo_title "Running acceptance test for $1 on $2"
   rm -f acceptance/$2/success/$1
   rm -f acceptance/$2/failure/$1
-  vagrant ssh $2 -c "sudo /etc/puppi/checks/$1" > /tmp/tp_test_$1
+  vagrant ssh $2 -c "sudo /etc/tp/test/$1" > /tmp/tp_test_$1_$2
   if [ "x$?" == "x0" ]; then
     mkdir -p acceptance/$2/success
-    mv /tmp/tp_test_$1 acceptance/$2/success/$1
+    mv /tmp/tp_test_$1_$2 acceptance/$2/success/$1
     echo_success "SUCCESS! Output written to acceptance/$2/success/$1"
   else
     mkdir -p acceptance/$2/failure
-    mv /tmp/tp_test_$1 acceptance/$2/failure/$1
+    mv /tmp/tp_test_$1_$2 acceptance/$2/failure/$1
     echo_failure "FAILURE! Output written to acceptance/$2/failure/$1"
   fi
 
@@ -61,19 +62,36 @@ acceptance_test () {
   fi
 }
 
+puppi_check () {
+  echo_title "Running puppi check for $1 on $2"
+  vagrant ssh $2 -c "sudo puppi check"
+  if [ "x$?" == "x0" ]; then
+    echo_success "SUCCESS!"
+  else
+    echo_failure "FAILURE!"
+  fi
+}
+
+
 if [ "x${app}" == "xall" ]; then
   for a in $(ls -1 data | grep -v default.yaml | grep -v test) ; do
     echo_title "Installing $a on $vm"
-    vagrant ssh $vm -c "$command $options -e 'tp::install { $a: $puppi_string }'"
-    if [ "x${acceptance}" == "xyes" ]; then
+    vagrant ssh $vm -c "$command $options -e 'tp::install { $a: $mode_param }'"
+    if [ "x${mode}" == "xacceptance" ]; then
       acceptance_test $a $vm
+    fi
+    if [ "x${mode}" == "xpuppi" ]; then
+      puppi_check $a $vm
     fi
   done
 else
   echo_title "Installing $app on $vm"
-  vagrant ssh $vm -c "$command $options -e 'tp::install { $app: $puppi_string }'" 
-  if [ "x${acceptance}" == "xyes" ]; then
+  vagrant ssh $vm -c "$command $options -e 'tp::install { $app: $mode_param }'" 
+  if [ "x${mode}" == "xacceptance" ]; then
     acceptance_test $app $vm
+  fi
+  if [ "x${mode}" == "xpuppi" ]; then
+    puppi_check $app $vm
   fi
 fi
 

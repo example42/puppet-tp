@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     :Centos65 => {
       :box     => 'centos65_64',
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box',
-      :breed   => 'redhat',
+      :breed   => 'redhat6',
     },
     :Ubuntu1404 => {
       :box     => 'trusty-server-cloudimg-amd64-vagrant-disk1.box',
@@ -37,9 +37,9 @@ Vagrant.configure("2") do |config|
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/debian-70rc1-x64-vbox4210.box',
       :breed   => 'debian',
     },
-    :SuseLinux11 => {
-      :box     => 'sles-11sp1-x64-vbox4210',
-      :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/sles-11sp1-x64-vbox4210.box',
+    :OpenSuse12_3 => {
+      :box     => 'opensuse-12.3-64',
+      :box_url => 'http://sourceforge.net/projects/opensusevagrant/files/12.3/opensuse-12.3-64.box/download',
       :breed   => 'suse',
     },
   }.each do |name,cfg|

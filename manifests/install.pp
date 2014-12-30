@@ -13,6 +13,7 @@ define tp::install (
 
   $conf_hash                 = { } ,
   $dir_hash                  = { } ,
+
   $settings_hash             = { } ,
 
   $auto_repo                 = true,
@@ -23,6 +24,9 @@ define tp::install (
   $firewall_class            = undef,
 
   $puppi_enable              = false,
+
+  $test_enable               = false,
+  $test_acceptance_template  = undef,
 
   $data_module               = 'tp',
 
@@ -43,6 +47,18 @@ define tp::install (
     ''      => undef,
     undef   => undef,
     default => Package[$settings[package_name]],
+  }
+  $service_ensure = $ensure ? {
+    'present' => $settings[service_ensure],
+    true      => $settings[service_ensure],
+    'absent'  => 'stopped',
+    false     => 'stopped',
+  }
+  $service_enable = $ensure ? {
+    'present' => $settings[service_enable],
+    true      => $settings[service_enable],
+    'absent'  => false,
+    false     => false,
   }
 
   # Dependency class
@@ -67,8 +83,8 @@ define tp::install (
 
   if $settings[service_name] {
     service { $settings[service_name]:
-      ensure  => $settings[service_ensure],
-      enable  => $settings[service_enable],
+      ensure  => $service_ensure,
+      enable  => $service_enable,
       require => $service_require, 
     }
   }
@@ -82,6 +98,12 @@ define tp::install (
 
   if $puppi_enable == true {
     tp::puppi { $title: }
+  }
+
+  if $test_enable == true {
+    tp::test { $title:
+      acceptance_template => $test_acceptance_template,
+    }
   }
 
   # Extra classes

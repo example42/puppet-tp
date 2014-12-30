@@ -35,6 +35,7 @@ Tiny Puppet provides the following defines:
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
+- ```tp::test```. Allows quick and easy (acceptance) testing of an application 
 
 
 ## Prerequisites and limitations
@@ -309,6 +310,11 @@ and then execute commands like these:
   - To test ALL the applications on Centos7 and save the results in the ```acceptance``` dir:
 
     ```bin/test.sh all Centos7 acceptance```
+
+  - To run puppi check for proftpd applications on Centos7:
+
+    ```bin/test.sh all Centos7 puppi```
+
 
 Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
 

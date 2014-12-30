@@ -1,11 +1,9 @@
 # Install and test 
 
-    
     tp::install { 'openssh': }
     tp::conf { 'openssh::test':
       content => 'Test content',
     }
-  
   
     package { 'git': }
     tp::dir { 'redis':
