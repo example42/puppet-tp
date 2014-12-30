@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 27017|time=0.000446s;5.000000;10.000000;0.000000;10.000000
-mongodb start/running, process 9430
-PROCS OK: 1 process with command name 'mongod' | procs=1;1:;1:;0;
+# Package status
+package { 'mongodb-server':
+  ensure => '1:2.4.9-1ubuntu2',
+}
+
+# Service status
+mongodb start/running, process 12571

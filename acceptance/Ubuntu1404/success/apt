@@ -1,0 +1,4 @@
+# Package status
+package { 'apt':
+  ensure => '1.0.1ubuntu2.6',
+}

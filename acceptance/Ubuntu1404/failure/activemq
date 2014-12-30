@@ -1,2 +1,7 @@
- * Checking status of ActiveMQ instance activemq       [134G [128G[ OK ]
-PROCS CRITICAL: 0 processes with command name 'java' | procs=0;1:;1:;0;
+# Package status
+package { 'activemq':
+  ensure => 'purged',
+}
+
+# Service status
+activemq: unrecognized service

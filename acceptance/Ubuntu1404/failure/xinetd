@@ -1,0 +1,7 @@
+# Package status
+package { 'xinetd':
+  ensure => 'purged',
+}
+
+# Service status
+xinetd: unrecognized service

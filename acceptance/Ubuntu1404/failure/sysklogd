@@ -1,1 +1,7 @@
+# Package status
+package { 'sysklogd':
+  ensure => 'purged',
+}
+
+# Service status
 syslog: unrecognized service

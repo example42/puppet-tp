@@ -1,1 +1,7 @@
+# Package status
+package { 'openntpd':
+  ensure => 'absent',
+}
+
+# Service status
  [31m*[39;49m OpenNTPd daemon is NOT running

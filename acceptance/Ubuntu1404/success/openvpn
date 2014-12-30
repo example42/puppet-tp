@@ -1,0 +1,6 @@
+# Package status
+package { 'openvpn':
+  ensure => '2.3.2-7ubuntu3.1',
+}
+
+# Service status

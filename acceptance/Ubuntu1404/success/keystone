@@ -1,0 +1,7 @@
+# Package status
+package { 'python-keystonekeystone':
+  ensure => 'purged',
+}
+
+# Service status
+keystone start/running, process 535

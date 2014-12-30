@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 53|time=0.000413s;5.000000;10.000000;0.000000;10.000000
- * (running)
-PROCS OK: 1 process with command name 'dnsmasq' | procs=1;1:;1:;0;
+# Package status
+package { 'dnsmasq':
+  ensure => '2.68-1',
+}
+
+# Service status
+ * Checking DNS forwarder and DHCP server dnsmasq       [134G  * (running)

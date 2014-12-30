@@ -1,1 +1,7 @@
-Connection refused
+# Package status
+package { 'tinc':
+  ensure => 'purged',
+}
+
+# Service status
+tinc: unrecognized service

@@ -1,0 +1,7 @@
+# Package status
+package { 'puppetdb':
+  ensure => '2.2.2-1puppetlabs1',
+}
+
+# Service status
+ * puppetdb is running

@@ -1,0 +1,4 @@
+# Package status
+package { 'python-novanova-common':
+  ensure => 'purged',
+}

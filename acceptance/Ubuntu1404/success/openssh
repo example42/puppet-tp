@@ -1,3 +1,7 @@
-TCP OK - 0.005 second response time on port 22|time=0.005166s;5.000000;10.000000;0.000000;10.000000
-ssh start/running, process 1000
-PROCS OK: 5 processes with command name 'sshd' | procs=5;1:;1:;0;
+# Package status
+package { 'openssh-server':
+  ensure => '1:6.6p1-2ubuntu2',
+}
+
+# Service status
+ssh start/running, process 5264

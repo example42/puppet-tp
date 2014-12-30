@@ -1,0 +1,7 @@
+# Package status
+package { 'tftpd-hpa':
+  ensure => 'purged',
+}
+
+# Service status
+tftpd-hpa: unrecognized service

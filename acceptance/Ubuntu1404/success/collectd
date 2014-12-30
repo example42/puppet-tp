@@ -1,0 +1,7 @@
+# Package status
+package { 'collectd':
+  ensure => '5.4.0-3ubuntu2',
+}
+
+# Service status
+ * collectd is running

@@ -1,0 +1,7 @@
+# Package status
+package { 'openvswitch-switch':
+  ensure => '2.0.2-0ubuntu0.14.04.1',
+}
+
+# Service status
+openvswitch-switch start/running

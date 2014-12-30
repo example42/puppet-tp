@@ -1,0 +1,7 @@
+# Package status
+package { 'vsftpd':
+  ensure => 'purged',
+}
+
+# Service status
+vsftpd: unrecognized service

@@ -1,0 +1,7 @@
+# Package status
+package { 'isc-dhcp-server':
+  ensure => '4.2.4-7ubuntu12',
+}
+
+# Service status
+isc-dhcp-server stop/waiting

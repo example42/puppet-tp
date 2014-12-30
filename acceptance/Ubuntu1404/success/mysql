@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 3306|time=0.000271s;5.000000;10.000000;0.000000;10.000000
-mysql start/running, process 5726
-PROCS OK: 1 process with command name 'mysqld' | procs=1;1:;1:;0;
+# Package status
+package { 'mysql-server':
+  ensure => 'purged',
+}
+
+# Service status
+mysql stop/waiting

@@ -1,0 +1,6 @@
+# Package status
+package { 'haproxy':
+  ensure => '1.4.24-2',
+}
+
+# Service status

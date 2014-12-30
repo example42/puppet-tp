@@ -1,0 +1,4 @@
+# Package status
+package { 'msmtp-mta':
+  ensure => '1.4.31-1',
+}

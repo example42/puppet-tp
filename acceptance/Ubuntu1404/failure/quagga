@@ -1,1 +1,7 @@
+# Package status
+package { 'quagga':
+  ensure => '0.99.22.4-3ubuntu1',
+}
+
+# Service status
 

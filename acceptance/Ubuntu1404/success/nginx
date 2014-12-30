@@ -1,0 +1,7 @@
+# Package status
+package { 'nginx':
+  ensure => '1.4.6-1ubuntu3.1',
+}
+
+# Service status
+ * nginx is running

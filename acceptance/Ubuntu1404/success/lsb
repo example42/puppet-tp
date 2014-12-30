@@ -1,0 +1,4 @@
+# Package status
+package { 'lsb-base':
+  ensure => '4.1+Debian11ubuntu6',
+}

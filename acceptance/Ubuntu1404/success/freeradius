@@ -1,0 +1,7 @@
+# Package status
+package { 'freeradius':
+  ensure => '2.1.12+dfsg-1.2ubuntu8',
+}
+
+# Service status
+freeradius start/running, process 18845

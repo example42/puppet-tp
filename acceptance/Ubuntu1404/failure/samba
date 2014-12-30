@@ -1,1 +1,7 @@
-/etc/puppi/checks/samba: line 7: syntax error: unexpected end of file
+# Package status
+package { 'samba':
+  ensure => 'purged',
+}
+
+# Service status
+samba: unrecognized service

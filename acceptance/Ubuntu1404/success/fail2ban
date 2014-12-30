@@ -1,2 +1,7 @@
- *  fail2ban is running
-PROCS OK: 1 process with command name 'fail2ban-server' | procs=1;1:;1:;0;
+# Package status
+package { 'fail2ban':
+  ensure => '0.8.11-1',
+}
+
+# Service status
+ * Status of authentication failure monitor       [134G  *  fail2ban is running

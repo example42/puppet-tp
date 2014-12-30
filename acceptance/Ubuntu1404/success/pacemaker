@@ -1,2 +1,7 @@
-pacemakerd (pid 32384) is running...
-PROCS OK: 1 process with command name 'pacemakerd' | procs=1;1:;1:;0;
+# Package status
+package { 'pacemaker':
+  ensure => '1.1.10+git20130802-1ubuntu2.1',
+}
+
+# Service status
+pacemakerd (pid 1479) is running...

@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 80|time=0.000249s;5.000000;10.000000;0.000000;10.000000
+# Package status
+package { 'apache2':
+  ensure => '2.4.7-1ubuntu4.1',
+}
+
+# Service status
  * apache2 is running
-PROCS OK: 3 processes with command name 'apache2' | procs=3;1:;1:;0;

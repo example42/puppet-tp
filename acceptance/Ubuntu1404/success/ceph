@@ -1,0 +1,7 @@
+# Package status
+package { 'ceph':
+  ensure => '0.80.7-0ubuntu0.14.04.1',
+}
+
+# Service status
+/etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.

@@ -1,0 +1,4 @@
+# Package status
+package { 'subversion':
+  ensure => 'purged',
+}

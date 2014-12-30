@@ -1,1 +1,7 @@
+# Package status
+package { 'icinga2':
+  ensure => 'purged',
+}
+
+# Service status
 icinga2: unrecognized service

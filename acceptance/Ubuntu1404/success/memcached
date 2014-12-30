@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 11211|time=0.000196s;5.000000;10.000000;0.000000;10.000000
+# Package status
+package { 'memcached':
+  ensure => '1.4.14-0ubuntu9',
+}
+
+# Service status
  * memcached is running
-PROCS OK: 1 process with command name 'memcached' | procs=1;1:;1:;0;

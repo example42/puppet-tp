@@ -1,0 +1,7 @@
+# Package status
+package { 'mcollective':
+  ensure => '2.7.0-1puppetlabs1',
+}
+
+# Service status
+ * mcollective is running

@@ -1,1 +1,7 @@
+# Package status
+package { 'bind':
+  ensure => 'purged',
+}
+
+# Service status
 bind: unrecognized service

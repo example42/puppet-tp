@@ -1,0 +1,7 @@
+# Package status
+package { 'snmpd':
+  ensure => 'purged',
+}
+
+# Service status
+snmpd: unrecognized service

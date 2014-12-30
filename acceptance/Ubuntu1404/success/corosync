@@ -1,0 +1,6 @@
+# Package status
+package { 'corosync':
+  ensure => '2.3.3-1ubuntu1',
+}
+
+# Service status

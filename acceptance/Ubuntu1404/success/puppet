@@ -1,0 +1,7 @@
+# Package status
+package { 'puppet':
+  ensure => '3.7.3-1puppetlabs1',
+}
+
+# Service status
+ * agent is running

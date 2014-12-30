@@ -1,1 +1,7 @@
-/etc/puppi/checks/redis: line 7: syntax error: unexpected end of file
+# Package status
+package { 'redis-server':
+  ensure => 'purged',
+}
+
+# Service status
+redis-server: unrecognized service

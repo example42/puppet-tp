@@ -1,0 +1,4 @@
+# Package status
+package { 'ceilometer-common':
+  ensure => '2014.1.3-0ubuntu1',
+}

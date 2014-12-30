@@ -1,2 +1,7 @@
-rsyslog start/running, process 24345
-PROCS OK: 1 process with command name 'rsyslogd' | procs=1;1:;1:;0;
+# Package status
+package { 'rsyslog':
+  ensure => '7.4.4-1ubuntu2.3',
+}
+
+# Service status
+rsyslog start/running, process 902

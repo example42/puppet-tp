@@ -1,2 +1,7 @@
+# Package status
+package { 'nagios3':
+  ensure => '3.5.1-1ubuntu1',
+}
+
+# Service status
  * checking /usr/sbin/nagios3...       [134G [128G[ OK ]
-PROCS OK: 1 process with command name 'nagios3' | procs=1;1:;1:;0;

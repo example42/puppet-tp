@@ -1,3 +1,7 @@
-TCP OK - 0.003 second response time on port 4949|time=0.003267s;5.000000;10.000000;0.000000;10.000000
-munin-node start/running, process 17258
-PROCS OK: 1 process with command name 'munin-node' | procs=1;1:;1:;0;
+# Package status
+package { 'munin-node':
+  ensure => '2.0.19-3',
+}
+
+# Service status
+munin-node start/running, process 18944

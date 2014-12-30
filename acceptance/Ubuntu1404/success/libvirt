@@ -1,2 +1,7 @@
-libvirt-bin start/running, process 30791
-PROCS OK: 1 process with command name 'libvirtd' | procs=1;1:;1:;0;
+# Package status
+package { 'libvirt-bin':
+  ensure => '1.2.2-0ubuntu13.1.7',
+}
+
+# Service status
+libvirt-bin start/running, process 2288

@@ -1,1 +1,7 @@
-Connection refused
+# Package status
+package { 'jenkins':
+  ensure => 'purged',
+}
+
+# Service status
+jenkins: unrecognized service

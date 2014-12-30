@@ -1,0 +1,4 @@
+# Package status
+package { 'pam':
+  ensure => 'purged',
+}

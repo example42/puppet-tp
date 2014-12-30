@@ -1,0 +1,4 @@
+# Package status
+package { 'bsd-mailx':
+  ensure => '8.1.2-0.20131005cvs-1',
+}

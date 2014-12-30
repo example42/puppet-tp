@@ -1,1 +1,7 @@
-Connection refused
+# Package status
+package { 'rsync':
+  ensure => '3.1.0-2ubuntu0.1',
+}
+
+# Service status
+ [31m*[39;49m rsync is not running

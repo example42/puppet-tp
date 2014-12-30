@@ -1,14 +1,7 @@
-TCP OK - 0.002 second response time on port 25|time=0.002239s;5.000000;10.000000;0.000000;10.000000
-MSP: is run via cron (20m)
-MTA: 22261 /usr/sbin/sendmail-mta -Am -L sm-mta -bd -q10m
-UID        PID  PPID  C STIME TTY          TIME CMD
-root     22261     1  0 14:58 ?        00:00:00 sendmail: MTA: accepting connections          
-Daemon Status: (process 22412) Console socket child
+# Package status
+package { 'sendmail-bin':
+  ensure => 'purged',
+}
 
-Current number of children: 0
-QueueDir free disk space (in blocks): 36996836
-Load average: 1
-Child Process 22261 Status: accepting connections
-
-QUE: Same as MTA
-PROCS CRITICAL: 0 processes with command name 'sendmail' | procs=0;1:;1:;0;
+# Service status
+sendmail: unrecognized service

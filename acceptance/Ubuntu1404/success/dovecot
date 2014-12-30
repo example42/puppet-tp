@@ -1,0 +1,7 @@
+# Package status
+package { 'dovecot-imadpdovecot-pop3d':
+  ensure => 'purged',
+}
+
+# Service status
+dovecot start/running, process 13541

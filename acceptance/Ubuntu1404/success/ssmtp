@@ -1,0 +1,4 @@
+# Package status
+package { 'ssmtp':
+  ensure => 'purged',
+}

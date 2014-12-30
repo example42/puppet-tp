@@ -1,1 +1,7 @@
+# Package status
+package { 'bluepill':
+  ensure => 'purged',
+}
+
+# Service status
 bluepill: unrecognized service

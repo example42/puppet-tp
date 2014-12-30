@@ -1,2 +1,7 @@
+# Package status
+package { 'icinga':
+  ensure => '1.10.3-1',
+}
+
+# Service status
  * checking /usr/sbin/icinga...       [134G [128G[ OK ]
-PROCS OK: 1 process with command name 'icinga' | procs=1;1:;1:;0;

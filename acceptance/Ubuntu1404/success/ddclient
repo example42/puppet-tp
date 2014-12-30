@@ -1,2 +1,7 @@
+# Package status
+package { 'ddclient':
+  ensure => '3.8.1-1ubuntu2',
+}
+
+# Service status
 Status of Dynamic DNS service update utility: ddclient is running.
-PROCS OK: 1 process with command name 'ddclient' | procs=1;1:;1:;0;

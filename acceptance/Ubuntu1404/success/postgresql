@@ -1,0 +1,7 @@
+# Package status
+package { 'postgresql':
+  ensure => '9.3+154',
+}
+
+# Service status
+9.3/main (port 5432): online

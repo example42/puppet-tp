@@ -1,1 +1,7 @@
-Connection refused
+# Package status
+package { 'jboss':
+  ensure => 'purged',
+}
+
+# Service status
+jboss: unrecognized service

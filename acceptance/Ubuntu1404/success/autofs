@@ -1,0 +1,7 @@
+# Package status
+package { 'autofs':
+  ensure => '5.0.7-3ubuntu3.1',
+}
+
+# Service status
+autofs start/running, process 12859

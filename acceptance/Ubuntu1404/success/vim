@@ -1,0 +1,4 @@
+# Package status
+package { 'vim-common':
+  ensure => '2:7.4.052-1ubuntu3',
+}

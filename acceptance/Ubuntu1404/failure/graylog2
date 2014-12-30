@@ -1,1 +1,7 @@
+# Package status
+package { 'graylog2-server':
+  ensure => 'purged',
+}
+
+# Service status
 graylog2-server: unrecognized service

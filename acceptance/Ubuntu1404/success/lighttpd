@@ -1,3 +1,7 @@
-TCP OK - 0.000 second response time on port 80|time=0.000390s;5.000000;10.000000;0.000000;10.000000
+# Package status
+package { 'lighttpd':
+  ensure => '1.4.33-1+nmu2ubuntu2',
+}
+
+# Service status
  * lighttpd is running
-PROCS OK: 1 process with command name 'lighttpd' | procs=1;1:;1:;0;
