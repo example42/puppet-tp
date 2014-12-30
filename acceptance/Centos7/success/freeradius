@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'freeradius':
+  ensure => '3.0.1-6.el7',
+}
+Redirecting to /bin/systemctl status  radiusd.service
+radiusd.service - FreeRADIUS high performance RADIUS server.
+   Loaded: loaded (/usr/lib/systemd/system/radiusd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:41:23 EST; 5s ago
+ Main PID: 8675 (radiusd)
+   CGroup: /system.slice/radiusd.service
+           └─8675 /usr/sbin/radiusd -d /etc/raddb
+
+Dec 30 00:41:23 centos7.example42.com systemd[1]: Started FreeRADIUS high performance RADIUS server..

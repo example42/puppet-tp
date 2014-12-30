@@ -1,0 +1,18 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'haproxy':
+  ensure => '1.5.2-3.el7_0',
+}
+Redirecting to /bin/systemctl status  haproxy.service
+haproxy.service - HAProxy Load Balancer
+   Loaded: loaded (/usr/lib/systemd/system/haproxy.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:42:54 EST; 10s ago
+ Main PID: 10597 (haproxy-systemd)
+   CGroup: /system.slice/haproxy.service
+           ├─10597 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
+           ├─10598 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+           └─10599 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+
+Dec 30 00:42:54 centos7.example42.com systemd[1]: Started HAProxy Load Balancer.
+Dec 30 00:42:54 centos7.example42.com haproxy-systemd-wrapper[10597]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /... -Ds
+Hint: Some lines were ellipsized, use -l to show in full.

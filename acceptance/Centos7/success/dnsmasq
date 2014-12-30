@@ -1,17 +1,21 @@
-TCP OK - 0.002 second response time on 127.0.0.1 port 53|time=0.002420s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'dnsmasq':
+  ensure => '2.66-12.el7',
+}
 Redirecting to /bin/systemctl status  dnsmasq.service
 dnsmasq.service - DNS caching server.
    Loaded: loaded (/usr/lib/systemd/system/dnsmasq.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:49:21 EST; 11s ago
- Main PID: 14270 (dnsmasq)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 16:55:16 EST; 7h ago
+ Main PID: 31638 (dnsmasq)
    CGroup: /system.slice/dnsmasq.service
-           └─14270 /usr/sbin/dnsmasq -k
+           └─31638 /usr/sbin/dnsmasq -k
 
-Dec 29 11:49:21 localhost.localdomain systemd[1]: Started DNS caching server..
-Dec 29 11:49:21 localhost.localdomain dnsmasq[14270]: started, version 2.66 cachesize 150
-Dec 29 11:49:21 localhost.localdomain dnsmasq[14270]: compile time options: IPv6 GNU-getopt DBus no-i18n IDN DHCP DHCPv6 no-Lu... auth
-Dec 29 11:49:21 localhost.localdomain dnsmasq[14270]: reading /etc/resolv.conf
-Dec 29 11:49:21 localhost.localdomain dnsmasq[14270]: using nameserver 10.0.2.3#53
-Dec 29 11:49:21 localhost.localdomain dnsmasq[14270]: read /etc/hosts - 2 addresses
+Dec 29 16:55:16 centos7.example42.com systemd[1]: Starting DNS caching server....
+Dec 29 16:55:16 centos7.example42.com systemd[1]: Started DNS caching server..
+Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: started, version 2.66 cachesize 150
+Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: compile time options: IPv6 GNU-getopt DBus no-i18n IDN DHCP DHCPv6 no-Lu... auth
+Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: reading /etc/resolv.conf
+Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: using nameserver 10.0.2.3#53
+Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: read /etc/hosts - 2 addresses
 Hint: Some lines were ellipsized, use -l to show in full.
-PROCS OK: 1 process with command name 'dnsmasq' | procs=1;1:;1:;0;

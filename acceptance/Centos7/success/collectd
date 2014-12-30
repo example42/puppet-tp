@@ -1,0 +1,20 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'collectd':
+  ensure => '5.4.1-1.el7',
+}
+Redirecting to /bin/systemctl status  collectd.service
+collectd.service - Collectd
+   Loaded: loaded (/usr/lib/systemd/system/collectd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:17:57 EST; 44s ago
+ Main PID: 2624 (collectd)
+   CGroup: /system.slice/collectd.service
+           └─2624 /usr/sbin/collectd -C /etc/collectd.conf -f
+
+Dec 30 00:17:57 centos7.example42.com systemd[1]: Started Collectd.
+Dec 30 00:17:57 centos7.example42.com collectd[2624]: Initialization complete, entering read-loop.
+Dec 30 00:17:57 centos7.example42.com collectd[2624]: [1;39mplugin_dispatch_values: No write callback has been registered. Please lo...ored.[0m
+Dec 30 00:17:57 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
+Dec 30 00:18:17 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
+Dec 30 00:18:37 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
+Hint: Some lines were ellipsized, use -l to show in full.

@@ -1,0 +1,23 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'sendmailsendmail-cf':
+  ensure => 'absent',
+}
+Redirecting to /bin/systemctl status  sendmail.service
+sendmail.service - Sendmail Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/sendmail.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:11:47 EST; 6s ago
+  Process: 10090 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+  Process: 10086 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+  Process: 10083 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+ Main PID: 10097 (sendmail)
+   CGroup: /system.slice/sendmail.service
+           └─10097 sendmail: accepting connections
+
+Dec 30 01:11:42 centos7.example42.com systemd[1]: Starting Sendmail Mail Transport Agent...
+Dec 30 01:11:42 centos7.example42.com systemd[1]: PID file /run/sendmail.pid not readable (yet?) after start.
+Dec 30 01:11:42 centos7.example42.com sendmail[10097]: starting daemon (8.14.7): SMTP+queueing@01:00:00
+Dec 30 01:11:42 centos7.example42.com sendmail[10097]: [1;31mNOQUEUE: SYSERR(root): opendaemonsocket: daemon MTA: cannot bind: Addre...n use[0m
+Dec 30 01:11:42 centos7.example42.com sendmail[10097]: [1;31mdaemon MTA: problem creating SMTP socket[0m
+Dec 30 01:11:47 centos7.example42.com systemd[1]: Started Sendmail Mail Transport Agent.
+Hint: Some lines were ellipsized, use -l to show in full.

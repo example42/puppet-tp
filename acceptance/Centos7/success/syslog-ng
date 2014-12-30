@@ -1,0 +1,15 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'syslog-ng':
+  ensure => '3.5.6-1.el7',
+}
+Redirecting to /bin/systemctl status  syslog-ng.service
+syslog-ng.service - System Logger Daemon
+   Loaded: loaded (/usr/lib/systemd/system/syslog-ng.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:14:26 EST; 9s ago
+     Docs: man:syslog-ng(8)
+ Main PID: 13223 (syslog-ng)
+   CGroup: /system.slice/syslog-ng.service
+           └─13223 /usr/sbin/syslog-ng -F -p /var/run/syslogd.pid
+
+Dec 30 01:14:26 centos7.example42.com systemd[1]: Started System Logger Daemon.

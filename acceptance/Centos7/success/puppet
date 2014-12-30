@@ -1,10 +1,15 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'puppet':
+  ensure => '3.7.3-1.el7',
+}
 Redirecting to /bin/systemctl status  puppet.service
 puppet.service - Puppet agent
    Loaded: loaded (/usr/lib/systemd/system/puppet.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:54:36 EST; 12s ago
- Main PID: 2315 (puppet)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:03:03 EST; 6s ago
+ Main PID: 3807 (puppet)
    CGroup: /system.slice/puppet.service
-           └─2315 /usr/bin/ruby /usr/bin/puppet agent --no-daemonize
+           └─3807 /usr/bin/ruby /usr/bin/puppet agent --no-daemonize
 
-Dec 29 12:54:36 localhost.localdomain systemd[1]: Started Puppet agent.
-PROCS OK: 1 process with command name 'puppet' | procs=1;1:;1:;0;
+Dec 30 01:03:03 centos7.example42.com systemd[1]: Starting Puppet agent...
+Dec 30 01:03:03 centos7.example42.com systemd[1]: Started Puppet agent.

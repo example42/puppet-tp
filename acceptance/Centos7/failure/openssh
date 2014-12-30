@@ -1,4 +1,8 @@
-TCP OK - 0.004 second response time on 127.0.0.1 port 22|time=0.003782s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'openssh-server':
+  ensure => '6.4p1-8.el7',
+}
 Redirecting to /bin/systemctl status  ssh.service
 ssh.service
    Loaded: not-found (Reason: No such file or directory)

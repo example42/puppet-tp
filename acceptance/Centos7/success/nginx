@@ -1,0 +1,18 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'nginx':
+  ensure => '1.6.2-4.el7',
+}
+Redirecting to /bin/systemctl status  nginx.service
+nginx.service - The nginx HTTP and reverse proxy server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:55:29 EST; 5s ago
+ Main PID: 26646 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─26646 nginx: master process /usr/sbin/nginx
+           └─26647 nginx: worker process
+
+Dec 30 00:55:29 centos7.example42.com nginx[26642]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Dec 30 00:55:29 centos7.example42.com nginx[26642]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Dec 30 00:55:29 centos7.example42.com systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
+Dec 30 00:55:29 centos7.example42.com systemd[1]: Started The nginx HTTP and reverse proxy server.

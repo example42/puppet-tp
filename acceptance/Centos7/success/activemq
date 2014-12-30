@@ -1,17 +1,21 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'activemq':
+  ensure => '5.9.1-2.el7',
+}
 Redirecting to /bin/systemctl status  activemq.service
 activemq.service - ActiveMQ
    Loaded: loaded (/usr/lib/systemd/system/activemq.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:32:47 EST; 14s ago
- Main PID: 7608 (java)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 23:53:44 EST; 57s ago
+ Main PID: 27846 (java)
    CGroup: /system.slice/activemq.service
-           ‣ 7608 java -Xms512m -Xmx512m -Djava.util.logging.config.file=logging.properties -Dhawtio.realm=activemq -Dhawtio.role=a...
+           ‣ 27846 java -Xms512m -Xmx512m -Djava.util.logging.config.file=logging.properties -Dhawtio.realm=activemq -Dhawtio.role=...
 
-Dec 29 11:32:47 localhost.localdomain activemq[7591]: INFO: Loading '/etc/sysconfig/activemq'
-Dec 29 11:32:47 localhost.localdomain activemq[7591]: INFO: Using java 'java'
-Dec 29 11:32:47 localhost.localdomain activemq[7591]: INFO: Starting - inspect logfiles specified in logging.properties and lo...tails
-Dec 29 11:32:47 localhost.localdomain activemq[7591]: INFO: changing to user 'activemq' to invoke java
-Dec 29 11:32:47 localhost.localdomain su[7598]: [1;39m(to activemq) root on none[0m
-Dec 29 11:32:47 localhost.localdomain activemq[7591]: INFO: pidfile created : '/var/run/activemq/activemq.pid' (pid '7608')
-Dec 29 11:32:47 localhost.localdomain systemd[1]: Started ActiveMQ.
+Dec 29 23:53:43 centos7.example42.com activemq[27829]: INFO: Loading '/etc/sysconfig/activemq'
+Dec 29 23:53:43 centos7.example42.com activemq[27829]: INFO: Using java 'java'
+Dec 29 23:53:43 centos7.example42.com activemq[27829]: INFO: Starting - inspect logfiles specified in logging.properties and l...tails
+Dec 29 23:53:44 centos7.example42.com activemq[27829]: INFO: changing to user 'activemq' to invoke java
+Dec 29 23:53:44 centos7.example42.com su[27836]: [1;39m(to activemq) root on none[0m
+Dec 29 23:53:44 centos7.example42.com activemq[27829]: INFO: pidfile created : '/var/run/activemq/activemq.pid' (pid '27846')
+Dec 29 23:53:44 centos7.example42.com systemd[1]: Started ActiveMQ.
 Hint: Some lines were ellipsized, use -l to show in full.
-PROCS OK: 1 process with command name 'java' | procs=1;1:;1:;0;

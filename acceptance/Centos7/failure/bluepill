@@ -1,1 +1,1 @@
-sudo: /etc/puppi/checks/bluepill: command not found
+sudo: /etc/tp/test/bluepill: command not found

@@ -1,19 +1,20 @@
-TCP OK - 0.001 second response time on 127.0.0.1 port 80|time=0.001049s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'httpd':
+  ensure => '2.4.6-18.el7.centos',
+}
 Redirecting to /bin/systemctl status  httpd.service
 httpd.service - The Apache HTTP Server
    Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:34:32 EST; 9s ago
- Main PID: 8074 (httpd)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 23:56:12 EST; 19s ago
+ Main PID: 28730 (httpd)
    Status: "Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec"
    CGroup: /system.slice/httpd.service
-           ├─8074 /usr/sbin/httpd -DFOREGROUND
-           ├─8075 /usr/sbin/httpd -DFOREGROUND
-           ├─8078 /usr/sbin/httpd -DFOREGROUND
-           ├─8080 /usr/sbin/httpd -DFOREGROUND
-           ├─8081 /usr/sbin/httpd -DFOREGROUND
-           └─8082 /usr/sbin/httpd -DFOREGROUND
+           ├─28730 /usr/sbin/httpd -DFOREGROUND
+           ├─28731 /usr/sbin/httpd -DFOREGROUND
+           ├─28732 /usr/sbin/httpd -DFOREGROUND
+           ├─28733 /usr/sbin/httpd -DFOREGROUND
+           ├─28734 /usr/sbin/httpd -DFOREGROUND
+           └─28738 /usr/sbin/httpd -DFOREGROUND
 
-Dec 29 11:34:32 localhost.localdomain httpd[8074]: AH00558: httpd: Could not reliably determine the server's fully qualified ...essage
-Dec 29 11:34:32 localhost.localdomain systemd[1]: Started The Apache HTTP Server.
-Hint: Some lines were ellipsized, use -l to show in full.
-PROCS OK: 6 processes with command name 'httpd' | procs=6;1:;1:;0;
+Dec 29 23:56:12 centos7.example42.com systemd[1]: Started The Apache HTTP Server.

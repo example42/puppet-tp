@@ -1,19 +1,19 @@
-TCP OK - 0.004 second response time on 127.0.0.1 port 143|time=0.004246s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'dovecot':
+  ensure => '2.2.10-4.el7_0.1',
+}
 Redirecting to /bin/systemctl status  dovecot.service
 dovecot.service - Dovecot IMAP/POP3 email server
    Loaded: loaded (/usr/lib/systemd/system/dovecot.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 11:51:12 EST; 26s ago
- Main PID: 14753 (dovecot)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:35:33 EST; 56s ago
+ Main PID: 5807 (dovecot)
    CGroup: /system.slice/dovecot.service
-           ├─14753 /usr/sbin/dovecot -F
-           ├─14770 dovecot/anvil
-           ├─14771 dovecot/log
-           ├─14773 dovecot/config
-           └─14809 dovecot/auth
+           ├─5807 /usr/sbin/dovecot -F
+           ├─5825 dovecot/anvil
+           ├─5826 dovecot/log
+           └─5828 dovecot/config
 
-Dec 29 11:51:12 localhost.localdomain systemd[1]: Started Dovecot IMAP/POP3 email server.
-Dec 29 11:51:12 localhost.localdomain dovecot[14753]: [1;31mmaster: Error: setrlimit(RLIMIT_NPROC, 5214): Operation not permitted[0m
-Dec 29 11:51:12 localhost.localdomain dovecot[14753]: master: Dovecot v2.2.10 starting up for imap, pop3, lmtp (core dumps disabled)
-Dec 29 11:51:39 localhost.localdomain dovecot[14771]: imap-login: Disconnected (disconnected before auth was ready, waited 0 s...AAAB>
-Hint: Some lines were ellipsized, use -l to show in full.
-PROCS OK: 1 process with command name 'dovecot' | procs=1;1:;1:;0;
+Dec 30 00:35:33 centos7.example42.com systemd[1]: Started Dovecot IMAP/POP3 email server.
+Dec 30 00:35:34 centos7.example42.com dovecot[5807]: [1;31mmaster: Error: setrlimit(RLIMIT_NPROC, 5214): Operation not permitted[0m
+Dec 30 00:35:34 centos7.example42.com dovecot[5807]: master: Dovecot v2.2.10 starting up for imap, pop3, lmtp (core dumps disabled)

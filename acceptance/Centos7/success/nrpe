@@ -1,17 +1,19 @@
-TCP OK - 0.001 second response time on 127.0.0.1 port 5666|time=0.001383s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'nrpe':
+  ensure => '2.15-2.el7',
+}
 Redirecting to /bin/systemctl status  nrpe.service
 nrpe.service - NRPE
    Loaded: loaded (/usr/lib/systemd/system/nrpe.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:38:03 EST; 10s ago
- Main PID: 28890 (nrpe)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:56:32 EST; 6s ago
+ Main PID: 28031 (nrpe)
    CGroup: /system.slice/nrpe.service
-           └─28890 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
+           └─28031 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
 
-Dec 29 12:38:02 localhost.localdomain nrpe[28890]: [1;39mStarting up daemon[0m
-Dec 29 12:38:02 localhost.localdomain nrpe[28890]: Server listening on 0.0.0.0 port 5666.
-Dec 29 12:38:02 localhost.localdomain nrpe[28890]: Server listening on :: port 5666.
-Dec 29 12:38:02 localhost.localdomain nrpe[28890]: Listening for connections on port 0
-Dec 29 12:38:02 localhost.localdomain nrpe[28890]: Allowing connections from: 127.0.0.1
-Dec 29 12:38:03 localhost.localdomain systemd[1]: Started NRPE.
-Dec 29 12:38:13 localhost.localdomain nrpe[28937]: [1;31mError: Could not complete SSL handshake. 5[0m
-PROCS OK: 1 process with command name 'nrpe' | procs=1;1:;1:;0;
+Dec 30 00:56:32 centos7.example42.com nrpe[28031]: [1;39mStarting up daemon[0m
+Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Server listening on 0.0.0.0 port 5666.
+Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Server listening on :: port 5666.
+Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Listening for connections on port 0
+Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Allowing connections from: 127.0.0.1
+Dec 30 00:56:32 centos7.example42.com systemd[1]: Started NRPE.

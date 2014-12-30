@@ -1,0 +1,19 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'samba':
+  ensure => '4.1.1-37.el7_0',
+}
+Redirecting to /bin/systemctl status  smb.service
+smb.service - Samba SMB Daemon
+   Loaded: loaded (/usr/lib/systemd/system/smb.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:10:50 EST; 6s ago
+ Main PID: 9153 (smbd)
+   Status: "smbd: ready to serve connections..."
+   CGroup: /system.slice/smb.service
+           ├─9153 /usr/sbin/smbd
+           └─9157 /usr/sbin/smbd
+
+Dec 30 01:10:50 centos7.example42.com smbd[9153]: [1;31m[2014/12/30 01:10:50.279056,  0] ../lib/util/become_daemon.c:136(daemon_ready)[0m
+Dec 30 01:10:50 centos7.example42.com systemd[1]: Started Samba SMB Daemon.
+Dec 30 01:10:50 centos7.example42.com smbd[9157]: [1;31mSTATUS=daemon 'smbd' finished starting up and ready to serve connectionsfai...ESSFUL[0m
+Hint: Some lines were ellipsized, use -l to show in full.

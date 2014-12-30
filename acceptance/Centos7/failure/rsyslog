@@ -1,1 +1,0 @@
-sudo: /etc/puppi/checks/rsyslog: command not found

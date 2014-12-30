@@ -1,0 +1,25 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'xinetd':
+  ensure => '2.3.15-12.el7',
+}
+Redirecting to /bin/systemctl status  xinetd.service
+xinetd.service - Xinetd A Powerful Replacement For Inetd
+   Loaded: loaded (/usr/lib/systemd/system/xinetd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:18:07 EST; 6s ago
+  Process: 17533 ExecStart=/usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid $EXTRAOPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 17534 (xinetd)
+   CGroup: /system.slice/xinetd.service
+           └─17534 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing discard
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing discard
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing echo
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing echo
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing tcpmux
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing time
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: removing time
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: [1;39mxinetd Version 2.3.15 started with libwrap loadavg labeled-networking op...ed in.[0m
+Dec 30 01:18:06 centos7.example42.com xinetd[17534]: [1;39mStarted working: 0 available services[0m
+Dec 30 01:18:07 centos7.example42.com systemd[1]: Started Xinetd A Powerful Replacement For Inetd.
+Hint: Some lines were ellipsized, use -l to show in full.

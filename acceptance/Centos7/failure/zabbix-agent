@@ -1,1 +1,10 @@
-sudo: /etc/puppi/checks/zabbix-agent: command not found
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'zabbix-agent':
+  ensure => 'absent',
+}
+Redirecting to /bin/systemctl status  zabbix-agent.service
+zabbix-agent.service
+   Loaded: not-found (Reason: No such file or directory)
+   Active: inactive (dead)
+

@@ -1,0 +1,17 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'net-snmp':
+  ensure => '5.7.2-18.el7',
+}
+Redirecting to /bin/systemctl status  snmpd.service
+snmpd.service - Simple Network Management Protocol (SNMP) Daemon.
+   Loaded: loaded (/usr/lib/systemd/system/snmpd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:12:11 EST; 5s ago
+ Main PID: 10659 (snmpd)
+   CGroup: /system.slice/snmpd.service
+           └─10659 /usr/sbin/snmpd -LS0-6d -f
+
+Dec 30 01:12:11 centos7.example42.com snmpd[10659]: [1;39mmibII/mta_sendmail.c:open_sendmailst: could not guess version of statisti...stics"[0m
+Dec 30 01:12:11 centos7.example42.com snmpd[10659]: NET-SNMP version 5.7.2
+Dec 30 01:12:11 centos7.example42.com systemd[1]: Started Simple Network Management Protocol (SNMP) Daemon..
+Hint: Some lines were ellipsized, use -l to show in full.

@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'rsyslog':
+  ensure => '7.4.7-7.el7_0',
+}
+Redirecting to /bin/systemctl status  rsyslog.service
+rsyslog.service - System Logging Service
+   Loaded: loaded (/usr/lib/systemd/system/rsyslog.service; enabled)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 17:21:47 EST; 7h ago
+ Main PID: 8396 (rsyslogd)
+   CGroup: /system.slice/rsyslog.service
+           └─8396 /usr/sbin/rsyslogd -n
+
+Dec 29 17:21:47 centos7.example42.com systemd[1]: Started System Logging Service.

@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'vsftpd':
+  ensure => '3.0.2-9.el7',
+}
+Redirecting to /bin/systemctl status  vsftpd.service
+vsftpd.service - Vsftpd ftp daemon
+   Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:17:28 EST; 7s ago
+ Main PID: 16805 (vsftpd)
+   CGroup: /system.slice/vsftpd.service
+           └─16805 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+Dec 30 01:17:28 centos7.example42.com systemd[1]: Started Vsftpd ftp daemon.

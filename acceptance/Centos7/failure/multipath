@@ -1,8 +1,15 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'device-mapper-multipath':
+  ensure => '0.4.9-66.el7',
+}
 Redirecting to /bin/systemctl status  multipathd.service
 multipathd.service - Device-Mapper Multipath Device Controller
    Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled)
    Active: inactive (dead)
-           start condition failed at Mon 2014-12-29 12:25:19 EST; 17s ago
+           start condition failed at Tue 2014-12-30 00:52:31 EST; 5s ago
            ConditionPathExists=/etc/multipath.conf was not met
 
-Dec 29 12:25:19 localhost.localdomain systemd[1]: Started Device-Mapper Multipath Device Controller.
+Dec 29 17:46:31 centos7.example42.com systemd[1]: Started Device-Mapper Multipath Device Controller.
+Dec 29 17:47:05 centos7.example42.com systemd[1]: Stopped Device-Mapper Multipath Device Controller.
+Dec 30 00:52:31 centos7.example42.com systemd[1]: Started Device-Mapper Multipath Device Controller.

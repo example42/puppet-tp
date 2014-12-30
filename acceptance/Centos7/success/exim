@@ -1,0 +1,15 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'exim':
+  ensure => '4.84-4.el7',
+}
+Redirecting to /bin/systemctl status  exim.service
+exim.service - Exim Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/exim.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:40:05 EST; 6s ago
+ Main PID: 7189 (exim)
+   CGroup: /system.slice/exim.service
+           └─7189 /usr/sbin/exim -bd -q1h
+
+Dec 30 00:40:05 centos7.example42.com systemd[1]: Starting Exim Mail Transport Agent...
+Dec 30 00:40:05 centos7.example42.com systemd[1]: Started Exim Mail Transport Agent.

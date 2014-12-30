@@ -1,11 +1,16 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'libvirt':
+  ensure => '1.1.1-29.el7_0.3',
+}
 Redirecting to /bin/systemctl status  libvirtd.service
 libvirtd.service - Virtualization daemon
    Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:07:39 EST; 14s ago
- Main PID: 20410 (libvirtd)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:46:18 EST; 9s ago
+ Main PID: 14992 (libvirtd)
    CGroup: /system.slice/libvirtd.service
-           ├─20410 /usr/sbin/libvirtd
-           └─20527 /usr/bin/python -Es /usr/bin/firewall-cmd --direct --passthrough ipv4 --table filter --insert FORWARD --in-inter...
+           ├─ 8579 /sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf
+           ├─14992 /usr/sbin/libvirtd
+           └─15131 /usr/bin/python -Es /usr/bin/firewall-cmd --direct --passthrough ipv4 --table filter --insert FORWARD --in-inter...
 
-Dec 29 12:07:39 localhost.localdomain systemd[1]: Started Virtualization daemon.
-PROCS OK: 1 process with command name 'libvirtd' | procs=1;1:;1:;0;
+Dec 30 00:46:18 centos7.example42.com systemd[1]: Started Virtualization daemon.

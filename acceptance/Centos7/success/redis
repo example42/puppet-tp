@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'redis':
+  ensure => '2.8.14-2.el7',
+}
+Redirecting to /bin/systemctl status  redis.service
+redis.service - Redis persistent key-value database
+   Loaded: loaded (/usr/lib/systemd/system/redis.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:09:17 EST; 9s ago
+ Main PID: 7331 (redis-server)
+   CGroup: /system.slice/redis.service
+           └─7331 /usr/bin/redis-server 127.0.0.1:6379
+
+Dec 30 01:09:17 centos7.example42.com systemd[1]: Started Redis persistent key-value database.

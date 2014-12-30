@@ -1,0 +1,17 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'lighttpd':
+  ensure => '1.4.35-1.el7',
+}
+Redirecting to /bin/systemctl status  lighttpd.service
+lighttpd.service - Lightning Fast Webserver With Light System Requirements
+   Loaded: loaded (/usr/lib/systemd/system/lighttpd.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:46:57 EST; 5s ago
+ Main PID: 15838 (lighttpd)
+   CGroup: /system.slice/lighttpd.service
+           └─15838 /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
+
+Dec 30 00:46:57 centos7.example42.com systemd[1]: Started Lightning Fast Webserver With Light System Requirements.
+Dec 30 00:46:57 centos7.example42.com lighttpd[15838]: 2014-12-30 00:46:57: (network.c.283) warning: please use server.use-ipv...anges
+Dec 30 00:46:57 centos7.example42.com lighttpd[15838]: 2014-12-30 00:46:57: (server.c.927) can't have more connections than fd... 1024
+Hint: Some lines were ellipsized, use -l to show in full.

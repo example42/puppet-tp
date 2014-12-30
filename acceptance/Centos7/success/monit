@@ -1,13 +1,15 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'monit':
+  ensure => '5.6-1.el7',
+}
 Redirecting to /bin/systemctl status  monit.service
 monit.service - Pro-active monitoring utility for unix systems
    Loaded: loaded (/usr/lib/systemd/system/monit.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:22:09 EST; 16s ago
- Main PID: 24359 (monit)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:51:14 EST; 5s ago
+ Main PID: 21303 (monit)
    CGroup: /system.slice/monit.service
-           └─24359 /usr/bin/monit -I
+           └─21303 /usr/bin/monit -I
 
-Dec 29 12:22:09 localhost.localdomain systemd[1]: Started Pro-active monitoring utility for unix systems.
-Dec 29 12:22:09 localhost.localdomain monit[24359]: monit: generated unique Monit id f64c74bb480da560d3fa86d02bfa550b and sto...it.id'
-Dec 29 12:22:09 localhost.localdomain monit[24359]: Starting monit daemon with http interface at [localhost:2812]
-Hint: Some lines were ellipsized, use -l to show in full.
-PROCS OK: 1 process with command name 'monit' | procs=1;1:;1:;0;
+Dec 30 00:51:14 centos7.example42.com systemd[1]: Started Pro-active monitoring utility for unix systems.
+Dec 30 00:51:14 centos7.example42.com monit[21303]: Starting monit daemon with http interface at [localhost:2812]

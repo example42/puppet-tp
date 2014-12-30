@@ -1,19 +1,23 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'ntp':
+  ensure => '4.2.6p5-19.el7.centos',
+}
 Redirecting to /bin/systemctl status  ntpd.service
 ntpd.service - Network Time Service
    Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:39:10 EST; 9s ago
- Main PID: 29427 (ntpd)
+   Active: [1;32mactive (running)[0m since Mon 2014-12-29 17:58:16 EST; 6h ago
+ Main PID: 21340 (ntpd)
    CGroup: /system.slice/ntpd.service
-           └─29427 /usr/sbin/ntpd -u ntp:ntp -g
+           └─21340 /usr/sbin/ntpd -u ntp:ntp -g
 
-Dec 29 12:39:10 localhost.localdomain ntpd[29427]: Listen normally on 5 lo ::1 UDP 123
-Dec 29 12:39:10 localhost.localdomain ntpd[29427]: Listen normally on 6 enp0s3 fe80::a00:27ff:feea:9bb5 UDP 123
-Dec 29 12:39:10 localhost.localdomain ntpd[29427]: Listening on routing socket on fd #23 for interface updates
-Dec 29 12:39:10 localhost.localdomain systemd[1]: Started Network Time Service.
-Dec 29 12:39:15 localhost.localdomain ntpd[29427]: 0.0.0.0 c016 06 restart
-Dec 29 12:39:15 localhost.localdomain ntpd[29427]: 0.0.0.0 c012 02 freq_set kernel 0.000 PPM
-Dec 29 12:39:15 localhost.localdomain ntpd[29427]: 0.0.0.0 c011 01 freq_not_set
-Dec 29 12:39:15 localhost.localdomain ntpd[29427]: 0.0.0.0 c61c 0c clock_step -0.136471 s
-Dec 29 12:39:15 localhost.localdomain ntpd[29427]: 0.0.0.0 c614 04 freq_mode
-Dec 29 12:39:16 localhost.localdomain ntpd[29427]: 0.0.0.0 c618 08 no_sys_peer
-PROCS OK: 1 process with command name 'ntpd' | procs=1;1:;1:;0;
+Dec 29 17:58:16 centos7.example42.com systemd[1]: Started Network Time Service.
+Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c016 06 restart
+Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c012 02 freq_set kernel 0.000 PPM
+Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c011 01 freq_not_set
+Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c61c 0c clock_step -0.197962 s
+Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c614 04 freq_mode
+Dec 29 17:58:22 centos7.example42.com ntpd[21340]: 0.0.0.0 c618 08 no_sys_peer
+Dec 29 19:42:16 centos7.example42.com ntpd[21340]: 0.0.0.0 c612 02 freq_set kernel 0.000 PPM
+Dec 29 19:42:16 centos7.example42.com ntpd[21340]: 0.0.0.0 c615 05 clock_sync
+Dec 29 23:47:36 centos7.example42.com ntpd[21340]: 0.0.0.0 0618 08 no_sys_peer

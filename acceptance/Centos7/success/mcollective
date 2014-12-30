@@ -1,0 +1,17 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'mcollective':
+  ensure => '2.7.0-1.el7',
+}
+Redirecting to /bin/systemctl status  mcollective.service
+mcollective.service - The Marionette Collective
+   Loaded: loaded (/usr/lib/systemd/system/mcollective.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:49:07 EST; 5s ago
+ Main PID: 19151 (mcollectived)
+   CGroup: /system.slice/mcollective.service
+           └─19151 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollective/server.cfg --pidfile=/var/run/mcollective.pid --d...
+
+Dec 30 00:49:07 centos7.example42.com systemd[1]: PID file /var/run/mcollective.pid not readable (yet?) after start.
+Dec 30 00:49:07 centos7.example42.com systemd[1]: [1;39mmcollective.service: Supervising process 19151 which is not our child. We'l...exits.[0m
+Dec 30 00:49:07 centos7.example42.com systemd[1]: Started The Marionette Collective.
+Hint: Some lines were ellipsized, use -l to show in full.

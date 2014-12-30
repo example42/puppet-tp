@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'puppetdb':
+  ensure => '2.2.2-1.el7',
+}
+Redirecting to /bin/systemctl status  puppetdb.service
+puppetdb.service - puppetdb Daemon
+   Loaded: loaded (/usr/lib/systemd/system/puppetdb.service; enabled)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:05:10 EST; 14s ago
+ Main PID: 4365 (java)
+   CGroup: /system.slice/puppetdb.service
+           └─4365 java -Xmx192m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/puppetdb/puppetdb-oom.hprof -Djava.securi...
+
+Dec 30 01:05:10 centos7.example42.com systemd[1]: Started puppetdb Daemon.

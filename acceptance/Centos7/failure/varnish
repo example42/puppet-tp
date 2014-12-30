@@ -1,1 +1,16 @@
-sudo: /etc/puppi/checks/varnish: command not found
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'varnish':
+  ensure => '4.0.1-2.el7',
+}
+Redirecting to /bin/systemctl status  varnish.service
+varnish.service - Varnish a high-perfomance HTTP accelerator
+   Loaded: loaded (/usr/lib/systemd/system/varnish.service; disabled)
+   Active: [1;31mfailed[0m (Result: exit-code) since Tue 2014-12-30 01:16:30 EST; 5s ago
+  Process: 15802 ExecStart=/usr/sbin/varnishd -P /var/run/varnish.pid -f $VARNISH_VCL_CONF -a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} -t $VARNISH_TTL -u $VARNISH_USER -g $VARNISH_GROUP -S $VARNISH_SECRET_FILE -s $VARNISH_STORAGE $DAEMON_OPTS [1;31m(code=exited, status=2)[0m
+
+Dec 30 01:16:30 centos7.example42.com varnishd[15802]: Failed to set permissions on ./vcl.B4OO1PrW.so: Operation not permitted
+Dec 30 01:16:30 centos7.example42.com varnishd[15802]: VCL compilation failed
+Dec 30 01:16:30 centos7.example42.com systemd[1]: [1;39mvarnish.service: control process exited, code=exited status=2[0m
+Dec 30 01:16:30 centos7.example42.com systemd[1]: [1;31mFailed to start Varnish a high-perfomance HTTP accelerator.[0m
+Dec 30 01:16:30 centos7.example42.com systemd[1]: [1;39mUnit varnish.service entered failed state.[0m

@@ -1,11 +1,14 @@
-TCP OK - 0.002 second response time on 127.0.0.1 port 11211|time=0.002268s;5.000000;10.000000;0.000000;10.000000
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'memcached':
+  ensure => '1.4.15-9.el7',
+}
 Redirecting to /bin/systemctl status  memcached.service
 memcached.service - Memcached
    Loaded: loaded (/usr/lib/systemd/system/memcached.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 12:18:12 EST; 16s ago
- Main PID: 23429 (memcached)
+   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:49:41 EST; 6s ago
+ Main PID: 19867 (memcached)
    CGroup: /system.slice/memcached.service
-           └─23429 /usr/bin/memcached -u memcached -p 11211 -m 64 -c 1024
+           └─19867 /usr/bin/memcached -u memcached -p 11211 -m 64 -c 1024
 
-Dec 29 12:18:12 localhost.localdomain systemd[1]: Started Memcached.
-PROCS OK: 1 process with command name 'memcached' | procs=1;1:;1:;0;
+Dec 30 00:49:41 centos7.example42.com systemd[1]: Started Memcached.

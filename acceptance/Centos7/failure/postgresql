@@ -1,1 +1,10 @@
-Connection refused
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'postgresql':
+  ensure => '9.2.7-1.el7',
+}
+Redirecting to /bin/systemctl status  postgresql.service
+postgresql.service
+   Loaded: not-found (Reason: No such file or directory)
+   Active: inactive (dead)
+

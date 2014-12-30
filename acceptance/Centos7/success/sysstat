@@ -1,0 +1,14 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'sysstat':
+  ensure => '10.1.5-4.el7',
+}
+Redirecting to /bin/systemctl status  sysstat.service
+sysstat.service - Resets System Activity Logs
+   Loaded: loaded (/usr/lib/systemd/system/sysstat.service; enabled)
+   Active: [1;32mactive (exited)[0m since Tue 2014-12-30 01:14:54 EST; 5s ago
+  Process: 13792 ExecStart=/usr/lib64/sa/sa1 --boot (code=exited, status=0/SUCCESS)
+ Main PID: 13792 (code=exited, status=0/SUCCESS)
+
+Dec 30 01:14:54 centos7.example42.com systemd[1]: Starting Resets System Activity Logs...
+Dec 30 01:14:54 centos7.example42.com systemd[1]: Started Resets System Activity Logs.

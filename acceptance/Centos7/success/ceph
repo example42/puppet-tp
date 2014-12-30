@@ -1,0 +1,6 @@
+[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
+   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
+package { 'ceph':
+  ensure => '0.80.5-8.el7',
+}
+/etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.
