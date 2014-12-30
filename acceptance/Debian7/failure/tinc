@@ -1,0 +1,10 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'tinc':
+  ensure => '1.0.19-3',
+}
+
+# Service status
+Usage: /etc/init.d/tinc {start|stop|reload|restart|force-reload|alarm}

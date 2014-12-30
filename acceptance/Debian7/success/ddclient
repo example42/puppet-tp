@@ -1,0 +1,10 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'ddclient':
+  ensure => '3.8.0-11.5',
+}
+
+# Service status
+Status of Dynamic DNS service update utility: ddclient is running.

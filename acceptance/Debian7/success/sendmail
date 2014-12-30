@@ -1,0 +1,21 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'sendmail-bin':
+  ensure => '8.14.4-4',
+}
+
+# Service status
+MSP: is run via cron (20m)
+MTA: 22770 /usr/sbin/sendmail-mta -Am -L sm-mta -bd -q10m
+UID        PID  PPID  C STIME TTY          TIME CMD
+root     22770     1  0 11:33 ?        00:00:00 sendmail: MTA: accepting connections          
+Daemon Status: (process 22888) Console socket child
+
+Current number of children: 0
+QueueDir free disk space (in blocks): 3176728
+Load average: 1
+Child Process 22770 Status: accepting connections
+
+QUE: Same as MTA

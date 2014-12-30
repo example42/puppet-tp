@@ -1,0 +1,10 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'xinetd':
+  ensure => '1:2.3.14-7.1+deb7u1',
+}
+
+# Service status
+Usage: /etc/init.d/xinetd {start|stop|reload|force-reload|restart}

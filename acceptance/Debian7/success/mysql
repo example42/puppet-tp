@@ -1,0 +1,23 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'mysql-server':
+  ensure => '5.5.40-0+wheezy1',
+}
+
+# Service status
+[[36minfo[39;49m] /usr/bin/mysqladmin  Ver 8.42 Distrib 5.5.40, for debian-linux-gnu on x86_64
+Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Server version		5.5.40-0+wheezy1
+Protocol version	10
+Connection		Localhost via UNIX socket
+UNIX socket		/var/run/mysqld/mysqld.sock
+Uptime:			7 sec
+
+Threads: 1  Questions: 587  Slow queries: 0  Opens: 421  Flush tables: 1  Open tables: 41  Queries per second avg: 83.857.

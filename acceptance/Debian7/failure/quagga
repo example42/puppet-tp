@@ -1,0 +1,12 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+package { 'quagga':
+  ensure => '0.99.22.4-1+wheezy1',
+}
+
+# Service status
+Usage: /etc/init.d/quagga {start|stop|restart|force-reload|<priority>} [daemon]
+       E.g. '/etc/init.d/quagga 5' would start all daemons with a prio 1-5.
+       Read /usr/share/doc/quagga/README.Debian for details.
