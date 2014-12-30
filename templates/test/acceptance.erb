@@ -4,8 +4,12 @@
 # Use it to test if your application runs as expected.
 #
 <% if @settings['package_name'] and @settings['package_name'] != "" -%>
-<%= @options['check_package_command'] %>
+echo "# Package status"
+<%= @options['check_package_command'] %> 2> /dev/null
 <% end -%>
+
 <% if @settings['service_name'] and @settings['service_name'] != "" -%>
+echo
+echo "# Service status"
 <%= @options['check_service_command'] %>
 <% end -%>

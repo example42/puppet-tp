@@ -47,10 +47,12 @@ acceptance_test () {
   if [ "x$?" == "x0" ]; then
     mkdir -p acceptance/$2/success
     mv /tmp/tp_test_$1_$2 acceptance/$2/success/$1
+    cat acceptance/$2/success/$1
     echo_success "SUCCESS! Output written to acceptance/$2/success/$1"
   else
     mkdir -p acceptance/$2/failure
     mv /tmp/tp_test_$1_$2 acceptance/$2/failure/$1
+    cat acceptance/$2/failure/$1
     echo_failure "FAILURE! Output written to acceptance/$2/failure/$1"
   fi
 
