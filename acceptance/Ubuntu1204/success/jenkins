@@ -1,0 +1,40 @@
+# Package status
+Package: jenkins
+Status: install ok installed
+Priority: optional
+Section: java
+Installed-Size: 98
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Version: 1.424.6+dfsg-1ubuntu0.2
+Depends: adduser, default-jre-headless | java6-runtime-headless, jenkins-common, upstart-job
+Conflicts: jenkins-tomcat, tomcat6
+Conffiles:
+ /etc/default/jenkins 8c9bba4dd76fad3df1b93553708c1ce4
+ /etc/logrotate.d/jenkins 8bf119fbfac0955adfbef8bfaa5ae6a5
+ /etc/init/jenkins.conf b005ddf1abbefbe8cd0826a73e72bf16
+Description: Continuous Integration and Job Scheduling Server
+ Jenkins monitors executions of repeated jobs, such as building a software
+ project or jobs run by cron. Among those things, current Jenkins focuses
+ on the following two jobs:
+ .
+  * Building/testing software projects continuously, just like CruiseControl
+    or DamageControl. In a nutshell, Jenkins provides an easy-to-use
+    so-called continuous integration system, making it easier for developers
+    to integrate changes to the project, and making it easier for users to
+    obtain a fresh build. The automated, continuous build increases
+    productivity.
+  * Monitoring executions of externally-run jobs, such as cron jobs and
+    procmail jobs, even those that are run on a remote machine. For example,
+    with cron, all you receive is regular e-mails that capture the output,
+    and it is up to you to look at them diligently and notice when it broke.
+    Jenkins keeps those outputs and makes it easy for you to notice when
+    something is wrong.
+ .
+ This package supports using Jenkins in standalone mode utilising the
+ embedded winstone servlet container.
+Homepage: http://jenkins-ci.org/
+Original-Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+
+# Service status
+jenkins start/running, process 24827

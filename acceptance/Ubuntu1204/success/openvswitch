@@ -1,0 +1,26 @@
+# Package status
+Package: openvswitch-switch
+Status: install ok installed
+Priority: extra
+Section: net
+Installed-Size: 2920
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Source: openvswitch
+Version: 1.4.6-0ubuntu1.12.04.4
+Depends: libc6 (>= 2.14), libssl1.0.0 (>= 1.0.0), python, openvswitch-common (= 1.4.6-0ubuntu1.12.04.4), module-init-tools, procps, uuid-runtime
+Recommends: openvswitch-datapath-dkms
+Conffiles:
+ /etc/init.d/openvswitch-switch e19490b929abd335570d25987dda3ece
+ /etc/logrotate.d/openvswitch-switch b141ebf682a208857d373bd0d1db0404
+Description: Open vSwitch switch implementations
+ openvswitch-switch provides the userspace components and utilities for
+ the Open vSwitch kernel-based switch.
+ .
+ Open vSwitch is a full-featured software-based Ethernet switch.
+Homepage: http://openvswitch.org/
+Original-Maintainer: Open vSwitch developers <dev@openvswitch.org>
+
+# Service status
+ovsdb-server is running with pid 20010
+ovs-vswitchd is running with pid 20019

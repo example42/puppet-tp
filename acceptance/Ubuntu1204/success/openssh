@@ -1,0 +1,49 @@
+# Package status
+Package: openssh-server
+Status: install ok installed
+Multi-Arch: foreign
+Priority: optional
+Section: net
+Installed-Size: 807
+Maintainer: Colin Watson <cjwatson@ubuntu.com>
+Architecture: amd64
+Source: openssh
+Version: 1:5.9p1-5ubuntu1
+Replaces: openssh-client (<< 1:3.8.1p1-11), ssh, ssh-krb5
+Provides: ssh-server
+Depends: libc6 (>= 2.15), libcomerr2 (>= 1.01), libgssapi-krb5-2 (>= 1.10+dfsg~), libkrb5-3 (>= 1.6.dfsg.2), libpam0g (>= 0.99.7.1), libselinux1 (>= 1.32), libssl1.0.0 (>= 1.0.0), libwrap0 (>= 7.6-4~), zlib1g (>= 1:1.1.4), debconf (>= 1.2.0) | debconf-2.0, openssh-client (= 1:5.9p1-5ubuntu1), upstart-job, libpam-runtime (>= 0.76-14), libpam-modules (>= 0.72-9), adduser (>= 3.9), dpkg (>= 1.9.0), lsb-base (>= 3.2-13), procps
+Recommends: xauth, ssh-import-id
+Suggests: ssh-askpass, rssh, molly-guard, openssh-blacklist, openssh-blacklist-extra, ufw, monkeysphere
+Conflicts: rsh-client (<< 0.16.1-1), sftp, ssh (<< 1:3.8.1p1-9), ssh-krb5 (<< 1:4.3p2-7), ssh-nonfree (<< 2), ssh-socks, ssh2
+Conffiles:
+ /etc/network/if-up.d/openssh-server d6e8fb0f6192bc4cb91c4a1bc50d096b
+ /etc/default/ssh 500e3cf069fe9a7b9936108eb9d9c035
+ /etc/pam.d/sshd 5ad89e19556206e750f3b096fbe9c6b3
+ /etc/init/ssh.conf 2c7eae0c0ef56b191dad89310fa36b8e
+ /etc/ufw/applications.d/openssh-server 486b78d54b93cc9fdc950c1d52ff479e
+ /etc/init.d/ssh 72f87136ef9b97c7dba5fe2b75e13a59
+Description: secure shell (SSH) server, for secure access from remote machines
+ This is the portable version of OpenSSH, a free implementation of
+ the Secure Shell protocol as specified by the IETF secsh working
+ group.
+ .
+ Ssh (Secure Shell) is a program for logging into a remote machine
+ and for executing commands on a remote machine.
+ It provides secure encrypted communications between two untrusted
+ hosts over an insecure network. X11 connections and arbitrary TCP/IP
+ ports can also be forwarded over the secure channel.
+ It can be used to provide applications with a secure communication
+ channel.
+ .
+ This package provides the sshd server.
+ .
+ In some countries it may be illegal to use any encryption at all
+ without a special permit.
+ .
+ sshd replaces the insecure rshd program, which is obsolete for most
+ purposes.
+Homepage: http://www.openssh.org/
+Original-Maintainer: Debian OpenSSH Maintainers <debian-ssh@lists.debian.org>
+
+# Service status
+ssh start/running, process 661

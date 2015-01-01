@@ -1,0 +1,53 @@
+# Package status
+Package: monit
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 715
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 1:5.3.2-1
+Depends: libc6 (>= 2.11), libpam0g (>= 0.99.7.1), libssl1.0.0 (>= 1.0.0), lsb-base (>= 3.2-13)
+Suggests: exim4 | postfix | mail-transport-agent
+Conffiles:
+ /etc/logrotate.d/monit 62d8de62c4153bca27dfac15b2d63dd5
+ /etc/default/monit 41c370d2478f7da23ea9b6b3b5adaaa5
+ /etc/pam.d/monit 2c649c6000755b2d4eded976c3638fb2
+ /etc/init.d/monit cf7c22946952a7f0094c256c6dc174a0
+ /etc/monit/monitrc 8730cabad2c17b20a0b602158984331c
+Description: utility for monitoring and managing daemons or similar programs
+ monit is a utility for monitoring and managing daemons or similar
+ programs running on a Unix system. It will start specified programs
+ if they are not running and restart programs not responding.
+ .
+ monit supports:
+  * Daemon mode - poll programs at a specified interval
+  * Monitoring modes - active, passive or manual
+  * Start, stop and restart of programs
+  * Group and manage groups of programs
+  * Process dependency definition
+  * Logging to syslog or own logfile
+  * Configuration - comprehensive controlfile
+  * Runtime and TCP/IP port checking (tcp and udp)
+  * SSL support for port checking
+  * Unix domain socket checking
+  * Process status and process timeout
+  * Process cpu usage
+  * Process memory usage
+  * Process zombie check
+  * Check the systems load average
+  * Check a file or directory timestamp
+  * Alert, stop or restart a process based on its characteristics
+  * MD5 checksum for programs started and stopped by monit
+  * Alert notification for program timeout, restart, checksum, stop
+    resource and timestamp error
+  * Flexible and customizable email alert messages
+  * Protocol verification. HTTP, FTP, SMTP, POP, IMAP, NNTP, SSH, DWP,
+    LDAPv2 and LDAPv3
+  * An http interface with optional SSL support to make monit
+    accessible from a webbrowser
+Original-Maintainer: Sergey B Kirpichev <skirpichev@gmail.com>
+Homepage: http://mmonit.com/monit/
+
+# Service status
+ * monit is running

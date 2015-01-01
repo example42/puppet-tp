@@ -1,0 +1,29 @@
+# Package status
+Package: quantum-server
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 55
+Maintainer: Chuck Short <zulcss@ubuntu.com>
+Architecture: all
+Source: quantum
+Version: 2012.1-0ubuntu4
+Depends: upstart-job, python, adduser, quantum-common
+Conffiles:
+ /etc/quantum/quantum.conf 17aa4ce5344fa273be3bee71389da75e
+ /etc/quantum/plugins.ini 485a06658c7374ebe4081a6da38ca73a
+ /etc/init/quantum-server.conf bae1eec656c94db4f6908cb64e3a4633
+Description: server - Quantum is a virtual network service for Openstack
+ Quantum is a virtual network service for Openstack, and a part of
+ Netstack. Just like OpenStack Nova provides an API to dynamically
+ request and configure virtual servers, Quantum provides an API to
+ dynamically request and configure virtual networks. These networks
+ connect "interfaces" from other OpenStack services (e.g., virtual NICs
+ from Nova VMs). The Quantum API supports extensions to provide
+ advanced network capabilities (e.g., QoS, ACLs, network monitoring,
+ etc.)
+ .
+ This package provides the quantum server
+
+# Service status
+quantum-server start/running, process 30069

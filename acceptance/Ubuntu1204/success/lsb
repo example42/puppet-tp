@@ -1,0 +1,26 @@
+# Package status
+Package: lsb-base
+Status: install ok installed
+Multi-Arch: foreign
+Priority: required
+Section: misc
+Installed-Size: 75
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Source: lsb
+Version: 4.0-0ubuntu20.2
+Replaces: lsb (<< 2.0-6), lsb-core (<< 2.0-6)
+Depends: sed, ncurses-bin
+Conflicts: lsb (<< 2.0-6), lsb-core (<< 2.0-6)
+Conffiles:
+ /etc/lsb-base-logging.sh 0aa55cad853be603ce31790c696e394b
+Description: Linux Standard Base 4.0 init script functionality
+ The Linux Standard Base (http://www.linuxbase.org/) is a standard
+ core system that third-party applications written for Linux can
+ depend upon.
+ .
+ This package only includes the init-functions shell library, which
+ may be used by other packages' initialization scripts for console
+ logging and other purposes.
+Homepage: http://www.linux-foundation.org/en/LSB
+Original-Maintainer: Chris Lawrence <lawrencc@debian.org>

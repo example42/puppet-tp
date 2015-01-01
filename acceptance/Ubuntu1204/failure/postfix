@@ -1,0 +1,38 @@
+# Package status
+Package: postfix
+Status: install ok installed
+Priority: extra
+Section: mail
+Installed-Size: 3373
+Maintainer: LaMont Jones <lamont@debian.org>
+Architecture: amd64
+Version: 2.9.6-1~12.04.2
+Replaces: mail-transport-agent
+Provides: default-mta, mail-transport-agent
+Depends: libc6 (>= 2.14), libdb5.1, libsasl2-2 (>= 2.1.24), libsqlite3-0 (>= 3.5.9), libssl1.0.0 (>= 1.0.0), debconf (>= 0.5) | debconf-2.0, netbase, adduser (>= 3.48), dpkg (>= 1.8.3), lsb-base (>= 3.0-6), ssl-cert, cpio
+Recommends: python
+Suggests: procmail, postfix-mysql, postfix-pgsql, postfix-ldap, postfix-pcre, sasl2-bin, libsasl2-modules, dovecot-common, resolvconf, postfix-cdb, mail-reader, ufw, postfix-doc
+Conflicts: libnss-db (<< 2.2-3), mail-transport-agent, smail
+Conffiles:
+ /etc/postfix/postfix-script 0d01860b2f0778cf41951c801f538b30
+ /etc/postfix/post-install 4e9b37279a95246a5fe68afdbbbfd035
+ /etc/postfix/postfix-files ad34dcc8c31d057f6f20268b0aa16f29
+ /etc/insserv.conf.d/postfix 7fe2d086ff4822fc9fe13adab1090dce
+ /etc/rsyslog.d/postfix.conf d8a09827fff2a22311e4dd4a83e95c83
+ /etc/init.d/postfix 793c179dfc57f90df913e61feb14bd77
+ /etc/ufw/applications.d/postfix 5c7e746dc9255e750b8f50460de11a32
+ /etc/ppp/ip-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
+ /etc/ppp/ip-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
+ /etc/resolvconf/update-libc.d/postfix a0548352443659052ed16d4ae7314506
+ /etc/network/if-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
+ /etc/network/if-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
+Description: High-performance mail transport agent
+ Postfix is Wietse Venema's mail transport agent that started life as an
+ alternative to the widely-used Sendmail program.  Postfix attempts to
+ be fast, easy to administer, and secure, while at the same time being
+ sendmail compatible enough to not upset existing users. Thus, the outside
+ has a sendmail-ish flavor, but the inside is completely different.
+Homepage: http://www.postfix.org
+
+# Service status
+ * postfix is not running

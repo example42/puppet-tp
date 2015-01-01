@@ -1,0 +1,32 @@
+# Package status
+Package: zabbix-agent
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 626
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Source: zabbix
+Version: 1:1.8.11-1
+Depends: libc6 (>= 2.15), libldap-2.4-2 (>= 2.4.7), debconf (>= 0.5) | debconf-2.0, adduser, ucf, lsb-base
+Suggests: logrotate
+Conffiles:
+ /etc/init.d/zabbix-agent 4d0a460675ac5dcfff65380444bc3b0d
+ /etc/logrotate.d/zabbix-agent 2e3c0cd2aea37d02cf9c3fdf06e21e5a
+Description: network monitoring solution - agent
+ Zabbix is a server/client network monitoring system with many features.
+ It can be used for:
+ .
+  - high level monitoring of IT services;
+  - centralized monitoring of your servers and applications;
+  - monitoring of SNMP-enabled devices;
+  - performance monitoring (process load, network activity, disk
+    activity, memory usage, OS parameters etc.);
+  - data visualization.
+ .
+ This package provides the software needed to monitor a host using a
+ Zabbix agent.
+Original-Maintainer: Christoph Haas <haas@debian.org>
+
+# Service status
+ * zabbix_agentd is running

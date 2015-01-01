@@ -1,0 +1,18 @@
+# Package status
+Package: glance
+Status: install ok installed
+Priority: extra
+Section: python
+Installed-Size: 31
+Maintainer: Ubuntu OpenStack <openstack-packaging@lists.ubuntu.com>
+Architecture: all
+Version: 2012.1.3+stable-20130423-74b067df-0ubuntu1
+Depends: python-glance (= 2012.1.3+stable-20130423-74b067df-0ubuntu1), python-routes, python-eventlet, python-migrate, python-sqlalchemy-ext | python-sqlalchemy (<< 0.6.3-2), python-crypto, python-xattr, glance-api (= 2012.1.3+stable-20130423-74b067df-0ubuntu1), glance-registry (= 2012.1.3+stable-20130423-74b067df-0ubuntu1), ca-certificates, adduser
+Description: OpenStack Image Registry and Delivery Service - Daemons
+ The Glance project provides an image registration and discovery service
+ and an image delivery service. These services are used
+ in conjunction by Nova to deliver images from object stores, such as
+ OpenStack's Swift service, to Nova's compute nodes.
+ .
+ This package contains the daemons.
+Homepage: http://launchpad.net/glance

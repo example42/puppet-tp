@@ -1,0 +1,28 @@
+# Package status
+Package: ceph
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 8450
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 0.41-1ubuntu2.1
+Depends: libc6 (>= 2.14), libgcc1 (>= 1:4.1.1), libnspr4 (>= 1.8.0.10), libnss3 (>= 3.12.0~1.9b1), libstdc++6 (>= 4.6), libuuid1 (>= 2.16), hdparm | sdparm, binutils, ceph-common
+Recommends: libcephfs1, librados2, librbd1, btrfs-tools, gceph
+Conffiles:
+ /etc/logrotate.d/ceph c7db3470f44488f8cdb9f26e22db3ac6
+ /etc/bash_completion.d/ceph b8576d437820f99046a0b0ba3c4f7042
+ /etc/init.d/ceph 1ef55d9109092f3809f7cd785d781dfe
+Description: distributed storage
+ Ceph is a distributed storage and network file system designed to provide
+ excellent performance, reliability, and scalability.
+ .
+ This package contains all server daemons and management tools for creating,
+ running, and administering a Ceph storage cluster. This does not include
+ the POSIX filesystem server, as that has been split into the ceph-mds
+ package.
+Homepage: http://ceph.newdream.net/
+Original-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
+
+# Service status
+/etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.

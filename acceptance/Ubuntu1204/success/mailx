@@ -1,0 +1,19 @@
+# Package status
+Package: bsd-mailx
+Status: install ok installed
+Priority: standard
+Section: mail
+Installed-Size: 178
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 8.1.2-0.20111106cvs-1
+Replaces: mailx (<< 1:20071201)
+Provides: mail-reader, mailx
+Depends: base-files (>= 2.2.0), default-mta | mail-transport-agent, libbsd0 (>= 0.2.0), libc6 (>= 2.8), liblockfile1 (>= 1.0)
+Breaks: mailutils (<< 1:1.1+dfsg1-4), mailx (<< 1:20071201)
+Conffiles:
+ /etc/mail.rc 2bd8160a85f53c20e55ebd375fc89431
+Description: simple mail user agent
+ mailx is the traditional command-line-mode mail user agent.
+ Even if you don't use it, it may be required by other programs.
+Original-Maintainer: Robert Luberda <robert@debian.org>

@@ -1,0 +1,44 @@
+# Package status
+Package: rsyslog
+Status: install ok installed
+Priority: important
+Section: admin
+Installed-Size: 1206
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 5.8.6-1ubuntu8.9
+Provides: linux-kernel-log-daemon, system-log-daemon
+Depends: libc6 (>= 2.15), zlib1g (>= 1:1.1.4), upstart-job, lsb-base (>= 3.2-14), initscripts (>= 2.88dsf-13.3), adduser, ucf
+Recommends: logrotate
+Suggests: rsyslog-mysql | rsyslog-pgsql, rsyslog-doc, rsyslog-gnutls, rsyslog-gssapi, rsyslog-relp, apparmor (>= 2.3)
+Conflicts: linux-kernel-log-daemon, system-log-daemon
+Conffiles:
+ /etc/rsyslog.conf ff6d3a88f47cec97287022ce9d3960d6
+ /etc/logrotate.d/rsyslog a5b57eb392a10dba65760e89dcdc508c
+ /etc/init/rsyslog.conf 34b6c083e007bed20e8341486361529b
+ /etc/init/dmesg.conf 218f9baf50c95553d5b611d62de520e1
+ /etc/logcheck/ignore.d.server/rsyslog 650507df599fbbdd6cb4142bd77fd2ff
+ /etc/apparmor.d/usr.sbin.rsyslogd b19cc6250081ef3700146db17f1efa44
+ /etc/default/rsyslog 92f41006a8a34eeb390b945ee962d504
+Description: reliable system and kernel logging daemon
+ Rsyslog is a multi-threaded implementation of syslogd (a system utility
+ providing support for message logging), with features that include:
+  * reliable syslog over TCP, SSL/TLS and RELP
+  * on-demand disk buffering
+  * email alerting
+  * writing to MySQL or PostgreSQL databases (via separate output plugins)
+  * permitted sender lists
+  * filtering on any part of the syslog message
+  * on-the-wire message compression
+  * fine-grained output format control
+  * failover to backup destinations
+  * enterprise-class encrypted syslog relaying
+ .
+ It is the default syslogd on Debian systems.
+Homepage: http://www.rsyslog.com/
+Original-Maintainer: Michael Biebl <biebl@debian.org>
+Original-Vcs-Browser: http://git.debian.org/?p=collab-maint/rsyslog.git;a=summary
+Original-Vcs-Git: git://git.debian.org/git/collab-maint/rsyslog.git
+
+# Service status
+rsyslog start/running, process 2404

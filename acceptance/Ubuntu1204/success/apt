@@ -1,0 +1,35 @@
+# Package status
+Package: apt
+Status: install ok installed
+Priority: important
+Section: admin
+Installed-Size: 3179
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 0.8.16~exp12ubuntu10.10
+Replaces: manpages-pl (<< 20060617-3~)
+Depends: ubuntu-keyring, libapt-pkg4.12 (>= 0.8.16~exp12ubuntu10.10), libc6 (>= 2.15), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.6), gnupg
+Pre-Depends: dpkg (>= 1.15.7.2)
+Suggests: aptitude | synaptic | wajig, dpkg-dev, apt-doc, bzip2, lzma, python-apt
+Conflicts: python-apt (<< 0.7.93.2~)
+Conffiles:
+ /etc/kernel/postinst.d/apt-auto-removal 109a2f0485a51585c9acf48f177ec6e2
+ /etc/apt/apt.conf.d/20changelog 8baafd95750e9c31c45512ff7bde7043
+ /etc/apt/apt.conf.d/01autoremove 4a235dbe7ba66310dbeb803664f3e400
+ /etc/cron.daily/apt 24804a562eda58422fd0f084c062ef63
+ /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3
+Description: commandline package manager
+ This package provides commandline tools for searching and
+ managing as well as querying information about packages
+ as a low-level access to all features of the libapt-pkg library.
+ .
+ These include:
+  * apt-get for retrieval of packages and information about them
+    from authenticated sources and for installation, upgrade and
+    removal of packages together with their dependencies
+  * apt-cache for querying available information about installed
+    as well as installable packages
+  * apt-cdrom to use removable media as a source for packages
+  * apt-config as an interface to the configuration settings
+  * apt-key as an interface to manage authentication keys
+Original-Maintainer: APT Development Team <deity@lists.debian.org>

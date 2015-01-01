@@ -1,0 +1,26 @@
+# Package status
+Package: ssmtp
+Status: install ok installed
+Priority: extra
+Section: mail
+Installed-Size: 8
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 2.64-5build1
+Replaces: mail-transport-agent
+Provides: mail-transport-agent
+Depends: libc6 (>= 2.11), libgnutls-openssl27, debconf | debconf-2.0
+Conflicts: mail-transport-agent
+Conffiles:
+ /etc/ssmtp/revaliases c5a68f52228de914a8059bbc1e93178f
+ /etc/logcheck/ignore.d.server/ssmtp 73aa54f81d55078147b8aa438bb7b0e1
+Description: extremely simple MTA to get mail off the system to a mail hub
+ A secure, effective and simple way of getting mail off a system to your
+ mail hub. It contains no suid-binaries or other dangerous things - no mail
+ spool to poke around in, and no daemons running in the background. Mail is
+ simply forwarded to the configured mailhost. Extremely easy configuration.
+ .
+ WARNING: the above is all it does; it does not receive mail, expand aliases
+ or manage a queue. That belongs on a mail hub with a system administrator.
+Original-Maintainer: Anibal Monsalve Salazar <anibal@debian.org>
+Homepage: http://packages.qa.debian.org/s/ssmtp.html

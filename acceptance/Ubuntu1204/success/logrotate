@@ -1,0 +1,22 @@
+# Package status
+Package: logrotate
+Status: install ok installed
+Priority: important
+Section: admin
+Installed-Size: 184
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 3.7.8-6ubuntu5
+Depends: libc6 (>= 2.8), libpopt0 (>= 1.16), libselinux1 (>= 1.32), cron | anacron | fcron, base-passwd (>= 2.0.3.4)
+Suggests: mailx
+Conffiles:
+ /etc/logrotate.conf 176edd439a499501372cf3d04e795810
+ /etc/cron.daily/logrotate da9c29ed0b408ffd88d05c3d8e881e94
+Description: Log rotation utility
+ The logrotate utility is designed to simplify the administration of
+ log files on a system which generates a lot of log files.  Logrotate
+ allows for the automatic rotation compression, removal and mailing of
+ log files.  Logrotate can be set to handle a log file daily, weekly,
+ monthly or when the log file gets to a certain size.  Normally, logrotate
+ runs as a daily cron job.
+Original-Maintainer: Paul Martin <pm@debian.org>

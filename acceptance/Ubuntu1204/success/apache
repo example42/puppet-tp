@@ -1,0 +1,25 @@
+# Package status
+Package: apache2
+Status: install ok installed
+Priority: optional
+Section: httpd
+Installed-Size: 29
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 2.2.22-1ubuntu1.7
+Depends: apache2-mpm-worker (= 2.2.22-1ubuntu1.7) | apache2-mpm-prefork (= 2.2.22-1ubuntu1.7) | apache2-mpm-event (= 2.2.22-1ubuntu1.7) | apache2-mpm-itk (= 2.2.22-1ubuntu1.7), apache2.2-common (= 2.2.22-1ubuntu1.7)
+Description: Apache HTTP Server metapackage
+ The Apache Software Foundation's goal is to build a secure, efficient and
+ extensible HTTP server as standards-compliant open source software. The
+ result has long been the number one web server on the Internet.
+ .
+ It features support for HTTPS, virtual hosting, CGI, SSI, IPv6, easy
+ scripting and database integration, request/response filtering, many
+ flexible authentication schemes, and more.
+Homepage: http://httpd.apache.org/
+Original-Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
+Original-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-apache/apache2.git
+Original-Vcs-Git: git://git.debian.org/git/pkg-apache/apache2.git
+
+# Service status
+Apache2 is running (pid 4737).
