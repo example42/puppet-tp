@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     :Ubuntu1204 => {
       :box     => 'ubuntu-server-12042-x64-vbox4210',
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box',
-      :breed   => 'debian',
+      :breed   => 'ubuntu1204',
     },
     :Debian7 => {
       :box     => 'debian-70rc1-x64-vbox4210',

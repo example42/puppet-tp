@@ -4,7 +4,7 @@
 . $(dirname $0)/functions || exit 10
 
 # RegExp for whitelist of programs to not uninstall after test
-uninstall_whitelist='ssh|vim|lsb|puppet'
+uninstall_whitelist='ssh|vim|lsb|puppet|apt'
 
 show_help () {
   echo
@@ -36,8 +36,16 @@ case $mode in
     acceptance) mode_param="test_enable => true," ;;
     puppi) mode_param="puppi_enable => true," ;;
 esac
+
+# Workaround to use Ruby 193 on Centos6
+if [ "x$vm" == "xCentos65" ]; then
+  envs="env PATH=/opt/rh/ruby193/root/usr/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/vagrant/bin LD_LIBRARY_PATH=/opt/rh/ruby193/root/usr/lib64"
+else
+  envs=''
+fi
+
 options="$PUPPET_OPTIONS --verbose --report --show_diff --pluginsync --summarize --modulepath '/vagrant/vagrant/modules/local:/vagrant/vagrant/modules/:/vagrant/vagrant/modules/public:/etc/puppet/modules' "
-command="sudo puppet apply"
+command="sudo $envs puppet apply"
 
 acceptance_test () {
   echo_title "Running acceptance test for $1 on $2"

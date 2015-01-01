@@ -38,6 +38,4 @@ if [ "x$?" == "x1" ] ; then
   yum install -y ruby193
 fi
 
-#cat <<EOF > /etc/profile.d/ruby193.sh
-#echo "source /opt/rh/ruby193/enable" | sudo tee -a /etc/profile.d/ruby193.sh
-#EOF
+grep 'PATH LD_LIBRARY_PATH PKG_CONFIG_PATH MAN_PATH' /etc/sudoers || echo 'Defaults    env_keep += "PATH LD_LIBRARY_PATH PKG_CONFIG_PATH MAN_PATH"' >> /etc/sudoers
