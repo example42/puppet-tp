@@ -1,0 +1,26 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: rabbitmq-server
+Status: install ok installed
+Priority: extra
+Section: net
+Installed-Size: 1192
+Maintainer: John Leuner <jewel@debian.org>
+Architecture: all
+Version: 1.8.1-1
+Depends: erlang-base (>= 1:12.b.3) | erlang-base-hipe (>= 1:12.b.3), erlang-ssl | erlang-nox (<< 1:13.b-dfsg1-1), erlang-os-mon | erlang-nox (<< 1:13.b-dfsg1-1), erlang-mnesia | erlang-nox (<< 1:13.b-dfsg1-1), adduser, logrotate
+Conffiles:
+ /etc/init.d/rabbitmq-server aa136acc991860286910751306526502
+ /etc/logrotate.d/rabbitmq-server ddaa633357e5f6ff9d7970c6d0a9acd8
+Description: An AMQP server written in Erlang
+ RabbitMQ is an implementation of AMQP, the emerging standard for high
+ performance enterprise messaging. The RabbitMQ server is a robust and
+ scalable implementation of an AMQP broker.
+Homepage: http://www.rabbitmq.com/
+
+# Service status
+Status of all running nodes...
+Node 'rabbit@debian6' with Pid 20687: running
+done.

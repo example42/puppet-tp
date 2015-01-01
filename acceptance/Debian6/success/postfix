@@ -1,0 +1,39 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: postfix
+Status: install ok installed
+Priority: extra
+Section: mail
+Installed-Size: 3340
+Maintainer: LaMont Jones <lamont@debian.org>
+Architecture: amd64
+Version: 2.7.1-1+squeeze1
+Replaces: mail-transport-agent, postfix-tls
+Provides: mail-transport-agent, postfix-tls
+Depends: libc6 (>= 2.11), libdb4.8, libsasl2-2, libssl0.9.8 (>= 0.9.8m-1), debconf (>= 0.5) | debconf-2.0, netbase, adduser (>= 3.48), dpkg (>= 1.8.3), lsb-base (>= 3.0-6), ssl-cert
+Recommends: python
+Suggests: procmail, postfix-mysql, postfix-pgsql, postfix-ldap, postfix-pcre, sasl2-bin, libsasl2-modules, resolvconf, postfix-cdb, mail-reader, ufw
+Conflicts: libnss-db (<< 2.2-3), mail-transport-agent, postfix-tls, smail
+Conffiles:
+ /etc/resolvconf/update-libc.d/postfix 6c80adbe120bc46cbf42658a7364e17f
+ /etc/ufw/applications.d/postfix 6716a7729145a40bf7cb721c8dc6c3b0
+ /etc/rsyslog.d/postfix.conf d8a09827fff2a22311e4dd4a83e95c83
+ /etc/postfix/postfix-files 47e63262ab84069c840556b469b0fb2f
+ /etc/postfix/post-install d53706c232f6497539fa0c99df674b33
+ /etc/postfix/postfix-script 0d01860b2f0778cf41951c801f538b30
+ /etc/network/if-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
+ /etc/network/if-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
+ /etc/ppp/ip-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
+ /etc/ppp/ip-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
+ /etc/init.d/postfix 1e54ba2a74277aa4d4713a1771c15f96
+Description: High-performance mail transport agent
+ Postfix is Wietse Venema's mail transport agent that started life as an
+  alternative to the widely-used Sendmail program.  Postfix attempts to
+  be fast, easy to administer, and secure, while at the same time being
+  sendmail compatible enough to not upset existing users. Thus, the outside
+  has a sendmail-ish flavor, but the inside is completely different.
+
+# Service status
+postfix is running.

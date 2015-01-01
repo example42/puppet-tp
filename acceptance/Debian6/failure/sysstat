@@ -1,0 +1,39 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: sysstat
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 872
+Maintainer: Robert Luberda <robert@debian.org>
+Architecture: amd64
+Version: 9.0.6.1-2
+Depends: libc6 (>= 2.7), debconf (>= 0.5) | debconf-2.0, ucf (>= 2.003), lsb-base (>= 3.0-6), bzip2
+Recommends: cron
+Suggests: isag
+Conflicts: atsar (<< 1.5-3)
+Conffiles:
+ /etc/sysstat/sysstat.ioconf fa92b01baa2130e26822c30fb27ac56e
+ /etc/sysstat/sysstat e52dbe02e5da26d9be965373676e9355
+ /etc/init.d/sysstat e3cf21d607c6852e2e5013524c657c6e
+ /etc/cron.daily/sysstat 4e5aa59f38b520c5a45d3fdc7cdec46c
+ /etc/cron.d/sysstat 455c3c071b6daabb4e4490828975034c
+Description: system performance tools for Linux
+ The sysstat package contains the following system performance tools:
+  - sar: collects and reports system activity information;
+  - iostat: reports CPU utilization and disk I/O statistics;
+  - mpstat: reports global and per-processor statistics;
+  - pidstat: reports statistics for Linux tasks (processes);
+  - sadf: displays data collected by sar in various formats.
+ .
+ The statistics reported by sar deal with I/O transfer rates,
+ paging activity, process-related activities, interrupts,
+ network activity, memory and swap space utilization, CPU
+ utilization, kernel activities and TTY statistics, among
+ others. Both UP and SMP machines are fully supported.
+Homepage: http://pagesperso-orange.fr/sebastien.godard/
+
+# Service status
+sadc cron jobs are disabled ... [31mfailed![39;49m

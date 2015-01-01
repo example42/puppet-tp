@@ -1,0 +1,40 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: samba
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 23088
+Maintainer: Debian Samba Maintainers <pkg-samba-maint@lists.alioth.debian.org>
+Architecture: amd64
+Version: 2:3.5.6~dfsg-3squeeze11
+Replaces: samba-common (<= 2.0.5a-2)
+Depends: samba-common (= 2:3.5.6~dfsg-3squeeze11), libwbclient0 (= 2:3.5.6~dfsg-3squeeze11), libacl1 (>= 2.2.11-1), libattr1 (>= 2.4.41-1), libc6 (>= 2.6), libcap2 (>= 2.10), libcomerr2 (>= 1.01), libcups2 (>= 1.4.0), libgssapi-krb5-2 (>= 1.8+dfsg), libk5crypto3 (>= 1.6.dfsg.2), libkrb5-3 (>= 1.8+dfsg), libldap-2.4-2 (>= 2.4.7), libpam0g (>= 0.99.7.1), libpopt0 (>= 1.16), libtalloc2 (>= 2.0.0), zlib1g (>= 1:1.1.4), debconf (>= 0.5) | debconf-2.0, libpam-runtime (>= 1.0.1-11), libpam-modules, lsb-base (>= 3.2-13), procps, update-inetd, adduser
+Recommends: logrotate
+Suggests: openbsd-inetd | inet-superserver, smbldap-tools, ldb-tools, ctdb
+Conflicts: samba4 (<< 4.0.0~alpha6-2)
+Conffiles:
+ /etc/cron.daily/samba f6519535df7964f95cdd7db501bf3ad2
+ /etc/init.d/samba a5a79db9cb32e52381f6edd828928f08
+ /etc/logrotate.d/samba 15784085b89cd2d88f1d5eae9912713b
+ /etc/network/if-up.d/samba aa12b3cb818b8b8b76df6e4f056c7c0e
+Description: SMB/CIFS file, print, and login server for Unix
+ Samba is an implementation of the SMB/CIFS protocol for Unix systems,
+ providing support for cross-platform file and printer sharing with
+ Microsoft Windows, OS X, and other Unix systems.  Samba can also function
+ as an NT4-style domain controller, and can integrate with both NT4 domains
+ and Active Directory realms as a member server.
+ .
+ This package provides the components necessary to use Samba as a
+ stand-alone file and print server.  For use in an NT4 domain or Active
+ Directory realm, you will also need the winbind package.
+ .
+ This package is not required for connecting to existing SMB/CIFS servers
+ (see smbclient) or for mounting remote filesystems (see cifs-utils).
+Homepage: http://www.samba.org
+
+# Service status
+nmbd is running.
+smbd is running.

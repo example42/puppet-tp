@@ -1,0 +1,52 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: libvirt-bin
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 2428
+Maintainer: Debian Libvirt Maintainers <pkg-libvirt-maintainers@lists.alioth.debian.org>
+Architecture: amd64
+Source: libvirt
+Version: 0.8.3-5+squeeze5
+Depends: libavahi-client3 (>= 0.6.16), libavahi-common3 (>= 0.6.16), libblkid1 (>= 2.16), libc6 (>= 2.8), libcap-ng0, libdevmapper1.02.1 (>= 2:1.02.20), libgcrypt11 (>= 1.4.2), libgnutls26 (>= 2.7.14-0), libnl1 (>= 1.1), libparted0debian1 (>= 2.2-1), libpciaccess0, libreadline6 (>= 6.0), libsasl2-2, libudev0 (>= 0.140), libuuid1 (>= 2.16), libvirt0 (= 0.8.3-5+squeeze5), libxenstore3.0 (>= 3.2.0), libxml2 (>= 2.7.4), adduser, logrotate
+Recommends: netcat-openbsd, bridge-utils, dnsmasq-base (>= 2.46-1), iptables, qemu-kvm | qemu (>= 0.9.1), libxml2-utils, gawk, ebtables
+Suggests: policykit-1
+Enhances: qemu, qemu-kvm, xen
+Conffiles:
+ /etc/logrotate.d/libvirtd dad6136fdb3db0b781839a43f865fed9
+ /etc/init.d/libvirt-bin cc8b219f261ec7826b1c073bf592dc09
+ /etc/sasl2/libvirt.conf ef5f31dd25967d2de2a830bef486f97c
+ /etc/libvirt/qemu/networks/default.xml 022837cab66167acca489a84b99718f9
+ /etc/libvirt/libvirtd.conf 7d3298f9c686fd9bbada9f38a7560091
+ /etc/libvirt/qemu.conf e95285ee420ab36bb8695c4627ec1f29
+ /etc/libvirt/nwfilter/qemu-announce-self.xml 23ee6fd207d0c242b29b10b81ee77fbf
+ /etc/libvirt/nwfilter/allow-incoming-ipv4.xml 6a7cb819450f8112ba8556a249e39b8d
+ /etc/libvirt/nwfilter/no-mac-spoofing.xml b55521c3d06b4c959bd07f6aca67be43
+ /etc/libvirt/nwfilter/no-other-l2-traffic.xml 40036127d35fdd3e4561fbdfccde501f
+ /etc/libvirt/nwfilter/allow-dhcp-server.xml 94e9d3d686f3fea8d847eed26c5779e9
+ /etc/libvirt/nwfilter/clean-traffic.xml 27fd76c258bf92a25b43561c7ecc78bb
+ /etc/libvirt/nwfilter/qemu-announce-self-rarp.xml 60102e3d3e9fd580f1cd71354d85140a
+ /etc/libvirt/nwfilter/no-ip-multicast.xml cce4184e3edc4933e8bbd79930445aa0
+ /etc/libvirt/nwfilter/no-other-rarp-traffic.xml 5725e2466b4117941592a26b9ad92863
+ /etc/libvirt/nwfilter/allow-arp.xml 484f9687010dddab663e17bca727b9f5
+ /etc/libvirt/nwfilter/no-mac-broadcast.xml 208b87240cfe6c08c64cca59dbc32703
+ /etc/libvirt/nwfilter/no-ip-spoofing.xml 693bd8056bd39a3758c32f5afc9ce623
+ /etc/libvirt/nwfilter/allow-dhcp.xml 1bca6be50de745ed2ba8013d6bb8abe6
+ /etc/libvirt/nwfilter/allow-ipv4.xml 6e9c9c8759805419c2303692475990e0
+ /etc/libvirt/nwfilter/no-arp-spoofing.xml b68a52ab66a3136e14ec84934d826aca
+ /etc/libvirt/lxc.conf d9ffe9ac12b7fb251fc5a7ab64775397
+ /etc/default/libvirt-bin f40696fff3196096b3056c46f7c7ad23
+Description: the programs for the libvirt library
+ Libvirt is a C toolkit to interact with the virtualization capabilities
+ of recent versions of Linux (and other OSes). The library aims at providing
+ a long term stable C API for different virtualization mechanisms. It currently
+ supports QEMU, KVM, XEN, OpenVZ, LXC, and VirtualBox.
+ .
+ This package contains the supporting binaries to use with libvirt
+Homepage: http://libvirt.org
+
+# Service status
+Checking status of libvirt management daemon: libvirtd running.

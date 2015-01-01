@@ -1,0 +1,29 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: redis-server
+Status: install ok installed
+Priority: optional
+Section: database
+Installed-Size: 208
+Maintainer: Chris Lamb <lamby@debian.org>
+Architecture: amd64
+Source: redis
+Version: 2:1.2.6-1
+Depends: libc6 (>= 2.7), adduser
+Conffiles:
+ /etc/redis/redis.conf a19bad63017ec19def2c3a8a07bdc362
+ /etc/logrotate.d/redis-server 06755b99ef70d62a56cff94cbfc36de7
+ /etc/init.d/redis-server 3742555c10ab16fdd67fcbaf92faf694
+ /etc/bash_completion.d/redis-cli 848565df7f222dc03c8d5cb34b9e0188
+Description: Persistent key-value database with network interface
+ Redis is a key-value database in a similar vein to memcache but the dataset
+ is non-volatile. Redis additionally provides native support for atomically
+ manipulating and querying data structures such as lists and sets.
+ .
+ The dataset is stored entirely in memory and periodically flushed to disk.
+Homepage: http://code.google.com/p/redis/
+
+# Service status
+Usage: /etc/init.d/redis-server {start|stop|restart|force-reload}

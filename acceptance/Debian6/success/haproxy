@@ -1,0 +1,33 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: haproxy
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 992
+Maintainer: Arnaud Cornet <acornet@debian.org>
+Architecture: amd64
+Version: 1.4.8-1+squeeze1
+Depends: libc6 (>= 2.5), libpcre3 (>= 7.7), adduser
+Conffiles:
+ /etc/init.d/haproxy beeee6e9c1ea3e16031b9843b5d5e5b0
+ /etc/default/haproxy a1f2deb7c7a10e55dc7c971a2288f5d4
+ /etc/haproxy/haproxy.cfg c3bfb0c86138552475dea458e8ab36f3
+ /etc/haproxy/errors/400.http d1ea2cac1fd51e08f988c563a4ca73ab
+ /etc/haproxy/errors/403.http 61646f480d9ebddc20d278f65c79b82e
+ /etc/haproxy/errors/408.http e3ffb08df9ca3266a6891c88164d53f9
+ /etc/haproxy/errors/500.http 829ac75b83ede4b283583d8aa6569900
+ /etc/haproxy/errors/502.http 040a270372c3532e494e20888576112c
+ /etc/haproxy/errors/503.http e03d8e6c3707ef2c184fc95299a9aec2
+ /etc/haproxy/errors/504.http 086e152653fb83de1aa627d0d58b95aa
+Description: fast and reliable load balancing reverse proxy
+ HAProxy is a TCP/HTTP reverse proxy which is particularly suited for high
+ availability environments. It features connection persistence through HTTP
+ cookies, load balancing, header addition, modification, deletion both ways. It
+ has request blocking capabilities and provides interface to display server
+ status.
+Homepage: http://haproxy.1wt.eu/
+
+# Service status

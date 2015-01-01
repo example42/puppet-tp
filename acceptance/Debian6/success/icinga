@@ -1,0 +1,35 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: icinga
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 32
+Maintainer: Debian Nagios Maintainer Group <pkg-nagios-devel@lists.alioth.debian.org>
+Architecture: amd64
+Version: 1.0.2-2+squeeze1
+Depends: icinga-core (= 1.0.2-2+squeeze1), icinga-cgi (= 1.0.2-2+squeeze1)
+Suggests: nagios-nrpe-plugin
+Description: monitoring and host and network monitoring system - metapackage
+ Icinga is a modular monitoring framework for hosts, services, and
+ networks, based on the Nagios project. It is designed to be easy to
+ understand and modify to fit any need.
+ .
+ Features include:
+  * monitoring of network services via ping, SMTP, POP3, HTTP, NNTP, or
+    TCP port;
+  * plugin interface to allow for user-developed service checks;
+  * contact notifications when problems occur and get resolved (via
+    email, pager, or user-defined method)
+  * support for proactive problem resolution (handlers can be defined to
+    be run during service or host events);
+  * web output: current status, notifications, problem history, log
+    file, etc.
+ .
+ This is a metapackage which depends on the Icinga core and the web
+ front-end.
+
+# Service status
+checking /usr/sbin/icinga...done (running).

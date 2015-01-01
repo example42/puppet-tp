@@ -1,0 +1,35 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: nginx
+Status: install ok installed
+Priority: optional
+Section: httpd
+Installed-Size: 699
+Maintainer: Jose Parrella <bureado@debian.org>
+Architecture: amd64
+Version: 0.7.67-3+squeeze3
+Provides: httpd
+Depends: lsb-base (>= 3.2-14), libc6 (>= 2.4), libgeoip1 (>= 1.4.7~beta6+dfsg), libpcre3 (>= 7.7), libssl0.9.8 (>= 0.9.8m-1), zlib1g (>= 1:1.1.4)
+Conffiles:
+ /etc/nginx/sites-available/default 137b379dde77d0ac93cc84c9abf0d5b0
+ /etc/nginx/fastcgi_params 822165a5f2bed79b8e0fdac84b97066e
+ /etc/nginx/koi-utf 3e338aca6a53a5420fc791b5ef86f64c
+ /etc/nginx/koi-win bfa0b80381fed2b1dfcf617b0ba204ec
+ /etc/nginx/mime.types ab2c1c55348970968afec4b3414add77
+ /etc/nginx/nginx.conf 7bf139588b5ecd5956f986c9c1442d44
+ /etc/nginx/win-utf 3749ffe19bedd842eb87e83d544e5ce6
+ /etc/init.d/nginx 03f3eee584dd80647105e426bf100c5d
+ /etc/logrotate.d/nginx 607ba9e6ed50716bd899f984eb24c75c
+Description: small, but very powerful and efficient web server and mail proxy
+ Nginx (engine x) is a web server created by Igor Sysoev and kindly provided to
+ the open-source community. This server can be used as standalone HTTP server
+ and as a reverse proxy server before some Apache or another big server to
+ reduce load to backend servers by many concurrent HTTP-sessions.
+ .
+ It can also act as a POP3/IMAP mail proxy with SSL and TLS SNI support.
+Homepage: http://nginx.net
+
+# Service status
+nginx is running.

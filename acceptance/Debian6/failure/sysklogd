@@ -1,0 +1,30 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: sysklogd
+Status: install ok installed
+Priority: extra
+Section: admin
+Installed-Size: 144
+Maintainer: Martin Schulze <joey@debian.org>
+Architecture: amd64
+Version: 1.5-6
+Replaces: syslogd
+Provides: syslogd, system-log-daemon
+Depends: libc6 (>= 2.7), klogd | linux-kernel-log-daemon, lsb-base
+Conflicts: syslogd
+Conffiles:
+ /etc/default/syslogd 723ca7411cc4fb42e9808b9dea96fa94
+ /etc/syslog.conf 1f0848030ec0495afef5034b9f24e0a0
+ /etc/init.d/sysklogd 8e62514d93de7e9936e4c97e89eaba28
+ /etc/cron.daily/sysklogd 37506d6beea52b63d60f1643a1a06c5b
+ /etc/cron.weekly/sysklogd 9b6e0e003051a552cb6c380223eac1b5
+Description: System Logging Daemon
+ This package implements the system log daemon, which is an enhanced
+ version of the standard Berkeley utility program. It is responsible
+ for providing logging of messages received from programs and facilities
+ on the local host as well as from remote hosts.
+
+# Service status
+syslog: unrecognized service

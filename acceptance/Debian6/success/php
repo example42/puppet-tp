@@ -1,0 +1,25 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: php5
+Status: install ok installed
+Priority: optional
+Section: php
+Installed-Size: 20
+Maintainer: Debian PHP Maintainers <pkg-php-maint@lists.alioth.debian.org>
+Architecture: all
+Version: 5.3.3-7+squeeze19
+Depends: libapache2-mod-php5 (>= 5.3.3-7+squeeze19) | libapache2-mod-php5filter (>= 5.3.3-7+squeeze19) | php5-cgi (>= 5.3.3-7+squeeze19), php5-common (>= 5.3.3-7+squeeze19)
+Description: server-side, HTML-embedded scripting language (metapackage)
+ This package is a metapackage that, when installed, guarantees that you
+ have at least one of the three server-side versions of the PHP5 interpreter
+ installed. Removing this package won't remove PHP5 from your system, however
+ it may remove other packages that depend on this one.
+ .
+ PHP5 is a widely-used general-purpose scripting language that is
+ especially suited for Web development and can be embedded into HTML.
+ The goal of the language is to allow web developers to write
+ dynamically generated pages quickly. This version of PHP5 was built
+ with the Suhosin patch.
+Homepage: http://www.php.net/

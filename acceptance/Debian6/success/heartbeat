@@ -1,0 +1,60 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: heartbeat
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 1468
+Maintainer: Debian HA Maintainers <debian-ha-maintainers@lists.alioth.debian.org>
+Architecture: amd64
+Version: 1:3.0.3-2
+Provides: cluster-messaging-framework
+Depends: python, python-central (>= 0.6.11), libbz2-1.0, libc6 (>= 2.3), libcluster-glue, libcorosync4 (>= 1.2.1), libglib2.0-0 (>= 2.16.0), libgnutls26 (>= 2.7.14-0), libheartbeat2 (>= 1:3.0.3), libltdl7 (>= 2.2.6b), libpam0g (>= 0.99.7.1), libuuid1 (>= 2.16), libxml2 (>= 2.6.27), zlib1g (>= 1:1.1.4), cluster-glue, iproute, adduser, iputils-ping, psmisc, gawk, mawk, libxml2-utils, libpam-runtime (>= 0.76-14), cluster-agents
+Recommends: rsyslog | system-log-daemon, logrotate, iptables, pacemaker (>= 1.0.6)
+Conffiles:
+ /etc/init.d/heartbeat 31c0ad56127a8f61d782bf216bb8dd62
+ /etc/ha.d/README.config afa5c282db10586dae0d7ef3b3c67bbf
+ /etc/ha.d/resource.d/LinuxSCSI 5e29afa053b6c3bf5c53acd9831b52eb
+ /etc/ha.d/resource.d/IPaddr a7688c675b28921a25fa3c0fbb223a55
+ /etc/ha.d/resource.d/AudibleAlarm 0346d449c06cde5a8205d4c5cbd35d11
+ /etc/ha.d/resource.d/Xinetd 175626f1090aee96e8968764a9a68bcb
+ /etc/ha.d/resource.d/OCF 67cf57e903a65dd3c766cea26f96a9ab
+ /etc/ha.d/resource.d/WAS 5c7299860e4ab5554c34d4eccfb176f2
+ /etc/ha.d/resource.d/WinPopup 0933c8d867ade59878aab259b71bfff2
+ /etc/ha.d/resource.d/LVM df6d3b0e0316999875eb5714294e3c8e
+ /etc/ha.d/resource.d/Delay 8d016e89b8577bc07ed05f681afdeaaa
+ /etc/ha.d/resource.d/ICP 835efc5f7131d12244d7af328668439c
+ /etc/ha.d/resource.d/apache 41159bb4711e39433d855c8d1ee6de58
+ /etc/ha.d/resource.d/SendArp 2954795a70cf8196bd018fa9bc7e5e0a
+ /etc/ha.d/resource.d/ids f06c4516ad6e674f755ee58252dfad97
+ /etc/ha.d/resource.d/Raid1 82b59d7ca278f10520344ec1bfad93db
+ /etc/ha.d/resource.d/Filesystem a338211d0ca1550dbbe927f83b2d3697
+ /etc/ha.d/resource.d/IPaddr2 e89a056cc5db0d0e10a387dd4259fbd7
+ /etc/ha.d/resource.d/hto-mapfuncs 5b62aa27e3c7e6182fa1513b9585a391
+ /etc/ha.d/resource.d/IPsrcaddr a89f1b9a261213ce493176ed96f021b3
+ /etc/ha.d/resource.d/IPv6addr 512c5273b85d4cb2fa38ae68be6d16b9
+ /etc/ha.d/resource.d/db2 0e59a10a6b2f0e62f9e2f7e313dedb6b
+ /etc/ha.d/resource.d/ServeRAID 4891c52b2c2189952fe825e10d31c23c
+ /etc/ha.d/resource.d/portblock 5f7a21bf81d48e6b6710e9c05c9b63c9
+ /etc/ha.d/resource.d/MailTo acf68ea900dfd4c93900012fa416074c
+ /etc/ha.d/rc.d/hb_takeover a0cc84fff08b1e7cafe901881ff43afe
+ /etc/ha.d/rc.d/ask_resources 75f0bba9a05855ea6928bb52c4d256c4
+ /etc/ha.d/rc.d/ip-request-resp 0b88432734529b255cb6dd14b0a34096
+ /etc/ha.d/rc.d/status 8765723352d8d8f00976e27ee1b84d53
+ /etc/ha.d/rc.d/ip-request e9d60274532fad2123364cd91dab1be8
+ /etc/ha.d/harc 74ede8fa0846265fe75485ff79c0a9e5
+ /etc/logrotate.d/heartbeat 001b6b5185f234a162e4179b8c7bc8a8
+Description: Subsystem for High-Availability Linux
+ heartbeat is a basic heartbeat subsystem for Linux-HA which implements
+ serial, UDP, and PPP/UDP heartbeats together with IP address takeover
+ including a nice resource model including resource groups.
+ .
+ It currently supports a very sophisticated dependency model for n-node
+ clusters. It is both extremely useful and quite stable at this point in
+ time.
+Python-Version: current
+
+# Service status
+Heartbeat not configured: /etc/ha.d/ha.cf not found. Heartbeat failure [rc=1]. Failed.

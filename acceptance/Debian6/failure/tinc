@@ -1,0 +1,25 @@
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+# Package status
+Package: tinc
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 680
+Maintainer: Guus Sliepen <guus@debian.org>
+Architecture: amd64
+Version: 1.0.13-1+squeeze1
+Depends: libc6 (>= 2.3), liblzo2-2, libssl0.9.8 (>= 0.9.8m-1), zlib1g (>= 1:1.1.4), dpkg (>= 1.15.4) | install-info
+Conffiles:
+ /etc/init.d/tinc 931b074fa358abf9c6009f4191e74eb8
+ /etc/default/tinc 68303489ce39de60909e25c8020a57c6
+Description: Virtual Private Network daemon
+ tinc is a daemon with which you can create a virtual private network
+ (VPN). One daemon can handle multiple connections, so you can
+ create an entire (moderately sized) VPN with only one daemon per
+ participating computer.
+Homepage: http://www.tinc-vpn.org/
+
+# Service status
+Usage: /etc/init.d/tinc {start|stop|reload|restart|force-reload}
