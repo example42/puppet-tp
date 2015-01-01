@@ -1,17 +1,39 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'lighttpd':
-  ensure => '1.4.35-1.el7',
-}
+# Package status
+Name        : lighttpd
+Version     : 1.4.35
+Release     : 1.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:16:18 AM EST
+Group       : System Environment/Daemons
+Size        : 905077
+License     : BSD
+Signature   : RSA/SHA256, Fri 14 Mar 2014 08:09:15 PM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : lighttpd-1.4.35-1.el7.src.rpm
+Build Date  : Wed 12 Mar 2014 01:19:44 PM EDT
+Build Host  : buildvm-16.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://www.lighttpd.net/
+Summary     : Lightning fast webserver with light system requirements
+Description :
+Secure, fast, compliant and very flexible web-server which has been optimized
+for high-performance environments. It has a very low memory footprint compared
+to other webservers and takes care of cpu-load. Its advanced feature-set
+(FastCGI, CGI, Auth, Output-Compression, URL-Rewriting and many more) make
+it the perfect webserver-software for every server that is suffering load
+problems.
+
+# Service status
 Redirecting to /bin/systemctl status  lighttpd.service
 lighttpd.service - Lightning Fast Webserver With Light System Requirements
    Loaded: loaded (/usr/lib/systemd/system/lighttpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:46:57 EST; 5s ago
- Main PID: 15838 (lighttpd)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:16:18 EST; 2s ago
+ Main PID: 26937 (lighttpd)
    CGroup: /system.slice/lighttpd.service
-           └─15838 /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
+           └─26937 /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
 
-Dec 30 00:46:57 centos7.example42.com systemd[1]: Started Lightning Fast Webserver With Light System Requirements.
-Dec 30 00:46:57 centos7.example42.com lighttpd[15838]: 2014-12-30 00:46:57: (network.c.283) warning: please use server.use-ipv...anges
-Dec 30 00:46:57 centos7.example42.com lighttpd[15838]: 2014-12-30 00:46:57: (server.c.927) can't have more connections than fd... 1024
+Jan 01 08:16:18 centos7.example42.com systemd[1]: Started Lightning Fast Webserver With Light System Requirements.
+Jan 01 08:16:18 centos7.example42.com lighttpd[26937]: 2015-01-01 08:16:18: (network.c.283) warning: please use server.use-ipv6 only for hostnames, not without server.bind / empty address;...ONLY changes
+Jan 01 08:16:18 centos7.example42.com lighttpd[26937]: 2015-01-01 08:16:18: (server.c.927) can't have more connections than fds/2:  1024 1024
 Hint: Some lines were ellipsized, use -l to show in full.

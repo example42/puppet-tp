@@ -1,7 +1,34 @@
 # Package status
-package { 'autofs':
-  ensure => '5.0.7-3ubuntu3.1',
-}
+Package: autofs
+Status: install ok installed
+Priority: extra
+Section: utils
+Installed-Size: 1632
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 5.0.7-3ubuntu3.1
+Replaces: autofs5 (<< 5.0.6-1~)
+Provides: autofs5
+Depends: libc6 (>= 2.16), libxml2 (>= 2.7.4), sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), ucf
+Pre-Depends: multiarch-support
+Recommends: nfs-common, kmod | module-init-tools
+Breaks: autofs5 (<< 5.0.6-1~)
+Conffiles:
+ /etc/init/autofs.conf 808bba77b88059472466859f41bec04b
+ /etc/init.d/autofs db2d73d4bee232a047a88fc596377010
+Description: kernel-based automounter for Linux
+ Autofs controls the operation of the automount daemons. The
+ automount daemons automatically mount filesystems when they
+ are used and unmount them after a period of inactivity. This
+ is done based on a set of pre-configured maps.
+ .
+ The kernel automounter implements an almost complete SunOS
+ style automounter under Linux. A recent version of the kernel
+ autofs4 module (builtin or separate) is required.
+ .
+ This is the autofs daemon.
+Homepage: http://www.kernel.org/pub/linux/daemons/autofs/v5/
+Original-Maintainer: Michael Tokarev <mjt@tls.msk.ru>
 
 # Service status
-autofs start/running, process 12859
+autofs start/running, process 19655

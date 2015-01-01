@@ -2,9 +2,37 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'puppet':
-  ensure => '3.7.3-1puppetlabs1',
-}
+Package: puppet
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 71
+Maintainer: Puppet Labs <info@puppetlabs.com>
+Architecture: all
+Version: 3.7.3-1puppetlabs1
+Depends: puppet-common (= 3.7.3-1puppetlabs1), ruby | ruby-interpreter
+Recommends: rdoc
+Suggests: puppet-el, vim-puppet
+Conflicts: puppet-common (<< 3.3.0-1puppetlabs1)
+Conffiles:
+ /etc/default/puppet e3a89dd703e6b796ef7889ba75af2df7
+ /etc/logrotate.d/puppet 037c34a239a8895833388ccfce278adc
+ /etc/init.d/puppet 97cd32213db57333a1d8bad195118795
+Description: Centralized configuration management - agent startup and compatibility scripts
+ This package contains the startup script and compatbility scripts for the
+ puppet agent, which is the process responsible for configuring the local node.
+ .
+ Puppet lets you centrally manage every important aspect of your system
+ using a cross-platform specification language that manages all the
+ separate elements normally aggregated in different files, like users,
+ cron jobs, and hosts, along with obviously discrete elements like
+ packages, services, and files.
+ .
+ Puppet's simple declarative specification language provides powerful
+ classing abilities for drawing out the similarities between hosts while
+ allowing them to be as specific as necessary, and it handles dependency
+ and prerequisite relationships between objects clearly and explicitly.
+Homepage: http://projects.puppetlabs.com/projects/puppet
 
 # Service status
 [....] agent is not running ...[?25l7[1G[[31mFAIL[39;49m8[?12l[?25h [31mfailed![39;49m

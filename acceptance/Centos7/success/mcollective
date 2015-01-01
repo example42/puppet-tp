@@ -1,17 +1,33 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'mcollective':
-  ensure => '2.7.0-1.el7',
-}
+# Package status
+Name        : mcollective
+Version     : 2.7.0
+Release     : 1.el7
+Architecture: noarch
+Install Date: Thu 01 Jan 2015 08:17:43 AM EST
+Group       : System Environment/Daemons
+Size        : 14067
+License     : ASL 2.0
+Signature   : RSA/SHA512, Tue 02 Dec 2014 12:44:21 PM EST, Key ID 1054b7a24bd6ec30
+Source RPM  : mcollective-2.7.0-1.el7.src.rpm
+Build Date  : Tue 25 Nov 2014 01:05:34 PM EST
+Build Host  : grand.delivery.puppetlabs.net
+Relocations : (not relocatable)
+Packager    : Puppet Labs <info@puppetlabs.com>
+URL         : http://puppetlabs.com/mcollective/introduction/
+Summary     : Application Server for hosting Ruby code on any capable middleware
+Description :
+The Marionette Collective:
+
+Server for the mcollective Application Server
+
+# Service status
 Redirecting to /bin/systemctl status  mcollective.service
 mcollective.service - The Marionette Collective
    Loaded: loaded (/usr/lib/systemd/system/mcollective.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:49:07 EST; 5s ago
- Main PID: 19151 (mcollectived)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:17:44 EST; 2s ago
+ Main PID: 29925 (mcollectived)
    CGroup: /system.slice/mcollective.service
-           └─19151 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollective/server.cfg --pidfile=/var/run/mcollective.pid --d...
+           └─29925 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollective/server.cfg --pidfile=/var/run/mcollective.pid --daemonize
 
-Dec 30 00:49:07 centos7.example42.com systemd[1]: PID file /var/run/mcollective.pid not readable (yet?) after start.
-Dec 30 00:49:07 centos7.example42.com systemd[1]: [1;39mmcollective.service: Supervising process 19151 which is not our child. We'l...exits.[0m
-Dec 30 00:49:07 centos7.example42.com systemd[1]: Started The Marionette Collective.
-Hint: Some lines were ellipsized, use -l to show in full.
+Jan 01 08:17:44 centos7.example42.com systemd[1]: PID file /var/run/mcollective.pid not readable (yet?) after start.
+Jan 01 08:17:44 centos7.example42.com systemd[1]: Started The Marionette Collective.

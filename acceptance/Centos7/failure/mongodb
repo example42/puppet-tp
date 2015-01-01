@@ -1,8 +1,26 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'mongodb-server':
-  ensure => '2.6.5-2.el7',
-}
+# Package status
+Name        : mongodb-server
+Version     : 2.6.5
+Release     : 2.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:18:41 AM EST
+Group       : Applications/Databases
+Size        : 37787338
+License     : AGPLv3 and zlib and ASL 2.0
+Signature   : RSA/SHA256, Wed 05 Nov 2014 10:53:59 AM EST, Key ID 6a2faea2352c64e5
+Source RPM  : mongodb-2.6.5-2.el7.src.rpm
+Build Date  : Tue 04 Nov 2014 05:04:53 PM EST
+Build Host  : buildhw-05.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://www.mongodb.org
+Summary     : MongoDB server, sharding server and support scripts
+Description :
+This package provides the mongo server software, mongo sharding server
+software, default configuration files, and init scripts.
+
+# Service status
 Redirecting to /bin/systemctl status  mongodb.service
 mongodb.service
    Loaded: not-found (Reason: No such file or directory)

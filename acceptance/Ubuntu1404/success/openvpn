@@ -1,6 +1,34 @@
 # Package status
-package { 'openvpn':
-  ensure => '2.3.2-7ubuntu3.1',
-}
+Package: openvpn
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 984
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 2.3.2-7ubuntu3.1
+Depends: debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.15), liblzo2-2, libpam0g (>= 0.99.7.1), libpkcs11-helper1 (>= 1.05), libssl1.0.0 (>= 1.0.0), initscripts (>= 2.88dsf-13.3), iproute2
+Suggests: openssl, resolvconf, easy-rsa
+Conffiles:
+ /etc/bash_completion.d/openvpn 5cab8dd1689cc5b338886557cf7a25a9
+ /etc/openvpn/update-resolv-conf 35b1ae120e27e2c4ff8c8f8e8f127c25
+ /etc/network/if-up.d/openvpn ef0c34d3c92b8849f1e04168caa605d3
+ /etc/network/if-down.d/openvpn 6f027552ae527133e46efb9201e0b9fc
+ /etc/init.d/openvpn 08a91f97e3a38bb592ba1ec800e01275
+ /etc/default/openvpn 6ae1ce10374b50ea3c4887374f11058d
+Description: virtual private network daemon
+ OpenVPN is an application to securely tunnel IP networks over a
+ single UDP or TCP port. It can be used to access remote sites, make
+ secure point-to-point connections, enhance wireless security, etc.
+ .
+ OpenVPN uses all of the encryption, authentication, and certification
+ features provided by the OpenSSL library (any cipher, key size, or
+ HMAC digest).
+ .
+ OpenVPN may use static, pre-shared keys or TLS-based dynamic key exchange. It
+ also supports VPNs with dynamic endpoints (DHCP or dial-up clients), tunnels
+ over NAT or connection-oriented stateful firewalls (such as Linux's iptables).
+Homepage: http://www.openvpn.net/
+Original-Maintainer: Alberto Gonzalez Iniesta <agi@inittab.org>
 
 # Service status

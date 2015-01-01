@@ -2,9 +2,40 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'quagga':
-  ensure => '0.99.22.4-1+wheezy1',
-}
+Package: quagga
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 5750
+Maintainer: Christian Hammers <ch@debian.org>
+Architecture: amd64
+Version: 0.99.22.4-1+wheezy1
+Replaces: zebra, zebra-pj
+Depends: libc6 (>= 2.11), libcap2 (>= 2.10), libpam0g (>= 0.99.7.1), libreadline6 (>= 6.0), libtinfo5, logrotate (>= 3.2-11), iproute, debconf (>= 0.5) | debconf-2.0
+Pre-Depends: adduser
+Suggests: snmpd
+Conflicts: zebra, zebra-pj
+Conffiles:
+ /etc/init.d/quagga 48d9f28f74be8aa64e9659894a9833c5
+ /etc/pam.d/quagga baef1d8dbdb081c0026156e513d41ec6
+ /etc/quagga/daemons ac34dcbf2c5f113ae0996de790d3969b
+ /etc/quagga/debian.conf 77c93f86c80ca73bcd8580c065f5c321
+ /etc/logrotate.d/quagga 136cb110438e0b07910ea81ed8f37f0e
+Description: BGP/OSPF/RIP routing daemon
+ GNU Quagga is free software which manages TCP/IP based routing protocols.
+ It supports BGP4, BGP4+, OSPFv2, OSPFv3, IS-IS, RIPv1, RIPv2, and RIPng as
+ well as the IPv6 versions of these.
+ .
+ As the precessor Zebra has been considered orphaned, the Quagga project
+ has been formed by members of the zebra mailing list and the former
+ zebra-pj project to continue developing.
+ .
+ Quagga uses threading if the kernel supports it, but can also run on
+ kernels that do not support threading. Each protocol has its own daemon.
+ .
+ It is more than a routed replacement, it can be used as a Route Server and
+ a Route Reflector.
+Homepage: http://www.quagga.net/
 
 # Service status
 Usage: /etc/init.d/quagga {start|stop|restart|force-reload|<priority>} [daemon]

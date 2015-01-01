@@ -2,9 +2,41 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'mongodb-server':
-  ensure => '1:2.0.6-1.1',
-}
+Package: mongodb-server
+Status: install ok installed
+Priority: optional
+Section: database
+Installed-Size: 10581
+Maintainer: Antonin Kral <A.Kral@sh.cvut.cz>
+Architecture: amd64
+Source: mongodb
+Version: 1:2.0.6-1.1
+Replaces: mongodb (<= 1:1.4.2-2)
+Depends: mongodb-clients, libboost-filesystem1.49.0 (>= 1.49.0-1), libboost-program-options1.49.0 (>= 1.49.0-1), libboost-system1.49.0 (>= 1.49.0-1), libboost-thread1.49.0 (>= 1.49.0-1), libc6 (>= 2.3.2), libgcc1 (>= 1:4.1.1), libpcre3 (>= 8.10), libpcrecpp0 (>= 7.7), libstdc++6 (>= 4.6), adduser
+Conffiles:
+ /etc/init.d/mongodb 9cc658ce83248f5465555b77bff47ca2
+ /etc/logrotate.d/mongodb-server 62df81d9a72519dac9c60723c8d36b1d
+ /etc/mongodb.conf 7701f24ebc9fe694c8691439904e98e1
+Description: object/document-oriented database (server package)
+ MongoDB is a high-performance, open source, schema-free
+ document-oriented  data store that's easy to deploy, manage
+ and use. It's network accessible, written in C++ and offers
+ the following features :
+ .
+    * Collection oriented storage - easy storage of object-
+      style data
+    * Full index support, including on inner objects
+    * Query profiling
+    * Replication and fail-over support
+    * Efficient storage of binary data including large
+      objects (e.g. videos)
+    * Auto-sharding for cloud-level scalability
+ .
+ High performance, scalability, and reasonable depth of
+ functionality are the goals for the project.
+ .
+ This package contains the server itself.
+Homepage: http://www.mongodb.org
 
 # Service status
 [....] Checking status of database: mongodb running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

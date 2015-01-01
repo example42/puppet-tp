@@ -2,20 +2,52 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'sendmail-bin':
-  ensure => '8.14.4-4',
-}
+Package: sendmail-bin
+Status: install ok installed
+Priority: extra
+Section: mail
+Installed-Size: 1832
+Maintainer: Jakub Safarik <jsafarik@ymail.com>
+Architecture: amd64
+Source: sendmail
+Version: 8.14.4-4
+Replaces: mail-transport-agent
+Provides: mail-transport-agent
+Depends: sendmail-base, sendmail-cf, procps, libc6 (>= 2.4), libdb5.1, libldap-2.4-2 (>= 2.4.7), liblockfile1 (>= 1.0), libsasl2-2 (>= 2.1.24), libssl1.0.0 (>= 1.0.0), libwrap0 (>= 7.6-4~)
+Suggests: sendmail-doc, sasl2-bin, libsasl2-modules, openssl
+Conflicts: mail-transport-agent
+Conffiles:
+ /etc/mail/helpfile c816378b3028cbab410f72168b571775
+ /etc/init.d/sendmail 3557dd996a516c5997fe0676ea2ea9aa
+ /etc/cron.daily/sendmail 29572a035b5394f3186ae34f792da96e
+Description: powerful, efficient, and scalable Mail Transport Agent
+ Sendmail is an alternative Mail Transport Agent (MTA) for Debian.
+ It is suitable for handling sophisticated mail configurations,
+ although this means that its configuration can also be complex.
+ .
+ Fortunately, simple thing can be done easily, and complex things
+ are possible, even if not easily understood ;)  Sendmail is the *ONLY*
+ MTA with a Turing complete language to control *ALL* aspects of delivery!
+ .
+ Sendmail provides Security and SPAM/UCE/UBE protection via several means.
+ .
+ Sendmail includes *no* Mail User Agents (MUA), you'll have to
+ pick from the plethora of available MUAs (mutt, vm, etc.)
+ .
+ This package supports REGEX, DB, NIS, NIS+, LDAP, DNS maps,
+ and has enabled TCPWrappers, IPv6, LockFile, SMTP AUTH(SASL), STARTTLS(SSL).
+Homepage: http://www.sendmail.org
 
 # Service status
 MSP: is run via cron (20m)
-MTA: 22770 /usr/sbin/sendmail-mta -Am -L sm-mta -bd -q10m
+MTA: 21027 /usr/sbin/sendmail-mta -Am -L sm-mta -bd -q10m
 UID        PID  PPID  C STIME TTY          TIME CMD
-root     22770     1  0 11:33 ?        00:00:00 sendmail: MTA: accepting connections          
-Daemon Status: (process 22888) Console socket child
+root     21027     1  0 14:28 ?        00:00:00 sendmail: MTA: accepting connections          
+Daemon Status: (process 21132) Console socket child
 
 Current number of children: 0
-QueueDir free disk space (in blocks): 3176728
-Load average: 1
-Child Process 22770 Status: accepting connections
+QueueDir free disk space (in blocks): 3175912
+Load average: 0
+Child Process 21027 Status: accepting connections
 
 QUE: Same as MTA

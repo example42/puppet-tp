@@ -1,7 +1,26 @@
 # Package status
-package { 'tinc':
-  ensure => 'purged',
-}
+Package: tinc
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 627
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 1.0.23-2
+Depends: libc6 (>= 2.15), liblzo2-2, libssl1.0.0 (>= 1.0.0), zlib1g (>= 1:1.1.4)
+Conffiles:
+ /etc/init.d/tinc 4523767fa1edb38851434faf8ae7372f
+ /etc/network/if-pre-up.d/tinc 1086605b0c21223d0d09d775a83dce1e
+ /etc/network/if-post-down.d/tinc 52a91297ad01487fdd264e8a999e040d
+ /etc/network/if-up.d/tinc 215a6cc80d3951ed1843575eb9c8c8db
+ /etc/default/tinc 68303489ce39de60909e25c8020a57c6
+Description: Virtual Private Network daemon
+ tinc is a daemon with which you can create a virtual private network
+ (VPN). One daemon can handle multiple connections, so you can
+ create an entire (moderately sized) VPN with only one daemon per
+ participating computer.
+Original-Maintainer: Guus Sliepen <guus@debian.org>
+Homepage: http://www.tinc-vpn.org/
 
 # Service status
-tinc: unrecognized service
+Usage: /etc/init.d/tinc {start|stop|reload|restart|force-reload|alarm}

@@ -1,7 +1,0 @@
-# Package status
-package { 'syslog-ng':
-  ensure => 'purged',
-}
-
-# Service status
-syslog-ng: unrecognized service

@@ -1,8 +1,29 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'openvpn':
-  ensure => '2.3.6-1.el7',
-}
+# Package status
+Name        : openvpn
+Version     : 2.3.6
+Release     : 1.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:23:47 AM EST
+Group       : Applications/Internet
+Size        : 1015506
+License     : GPLv2
+Signature   : RSA/SHA256, Tue 02 Dec 2014 11:35:16 PM EST, Key ID 6a2faea2352c64e5
+Source RPM  : openvpn-2.3.6-1.el7.src.rpm
+Build Date  : Tue 02 Dec 2014 03:58:15 PM EST
+Build Host  : buildvm-21.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://openvpn.net/
+Summary     : A full-featured SSL VPN solution
+Description :
+OpenVPN is a robust and highly flexible tunneling application that uses all
+of the encryption, authentication, and certification features of the
+OpenSSL library to securely tunnel IP networks over a single UDP or TCP
+port.  It can use the Marcus Franz Xaver Johannes Oberhumer's LZO library
+for compression.
+
+# Service status
 Redirecting to /bin/systemctl status  openvpn.service
 openvpn.service
    Loaded: not-found (Reason: No such file or directory)

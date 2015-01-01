@@ -1,20 +1,39 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'collectd':
-  ensure => '5.4.1-1.el7',
-}
+# Package status
+Name        : collectd
+Version     : 5.4.1
+Release     : 1.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:09:43 AM EST
+Group       : System Environment/Daemons
+Size        : 1698827
+License     : GPLv2
+Signature   : RSA/SHA256, Mon 03 Mar 2014 10:32:47 PM EST, Key ID 6a2faea2352c64e5
+Source RPM  : collectd-5.4.1-1.el7.src.rpm
+Build Date  : Mon 03 Mar 2014 06:41:04 AM EST
+Build Host  : buildvm-19.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://collectd.org/
+Summary     : Statistics collection daemon for filling RRD files
+Description :
+collectd is a small daemon written in C for performance.  It reads various
+system  statistics  and updates  RRD files,  creating  them if necessary.
+Since the daemon doesn't need to startup every time it wants to update the
+files it's very fast and easy on the system. Also, the statistics are very
+fine grained since the files are updated every 10 seconds.
+
+# Service status
 Redirecting to /bin/systemctl status  collectd.service
 collectd.service - Collectd
    Loaded: loaded (/usr/lib/systemd/system/collectd.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:17:57 EST; 44s ago
- Main PID: 2624 (collectd)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:09:43 EST; 2s ago
+ Main PID: 15037 (collectd)
    CGroup: /system.slice/collectd.service
-           └─2624 /usr/sbin/collectd -C /etc/collectd.conf -f
+           └─15037 /usr/sbin/collectd -C /etc/collectd.conf -f
 
-Dec 30 00:17:57 centos7.example42.com systemd[1]: Started Collectd.
-Dec 30 00:17:57 centos7.example42.com collectd[2624]: Initialization complete, entering read-loop.
-Dec 30 00:17:57 centos7.example42.com collectd[2624]: [1;39mplugin_dispatch_values: No write callback has been registered. Please lo...ored.[0m
-Dec 30 00:17:57 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
-Dec 30 00:18:17 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
-Dec 30 00:18:37 centos7.example42.com collectd[2624]: Filter subsystem: Built-in target `write': Dispatching value to all writ...gins.
+Jan 01 08:09:43 centos7.example42.com systemd[1]: Started Collectd.
+Jan 01 08:09:43 centos7.example42.com collectd[15037]: Initialization complete, entering read-loop.
+Jan 01 08:09:43 centos7.example42.com collectd[15037]: [1;39mplugin_dispatch_values: No write callback has been registered. Please load at least one output plugin, if you want the collected data to be stored.[0m
+Jan 01 08:09:43 centos7.example42.com collectd[15037]: Filter subsystem: Built-in target `write': Dispatching value to all write plugins failed with status 2 (ENOENT). Most likely this mea...ite plugins.
 Hint: Some lines were ellipsized, use -l to show in full.

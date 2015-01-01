@@ -2,9 +2,33 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'rsync':
-  ensure => '3.0.9-4',
-}
+Package: rsync
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 638
+Maintainer: Paul Slootman <paul@debian.org>
+Architecture: amd64
+Multi-Arch: foreign
+Version: 3.0.9-4
+Depends: libacl1 (>= 2.2.51-8), libc6 (>= 2.8), libpopt0 (>= 1.14), lsb-base (>= 3.2-14), base-files (>= 4.0.1)
+Suggests: openssh-client, openssh-server
+Breaks: duplicity (<< 0.6.11)
+Conffiles:
+ /etc/init.d/rsync 14875a3578ab580e9b887b6b158b8291
+ /etc/default/rsync e0d7efac23e911c65f44b08de446e837
+Description: fast, versatile, remote (and local) file-copying tool
+ rsync is a fast and versatile file-copying tool which can copy locally
+ and to/from a remote host. It offers many options to control its behavior,
+ and its remote-update protocol can minimize network traffic to make
+ transferring updates between machines fast and efficient.
+ .
+ It is widely used for backups and mirroring and as an improved copy
+ command for everyday use.
+ .
+ This package provides both the rsync command line tool and optional
+ daemon functionality.
+Homepage: http://rsync.samba.org/
 
 # Service status
 [....] rsync is not running ...[?25l7[1G[[31mFAIL[39;49m8[?12l[?25h [31mfailed![39;49m

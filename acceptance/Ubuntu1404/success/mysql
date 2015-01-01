@@ -1,7 +1,4 @@
 # Package status
-package { 'mysql-server':
-  ensure => 'purged',
-}
 
 # Service status
 mysql stop/waiting

@@ -1,14 +1,36 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'rsyslog':
-  ensure => '7.4.7-7.el7_0',
-}
+# Package status
+Name        : rsyslog
+Version     : 7.4.7
+Release     : 7.el7_0
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:15:49 AM EST
+Group       : System Environment/Daemons
+Size        : 2033615
+License     : (GPLv3+ and ASL 2.0)
+Signature   : RSA/SHA256, Mon 13 Oct 2014 03:41:08 PM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : rsyslog-7.4.7-7.el7_0.src.rpm
+Build Date  : Mon 13 Oct 2014 03:07:27 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.rsyslog.com/
+Summary     : Enhanced system logging and kernel message trapping daemon
+Description :
+Rsyslog is an enhanced, multi-threaded syslog daemon. It supports MySQL,
+syslog/TCP, RFC 3195, permitted sender lists, filtering on any message part,
+and fine grain output format control. It is compatible with stock sysklogd
+and can be used as a drop-in replacement. Rsyslog is simple to set up, with
+advanced features suitable for enterprise-class, encryption-protected syslog
+relay chains.
+
+# Service status
 Redirecting to /bin/systemctl status  rsyslog.service
 rsyslog.service - System Logging Service
    Loaded: loaded (/usr/lib/systemd/system/rsyslog.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 17:21:47 EST; 7h ago
- Main PID: 8396 (rsyslogd)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:15:54 EST; 15min ago
+ Main PID: 26128 (rsyslogd)
    CGroup: /system.slice/rsyslog.service
-           └─8396 /usr/sbin/rsyslogd -n
+           └─26128 /usr/sbin/rsyslogd -n
 
-Dec 29 17:21:47 centos7.example42.com systemd[1]: Started System Logging Service.
+Jan 01 08:15:54 centos7.example42.com systemd[1]: Started System Logging Service.

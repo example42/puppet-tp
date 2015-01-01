@@ -1,25 +1,44 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'rabbitmq-server':
-  ensure => '3.1.5-7.el7',
-}
+# Package status
+Name        : rabbitmq-server
+Version     : 3.1.5
+Release     : 7.el7
+Architecture: noarch
+Install Date: Thu 01 Jan 2015 08:30:27 AM EST
+Group       : Development/Libraries
+Size        : 4680856
+License     : MPLv1.1
+Signature   : RSA/SHA256, Mon 02 Jun 2014 11:22:45 AM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : rabbitmq-server-3.1.5-7.el7.src.rpm
+Build Date  : Sun 01 Jun 2014 11:30:43 AM EDT
+Build Host  : buildppc-01.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://www.rabbitmq.com/
+Summary     : The RabbitMQ server
+Description :
+RabbitMQ is an implementation of AMQP, the emerging standard for high
+performance enterprise messaging. The RabbitMQ server is a robust and
+scalable implementation of an AMQP broker.
+
+# Service status
 Redirecting to /bin/systemctl status  rabbitmq-server.service
 rabbitmq-server.service - RabbitMQ broker
    Loaded: loaded (/usr/lib/systemd/system/rabbitmq-server.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:08:29 EST; 7s ago
- Main PID: 6467 (beam)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:30:31 EST; 2s ago
+ Main PID: 16056 (beam)
    CGroup: /system.slice/rabbitmq-server.service
-           ├─6467 /usr/lib64/erlang/erts-5.10.4/bin/beam -W w -K true -A30 -P 1048576 -- -root /usr/lib64/erlang -progname erl -- -...
-           ├─6561 inet_gethost 4
-           └─6562 inet_gethost 4
+           ├─16056 /usr/lib64/erlang/erts-5.10.4/bin/beam -W w -K true -A30 -P 1048576 -- -root /usr/lib64/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-...
+           ├─16150 inet_gethost 4
+           └─16151 inet_gethost 4
 
-Dec 30 01:08:27 centos7.example42.com rabbitmqctl[6468]: pid is 6467 ...
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: RabbitMQ 3.1.5. Copyright (C) 2007-2013 GoPivotal, Inc.
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: ##  ##      Licensed under the MPL.  See http://www.rabbitmq.com/
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: ##  ##
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: ##########  Logs: /var/log/rabbitmq/rabbit@centos7.log
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: ######  ##        /var/log/rabbitmq/rabbit@centos7-sasl.log
-Dec 30 01:08:28 centos7.example42.com rabbitmq-server[6467]: ##########
-Dec 30 01:08:29 centos7.example42.com rabbitmq-server[6467]: Starting broker... completed with 0 plugins.
-Dec 30 01:08:29 centos7.example42.com rabbitmqctl[6468]: ...done.
-Dec 30 01:08:29 centos7.example42.com systemd[1]: Started RabbitMQ broker.
+Jan 01 08:30:29 centos7.example42.com rabbitmqctl[16057]: pid is 16056 ...
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: RabbitMQ 3.1.5. Copyright (C) 2007-2013 GoPivotal, Inc.
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: ##  ##      Licensed under the MPL.  See http://www.rabbitmq.com/
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: ##  ##
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: ##########  Logs: /var/log/rabbitmq/rabbit@centos7.log
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: ######  ##        /var/log/rabbitmq/rabbit@centos7-sasl.log
+Jan 01 08:30:29 centos7.example42.com rabbitmq-server[16056]: ##########
+Jan 01 08:30:30 centos7.example42.com rabbitmq-server[16056]: Starting broker... completed with 0 plugins.
+Jan 01 08:30:31 centos7.example42.com rabbitmqctl[16057]: ...done.
+Jan 01 08:30:31 centos7.example42.com systemd[1]: Started RabbitMQ broker.

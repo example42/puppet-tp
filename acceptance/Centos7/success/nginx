@@ -1,18 +1,38 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'nginx':
-  ensure => '1.6.2-4.el7',
-}
+# Package status
+Name        : nginx
+Epoch       : 1
+Version     : 1.6.2
+Release     : 4.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:21:58 AM EST
+Group       : System Environment/Daemons
+Size        : 1440795
+License     : BSD
+Signature   : RSA/SHA256, Thu 23 Oct 2014 10:01:23 AM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : nginx-1.6.2-4.el7.src.rpm
+Build Date  : Wed 22 Oct 2014 03:52:52 PM EDT
+Build Host  : buildvm-06.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://nginx.org/
+Summary     : A high performance web server and reverse proxy server
+Description :
+Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and
+IMAP protocols, with a strong focus on high concurrency, performance and low
+memory usage.
+
+# Service status
 Redirecting to /bin/systemctl status  nginx.service
 nginx.service - The nginx HTTP and reverse proxy server
    Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:55:29 EST; 5s ago
- Main PID: 26646 (nginx)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:21:59 EST; 2s ago
+ Main PID: 4587 (nginx)
    CGroup: /system.slice/nginx.service
-           ├─26646 nginx: master process /usr/sbin/nginx
-           └─26647 nginx: worker process
+           ├─4587 nginx: master process /usr/sbin/nginx
+           └─4588 nginx: worker process
 
-Dec 30 00:55:29 centos7.example42.com nginx[26642]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-Dec 30 00:55:29 centos7.example42.com nginx[26642]: nginx: configuration file /etc/nginx/nginx.conf test is successful
-Dec 30 00:55:29 centos7.example42.com systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
-Dec 30 00:55:29 centos7.example42.com systemd[1]: Started The nginx HTTP and reverse proxy server.
+Jan 01 08:21:59 centos7.example42.com nginx[4583]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Jan 01 08:21:59 centos7.example42.com nginx[4583]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Jan 01 08:21:59 centos7.example42.com systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
+Jan 01 08:21:59 centos7.example42.com systemd[1]: Started The nginx HTTP and reverse proxy server.

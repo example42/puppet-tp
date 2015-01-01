@@ -1,4 +1,21 @@
 # Package status
-package { 'lsb-base':
-  ensure => '4.1+Debian11ubuntu6',
-}
+Package: lsb-base
+Status: install ok installed
+Priority: required
+Section: misc
+Installed-Size: 82
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Multi-Arch: foreign
+Source: lsb
+Version: 4.1+Debian11ubuntu6
+Description: Linux Standard Base 4.1 init script functionality
+ The Linux Standard Base (http://www.linuxbase.org/) is a standard
+ core system that third-party applications written for Linux can
+ depend upon.
+ .
+ This package only includes the init-functions shell library, which
+ may be used by other packages' initialization scripts for console
+ logging and other purposes.
+Homepage: http://www.linuxfoundation.org/collaborate/workgroups/lsb
+Original-Maintainer: Debian LSB Team <debian-lsb@lists.debian.org>

@@ -2,8 +2,35 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'openvpn':
-  ensure => '2.2.1-8+deb7u3',
-}
+Package: openvpn
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 1091
+Maintainer: Alberto Gonzalez Iniesta <agi@inittab.org>
+Architecture: amd64
+Version: 2.2.1-8+deb7u3
+Depends: debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.4), liblzo2-2, libpam0g (>= 0.99.7.1), libpkcs11-helper1 (>= 1.05), libssl1.0.0 (>= 1.0.0), net-tools, initscripts (>= 2.88dsf-13.3)
+Suggests: openssl, resolvconf
+Conffiles:
+ /etc/init.d/openvpn 5cd06ea29d192bc7b7f40b4572c738a8
+ /etc/bash_completion.d/openvpn 5cab8dd1689cc5b338886557cf7a25a9
+ /etc/network/if-down.d/openvpn 6f027552ae527133e46efb9201e0b9fc
+ /etc/network/if-up.d/openvpn ef0c34d3c92b8849f1e04168caa605d3
+ /etc/openvpn/update-resolv-conf 95a65f8e216e646a6eb1a860e9f22d33
+ /etc/default/openvpn 6ae1ce10374b50ea3c4887374f11058d
+Description: virtual private network daemon
+ OpenVPN is an application to securely tunnel IP networks over a
+ single UDP or TCP port. It can be used to access remote sites, make
+ secure point-to-point connections, enhance wireless security, etc.
+ .
+ OpenVPN uses all of the encryption, authentication, and certification
+ features provided by the OpenSSL library (any cipher, key size, or
+ HMAC digest).
+ .
+ OpenVPN may use static, pre-shared keys or TLS-based dynamic key exchange. It
+ also supports VPNs with dynamic endpoints (DHCP or dial-up clients), tunnels
+ over NAT or connection-oriented stateful firewalls (such as Linux's iptables).
+Homepage: http://www.openvpn.net/
 
 # Service status

@@ -1,7 +1,0 @@
-# Package status
-package { 'sendmail-bin':
-  ensure => 'purged',
-}
-
-# Service status
-sendmail: unrecognized service

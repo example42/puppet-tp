@@ -1,7 +1,116 @@
 # Package status
-package { 'fail2ban':
-  ensure => '0.8.11-1',
-}
+Package: fail2ban
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 616
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Version: 0.8.11-1
+Depends: python:any (>= 2.7.1-0ubuntu2), lsb-base (>= 2.0-7)
+Recommends: iptables, whois, python-pyinotify
+Suggests: python-gamin, mailx, system-log-daemon
+Conffiles:
+ /etc/bash_completion.d/fail2ban 1d7b24c89168879bc436cba98b6b9eca
+ /etc/fail2ban/fail2ban.conf c21d8b4698405a73d9dbfdcea289341b
+ /etc/fail2ban/jail.conf 32a5579d8ed24bf1f2b6d4afa5e54fd8
+ /etc/fail2ban/action.d/mail-whois-lines.conf 8bcbf2edcacf6206e2ea0df98cdd0314
+ /etc/fail2ban/action.d/ipfw.conf ad3ebaf8b66fccd50f6b6c1e6fe273f1
+ /etc/fail2ban/action.d/iptables-blocktype.conf b322783b061a2e3d4412fa2f523fc69c
+ /etc/fail2ban/action.d/iptables-xt_recent-echo.conf b3ed9adf14f5d59ab44808b6756d185f
+ /etc/fail2ban/action.d/complain.conf aaeda5d7907aa00c174a8792f508824b
+ /etc/fail2ban/action.d/sendmail-whois-lines.conf c2e19fe823b2a9f6c36293a7e3f0bb8b
+ /etc/fail2ban/action.d/iptables-ipset-proto6.conf aa68110d9a0d4840d38ee44fe506c0d2
+ /etc/fail2ban/action.d/shorewall.conf 4c8d1646d1a6362a55a1b743c81ef12b
+ /etc/fail2ban/action.d/route.conf 7d8104e18590c9e209f2b0aa3fc3ec83
+ /etc/fail2ban/action.d/sendmail-whois.conf f16bb5ec47dc71efb89fd4a1d35d82f2
+ /etc/fail2ban/action.d/iptables-multiport.conf 2cb2a93a57eb9d0f72aa81d0b6be19f7
+ /etc/fail2ban/action.d/iptables-ipset-proto4.conf 846c94b1b243ef9fa5f2260d59735ea3
+ /etc/fail2ban/action.d/sendmail-common.conf 25598f5e29c74e006bb289d3a0fcbfd7
+ /etc/fail2ban/action.d/ipfilter.conf bf317c030f09ca65ab6aeaf06b27b06b
+ /etc/fail2ban/action.d/iptables-multiport-log.conf 303937271c590b34ec879691f2007738
+ /etc/fail2ban/action.d/bsd-ipfw.conf ee16dca901c47bbb6a0d102a901c60fe
+ /etc/fail2ban/action.d/pf.conf 406243926bf77aa68ef892ade6f9adf2
+ /etc/fail2ban/action.d/iptables.conf 64f58d605194b116643b961e0645e65a
+ /etc/fail2ban/action.d/mynetwatchman.conf 1d328f3c63d71c18105639830b2679fd
+ /etc/fail2ban/action.d/hostsdeny.conf 916d305a1897b73cfd064e916e14f150
+ /etc/fail2ban/action.d/sendmail-buffered.conf b96b9b55b351e679c67275763e6b39dc
+ /etc/fail2ban/action.d/dummy.conf 462d32179e222bc69ba6efa198a23156
+ /etc/fail2ban/action.d/firewall-cmd-direct-new.conf 5c39d5cf0e65ba04e4b2225ae2ecc106
+ /etc/fail2ban/action.d/dshield.conf b7ace75da34e198cd56464a762844626
+ /etc/fail2ban/action.d/osx-afctl.conf a083fe23f1ceab7d175b4136eea82332
+ /etc/fail2ban/action.d/mail.conf cb8d717f5b982f64d655fd11772c18cc
+ /etc/fail2ban/action.d/mail-whois.conf d050e614c141aed32da50a726aee6865
+ /etc/fail2ban/action.d/sendmail.conf 26538eb9ce750e5a50e9299af90668d9
+ /etc/fail2ban/action.d/iptables-new.conf 775dae0d601721d4a7256c547e4686d5
+ /etc/fail2ban/action.d/iptables-allports.conf d0c5adb04a34c210b61d7e05bd119cc3
+ /etc/fail2ban/action.d/osx-ipfw.conf 410cc64b5bf193997cdac4f71189f780
+ /etc/fail2ban/action.d/mail-buffered.conf e3432dfcf92d8e67f43506a5bb54efbb
+ /etc/fail2ban/action.d/iptables-ipset-proto6-allports.conf 5e3dad12b8840010d5670f176544ad07
+ /etc/fail2ban/action.d/apf.conf 1106d18f7d0b6e00adb093a423db820e
+ /etc/fail2ban/filter.d/pure-ftpd.conf a5d5390770acb24385d8bc8b63703d99
+ /etc/fail2ban/filter.d/selinux-common.conf 7b07141322e66965aef0634969376815
+ /etc/fail2ban/filter.d/uwimap-auth.conf f8f8fb6ed7216c55e5843c590ede5abf
+ /etc/fail2ban/filter.d/dropbear.conf 5a0ade98716c708aa2427cf38aaacf32
+ /etc/fail2ban/filter.d/couriersmtp.conf c0529e45239272096754b6b75e72f8ce
+ /etc/fail2ban/filter.d/cyrus-imap.conf f7937efea984958b7e231aedbe4c1424
+ /etc/fail2ban/filter.d/assp.conf 0af26e349f3dcce5fd083a7b118e00d2
+ /etc/fail2ban/filter.d/xinetd-fail.conf dbc58da808890b2f640a9d27a2643d38
+ /etc/fail2ban/filter.d/apache-overflows.conf 0f9393db58e36d64a240746d23dab4b0
+ /etc/fail2ban/filter.d/gssftpd.conf 468f015e1687e621e351ba8e13135f27
+ /etc/fail2ban/filter.d/nginx-http-auth.conf 5ca0a68529b46cf95247bb95984617ee
+ /etc/fail2ban/filter.d/lighttpd-auth.conf f679d27c544f91bcc54b75d86e8d9e08
+ /etc/fail2ban/filter.d/wuftpd.conf 7da5db9699677b3b21e787bbc43c4217
+ /etc/fail2ban/filter.d/php-url-fopen.conf ec947bd6d28781ff0f07a6a98c8fe280
+ /etc/fail2ban/filter.d/sogo-auth.conf 5873b7613a11c00b5ae95e7f615b21c4
+ /etc/fail2ban/filter.d/pam-generic.conf 269fdaad0ec6628095024d70d066bf85
+ /etc/fail2ban/filter.d/perdition.conf 0cc5ea440cf9f71777e01e011a27490f
+ /etc/fail2ban/filter.d/named-refused.conf 84d47ee50a52a3ccdc80270e28517a5c
+ /etc/fail2ban/filter.d/recidive.conf cbb0c070bef8c80d613593ddc987cc4c
+ /etc/fail2ban/filter.d/3proxy.conf 5a7119810d7df1bcd214a79f01dbaab6
+ /etc/fail2ban/filter.d/apache-common.conf 164faab23a55630b8664620ea81c2c61
+ /etc/fail2ban/filter.d/selinux-ssh.conf a86b87975e0fd4b09a185b724bc6063d
+ /etc/fail2ban/filter.d/exim.conf e1afb464cb2c2ac7151b92bd8abf6893
+ /etc/fail2ban/filter.d/apache-badbots.conf dc607cbe0e691a59dafd83664cddda9d
+ /etc/fail2ban/filter.d/qmail.conf fb1af4aca05230c58e61dbc8c31e458d
+ /etc/fail2ban/filter.d/postfix.conf d9c17f51a140c41a0c0b8ab6ee1b8715
+ /etc/fail2ban/filter.d/sshd-ddos.conf 156c381f72dabcddc2871a8be0704dba
+ /etc/fail2ban/filter.d/roundcube-auth.conf acfa8acea21154af7f5b0f81b6f4a490
+ /etc/fail2ban/filter.d/suhosin.conf 748e3a3b2fc4db318837d58660112593
+ /etc/fail2ban/filter.d/apache-auth.conf 181b37be61d090e8b8c30166d278bc12
+ /etc/fail2ban/filter.d/webmin-auth.conf 1ddf0787de3fdf6d5452c56b0f047c19
+ /etc/fail2ban/filter.d/apache-noscript.conf 4e709994afcdb347ad2eea469a0946ce
+ /etc/fail2ban/filter.d/exim-spam.conf f707fab73ebe011123b88f027953f219
+ /etc/fail2ban/filter.d/mysqld-auth.conf 4a6876e1645f09e44fe41d9b80622b70
+ /etc/fail2ban/filter.d/sshd.conf 3e9b1a8779167b7bd7a459903e945430
+ /etc/fail2ban/filter.d/sieve.conf 99b1ddf44b68340218fbfcec6795631f
+ /etc/fail2ban/filter.d/exim-common.conf 48aa7191483e03c3f8a9ba0acb1c8e0d
+ /etc/fail2ban/filter.d/asterisk.conf 28a99c8096eb0f4976e28a295c925e9c
+ /etc/fail2ban/filter.d/vsftpd.conf 7cfa399321bf60cbc9ea0cb33fb23b8f
+ /etc/fail2ban/filter.d/proftpd.conf 78d58f85a578daba3dbe5bda2ecd9121
+ /etc/fail2ban/filter.d/courierlogin.conf f60c47aef464d47dd1cc9c7512dc77ea
+ /etc/fail2ban/filter.d/common.conf 4263c722721ff7949442e4c3056fb97b
+ /etc/fail2ban/filter.d/apache-nohome.conf 787fae6f13398d03ba5aada47c0b38ec
+ /etc/fail2ban/filter.d/postfix-sasl.conf 2d5185406dc3b2f7a2f01d4ff98c62ea
+ /etc/fail2ban/filter.d/dovecot.conf 4be8e9e62d94cc030b06b88e18b0ae4f
+ /etc/logrotate.d/fail2ban 230f7def10979f0303d77e5442af0063
+ /etc/init.d/fail2ban 65b2946efeb854fae7bf0f40dd2ae6a5
+ /etc/default/fail2ban 5435a33345e7adcb16d013c718db1a63
+Description: ban hosts that cause multiple authentication errors
+ Fail2ban monitors log files (e.g. /var/log/auth.log,
+ /var/log/apache/access.log) and temporarily or persistently bans
+ failure-prone addresses by updating existing firewall rules.  Fail2ban allows
+ easy specification of different actions to be taken such as to ban an
+ IP using iptables or hostsdeny rules, or simply to send a
+ notification email.
+ .
+ By default, it comes with filter expressions for various services
+ (sshd, apache, qmail, proftpd, sasl etc.) but configuration can be
+ easily extended for monitoring any other text file.  All filters and
+ actions are given in the config files, thus fail2ban can be adopted
+ to be used with a variety of files and firewalls.
+Original-Maintainer: Yaroslav Halchenko <debian@onerussian.com>
+Homepage: http://www.fail2ban.org
 
 # Service status
- * Status of authentication failure monitor       [134G  *  fail2ban is running
+ * Status of authentication failure monitor       [203G  *  fail2ban is running

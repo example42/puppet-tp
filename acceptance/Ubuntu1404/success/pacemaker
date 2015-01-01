@@ -1,7 +1,29 @@
 # Package status
-package { 'pacemaker':
-  ensure => '1.1.10+git20130802-1ubuntu2.1',
-}
+Package: pacemaker
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 1564
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 1.1.10+git20130802-1ubuntu2.1
+Replaces: pacemaker-heartbeat, pacemaker-openais
+Depends: libc6 (>= 2.14), libcfg6 (>= 2.3.3), libcib3 (>= 1.1.10+git20130802), libcmap4 (>= 2.3.3), libcorosync-common4 (>= 2.3.3), libcrmcluster4 (>= 1.1.10+git20130802), libcrmcommon3 (>= 1.1.10+git20130802), libcrmservice1 (>= 1.1.10+git20130802), libglib2.0-0 (>= 2.28.0), libgnutls26 (>= 2.12.17-0), liblrmd1 (>= 1.1.10+git20130802), libpam0g (>= 0.99.7.1), libpe-rules2 (>= 1.1.10+git20130802), libpe-status4 (>= 1.1.10+git20130802), libpengine4 (>= 1.1.10+git20130802), libplumb2 (>= 1.0.11+hg2754), libqb0, libstonithd2 (>= 1.1.10+git20130802), libtransitioner2 (>= 1.1.10+git20130802), python (>= 2.7), python (<< 2.8), python:any (>= 2.7.1-0ubuntu2), libheartbeat2, resource-agents, adduser, corosync (>= 1.4.4-1) | heartbeat (>= 3.0), crmsh, pacemaker-cli-utils
+Conflicts: pacemaker-heartbeat, pacemaker-openais
+Conffiles:
+ /etc/default/pacemaker 52b2f46b126326701a671b77f9586716
+ /etc/init.d/pacemaker e6d78ee6f9569d3427cd3963e3b08074
+Description: HA cluster resource manager
+ High-Availability cluster resource manager for Heartbeat as
+ well as Corosync.
+ .
+ Pacemaker supports a very sophisticated dependency model for
+ n-node clusters and can respond to node and resource-level
+ failures.
+ .
+ It supports both the Heartbeat and Corosync cluster stacks.
+Homepage: http://clusterlabs.org/
+Original-Maintainer: Debian HA Maintainers <debian-ha-maintainers@lists.alioth.debian.org>
 
 # Service status
-pacemakerd (pid 1479) is running...
+pacemakerd (pid 3802) is running...

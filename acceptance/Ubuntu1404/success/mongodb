@@ -1,7 +1,40 @@
 # Package status
-package { 'mongodb-server':
-  ensure => '1:2.4.9-1ubuntu2',
-}
+Package: mongodb-server
+Status: install ok installed
+Priority: optional
+Section: database
+Installed-Size: 13342
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Source: mongodb
+Version: 1:2.4.9-1ubuntu2
+Replaces: mongodb (<= 1:1.4.2-2)
+Depends: adduser, mongodb-clients, sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), libboost-filesystem1.54.0, libboost-program-options1.54.0, libboost-system1.54.0, libboost-thread1.54.0, libc6 (>= 2.15), libgcc1 (>= 1:4.1.1), libgoogle-perftools4, libpcre3, libpcrecpp0 (>= 7.7), libsnappy1, libssl1.0.0 (>= 1.0.0), libstdc++6 (>= 4.6), libv8-3.14.5
+Conffiles:
+ /etc/init.d/mongodb 9cc658ce83248f5465555b77bff47ca2
+ /etc/init/mongodb.conf f0952d992424ae502992a087a452364f
+ /etc/logrotate.d/mongodb-server 62df81d9a72519dac9c60723c8d36b1d
+ /etc/mongodb.conf f3827b0188f8ce594abb3ebee1808027
+Description: object/document-oriented database (server package)
+ MongoDB is a high-performance, open source, schema-free
+ document-oriented data store that's easy to deploy, manage
+ and use. It's network accessible, written in C++ and offers
+ the following features:
+ .
+    * Collection oriented storage - easy storage of object-style data
+    * Full index support, including on inner objects
+    * Query profiling
+    * Replication and fail-over support
+    * Efficient storage of binary data including large objects (e.g. videos)
+    * Auto-sharding for cloud-level scalability
+ .
+ High performance, scalability, and reasonable depth of
+ functionality are the goals for the project.
+ .
+ This package contains the server itself  (mongod) and the sharding
+ server/load-balancer (mongos).
+Homepage: http://www.mongodb.org
+Original-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
 
 # Service status
-mongodb start/running, process 12571
+mongodb start/running, process 14532

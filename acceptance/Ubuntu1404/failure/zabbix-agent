@@ -1,7 +1,0 @@
-# Package status
-package { 'zabbix-agent':
-  ensure => 'purged',
-}
-
-# Service status
-zabbix-agent: unrecognized service

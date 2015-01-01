@@ -1,18 +1,47 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'fail2ban':
-  ensure => '0.9-9.el7',
-}
-Redirecting to /bin/systemctl status  fail2ban.service
-fail2ban.service - Fail2ban Service
-   Loaded: loaded (/usr/lib/systemd/system/fail2ban.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:40:42 EST; 5s ago
- Main PID: 7924 (fail2ban-server)
-   CGroup: /system.slice/fail2ban.service
-           └─7924 /usr/bin/python /usr/bin/fail2ban-server -b -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid ...
+# Package status
+Name        : fail2ban
+Version     : 0.9.1
+Release     : 2.el7
+Architecture: noarch
+Install Date: Thu 01 Jan 2015 08:12:38 AM EST
+Group       : Unspecified
+Size        : 0
+License     : GPLv2+
+Signature   : RSA/SHA256, Mon 15 Dec 2014 12:55:12 PM EST, Key ID 6a2faea2352c64e5
+Source RPM  : fail2ban-0.9.1-2.el7.src.rpm
+Build Date  : Sun 14 Dec 2014 03:56:11 PM EST
+Build Host  : buildvm-11.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://fail2ban.sourceforge.net/
+Summary     : Daemon to ban hosts that cause multiple authentication errors
+Description :
+Fail2Ban scans log files and bans IP addresses that makes too many password
+failures. It updates firewall rules to reject the IP address. These rules can
+be defined by the user. Fail2Ban can read multiple log files such as sshd or
+Apache web server ones.
 
-Dec 30 00:40:40 centos7.example42.com systemd[1]: Starting Fail2ban Service...
-Dec 30 00:40:41 centos7.example42.com fail2ban-client[7921]: 2014-12-30 00:40:41,989 fail2ban.server.server[7922]: INFO    Sta...0.9.0
-Dec 30 00:40:41 centos7.example42.com fail2ban-client[7921]: 2014-12-30 00:40:41,990 fail2ban.server.server[7922]: INFO    Sta... mode
-Dec 30 00:40:42 centos7.example42.com systemd[1]: Started Fail2ban Service.
-Hint: Some lines were ellipsized, use -l to show in full.
+Fail2Ban is able to reduce the rate of incorrect authentications attempts
+however it cannot eliminate the risk that weak authentication presents.
+Configure services to use only two factor or public/private authentication
+mechanisms if you really want to protect services.
+
+This is a meta-package that will install the default configuration.  Other
+sub-packages are available to install support for other actions and
+configurations.
+
+# Service status
+Redirecting to /bin/systemctl status  fail2ban.service
+fail2ban.service - Fail2Ban Service
+   Loaded: loaded (/usr/lib/systemd/system/fail2ban.service; enabled)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:12:39 EST; 2s ago
+     Docs: man:fail2ban(1)
+ Main PID: 19721 (fail2ban-server)
+   CGroup: /system.slice/fail2ban.service
+           └─19721 /usr/bin/python /usr/bin/fail2ban-server -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid -x -b
+
+Jan 01 08:12:39 centos7.example42.com systemd[1]: Starting Fail2Ban Service...
+Jan 01 08:12:39 centos7.example42.com fail2ban-client[19718]: 2015-01-01 08:12:39,562 fail2ban.server         [19719]: INFO    Starting Fail2ban v0.9.1
+Jan 01 08:12:39 centos7.example42.com fail2ban-client[19718]: 2015-01-01 08:12:39,562 fail2ban.server         [19719]: INFO    Starting in daemon mode
+Jan 01 08:12:39 centos7.example42.com systemd[1]: Started Fail2Ban Service.

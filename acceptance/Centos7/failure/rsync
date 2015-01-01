@@ -1,8 +1,31 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'rsync':
-  ensure => '3.0.9-15.el7',
-}
+# Package status
+Name        : rsync
+Version     : 3.0.9
+Release     : 15.el7
+Architecture: x86_64
+Install Date: Fri 01 Aug 2014 08:33:36 AM EDT
+Group       : Applications/Internet
+Size        : 749750
+License     : GPLv3+
+Signature   : RSA/SHA256, Fri 04 Jul 2014 12:51:30 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : rsync-3.0.9-15.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 10:47:16 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://rsync.samba.org/
+Summary     : A program for synchronizing files over a network
+Description :
+Rsync uses a reliable algorithm to bring remote and host files into
+sync very quickly. Rsync is fast because it just sends the differences
+in the files over the network instead of sending the complete
+files. Rsync is often used as a very powerful mirroring process or
+just as a more capable replacement for the rcp command. A technical
+report which describes the rsync algorithm is included in this
+package.
+
+# Service status
 Redirecting to /bin/systemctl status  rsync.service
 rsync.service
    Loaded: not-found (Reason: No such file or directory)

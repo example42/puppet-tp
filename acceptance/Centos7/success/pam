@@ -1,5 +1,22 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'pam':
-  ensure => '1.1.8-9.el7',
-}
+# Package status
+Name        : pam
+Version     : 1.1.8
+Release     : 9.el7
+Architecture: x86_64
+Install Date: Fri 01 Aug 2014 08:33:09 AM EDT
+Group       : System Environment/Base
+Size        : 2615941
+License     : BSD and GPLv2+
+Signature   : RSA/SHA256, Fri 04 Jul 2014 12:11:23 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : pam-1.1.8-9.el7.src.rpm
+Build Date  : Tue 17 Jun 2014 01:29:58 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.linux-pam.org/
+Summary     : An extensible library which provides authentication for applications
+Description :
+PAM (Pluggable Authentication Modules) is a system security tool that
+allows system administrators to set authentication policy without
+having to recompile programs that handle authentication.

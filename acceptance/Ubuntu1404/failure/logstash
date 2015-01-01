@@ -1,7 +1,4 @@
 # Package status
-package { 'logstash':
-  ensure => 'purged',
-}
 
 # Service status
 logstash: unrecognized service

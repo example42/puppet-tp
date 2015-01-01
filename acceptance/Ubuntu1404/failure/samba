@@ -1,7 +1,0 @@
-# Package status
-package { 'samba':
-  ensure => 'purged',
-}
-
-# Service status
-samba: unrecognized service

@@ -2,9 +2,29 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'pacemaker':
-  ensure => '1.1.7-1',
-}
+Package: pacemaker
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 2322
+Maintainer: Debian HA Maintainers <debian-ha-maintainers@lists.alioth.debian.org>
+Architecture: amd64
+Version: 1.1.7-1
+Replaces: pacemaker-heartbeat, pacemaker-openais
+Depends: libbz2-1.0, libc6 (>= 2.4), libcfg4 (>= 1.4.2), libcib1 (>= 1.1.7), libconfdb4 (>= 1.4.2), libcoroipcc4 (>= 1.4.2), libcpg4 (>= 1.4.2), libcrmcluster1 (>= 1.1.7), libcrmcommon2 (>= 1.1.7), libesmtp6, libglib2.0-0 (>= 2.16.0), libgnutls26 (>= 2.12.17-0), liblrm2 (>= 1.0.9+hg2665), libltdl7 (>= 2.4.2), libncurses5 (>= 5.5-5~), libpam0g (>= 0.99.7.1), libpe-rules2 (>= 1.1.7), libpe-status3 (>= 1.1.7), libpengine3 (>= 1.1.7), libpils2 (>= 1.0.9+hg2665), libplumb2 (>= 1.0.9+hg2665), libsnmp15 (>= 5.4.3~dfsg), libssl1.0.0 (>= 1.0.0), libstonithd1 (>= 1.1.7), libtinfo5, libtransitioner1 (>= 1.1.7), libuuid1 (>= 2.16), libxml2 (>= 2.7.4), libxslt1.1 (>= 1.1.25), python2.7 | python2.6, python (>= 2.6.6-7~), python (<< 2.8), resource-agents, adduser, corosync (>= 1.4.1) | heartbeat (>= 3.0)
+Conflicts: pacemaker-heartbeat, pacemaker-openais
+Conffiles:
+ /etc/init.d/pacemaker 599a89ee0ef4d54b8a4b253370e45b9b
+Description: HA cluster resource manager
+ High-Availability cluster resource manager for Heartbeat as
+ well as Corosync.
+ .
+ Pacemaker supports a very sophisticated dependency model for
+ n-node clusters and can respond to node and resource-level
+ failures.
+ .
+ It supports both the Heartbeat and Corosync cluster stacks.
+Homepage: http://clusterlabs.org/
 
 # Service status
 pacemakerd is stopped

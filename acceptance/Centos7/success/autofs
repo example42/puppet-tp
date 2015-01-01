@@ -1,14 +1,33 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'autofs':
-  ensure => '5.0.7-40.el7',
-}
+# Package status
+Name        : autofs
+Epoch       : 1
+Version     : 5.0.7
+Release     : 40.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:06:28 AM EST
+Group       : System Environment/Daemons
+Size        : 3722464
+License     : GPLv2+
+Signature   : RSA/SHA256, Thu 03 Jul 2014 08:44:09 PM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : autofs-5.0.7-40.el7.src.rpm
+Build Date  : Tue 10 Jun 2014 03:42:51 AM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+Summary     : A tool for automatically mounting and unmounting filesystems
+Description :
+autofs is a daemon which automatically mounts filesystems when you use
+them, and unmounts them later when you are not using them.  This can
+include network filesystems, CD-ROMs, floppies, and so forth.
+
+# Service status
 Redirecting to /bin/systemctl status  autofs.service
 autofs.service - Automounts filesystems on demand
    Loaded: loaded (/usr/lib/systemd/system/autofs.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 23:59:06 EST; 23s ago
- Main PID: 30045 (automount)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:06:29 EST; 2s ago
+ Main PID: 10791 (automount)
    CGroup: /system.slice/autofs.service
-           └─30045 /usr/sbin/automount --pid-file /run/autofs.pid
+           └─10791 /usr/sbin/automount --pid-file /run/autofs.pid
 
-Dec 29 23:59:06 centos7.example42.com systemd[1]: Started Automounts filesystems on demand.
+Jan 01 08:06:29 centos7.example42.com systemd[1]: Started Automounts filesystems on demand.

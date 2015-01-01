@@ -1,19 +1,42 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'nrpe':
-  ensure => '2.15-2.el7',
-}
+# Package status
+Name        : nrpe
+Version     : 2.15
+Release     : 2.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:22:35 AM EST
+Group       : Applications/System
+Size        : 294857
+License     : GPLv2
+Signature   : RSA/SHA256, Fri 02 May 2014 12:38:05 AM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : nrpe-2.15-2.el7.src.rpm
+Build Date  : Wed 30 Apr 2014 09:42:08 PM EDT
+Build Host  : buildhw-01.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://www.nagios.org
+Summary     : Host/service/network monitoring agent for Nagios
+Description :
+Nrpe is a system daemon that will execute various Nagios plugins
+locally on behalf of a remote (monitoring) host that uses the
+check_nrpe plugin.  Various plugins that can be executed by the
+daemon are available at:
+http://sourceforge.net/projects/nagiosplug
+
+This package provides the core agent.
+
+# Service status
 Redirecting to /bin/systemctl status  nrpe.service
 nrpe.service - NRPE
    Loaded: loaded (/usr/lib/systemd/system/nrpe.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:56:32 EST; 6s ago
- Main PID: 28031 (nrpe)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:22:35 EST; 2s ago
+ Main PID: 5884 (nrpe)
    CGroup: /system.slice/nrpe.service
-           └─28031 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
+           └─5884 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
 
-Dec 30 00:56:32 centos7.example42.com nrpe[28031]: [1;39mStarting up daemon[0m
-Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Server listening on 0.0.0.0 port 5666.
-Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Server listening on :: port 5666.
-Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Listening for connections on port 0
-Dec 30 00:56:32 centos7.example42.com nrpe[28031]: Allowing connections from: 127.0.0.1
-Dec 30 00:56:32 centos7.example42.com systemd[1]: Started NRPE.
+Jan 01 08:22:35 centos7.example42.com nrpe[5884]: [1;39mStarting up daemon[0m
+Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Server listening on 0.0.0.0 port 5666.
+Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Server listening on :: port 5666.
+Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Listening for connections on port 0
+Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Allowing connections from: 127.0.0.1
+Jan 01 08:22:35 centos7.example42.com systemd[1]: Started NRPE.

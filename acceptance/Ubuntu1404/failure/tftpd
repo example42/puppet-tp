@@ -1,7 +1,9 @@
 # Package status
-package { 'tftpd-hpa':
-  ensure => 'purged',
-}
+Package: tftpd-hpa
+Status: install ok not-installed
+Priority: extra
+Section: net
+Architecture: amd64
 
 # Service status
 tftpd-hpa: unrecognized service

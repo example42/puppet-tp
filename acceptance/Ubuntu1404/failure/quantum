@@ -1,7 +1,4 @@
 # Package status
-package { 'quantum-server':
-  ensure => 'purged',
-}
 
 # Service status
 quantum-server: unrecognized service

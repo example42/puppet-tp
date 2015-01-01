@@ -1,0 +1,48 @@
+# Package status
+Package: samba
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 11157
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 2:4.1.6+dfsg-1ubuntu2.14.04.3
+Replaces: libsamdb0 (<< 4.0.0~alpha17~), python-samba (<< 2:4.1.4+dfsg-3), samba-ad-dc, samba-common (<= 2.0.5a-2), samba-doc (<< 2:4.0.5~), samba-libs (<< 2:4.1.4+dfsg-2), samba4
+Depends: adduser, heimdal-hdb-api-8, libpam-modules, libpam-runtime (>= 1.0.1-11), lsb-base (>= 4.1+Debian), procps, python (>= 2.7), python-dnspython, python-ntdb, python-samba, samba-common (= 2:4.1.6+dfsg-1ubuntu2.14.04.3), samba-common-bin (= 2:4.1.6+dfsg-1ubuntu2.14.04.3), samba-dsdb-modules, tdb-tools, update-inetd, sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), python (<< 2.8), python2.7:any, libasn1-8-heimdal (>= 1.4.0+git20110226), libbsd0 (>= 0.5.0), libc6 (>= 2.14), libcomerr2 (>= 1.01), libhdb9-heimdal (>= 1.4.0+git20110226), libkdc2-heimdal (>= 1.4.0+git20110226), libkrb5-26-heimdal (>= 1.4.0+git20110226), libldb1 (>= 0.9.21), libpopt0 (>= 1.14), libpython2.7 (>= 2.7), libroken18-heimdal (>= 1.4.0+git20110226), libtalloc2 (>= 2.0.4~git20101213), libtdb1 (>= 1.2.7+git20101214), libtevent0 (>= 0.9.14), samba-libs (= 2:4.1.6+dfsg-1ubuntu2.14.04.3)
+Pre-Depends: dpkg (>= 1.15.6~), multiarch-support
+Recommends: attr, logrotate, samba-vfs-modules
+Suggests: bind9 (>= 1:9.5.1), bind9utils, ldb-tools, ntp, smbldap-tools, winbind, ufw
+Conflicts: libldb1 (<< 1:1.1.15), samba (<< 2:3.3.0~rc2-5), samba-ad-dc, samba-doc (<< 2:4.0.5~), samba-tools, samba4 (<< 4.0.0~alpha6-2)
+Enhances: bind9, ntp
+Conffiles:
+ /etc/ufw/applications.d/samba 9d474788f9a1955e16134f2794be473d
+ /etc/logrotate.d/samba 4768c63383f7722b25022322477277d6
+ /etc/init/nmbd.conf 737e820c320801a2a0fc9e9c84d43fc0
+ /etc/init/samba-ad-dc.conf b9b7410f057a35e05d30d2ef15f370d4
+ /etc/init/reload-smbd.conf 2a250669b46167f3b6152a90344626c1
+ /etc/init/smbd.conf ef97a6e85e7f13aba5e63321990a31a4
+ /etc/init.d/samba-ad-dc 1dd4ef12d288c9f0be8ac8b644c0314f
+ /etc/init.d/nmbd c19dc4a38fe471db5a22a054c268a08f
+ /etc/init.d/smbd 6d0b96aea9e442bb0acf2909a7913e1f
+ /etc/init.d/samba ac2b23091571b333c94b79dba61d5775
+ /etc/cron.daily/samba f6519535df7964f95cdd7db501bf3ad2
+Description: SMB/CIFS file, print, and login server for Unix
+ Samba is an implementation of the SMB/CIFS protocol for Unix systems,
+ providing support for cross-platform file and printer sharing with
+ Microsoft Windows, OS X, and other Unix systems.  Samba can also function
+ as an NT4-style domain controller, and can integrate with both NT4 domains
+ and Active Directory realms as a member server.
+ .
+ This package provides the components necessary to use Samba as a stand-alone
+ file and print server or as an NT4 or Active Directory domain controller.
+ For use in an NT4 domain or Active Directory realm, you will also need the
+ winbind package.
+ .
+ This package is not required for connecting to existing SMB/CIFS servers
+ (see smbclient) or for mounting remote filesystems (see cifs-utils).
+Homepage: http://www.samba.org
+Original-Maintainer: Debian Samba Maintainers <pkg-samba-maint@lists.alioth.debian.org>
+
+# Service status
+ * nmbd is running
+ * smbd is running

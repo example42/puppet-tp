@@ -1,15 +1,34 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'device-mapper-multipath':
-  ensure => '0.4.9-66.el7',
-}
+# Package status
+Name        : device-mapper-multipath
+Version     : 0.4.9
+Release     : 66.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:19:49 AM EST
+Group       : System Environment/Base
+Size        : 178709
+License     : GPL+
+Signature   : RSA/SHA256, Thu 03 Jul 2014 09:07:46 PM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : device-mapper-multipath-0.4.9-66.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 03:47:44 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://christophe.varoqui.free.fr/
+Summary     : Tools to manage multipath devices using device-mapper
+Description :
+device-mapper-multipath provides tools to manage multipath devices by
+instructing the device-mapper multipath kernel module what to do.
+The tools are :
+* multipath - Scan the system for multipath devices and assemble them.
+* multipathd - Detects when paths fail and execs multipath to update things.
+
+# Service status
 Redirecting to /bin/systemctl status  multipathd.service
 multipathd.service - Device-Mapper Multipath Device Controller
    Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled)
    Active: inactive (dead)
-           start condition failed at Tue 2014-12-30 00:52:31 EST; 5s ago
+           start condition failed at Thu 2015-01-01 08:19:49 EST; 2s ago
            ConditionPathExists=/etc/multipath.conf was not met
 
-Dec 29 17:46:31 centos7.example42.com systemd[1]: Started Device-Mapper Multipath Device Controller.
-Dec 29 17:47:05 centos7.example42.com systemd[1]: Stopped Device-Mapper Multipath Device Controller.
-Dec 30 00:52:31 centos7.example42.com systemd[1]: Started Device-Mapper Multipath Device Controller.
+Jan 01 08:19:49 centos7.example42.com systemd[1]: Started Device-Mapper Multipath Device Controller.

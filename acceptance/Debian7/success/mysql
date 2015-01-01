@@ -2,9 +2,28 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'mysql-server':
-  ensure => '5.5.40-0+wheezy1',
-}
+Package: mysql-server
+Status: install ok installed
+Priority: optional
+Section: database
+Installed-Size: 118
+Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Architecture: all
+Source: mysql-5.5
+Version: 5.5.40-0+wheezy1
+Depends: mysql-server-5.5
+Description: MySQL database server (metapackage depending on the latest version)
+ This is an empty package that depends on the current "best" version of
+ mysql-server (currently mysql-server-5.5), as determined by the MySQL
+ maintainers. Install this package if in doubt about which MySQL
+ version you need. That will install the version recommended by the
+ package maintainers.
+ .
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+Homepage: http://dev.mysql.com/
 
 # Service status
 [[36minfo[39;49m] /usr/bin/mysqladmin  Ver 8.42 Distrib 5.5.40, for debian-linux-gnu on x86_64
@@ -18,6 +37,6 @@ Server version		5.5.40-0+wheezy1
 Protocol version	10
 Connection		Localhost via UNIX socket
 UNIX socket		/var/run/mysqld/mysqld.sock
-Uptime:			7 sec
+Uptime:			5 sec
 
-Threads: 1  Questions: 587  Slow queries: 0  Opens: 421  Flush tables: 1  Open tables: 41  Queries per second avg: 83.857.
+Threads: 1  Questions: 587  Slow queries: 0  Opens: 421  Flush tables: 1  Open tables: 41  Queries per second avg: 117.400.

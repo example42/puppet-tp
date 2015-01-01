@@ -2,9 +2,34 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'memcached':
-  ensure => '1.4.13-0.2+deb7u1',
-}
+Package: memcached
+Status: install ok installed
+Priority: optional
+Section: web
+Installed-Size: 221
+Maintainer: David Martínez Moreno <ender@debian.org>
+Architecture: amd64
+Version: 1.4.13-0.2+deb7u1
+Depends: libc6 (>= 2.4), libevent-2.0-5 (>= 2.0.10-stable), libsasl2-2 (>= 2.1.24), perl, lsb-base (>= 3.2-13)
+Suggests: libcache-memcached-perl, libmemcached
+Conffiles:
+ /etc/default/memcached 58efa3a45665c4aa98575579f2bca8ac
+ /etc/init.d/memcached a0c1f0fb610029ea5a2d1531d787c81e
+Description: A high-performance memory object caching system
+ Danga Interactive developed memcached to enhance the speed of LiveJournal.com,
+ a site which was already doing 20 million+ dynamic page views per day for 1
+ million users with a bunch of webservers and a bunch of database servers.
+ memcached dropped the database load to almost nothing, yielding faster page
+ load times for users, better resource utilization, and faster access to the
+ databases on a memcache miss.
+ .
+ memcached optimizes specific high-load serving applications that are designed
+ to take advantage of its versatile no-locking memory access system. Clients
+ are available in several different programming languages, to suit the needs
+ of the specific application. Traditionally this has been used in mod_perl
+ apps to avoid storing large chunks of data in Apache memory, and to share
+ this burden across several machines.
+Homepage: http://www.danga.com/memcached/
 
 # Service status
 [....] memcached is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

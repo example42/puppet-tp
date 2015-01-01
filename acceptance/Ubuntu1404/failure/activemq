@@ -1,7 +1,0 @@
-# Package status
-package { 'activemq':
-  ensure => 'purged',
-}
-
-# Service status
-activemq: unrecognized service

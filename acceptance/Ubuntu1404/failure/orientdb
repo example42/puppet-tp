@@ -1,7 +1,4 @@
 # Package status
-package { 'orientdb':
-  ensure => 'purged',
-}
 
 # Service status
 orientdb: unrecognized service

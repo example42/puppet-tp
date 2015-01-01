@@ -1,14 +1,32 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'vsftpd':
-  ensure => '3.0.2-9.el7',
-}
+# Package status
+Name        : vsftpd
+Version     : 3.0.2
+Release     : 9.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:36:23 AM EST
+Group       : System Environment/Daemons
+Size        : 351462
+License     : GPLv2 with exceptions
+Signature   : RSA/SHA256, Fri 04 Jul 2014 01:42:14 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : vsftpd-3.0.2-9.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 08:43:30 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : https://security.appspot.com/vsftpd.html
+Summary     : Very Secure Ftp Daemon
+Description :
+vsftpd is a Very Secure FTP daemon. It was written completely from
+scratch.
+
+# Service status
 Redirecting to /bin/systemctl status  vsftpd.service
 vsftpd.service - Vsftpd ftp daemon
    Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:17:28 EST; 7s ago
- Main PID: 16805 (vsftpd)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:36:24 EST; 2s ago
+ Main PID: 10870 (vsftpd)
    CGroup: /system.slice/vsftpd.service
-           └─16805 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+           └─10870 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
 
-Dec 30 01:17:28 centos7.example42.com systemd[1]: Started Vsftpd ftp daemon.
+Jan 01 08:36:24 centos7.example42.com systemd[1]: Started Vsftpd ftp daemon.

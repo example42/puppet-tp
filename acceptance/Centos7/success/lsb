@@ -1,5 +1,22 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'redhat-lsb-core':
-  ensure => '4.1-24.el7',
-}
+# Package status
+Name        : redhat-lsb-core
+Version     : 4.1
+Release     : 24.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:08:34 AM EST
+Group       : System Environment/Base
+Size        : 45789
+License     : GPLv2
+Signature   : RSA/SHA256, Fri 04 Jul 2014 12:48:03 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : redhat-lsb-4.1-24.el7.src.rpm
+Build Date  : Tue 17 Jun 2014 01:34:44 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.linuxfoundation.org/collaborate/workgroups/lsb
+Summary     : LSB Core module support
+Description :
+The Linux Standard Base (LSB) Core module support provides the fundamental
+system interfaces, libraries, and runtime environment upon which all conforming
+applications and libraries depend.

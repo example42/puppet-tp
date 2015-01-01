@@ -2,6 +2,33 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'apt':
-  ensure => '0.9.7.7',
-}
+Package: apt
+Status: install ok installed
+Priority: important
+Section: admin
+Installed-Size: 3270
+Maintainer: APT Development Team <deity@lists.debian.org>
+Architecture: amd64
+Version: 0.9.7.7
+Replaces: manpages-pl (<< 20060617-3~)
+Depends: libapt-pkg4.12 (>= 0.9.7.7), libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.6), debian-archive-keyring, gnupg
+Suggests: aptitude | synaptic | wajig, dpkg-dev, apt-doc, xz-utils, python-apt
+Conflicts: python-apt (<< 0.7.93.2~)
+Conffiles:
+ /etc/apt/apt.conf.d/01autoremove b9bbfaa2954b0499576b8d00c37d6a34
+ /etc/cron.daily/apt 6a9df5d143022d22b2e89fa7c1bac8aa
+ /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3
+Description: commandline package manager
+ This package provides commandline tools for searching and
+ managing as well as querying information about packages
+ as a low-level access to all features of the libapt-pkg library.
+ .
+ These include:
+  * apt-get for retrieval of packages and information about them
+    from authenticated sources and for installation, upgrade and
+    removal of packages together with their dependencies
+  * apt-cache for querying available information about installed
+    as well as installable packages
+  * apt-cdrom to use removable media as a source for packages
+  * apt-config as an interface to the configuration settings
+  * apt-key as an interface to manage authentication keys

@@ -1,21 +1,44 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'dnsmasq':
-  ensure => '2.66-12.el7',
-}
+# Package status
+Name        : dnsmasq
+Version     : 2.66
+Release     : 12.el7
+Architecture: x86_64
+Install Date: Fri 01 Aug 2014 08:33:36 AM EDT
+Group       : System Environment/Daemons
+Size        : 475528
+License     : GPLv2
+Signature   : RSA/SHA256, Thu 03 Jul 2014 09:08:51 PM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : dnsmasq-2.66-12.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 04:30:42 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.thekelleys.org.uk/dnsmasq/
+Summary     : A lightweight DHCP/caching DNS server
+Description :
+Dnsmasq is lightweight, easy to configure DNS forwarder and DHCP server.
+It is designed to provide DNS and, optionally, DHCP, to a small network.
+It can serve the names of local machines which are not in the global
+DNS. The DHCP server integrates with the DNS server and allows machines
+with DHCP-allocated addresses to appear in the DNS with names configured
+either in each host or in a central configuration file. Dnsmasq supports
+static and dynamic DHCP leases and BOOTP for network booting of diskless
+machines.
+
+# Service status
 Redirecting to /bin/systemctl status  dnsmasq.service
 dnsmasq.service - DNS caching server.
    Loaded: loaded (/usr/lib/systemd/system/dnsmasq.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 16:55:16 EST; 7h ago
- Main PID: 31638 (dnsmasq)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:10:57 EST; 2s ago
+ Main PID: 17140 (dnsmasq)
    CGroup: /system.slice/dnsmasq.service
-           └─31638 /usr/sbin/dnsmasq -k
+           └─17140 /usr/sbin/dnsmasq -k
 
-Dec 29 16:55:16 centos7.example42.com systemd[1]: Starting DNS caching server....
-Dec 29 16:55:16 centos7.example42.com systemd[1]: Started DNS caching server..
-Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: started, version 2.66 cachesize 150
-Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: compile time options: IPv6 GNU-getopt DBus no-i18n IDN DHCP DHCPv6 no-Lu... auth
-Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: reading /etc/resolv.conf
-Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: using nameserver 10.0.2.3#53
-Dec 29 16:55:16 centos7.example42.com dnsmasq[31638]: read /etc/hosts - 2 addresses
-Hint: Some lines were ellipsized, use -l to show in full.
+Jan 01 08:10:57 centos7.example42.com systemd[1]: Starting DNS caching server....
+Jan 01 08:10:57 centos7.example42.com systemd[1]: Started DNS caching server..
+Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: started, version 2.66 cachesize 150
+Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: compile time options: IPv6 GNU-getopt DBus no-i18n IDN DHCP DHCPv6 no-Lua TFTP no-conntrack ipset auth
+Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: reading /etc/resolv.conf
+Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: using nameserver 10.0.2.3#53
+Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: read /etc/hosts - 2 addresses

@@ -1,7 +1,31 @@
 # Package status
-package { 'dnsmasq':
-  ensure => '2.68-1',
-}
+Package: dnsmasq
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 111
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Version: 2.68-1
+Depends: netbase, dnsmasq-base (>= 2.68-1)
+Suggests: resolvconf
+Conflicts: resolvconf (<< 1.15)
+Conffiles:
+ /etc/init.d/dnsmasq 44f0b93bf73dea20706dedae399c3a74
+ /etc/default/dnsmasq 4da2f005c39ee591bb1a71c264947898
+ /etc/dnsmasq.conf 8e12e6a967d6a16f2ceed23fa3b9c8c3
+ /etc/resolvconf/update.d/dnsmasq fb165e5803a50bb7bdd951a059cea0c9
+ /etc/insserv.conf.d/dnsmasq 530a424ac064ea9d86f235d12ecc227a
+Description: Small caching DNS proxy and DHCP/TFTP server
+ Dnsmasq is a lightweight, easy to configure, DNS forwarder and DHCP
+ server. It is designed to provide DNS and optionally, DHCP, to a
+ small network. It can serve the names of local machines which are
+ not in the global DNS. The DHCP server integrates with the DNS
+ server and allows machines with DHCP-allocated addresses
+ to appear in the DNS with names configured either in each host or
+ in a central configuration file. Dnsmasq supports static and dynamic
+ DHCP leases and BOOTP/TFTP for network booting of diskless machines.
+Original-Maintainer: Simon Kelley <simon@thekelleys.org.uk>
 
 # Service status
- * Checking DNS forwarder and DHCP server dnsmasq       [134G  * (running)
+ * Checking DNS forwarder and DHCP server dnsmasq       [203G  * (running)

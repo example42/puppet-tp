@@ -1,4 +1,0 @@
-# Package status
-package { 'python-cindercinder-common':
-  ensure => 'purged',
-}

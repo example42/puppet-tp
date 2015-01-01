@@ -2,9 +2,29 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'tftpd-hpa':
-  ensure => '5.2-4',
-}
+Package: tftpd-hpa
+Status: install ok installed
+Priority: extra
+Section: net
+Installed-Size: 89
+Maintainer: Daniel Baumann <daniel.baumann@progress-technologies.net>
+Architecture: amd64
+Source: tftp-hpa
+Version: 5.2-4
+Depends: debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.4), libwrap0 (>= 7.6-4~), adduser
+Suggests: syslinux-common
+Conflicts: atftpd, tftpd
+Conffiles:
+ /etc/init.d/tftpd-hpa bc283b28284ef5d9ebd242dec47fa707
+Description: HPA's tftp server
+ Trivial File Transfer Protocol (TFTP) is a file transfer protocol, mainly to
+ serve boot images over the network to other machines (PXE).
+ .
+ tftp-hpa is an enhanced version of the BSD TFTP client and server. It
+ possesses a number of bugfixes and enhancements over the original.
+ .
+ This package contains the server.
+Homepage: http://www.kernel.org/pub/software/network/tftp/
 
 # Service status
 [....] in.tftpd is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

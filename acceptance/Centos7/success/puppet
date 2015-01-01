@@ -1,15 +1,34 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'puppet':
-  ensure => '3.7.3-1.el7',
-}
+# Package status
+Name        : puppet
+Version     : 3.7.3
+Release     : 1.el7
+Architecture: noarch
+Install Date: Thu 01 Jan 2015 08:01:50 AM EST
+Group       : System Environment/Base
+Size        : 6507902
+License     : ASL 2.0
+Signature   : RSA/SHA512, Tue 04 Nov 2014 12:41:19 PM EST, Key ID 1054b7a24bd6ec30
+Source RPM  : puppet-3.7.3-1.el7.src.rpm
+Build Date  : Mon 03 Nov 2014 05:24:35 PM EST
+Build Host  : emerald.delivery.puppetlabs.net
+Relocations : (not relocatable)
+Vendor      : Puppet Labs
+URL         : http://puppetlabs.com
+Summary     : A network tool for managing many disparate systems
+Description :
+Puppet lets you centrally manage every important aspect of your system using a
+cross-platform specification language that manages all the separate elements
+normally aggregated in different files, like users, cron jobs, and hosts,
+along with obviously discrete elements like packages, services, and files.
+
+# Service status
 Redirecting to /bin/systemctl status  puppet.service
 puppet.service - Puppet agent
    Loaded: loaded (/usr/lib/systemd/system/puppet.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:03:03 EST; 6s ago
- Main PID: 3807 (puppet)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:26:45 EST; 3s ago
+ Main PID: 13593 (puppet)
    CGroup: /system.slice/puppet.service
-           └─3807 /usr/bin/ruby /usr/bin/puppet agent --no-daemonize
+           └─13593 /usr/bin/ruby /usr/bin/puppet agent --no-daemonize
 
-Dec 30 01:03:03 centos7.example42.com systemd[1]: Starting Puppet agent...
-Dec 30 01:03:03 centos7.example42.com systemd[1]: Started Puppet agent.
+Jan 01 08:26:45 centos7.example42.com systemd[1]: Starting Puppet agent...
+Jan 01 08:26:45 centos7.example42.com systemd[1]: Started Puppet agent.

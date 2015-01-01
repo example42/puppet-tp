@@ -1,6 +1,26 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'ceph':
-  ensure => '0.80.5-8.el7',
-}
+# Package status
+Name        : ceph
+Epoch       : 1
+Version     : 0.80.5
+Release     : 8.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:08:36 AM EST
+Group       : System Environment/Base
+Size        : 39154515
+License     : GPL-2.0
+Signature   : RSA/SHA256, Sat 23 Aug 2014 02:02:08 PM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : ceph-0.80.5-8.el7.src.rpm
+Build Date  : Thu 21 Aug 2014 08:36:05 PM EDT
+Build Host  : buildhw-08.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://ceph.com/
+Summary     : User space components of the Ceph file system
+Description :
+Ceph is a massively scalable, open-source, distributed
+storage system that runs on commodity hardware and delivers object,
+block and file system storage.
+
+# Service status
 /etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.

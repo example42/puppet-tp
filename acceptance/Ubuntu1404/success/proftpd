@@ -1,7 +1,4 @@
 # Package status
-package { 'proftpd':
-  ensure => 'purged',
-}
 
 # Service status
 ProFTPD is started in standalone mode, currently running.

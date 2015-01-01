@@ -1,7 +1,4 @@
 # Package status
-package { 'elasticsearch':
-  ensure => 'purged',
-}
 
 # Service status
 elasticsearch: unrecognized service

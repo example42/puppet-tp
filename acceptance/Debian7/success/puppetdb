@@ -2,9 +2,27 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'puppetdb':
-  ensure => '2.2.2-1puppetlabs1',
-}
+Package: puppetdb
+Status: install ok installed
+Priority: optional
+Section: utils
+Installed-Size: 24072
+Maintainer: Puppet Labs <info@puppetlabs.com>
+Architecture: all
+Version: 2.2.2-1puppetlabs1
+Depends: java7-runtime-headless | j2re1.7, adduser, puppet (>= 3.5.1)
+Suggests: postgresql
+Conffiles:
+ /etc/default/puppetdb a064a8b9fb509241ab0e33dd76fc8b71
+ /etc/logrotate.d/puppetdb 12587831c861d44565f845f3c4fe4f24
+ /etc/puppetdb/logback.xml 96f52aa43f404243e0b24f275c80af9f
+ /etc/puppetdb/conf.d/jetty.ini 354269b181ba7b88a382af92487e891b
+ /etc/puppetdb/conf.d/repl.ini 04b3b34a78bd64c53547ac7ddd0d9b2f
+ /etc/puppetdb/conf.d/database.ini f93194d87adb7f55e31e648f91668f90
+ /etc/puppetdb/conf.d/config.ini a7d621742467a137c6845f0e7db29f9e
+ /etc/init.d/puppetdb 50dbf2e320238db7c6507df8b4dab49a
+Description: PuppetDB Centralized Storage.
+Homepage: http://puppetlabs.com
 
 # Service status
 [....] puppetdb is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

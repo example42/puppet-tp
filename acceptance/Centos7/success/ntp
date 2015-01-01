@@ -1,23 +1,47 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'ntp':
-  ensure => '4.2.6p5-19.el7.centos',
-}
+# Package status
+Name        : ntp
+Version     : 4.2.6p5
+Release     : 19.el7.centos
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:23:01 AM EST
+Group       : System Environment/Daemons
+Size        : 1429916
+License     : (MIT and BSD and BSD with advertising) and GPLv2
+Signature   : RSA/SHA256, Fri 19 Dec 2014 09:55:07 PM EST, Key ID 24c6a8a7f4a80eb5
+Source RPM  : ntp-4.2.6p5-19.el7.centos.src.rpm
+Build Date  : Fri 19 Dec 2014 09:38:17 PM EST
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.ntp.org
+Summary     : The NTP daemon and utilities
+Description :
+The Network Time Protocol (NTP) is used to synchronize a computer's
+time with another reference time source. This package includes ntpd
+(a daemon which continuously adjusts system time) and utilities used
+to query and configure the ntpd daemon.
+
+Perl scripts ntp-wait and ntptrace are in the ntp-perl package,
+ntpdate is in the ntpdate package and sntp is in the sntp package.
+The documentation is in the ntp-doc package.
+
+# Service status
 Redirecting to /bin/systemctl status  ntpd.service
 ntpd.service - Network Time Service
    Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 17:58:16 EST; 6h ago
- Main PID: 21340 (ntpd)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:23:01 EST; 2s ago
+ Main PID: 6588 (ntpd)
    CGroup: /system.slice/ntpd.service
-           └─21340 /usr/sbin/ntpd -u ntp:ntp -g
+           └─6588 /usr/sbin/ntpd -u ntp:ntp -g
 
-Dec 29 17:58:16 centos7.example42.com systemd[1]: Started Network Time Service.
-Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c016 06 restart
-Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c012 02 freq_set kernel 0.000 PPM
-Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c011 01 freq_not_set
-Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c61c 0c clock_step -0.197962 s
-Dec 29 17:58:21 centos7.example42.com ntpd[21340]: 0.0.0.0 c614 04 freq_mode
-Dec 29 17:58:22 centos7.example42.com ntpd[21340]: 0.0.0.0 c618 08 no_sys_peer
-Dec 29 19:42:16 centos7.example42.com ntpd[21340]: 0.0.0.0 c612 02 freq_set kernel 0.000 PPM
-Dec 29 19:42:16 centos7.example42.com ntpd[21340]: 0.0.0.0 c615 05 clock_sync
-Dec 29 23:47:36 centos7.example42.com ntpd[21340]: 0.0.0.0 0618 08 no_sys_peer
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: 0.0.0.0 c01d 0d kern kernel time sync enabled
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: ntp_io: estimated max descriptors: 1024, initial socket boundary: 16
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen and drop on 0 v4wildcard 0.0.0.0 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen and drop on 1 v6wildcard :: UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen normally on 2 lo 127.0.0.1 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen normally on 3 enp0s3 10.0.2.15 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen normally on 4 virbr0 192.168.122.1 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen normally on 5 lo ::1 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listen normally on 6 enp0s3 fe80::a00:27ff:feea:9bb5 UDP 123
+Jan 01 08:23:01 centos7.example42.com ntpd[6588]: Listening on routing socket on fd #23 for interface updates

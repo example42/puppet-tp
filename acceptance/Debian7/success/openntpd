@@ -2,9 +2,34 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'openntpd':
-  ensure => '20080406p-4',
-}
+Package: openntpd
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 105
+Maintainer: Ulises Vitulli <dererk@debian.org>
+Architecture: amd64
+Version: 20080406p-4
+Replaces: chrony, ntp, time-daemon
+Provides: time-daemon
+Depends: libc6 (>= 2.8), libssl1.0.0 (>= 1.0.0), adduser, netbase
+Conflicts: chrony, ntp, time-daemon
+Conffiles:
+ /etc/default/openntpd b6d804adebef864a98155c7aafcfc0be
+ /etc/network/if-up.d/openntpd 9606f6a10a5f99b17a2ab01fa4a3a10d
+ /etc/init.d/openntpd 3a3a07c513232ef48d4470a38f5b675f
+ /etc/openntpd/ntpd.conf b0eb68bc12ed6117d7d47467a1bcb931
+Description: OpenBSD NTP daemon
+ NTP, the Network Time Protocol, is used to keep the computer clocks
+ synchronized. It provides the ability to sync the local clock to remote NTP
+ servers and can act as NTP server itself, redistributing the local clock.
+ .
+ This is an alternative implementation of the NTP software, made by the OpenBSD
+ Project. It makes use of privilege separation, only implements a subset of the
+ NTP protocol, adjusting the rate of the clock to synchronize the local clock.
+ .
+ Alternative packages which provide similar functionality are ntp and chrony.
+Homepage: http://www.openntpd.org/
 
 # Service status
 [....] OpenNTPd daemon is running.[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

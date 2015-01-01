@@ -1,5 +1,35 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'mailx':
-  ensure => '12.5-12.el7_0',
-}
+# Package status
+Name        : mailx
+Version     : 12.5
+Release     : 12.el7_0
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:08:25 AM EST
+Group       : Applications/Internet
+Size        : 477130
+License     : BSD with advertising and MPLv1.1
+Signature   : RSA/SHA256, Tue 16 Dec 2014 03:42:47 PM EST, Key ID 24c6a8a7f4a80eb5
+Source RPM  : mailx-12.5-12.el7_0.src.rpm
+Build Date  : Tue 16 Dec 2014 03:40:51 PM EST
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://heirloom.sourceforge.net/mailx.html
+Summary     : Enhanced implementation of the mailx command
+Description :
+Mailx is an enhanced mail command, which provides the functionality
+of the POSIX mailx command, as well as SysV mail and Berkeley Mail
+(from which it is derived).
+
+Additionally to the POSIX features, mailx can work with Maildir/ e-mail
+storage format (as well as mailboxes), supports IMAP, POP3 and SMTP
+protocols (including over SSL) to operate with remote hosts, handles mime
+types and different charsets. There are a lot of other useful features,
+see mailx(1).
+
+And as its ancient analogues, mailx can be used as a mail script language,
+both for sending and receiving mail.
+
+Besides the "mailx" command, this package provides "mail" and "Mail"
+(which should be compatible with its predecessors from the mailx-8.x source),
+as well as "nail" (the initial name of this project).

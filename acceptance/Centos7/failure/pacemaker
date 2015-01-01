@@ -1,13 +1,39 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'pacemaker':
-  ensure => '1.1.10-32.el7_0.1',
-}
+# Package status
+Name        : pacemaker
+Version     : 1.1.10
+Release     : 32.el7_0.1
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:24:39 AM EST
+Group       : System Environment/Daemons
+Size        : 1224324
+License     : GPLv2+ and LGPLv2+
+Signature   : RSA/SHA256, Tue 30 Sep 2014 09:12:22 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : pacemaker-1.1.10-32.el7_0.1.src.rpm
+Build Date  : Tue 30 Sep 2014 08:42:03 AM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.clusterlabs.org
+Summary     : Scalable High-Availability cluster resource manager
+Description :
+Pacemaker is an advanced, scalable High-Availability cluster resource
+manager for Corosync, CMAN and/or Linux-HA.
+
+It supports more than 16 node clusters with significant capabilities
+for managing resources and dependencies.
+
+It will run scripts at initialization, when machines go up or down,
+when related resources fail and can be configured to periodically check
+resource health.
+
+Available rpmbuild rebuild options:
+  --with(out) : cman stonithd doc coverage profiling pre_release upstart_job
+
+# Service status
 Redirecting to /bin/systemctl status  pacemaker.service
 pacemaker.service - Pacemaker High Availability Cluster Manager
    Loaded: loaded (/usr/lib/systemd/system/pacemaker.service; disabled)
    Active: inactive (dead)
 
-Dec 29 18:05:54 centos7.example42.com systemd[1]: [1;31mDependency failed for Pacemaker High Availability Cluster Manager.[0m
-Dec 29 18:06:25 centos7.example42.com systemd[1]: Stopped Pacemaker High Availability Cluster Manager.
-Dec 30 00:59:52 centos7.example42.com systemd[1]: [1;31mDependency failed for Pacemaker High Availability Cluster Manager.[0m
+Jan 01 08:24:50 centos7.example42.com systemd[1]: [1;31mDependency failed for Pacemaker High Availability Cluster Manager.[0m

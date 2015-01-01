@@ -2,13 +2,28 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'rabbitmq-server':
-  ensure => '2.8.4-1',
-}
+Package: rabbitmq-server
+Status: install ok installed
+Priority: extra
+Section: net
+Installed-Size: 3672
+Maintainer: RabbitMQ Team <packaging@rabbitmq.com>
+Architecture: all
+Version: 2.8.4-1
+Depends: erlang-nox (>= 1:12.b.3), adduser, logrotate
+Conffiles:
+ /etc/init.d/rabbitmq-server 27e70d191454e94080b16ae9c1ef76c1
+ /etc/default/rabbitmq-server 7cc5216f193f6be1cb32c45021197b39
+ /etc/logrotate.d/rabbitmq-server ddaa633357e5f6ff9d7970c6d0a9acd8
+Description: An AMQP server written in Erlang
+ RabbitMQ is an implementation of AMQP, the emerging standard for high
+ performance enterprise messaging. The RabbitMQ server is a robust and
+ scalable implementation of an AMQP broker.
+Homepage: http://www.rabbitmq.com/
 
 # Service status
 Status of node rabbit@debian7 ...
-[{pid,16231},
+[{pid,14566},
  {running_applications,[{rabbit,"RabbitMQ","2.8.4"},
                         {mnesia,"MNESIA  CXC 138 12","4.7"},
                         {os_mon,"CPO  CXC 138 46","2.2.9"},
@@ -17,24 +32,24 @@ Status of node rabbit@debian7 ...
                         {kernel,"ERTS  CXC 138 10","2.15.1"}]},
  {os,{unix,linux}},
  {erlang_version,"Erlang R15B01 (erts-5.9.1) [source] [64-bit] [async-threads:30] [kernel-poll:true]\n"},
- {memory,[{total,25487816},
-          {processes,9891106},
-          {processes_used,9891092},
-          {system,15596710},
+ {memory,[{total,25457400},
+          {processes,9860674},
+          {processes_used,9860660},
+          {system,15596726},
           {atom,504409},
           {atom_used,473927},
-          {binary,95048},
+          {binary,95064},
           {code,11874771},
           {ets,730528}]},
  {vm_memory_high_watermark,0.3999999976642476},
  {vm_memory_limit,102750617},
  {disk_free_limit,1000000000},
- {disk_free,3261329408},
+ {disk_free,3260489728},
  {file_descriptors,[{total_limit,924},
                     {total_used,3},
                     {sockets_limit,829},
                     {sockets_used,1}]},
  {processes,[{limit,1048576},{used,117}]},
  {run_queue,0},
- {uptime,5}]
+ {uptime,3}]
 ...done.

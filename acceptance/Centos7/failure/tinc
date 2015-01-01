@@ -1,8 +1,31 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'tinc':
-  ensure => '1.0.24-1.el7',
-}
+# Package status
+Name        : tinc
+Version     : 1.0.24
+Release     : 1.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:35:25 AM EST
+Group       : Unspecified
+Size        : 562071
+License     : GPLv2+
+Signature   : RSA/SHA256, Mon 26 May 2014 12:55:10 PM EDT, Key ID 6a2faea2352c64e5
+Source RPM  : tinc-1.0.24-1.el7.src.rpm
+Build Date  : Wed 21 May 2014 05:38:17 PM EDT
+Build Host  : buildvm-14.phx2.fedoraproject.org
+Relocations : (not relocatable)
+Packager    : Fedora Project
+Vendor      : Fedora Project
+URL         : http://www.tinc-vpn.org/
+Summary     : A virtual private network daemon
+Description :
+tinc is a Virtual Private Network (VPN) daemon that uses tunnelling
+and encryption to create a secure private network between hosts on
+the Internet. Because the tunnel appears to the IP level network
+code as a normal network device, there is no need to adapt any
+existing software. This tunnelling allows VPN sites to share
+information with each other over the Internet without exposing any
+information to others.
+
+# Service status
 Redirecting to /bin/systemctl status  tinc.service
 tinc.service
    Loaded: not-found (Reason: No such file or directory)

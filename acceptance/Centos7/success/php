@@ -1,5 +1,28 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'php':
-  ensure => '5.4.16-23.el7_0.3',
-}
+# Package status
+Name        : php
+Version     : 5.4.16
+Release     : 23.el7_0.3
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:21:20 AM EST
+Group       : Development/Languages
+Size        : 4595894
+License     : PHP and Zend and BSD
+Signature   : RSA/SHA256, Fri 31 Oct 2014 10:24:33 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : php-5.4.16-23.el7_0.3.src.rpm
+Build Date  : Fri 31 Oct 2014 09:07:27 AM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.php.net/
+Summary     : PHP scripting language for creating dynamic web sites
+Description :
+PHP is an HTML-embedded scripting language. PHP attempts to make it
+easy for developers to write dynamically generated web pages. PHP also
+offers built-in database integration for several commercial and
+non-commercial database management systems, so writing a
+database-enabled webpage with PHP is fairly simple. The most common
+use of PHP coding is probably as a replacement for CGI scripts.
+
+The php package contains the module (often referred to as mod_php)
+which adds support for the PHP language to Apache HTTP Server.

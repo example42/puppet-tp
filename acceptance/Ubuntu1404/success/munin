@@ -1,7 +1,38 @@
 # Package status
-package { 'munin-node':
-  ensure => '2.0.19-3',
-}
+Package: munin-node
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 305
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Source: munin
+Version: 2.0.19-3
+Depends: perl, init-system-helpers (>= 1.13~), libnet-server-perl, procps, adduser, lsb-base (>= 3.2-4), gawk, munin-common (>= 2.0.19-3), munin-plugins-core
+Recommends: libnet-snmp-perl, munin-plugins-extra
+Suggests: munin, munin-plugins-java, libwww-perl, liblwp-useragent-determined-perl, libnet-irc-perl, mysql-client, smartmontools (>= 5.37-6~bpo40+1), acpi | lm-sensors, python, ruby, ethtool, libdbd-pg-perl, libdbd-mysql-perl, libcache-cache-perl, net-tools, hdparm, libcrypt-ssleay-perl, libtext-csv-xs-perl, libxml-simple-perl, logtail
+Conffiles:
+ /etc/munin/munin-node.conf 76e27bcb5ad641ede4f047e01cc1a1a0
+ /etc/munin/plugin-conf.d/munin-node ca0b6d496a586d29286ca2070d67e1df
+ /etc/logrotate.d/munin-node 9ac2eb210994df064376fba8b6ceab02
+ /etc/cron.d/munin-node 3856dc061551052cbdab22cc1b113ad4
+ /etc/init/munin-node.conf 2c40e3dee54c80dbe594aa8ff4b058d1
+ /etc/init.d/munin-node 9d6e9d6c54dac952bfb8450962c43bb8
+Description: network-wide graphing framework (node)
+ Munin is a highly flexible and powerful solution used to create graphs of
+ virtually everything imaginable throughout your network, while still
+ maintaining a rattling ease of installation and configuration.
+ .
+ This package contains the daemon for the nodes being monitored. You should
+ install it on all the nodes in your network. It will know how to extract all
+ sorts of data from the node it runs on, and will wait for the gatherer to
+ request this data for further processing.
+ .
+ Munin is written in Perl, and relies heavily on Tobi Oetiker's excellent
+ RRDtool. To see a real example of Munin in action, you can follow a link
+ from <http://munin-monitoring.org/> to a live installation.
+Original-Maintainer: Munin Debian Maintainers <packaging@munin-monitoring.org>
+Homepage: http://munin-monitoring.org
 
 # Service status
-munin-node start/running, process 18944
+munin-node start/running, process 21312

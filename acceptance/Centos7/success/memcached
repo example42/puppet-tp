@@ -1,14 +1,34 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'memcached':
-  ensure => '1.4.15-9.el7',
-}
+# Package status
+Name        : memcached
+Epoch       : 0
+Version     : 1.4.15
+Release     : 9.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:18:05 AM EST
+Group       : System Environment/Daemons
+Size        : 176013
+License     : BSD
+Signature   : RSA/SHA256, Thu 03 Jul 2014 11:45:23 PM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : memcached-1.4.15-9.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 05:41:22 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.memcached.org/
+Summary     : High Performance, Distributed Memory Object Cache
+Description :
+memcached is a high-performance, distributed memory object caching
+system, generic in nature, but intended for use in speeding up dynamic
+web applications by alleviating database load.
+
+# Service status
 Redirecting to /bin/systemctl status  memcached.service
 memcached.service - Memcached
    Loaded: loaded (/usr/lib/systemd/system/memcached.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 00:49:41 EST; 6s ago
- Main PID: 19867 (memcached)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:18:06 EST; 2s ago
+ Main PID: 30602 (memcached)
    CGroup: /system.slice/memcached.service
-           └─19867 /usr/bin/memcached -u memcached -p 11211 -m 64 -c 1024
+           └─30602 /usr/bin/memcached -u memcached -p 11211 -m 64 -c 1024
 
-Dec 30 00:49:41 centos7.example42.com systemd[1]: Started Memcached.
+Jan 01 08:18:06 centos7.example42.com systemd[1]: Started Memcached.

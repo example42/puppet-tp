@@ -2,6 +2,24 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'logrotate':
-  ensure => '3.8.1-4',
-}
+Package: logrotate
+Status: install ok installed
+Priority: important
+Section: admin
+Installed-Size: 82
+Maintainer: Paul Martin <pm@debian.org>
+Architecture: amd64
+Version: 3.8.1-4
+Depends: libc6 (>= 2.8), libpopt0 (>= 1.14), libselinux1 (>= 1.32), cron | anacron | cron-daemon, base-passwd (>= 2.0.3.4)
+Recommends: mailx
+Breaks: postgresql-common (<= 126)
+Conffiles:
+ /etc/logrotate.conf 176edd439a499501372cf3d04e795810
+ /etc/cron.daily/logrotate d2281ecb6f898b446ac8a5984ab5a243
+Description: Log rotation utility
+ The logrotate utility is designed to simplify the administration of
+ log files on a system which generates a lot of log files.  Logrotate
+ allows for the automatic rotation compression, removal and mailing of
+ log files.  Logrotate can be set to handle a log file daily, weekly,
+ monthly or when the log file gets to a certain size.  Normally, logrotate
+ runs as a daily cron job.

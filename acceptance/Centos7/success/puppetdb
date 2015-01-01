@@ -1,14 +1,29 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'puppetdb':
-  ensure => '2.2.2-1.el7',
-}
+# Package status
+Name        : puppetdb
+Version     : 2.2.2
+Release     : 1.el7
+Architecture: noarch
+Install Date: Thu 01 Jan 2015 08:28:12 AM EST
+Group       : System Environment/Daemons
+Size        : 24799025
+License     : ASL 2.0
+Signature   : RSA/SHA512, Tue 21 Oct 2014 04:52:39 PM EDT, Key ID 1054b7a24bd6ec30
+Source RPM  : puppetdb-2.2.2-1.el7.src.rpm
+Build Date  : Tue 21 Oct 2014 02:38:05 PM EDT
+Build Host  : rend.delivery.puppetlabs.net
+Relocations : (not relocatable)
+URL         : http://github.com/puppetlabs/puppetdb
+Summary     : Puppet Centralized Storage Daemon
+Description :
+Puppet Centralized Storage.
+
+# Service status
 Redirecting to /bin/systemctl status  puppetdb.service
 puppetdb.service - puppetdb Daemon
    Loaded: loaded (/usr/lib/systemd/system/puppetdb.service; enabled)
-   Active: [1;32mactive (running)[0m since Tue 2014-12-30 01:05:10 EST; 14s ago
- Main PID: 4365 (java)
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:28:17 EST; 5s ago
+ Main PID: 14110 (java)
    CGroup: /system.slice/puppetdb.service
-           └─4365 java -Xmx192m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/puppetdb/puppetdb-oom.hprof -Djava.securi...
+           └─14110 java -Xmx192m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/puppetdb/puppetdb-oom.hprof -Djava.security.egd=file:/dev/urandom -cp /usr/share/puppetdb/puppetdb.jar clojur...
 
-Dec 30 01:05:10 centos7.example42.com systemd[1]: Started puppetdb Daemon.
+Jan 01 08:28:17 centos7.example42.com systemd[1]: Started puppetdb Daemon.

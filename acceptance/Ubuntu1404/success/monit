@@ -1,7 +1,71 @@
 # Package status
-package { 'monit':
-  ensure => '1:5.6-2',
-}
+Package: monit
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 753
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 1:5.6-2
+Depends: libc6 (>= 2.14), libpam0g (>= 0.99.7.1), libssl1.0.0 (>= 1.0.0), lsb-base (>= 3.2-13)
+Suggests: exim4 | postfix | mail-transport-agent
+Conffiles:
+ /etc/logrotate.d/monit 62d8de62c4153bca27dfac15b2d63dd5
+ /etc/monit/monitrc 69970c081b8f84d1a4ca0873ab5394f9
+ /etc/monit/monitrc.d/openntpd 2aaf6bd6fc50b8d4c62b9a41bee717ef
+ /etc/monit/monitrc.d/smartmontools 7cdf3c1459aa128f1f7e29f5ef0594ed
+ /etc/monit/monitrc.d/postfix 3bee52ce320dcd6976589ebffb7efeab
+ /etc/monit/monitrc.d/nginx 06fb32ba95843628fe3dceb177993526
+ /etc/monit/monitrc.d/memcached f5876711141139fb17c415fb47e6b743
+ /etc/monit/monitrc.d/mysql f697ed0b5d4b0ec19870a04e79899030
+ /etc/monit/monitrc.d/snmpd 05049a4d96b31e836e71ddb720309102
+ /etc/monit/monitrc.d/mdadm ba52044fbc173cfee9dd8d6b433aa2f5
+ /etc/monit/monitrc.d/rsyslog ba6897f1b6ed130e22cc2bee4c7aa95c
+ /etc/monit/monitrc.d/cron 40a7b3574f8af725dda9564f1e98051c
+ /etc/monit/monitrc.d/pdns-recursor 58428f3435c93381d74f0007bb714850
+ /etc/monit/monitrc.d/at 865fdb464cdd6b746e969a7f20839b76
+ /etc/monit/monitrc.d/openssh-server 5991014df03ed4182c2bcc156c50b70e
+ /etc/monit/monitrc.d/acpid f70ddeaf5f420e76a09528281df47222
+ /etc/monit/monitrc.d/apache2 0a1e7d746a2c4042846789a6cc0a5e27
+ /etc/monit/templates/rootbin 49eca590561b14ef1f0e114db1cbdd21
+ /etc/monit/templates/rootrc 1ec23646ad7866ab0c51bd4d21db6894
+ /etc/monit/templates/rootstrict 4c4828a4229d93fd432baf37143fc231
+ /etc/default/monit 1119b1323673d944abb3e90361715e4f
+ /etc/init.d/monit 2bd9a98a93fa6c24e3dedff259bffbdd
+ /etc/pam.d/monit 2c649c6000755b2d4eded976c3638fb2
+Description: utility for monitoring and managing daemons or similar programs
+ monit is a utility for monitoring and managing daemons or similar
+ programs running on a Unix system. It will start specified programs
+ if they are not running and restart programs not responding.
+ .
+ monit supports:
+  * Daemon mode - poll programs at a specified interval
+  * Monitoring modes - active, passive or manual
+  * Start, stop and restart of programs
+  * Group and manage groups of programs
+  * Process dependency definition
+  * Logging to syslog or own logfile
+  * Configuration - comprehensive controlfile
+  * Runtime and TCP/IP port checking (tcp and udp)
+  * SSL support for port checking
+  * Unix domain socket checking
+  * Process status and process timeout
+  * Process cpu usage
+  * Process memory usage
+  * Process zombie check
+  * Check the systems load average
+  * Check a file or directory timestamp
+  * Alert, stop or restart a process based on its characteristics
+  * MD5 checksum for programs started and stopped by monit
+  * Alert notification for program timeout, restart, checksum, stop
+    resource and timestamp error
+  * Flexible and customizable email alert messages
+  * Protocol verification. HTTP, FTP, SMTP, POP, IMAP, NNTP, SSH, DWP,
+    LDAPv2 and LDAPv3
+  * An http interface with optional SSL support to make monit
+    accessible from a webbrowser
+Original-Maintainer: Sergey B Kirpichev <skirpichev@gmail.com>
+Homepage: http://mmonit.com/monit/
 
 # Service status
  * monit is running

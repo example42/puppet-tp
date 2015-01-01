@@ -2,6 +2,20 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-package { 'glance':
-  ensure => '2012.1.1-5',
-}
+Package: glance
+Status: install ok installed
+Priority: extra
+Section: python
+Installed-Size: 29
+Maintainer: PKG OpenStack <openstack-devel@lists.alioth.debian.org>
+Architecture: all
+Version: 2012.1.1-5
+Depends: glance-api (= 2012.1.1-5), glance-registry (= 2012.1.1-5)
+Description: OpenStack Image Service - metapackage
+ The Glance project provides services for discovering, registering, and
+ retrieving virtual machine images over the cloud. They may be stand-alone
+ services, or may be used to deliver images from object stores, such as
+ OpenStack's Swift service, to Nova's compute nodes.
+ .
+ This is a dependency package to install all of the Glance suite.
+Homepage: http://launchpad.net/glance

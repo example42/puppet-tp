@@ -1,20 +1,38 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'httpd':
-  ensure => '2.4.6-18.el7.centos',
-}
+# Package status
+Name        : httpd
+Version     : 2.4.6
+Release     : 18.el7.centos
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:05:57 AM EST
+Group       : System Environment/Daemons
+Size        : 9793373
+License     : ASL 2.0
+Signature   : RSA/SHA256, Wed 23 Jul 2014 11:21:22 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : httpd-2.4.6-18.el7.centos.src.rpm
+Build Date  : Wed 23 Jul 2014 10:49:10 AM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://httpd.apache.org/
+Summary     : Apache HTTP Server
+Description :
+The Apache HTTP Server is a powerful, efficient, and extensible
+web server.
+
+# Service status
 Redirecting to /bin/systemctl status  httpd.service
 httpd.service - The Apache HTTP Server
    Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Mon 2014-12-29 23:56:12 EST; 19s ago
- Main PID: 28730 (httpd)
-   Status: "Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec"
+   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:05:57 EST; 2s ago
+ Main PID: 9930 (httpd)
+   Status: "Processing requests..."
    CGroup: /system.slice/httpd.service
-           ├─28730 /usr/sbin/httpd -DFOREGROUND
-           ├─28731 /usr/sbin/httpd -DFOREGROUND
-           ├─28732 /usr/sbin/httpd -DFOREGROUND
-           ├─28733 /usr/sbin/httpd -DFOREGROUND
-           ├─28734 /usr/sbin/httpd -DFOREGROUND
-           └─28738 /usr/sbin/httpd -DFOREGROUND
+           ├─9930 /usr/sbin/httpd -DFOREGROUND
+           ├─9931 /usr/sbin/httpd -DFOREGROUND
+           ├─9932 /usr/sbin/httpd -DFOREGROUND
+           ├─9933 /usr/sbin/httpd -DFOREGROUND
+           ├─9934 /usr/sbin/httpd -DFOREGROUND
+           └─9935 /usr/sbin/httpd -DFOREGROUND
 
-Dec 29 23:56:12 centos7.example42.com systemd[1]: Started The Apache HTTP Server.
+Jan 01 08:05:57 centos7.example42.com systemd[1]: Started The Apache HTTP Server.

@@ -1,14 +1,45 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'sysstat':
-  ensure => '10.1.5-4.el7',
-}
+# Package status
+Name        : sysstat
+Version     : 10.1.5
+Release     : 4.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:20:22 AM EST
+Group       : Applications/System
+Size        : 1100340
+License     : GPLv2+
+Signature   : RSA/SHA256, Fri 04 Jul 2014 01:08:09 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : sysstat-10.1.5-4.el7.src.rpm
+Build Date  : Mon 09 Jun 2014 04:22:40 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://sebastien.godard.pagesperso-orange.fr/
+Summary     : Collection of performance monitoring tools for Linux
+Description :
+The sysstat package contains sar, sadf, mpstat, iostat, pidstat, nfsiostat,
+cifsiostat and sa tools for Linux.
+The sar command collects and reports system activity information. This
+information can be saved in a file in a binary format for future inspection. The
+statistics reported by sar concern I/O transfer rates, paging activity,
+process-related activities, interrupts, network activity, memory and swap space
+utilization, CPU utilization, kernel activities and TTY statistics, among
+others. Both UP and SMP machines are fully supported.
+The sadf command may be used to display data collected by sar in various formats
+(CSV, XML, etc.).
+The iostat command reports CPU utilization and I/O statistics for disks.
+The mpstat command reports global and per-processor statistics.
+The pidstat command reports statistics for Linux tasks (processes).
+The nfsiostat command reports I/O statistics for network file systems.
+The cifsiostat command reports I/O statistics for CIFS file systems.
+
+# Service status
 Redirecting to /bin/systemctl status  sysstat.service
 sysstat.service - Resets System Activity Logs
    Loaded: loaded (/usr/lib/systemd/system/sysstat.service; enabled)
-   Active: [1;32mactive (exited)[0m since Tue 2014-12-30 01:14:54 EST; 5s ago
-  Process: 13792 ExecStart=/usr/lib64/sa/sa1 --boot (code=exited, status=0/SUCCESS)
- Main PID: 13792 (code=exited, status=0/SUCCESS)
+   Active: [1;32mactive (exited)[0m since Thu 2015-01-01 08:34:46 EST; 2s ago
+  Process: 8108 ExecStart=/usr/lib64/sa/sa1 --boot (code=exited, status=0/SUCCESS)
+ Main PID: 8108 (code=exited, status=0/SUCCESS)
 
-Dec 30 01:14:54 centos7.example42.com systemd[1]: Starting Resets System Activity Logs...
-Dec 30 01:14:54 centos7.example42.com systemd[1]: Started Resets System Activity Logs.
+Jan 01 08:34:45 centos7.example42.com systemd[1]: Starting Resets System Activity Logs...
+Jan 01 08:34:46 centos7.example42.com systemd[1]: Started Resets System Activity Logs.

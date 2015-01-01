@@ -1,7 +1,4 @@
 # Package status
-package { 'python-keystonekeystone':
-  ensure => 'purged',
-}
 
 # Service status
-keystone start/running, process 535
+keystone start/running, process 2468

@@ -1,7 +1,0 @@
-# Package status
-package { 'redis-server':
-  ensure => 'purged',
-}
-
-# Service status
-redis-server: unrecognized service

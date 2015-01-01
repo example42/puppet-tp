@@ -1,7 +1,42 @@
 # Package status
-package { 'ceph':
-  ensure => '0.80.7-0ubuntu0.14.04.1',
-}
+Package: ceph
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 30410
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 0.80.7-0ubuntu0.14.04.1
+Replaces: gceph, librgw-dev, librgw1, librgw1-dbg, obsync
+Depends: binutils, ceph-common, cryptsetup-bin | cryptsetup, gdisk, hdparm | sdparm, parted, uuid-runtime, xfsprogs, sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), python:any, libaio1 (>= 0.3.93), libboost-system1.54.0, libboost-thread1.54.0, libc6 (>= 2.16), libgcc1 (>= 1:4.1.1), libgoogle-perftools4, libleveldb1, libnspr4 (>= 2:4.9-2~) | libnspr4-0d (>= 1.8.0.10), libnss3 (>= 2:3.13.4-2~) | libnss3-1d (>= 3.12.0~1.9b1), libstdc++6 (>= 4.6), libuuid1 (>= 2.16)
+Pre-Depends: multiarch-support
+Recommends: libcephfs1, librados2, librbd1
+Conflicts: gceph, librgw-dev, librgw1, librgw1-dbg, obsync
+Conffiles:
+ /etc/logrotate.d/ceph a51800a14eb4c2fcb9d04031519d5c7b
+ /etc/bash_completion.d/ceph 2083114bfeba53460c1096038380b79e
+ /etc/init/ceph-all.conf 9326c726eb077c32785c7d491a81c475
+ /etc/init/ceph-osd-all-starter.conf 4de96c17d97e04087a0e45177515df8d
+ /etc/init/ceph-osd-all.conf 95c2c0ad1eeae3f2ad5037ebc7dae3e2
+ /etc/init/ceph-create-keys.conf e32cb9f10af3b1de713e7908c1fea5d0
+ /etc/init/rbdmap.conf ceceeb4e61bfef80dcc6fc1cbc608aa5
+ /etc/init/ceph-mon-all.conf aabb3d5ee7e70b93c609be77adccd9a7
+ /etc/init/ceph-mon.conf b424097f75430413e8a78c2e02999440
+ /etc/init/ceph-osd.conf 7582b0ce8325b148c62f0475babf6298
+ /etc/init/ceph-mon-all-starter.conf 6ac48902924188484126258b1660607b
+ /etc/init.d/rbdmap bdd4659c4b8d556fbe8969a7223268e2
+ /etc/init.d/ceph c0d5d5979ea618ebd5a17f29763959d0
+ /etc/ceph/rbdmap 638e8968005eb2b959919f0c5e31e9a4
+Description: distributed storage and file system
+ Ceph is a distributed storage system designed to provide excellent
+ performance, reliability, and scalability.
+ .
+ This package contains all server daemons and management tools for creating,
+ running, and administering a Ceph storage cluster, with the exception of the
+ metadata server, which is necessary for using the distributed file system
+ and is provided by the ceph-mds package.
+Homepage: http://ceph.com/
+Original-Maintainer: Ceph Maintainers <ceph-maintainers@lists.ceph.com>
 
 # Service status
 /etc/init.d/ceph: ceph conf /etc/ceph/ceph.conf not found; system is not configured.

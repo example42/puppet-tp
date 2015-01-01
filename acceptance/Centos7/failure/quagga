@@ -1,8 +1,36 @@
-[1;31mWarning: The package type's allow_virtual parameter will be changing its default value from false to true in a future release. If you do not want to allow virtual packages, please explicitly set allow_virtual to false.
-   (at /usr/share/ruby/vendor_ruby/puppet/type/package.rb:430:in `block (3 levels) in <module:Puppet>')[0m
-package { 'quagga':
-  ensure => '0.99.22.4-4.el7',
-}
+# Package status
+Name        : quagga
+Version     : 0.99.22.4
+Release     : 4.el7
+Architecture: x86_64
+Install Date: Thu 01 Jan 2015 08:29:15 AM EST
+Group       : System Environment/Daemons
+Size        : 5300808
+License     : GPLv2+
+Signature   : RSA/SHA256, Fri 04 Jul 2014 12:46:25 AM EDT, Key ID 24c6a8a7f4a80eb5
+Source RPM  : quagga-0.99.22.4-4.el7.src.rpm
+Build Date  : Tue 17 Jun 2014 01:36:18 PM EDT
+Build Host  : worker1.bsys.centos.org
+Relocations : (not relocatable)
+Packager    : CentOS BuildSystem <http://bugs.centos.org>
+Vendor      : CentOS
+URL         : http://www.quagga.net
+Summary     : Routing daemon
+Description :
+Quagga is free software that operates TCP/IP-based routing protocols. It takes
+a multi-server and multi-threaded approach to resolving the current complexity
+of the Internet.
+
+Quagga supports Babel, BGP4, BGP4+, BGP4-, IS-IS (experimental), OSPFv2,
+OSPFv3, RIPv1, RIPv2, and RIPng.
+
+Quagga is intended to be used as a Route Server and a Route Reflector. It is
+not a toolkit; it provides full routing power under a new architecture.
+Quagga by design has a process for each protocol.
+
+Quagga is a fork of GNU Zebra.
+
+# Service status
 Redirecting to /bin/systemctl status  quagga.service
 quagga.service
    Loaded: not-found (Reason: No such file or directory)

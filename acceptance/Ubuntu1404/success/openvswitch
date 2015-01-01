@@ -1,7 +1,33 @@
 # Package status
-package { 'openvswitch-switch':
-  ensure => '2.0.2-0ubuntu0.14.04.1',
-}
+Package: openvswitch-switch
+Status: install ok installed
+Priority: extra
+Section: net
+Installed-Size: 4451
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Source: openvswitch
+Version: 2.0.2-0ubuntu0.14.04.1
+Depends: libc6 (>= 2.14), libssl1.0.0 (>= 1.0.0), sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), python:any, openvswitch-common (= 2.0.2-0ubuntu0.14.04.1), module-init-tools, procps, uuid-runtime, netbase, python-argparse
+Suggests: openvswitch-datapath-module
+Conffiles:
+ /etc/init/openvswitch-force-reload-kmod.conf 037262b8982d261e0e0df5578bd18181
+ /etc/init/openvswitch-switch.conf 5f601d022bb9eaf46062385374372799
+ /etc/init.d/openvswitch-switch 7599d9d50aee4156058e75588968da32
+ /etc/logrotate.d/openvswitch-switch b1228353e3a0c5055cf8aa4d8e8e8640
+Description: Open vSwitch switch implementations
+ Open vSwitch is a production quality, multilayer, software-based,
+ Ethernet virtual switch. It is designed to enable massive network
+ automation through programmatic extension, while still supporting
+ standard management interfaces and protocols (e.g. NetFlow, IPFIX,
+ sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag). In addition, it is designed
+ to support distribution across multiple physical servers similar to
+ VMware's vNetwork distributed vswitch or Cisco's Nexus 1000V.
+ .
+ openvswitch-switch provides the userspace components and utilities for
+ the Open vSwitch kernel-based switch.
+Homepage: http://openvswitch.org/
+Original-Maintainer: Open vSwitch developers <dev@openvswitch.org>
 
 # Service status
 openvswitch-switch start/running
