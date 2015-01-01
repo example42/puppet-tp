@@ -37,6 +37,11 @@ Vagrant.configure("2") do |config|
       :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/debian-70rc1-x64-vbox4210.box',
       :breed   => 'debian',
     },
+    :Debian6 => {
+      :box     => 'debian-607-x64-vbox4210',
+      :box_url => 'http://puppet-vagrant-boxes.puppetlabs.com/debian-607-x64-vbox4210.box',
+      :breed   => 'debian6',
+    },
     :OpenSuse12_3 => {
       :box     => 'opensuse-12.3-64',
       :box_url => 'http://sourceforge.net/projects/opensusevagrant/files/12.3/opensuse-12.3-64.box/download',

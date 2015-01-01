@@ -48,7 +48,10 @@ This means that your Puppet Master should run on stock setups on these OS:
   - RedHat 7
   - CentOS 7
 
-Your clients may run on different Operating Systems and are actually supported in TP data.
+Your clients may run on different Operating Systems and are actually supported in TP data, in fact, to run acceptance tests on other OS a compatible Ruby version is pre-installed in the provisioning of the relevant Vagrant boxes:
+  - Ubuntu 12.04
+  - Debian 6
+  - CentOS 6
 
 Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
 
@@ -321,7 +324,7 @@ Do not expect everything to work seamlessly, this is a test environment to verif
 
 ### Compatibility matrix
 
-Routinely the results of acceptance tests are saved in the ```acceptance``` directory: use it as a reference on the current support matrix of different applications on different Operating Systems.
+Routinely the results of acceptance tests are saved in the [```acceptance```](https://github.com/example42/puppet-tp/tree/master/acceptance)  directory: use it as a reference on the current support matrix of different applications on different Operating Systems.
 
 Note however that Tiny Puppet support may extend to other OS: the acceptance tests use directly ```puppet apply``` on ```tp``` defines, so they need to run locally and have the expected prerequisites (such as the Ruby version).
 
