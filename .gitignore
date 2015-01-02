@@ -12,3 +12,5 @@ Gemfile.lock
 /.vagrant
 /vagrant/modules/public
 .coveralls.yml
+.bundle/
+vendor/
