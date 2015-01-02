@@ -175,7 +175,7 @@ describe 'tp::conf', :type => :define do
   end 
 
 
-  pending 'with custom epp template and options_hash' do
+  skip 'with custom epp template and options_hash' do
     let(:title) { 'redis' }
     let(:params) {
       {
@@ -361,7 +361,7 @@ describe 'tp::conf', :type => :define do
     end 
   end
 
-  pending 'with custom epp template and options_hash' do
+  skip 'with custom epp template and options_hash' do
     let(:title) { 'redis' }
     let(:params) { {
       'epp'          => 'tp/spec/spec.epp',
