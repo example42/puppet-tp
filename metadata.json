@@ -11,7 +11,13 @@
   "issues_url": "https://github.com/example42/puppet-tp/issues",
   "operatingsystem_support": [
     {
-      "osfamily": "RedHat",
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Centos",
       "operatingsystemrelease": [
         "7"
       ]
