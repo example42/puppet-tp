@@ -36,4 +36,4 @@ Description: network-wide graphing framework (node)
 Homepage: http://munin-monitoring.org
 
 # Service status
-[....] Munin-Node is running (PID: 20636)[?25l7[1G[[32m ok [39;49m8[?12l[?25h.
+[....] Munin-Node is running (PID: 21863)[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

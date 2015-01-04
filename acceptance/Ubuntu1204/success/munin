@@ -1,46 +1,58 @@
 # Package status
-Package: munin-node
+Package: munin
 Status: install ok installed
 Priority: optional
 Section: net
-Installed-Size: 1185
+Installed-Size: 578
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Architecture: all
-Source: munin
 Version: 1.4.6-3ubuntu3.4
-Replaces: munin-plugins-extra
-Depends: perl, upstart-job, libnet-server-perl, procps, adduser, lsb-base (>= 3.2-4), gawk, libwww-perl, munin-common (= 1.4.6-3ubuntu3.4)
-Recommends: libnet-snmp-perl
-Suggests: munin, munin-plugins-extra, munin-java-plugins, liblwp-useragent-determined-perl, libet-irc-perl, mysql-client, smartmontools (>= 5.37-6~bpo40+1), acpi | lm-sensors, python, ruby, ethtool, libdbd-pg-perl, libdbd-mysql-perl, libcache-cache-perl, net-tools, hdparm, libcrypt-ssleay-perl, libtext-csv-xs-perl, libxml-simple-perl, logtail, libnet-ssleay-perl
+Depends: perl, perl-modules | libparse-recdescent-perl, librrds-perl (>= 1.2), libhtml-template-perl, libdigest-md5-perl, libtime-hires-perl, libstorable-perl, rrdtool, adduser, liblog-log4perl-perl, ttf-dejavu, munin-common (= 1.4.6-3ubuntu3.4), cron
+Recommends: munin-node, libdate-manip-perl
+Suggests: www-browser, httpd, libnet-ssleay-perl
 Conffiles:
- /etc/logrotate.d/munin-node e91a36fc6ff24c1557e5b469bde8ac2d
- /etc/munin/plugin-conf.d/munin-node dd21deadefc2eb4247e03916a3859103
- /etc/munin/munin-node.conf e486786f866d7d7e025dea401c300e7b
- /etc/init/munin-node.conf 1ccb403ed526cdaa5799e9cba9308fc5
- /etc/cron.d/munin-node 64b993c241bef6ad98b0f50f0de9d18b
-Description: network-wide graphing framework (node)
+ /etc/logrotate.d/munin 87037ee5eadd29e7944c40eb933a30ea
+ /etc/munin/apache.conf b0614c4c588f653eb633a41b4de81d43
+ /etc/munin/templates/munin-comparison-month.tmpl 9ddb7aacbbafdd43bc592bd2862911d8
+ /etc/munin/templates/favicon.ico 934624a112e74e6428a86a706cf7521d
+ /etc/munin/templates/munin-comparison-year.tmpl d0a5bd4857f7a0ada53b7f052e429fa1
+ /etc/munin/templates/munin-comparison-day.tmpl 7d52ca397f4f3fae9622d59396835773
+ /etc/munin/templates/style.css f824b4bdf41b5c632dd97c4da025e6cf
+ /etc/munin/templates/logo-h.png a30bda9500e8b95f1fa8eca33e979445
+ /etc/munin/templates/partial/generated_by.tmpl 8e686d1c27746d11a93accf698d46446
+ /etc/munin/templates/partial/bottom_navigation.tmpl 1f39e0626d4d54ba03e82e99313858ea
+ /etc/munin/templates/partial/logo_navigation.tmpl 64fd6455a4da4e64d966f8689cdbac5e
+ /etc/munin/templates/partial/logo_path.tmpl b12f7e905bd229fbbe83dd0c031e0364
+ /etc/munin/templates/partial/head.tmpl 1ef0b6eed5a691b3bba1f0a9c6f0d3e4
+ /etc/munin/templates/partial/logo_navigation_comparison.tmpl 31ef9f8fcca0207a3cce8202f4e20358
+ /etc/munin/templates/partial/path.tmpl af6f7d856ef07d4a158c9b2815cfabc1
+ /etc/munin/templates/munin-nodeview.tmpl 32db49989b2f1b1d00dc99b324a33687
+ /etc/munin/templates/style-1.2.css 405496a7ddd478daa48914e9167f1e7e
+ /etc/munin/templates/munin-overview.tmpl b72e00345c3289440e7e541f9fef7a30
+ /etc/munin/templates/munin-domainview.tmpl 722fe43a067150619eb10e21b3a8fa01
+ /etc/munin/templates/munin-comparison-week.tmpl 8b953bb5c2a9df64a747dae8a69babae
+ /etc/munin/templates/definitions.html 6f2cda49ff5f0a5641549ae0dd063334
+ /etc/munin/templates/logo.png d858cb7e3bc6f5b13444bbabf02cf611
+ /etc/munin/templates/munin-serviceview.tmpl 8607be6516ad72212e2ebe79b5137898
+ /etc/munin/munin.conf 85cdd92f263e6c15d6bf7d5d9cd1ba71
+ /etc/cron.d/munin 396c01b445483612f1c8957534d80366
+Description: network-wide graphing framework (grapher/gatherer)
  Munin is a highly flexible and powerful solution used to create graphs of
  virtually everything imaginable throughout your network, while still
  maintaining a rattling ease of installation and configuration.
  .
- This package contains the daemon for the nodes being monitored.  You should
- install it on all the nodes in your network. It will know how to extract all
- sorts of data from the node it runs on, and will wait for the gatherer to
- request this data for further processing.
+ This package contains the grapher/gatherer. You will only need one instance of
+ it in your network. It will periodically poll all the nodes in your network
+ it's aware of for data, which it in turn will use to create graphs and HTML
+ pages, suitable for viewing with your graphical web browser of choice.
  .
- It includes a range of plugins capable of extracting common values such as cpu
- usage, network usage, load average, and so on. Creating your own plugins which
- are capable of extracting other system-specific values is very easy, and is
- often done in a matter of minutes. You can also create plugins which relay
- information from other devices in your network that can't run Munin, such as a
- switch or a server running another operating system, by using SNMP or similar
- technology.
+ It is also able to alert you if any value is outside of a preset boundary,
+ useful if you want to be alerted if a filesystem is about to grow full, for
+ instance.  You can do this by making Munin run an arbitrary command when you
+ need to be alert it, or make use of the intrinsic Nagios support.
  .
  Munin is written in Perl, and relies heavily on Tobi Oetiker's excellent
  RRDtool. To see a real example of Munin in action, you can follow a link
  from <http://munin.projects.linpro.no/> to a live installation.
 Homepage: http://munin-monitoring.org
 Original-Maintainer: Munin Debian Maintainers <munin-deb-maint@linpro.no>
-
-# Service status
-munin-node start/running, process 8273
