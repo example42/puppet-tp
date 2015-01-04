@@ -1,5 +1,3 @@
 ---
   munin::settings:
     www_dir_path: '/var/www/html/munin'
-    log_file_path: '/var/log/munin-node/munin-node.log'
-    init_file_path: '/etc/sysconfig/munin'
