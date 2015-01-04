@@ -1,0 +1,16 @@
+---
+  munin-node::settings:
+    package_name: 'munin-node'
+    service_name: 'munin-node'
+    config_file_path: '/etc/munin/munin-node.conf'
+    config_dir_path: '/etc/munin'
+    conf_dir_path: '/etc/munin/munin-conf.d'
+    plugins_conf_dir_path: '/etc/munin/plugin-conf.d'
+    plugins_dir_path: '/usr/share/munin/plugins'
+    pid_file_path: '/var/run/munin/munin-node.pid'
+    log_file_path: '/var/log/munin/munin.log'
+    log_dir_path: '/var/log/munin'
+    process_name: 'munin-node'
+    process_user: 'munin'
+    process_group: 'munin'
+    tcp_port: '4949'

@@ -1,0 +1,4 @@
+---
+  munin-node::settings:
+    config_file_group: 'wheel'
+    log_file_path: '/var/log/munin/munin-node.log'
