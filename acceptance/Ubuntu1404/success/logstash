@@ -1,6 +1,3 @@
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
 Package: logstash
 Status: install ok installed
@@ -21,4 +18,4 @@ Vendor: Elasticsearch
 Homepage: http://logstash.net
 
 # Service status
-exec: 129: status: not found
+logstash start/running, process 9163
