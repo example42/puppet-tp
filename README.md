@@ -194,6 +194,22 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
     }
 
 
+### Managing repositories
+
+Currently Tiny Puppet supports applications' installation only via the OS native packaging system. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
+
+The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
+
+Generally you don't have to use directly the ```tp::repo``` defind, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
+
+If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
+
+    tp::install { 'elasticsearch':
+      auto_repo        => false,
+      dependency_class => '::site::elasticseach::repo', # Possible alternative class to manage the repo
+    }
+
+
 ## Usage with Hiera
 
 You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
