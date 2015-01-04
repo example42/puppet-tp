@@ -19,7 +19,7 @@ It features:
 
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
-The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated module.
+The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
 
 
 ## Provided Resources
@@ -31,7 +31,7 @@ Tiny Puppet provides the following defines:
 - ```tp::dir```. Manages the content of directories
 - ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
 - ```tp::line```. (TODO) Manages single lines in a configuration file
-- ```tp::repo```. (WIP) Manages extra repositories for the supported applications
+- ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
@@ -55,7 +55,7 @@ Your clients may run on different Operating Systems and are actually supported i
 
 Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
 
-**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet bases manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
+**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
 
 Tiny Puppet requires Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 

@@ -1,3 +1,6 @@
 ---
   elasticsearch::settings:
     init_file_path: '/etc/sysconfig/elasticsearch'
+    repo_url: 'http://packages.elasticsearch.org/elasticsearch/1.4/centos'
+    key: 'D88E42B4'
+    key_url: 'https://packages.elasticsearch.org/GPG-KEY-elasticsearch'

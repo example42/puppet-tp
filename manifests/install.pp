@@ -68,8 +68,15 @@ define tp::install (
   # Automatic repo management
   if $auto_repo == true
   and $settings[repo_url] {
+    $repo_enabled = $ensure ? {
+      'present' => true,
+      true      => true,
+      'absent'  => false,
+      false     => false,
+    }
     tp::repo { $title:
-      before => Package[$settings[package_name]],
+      enabled => $repo_enabled,
+      before  => Package[$settings[package_name]],
     }
   }
 

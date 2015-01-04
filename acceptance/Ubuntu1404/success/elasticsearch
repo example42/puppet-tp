@@ -1,6 +1,3 @@
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
 Package: elasticsearch
 Status: install ok installed
@@ -49,4 +46,4 @@ Description: Open Source, Distributed, RESTful Search Engine
 Homepage: http://www.elasticsearch.org/
 
 # Service status
-could not access PID file for elasticsearch ... [31mfailed![39;49m
+ * elasticsearch is running
