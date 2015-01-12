@@ -81,11 +81,13 @@ define tp::repo (
     }
     # To avoid to introduce another dependency we manage apt repos directly
     'Debian': {
-      exec { 'tp_apt_update':
-        command     => '/usr/bin/apt-get -qq update',
-        path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-        logoutput   => false,
-        refreshonly => true,
+      if !defined(Exec['tp_apt_update']) {
+        exec { 'tp_apt_update':
+          command     => '/usr/bin/apt-get -qq update',
+          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+          logoutput   => false,
+          refreshonly => true,
+        }
       }
 
       if !defined(File["${title}.list"]) {
