@@ -2,7 +2,7 @@
   elasticsearch::settings:
     package_name: 'elasticsearch'
     service_name: 'elasticsearch'
-    config_file_path: '/etc/elasticsearch/elasticsearch.conf'
+    config_file_path: '/etc/elasticsearch/elasticsearch.yml'
     config_dir_path: '/etc/elasticsearch'
     pid_file_path: '/var/run/elasticsearch.pid'
     log_file_path: '/var/log/elasticsearch/elasticsearch.log'

@@ -2,7 +2,7 @@
   logstash::settings:
     package_name: 'logstash'
     service_name: 'logstash'
-    config_file_path: '/etc/logstash/logstash.conf'
+    config_file_path: '/etc/logstash/conf.d/logstash.conf'
     config_dir_path: '/etc/logstash'
     conf_dir_path: '/etc/logstash/conf.d'
     pid_file_path: '/var/run/logstash.pid'
