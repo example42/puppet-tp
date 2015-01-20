@@ -1,7 +1,4 @@
-FROM ubuntu
-MAINTAINER SvenDowideit@docker.com
+FROM example42/ubuntu-1404
 
-RUN apt-get update && apt-get install -y puppet git
-
-RUN puppet apply -e "tp::conf {'redis':  debug => true  }" --modulepath ../.
+RUN puppet apply -e 'tp::install { redis: }'
 

@@ -1,0 +1,9 @@
+FROM ubuntu:14.04
+MAINTAINER Example42
+
+RUN apt-get -y update
+RUN apt-get install -y puppet git
+RUN apt-get -y install rubygems 
+RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+RUN gem install puppet librarian-puppet
+
