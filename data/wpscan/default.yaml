@@ -1,0 +1,12 @@
+---
+  wpscan::settings:
+    source_url: 'https://github.com/wpscanteam/wpscan.git'
+    source_format: 'git'
+    destination_dir: '/opt/wpscan'
+    prerequisite_packages:
+      bundler:
+        provider: gem
+    preinstall_exec:
+    postinstall_exec:
+      bundle_install:
+        command: 'bundle install --without test'
