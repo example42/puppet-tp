@@ -7,6 +7,15 @@ case "$1" in
   *) puppetsuffix="-${1}.el6" ;;
 esac
 
+echo "## Installing SCL and Ruby 193"
+package=ruby-1.9.3.p547-1.el6.x86_64.rpm
+[ -f /tmp/$package ] || wget --quiet http://rpms.southbridge.ru/rhel6/ruby-1.9.3/x86_64/$package -O /tmp/$package
+rpm -qi ruby193 >/dev/null 2>&1
+if [ "x$?" == "x1" ] ; then
+  yum install -y /tmp/$package
+fi
+
+
 echo "## Installing latest Puppet version and dependencies"
 
 rpm -qi epel-release >/dev/null 
@@ -28,14 +37,9 @@ fi
 
 
 echo "## Installing SCL and Ruby 193"
-rpm -qi centos-release-SCL >/dev/null 2>&1
-if [ "x$?" == "x1" ] ; then
-  yum install -y centos-release-SCL
-fi
-
+package=ruby-1.9.3.p547-1.el6.x86_64.rpm
+[ -f /tmp/$package ] || wget --quiet http://rpms.southbridge.ru/rhel6/ruby-1.9.3/x86_64/$package -O /tmp/$package
 rpm -qi ruby193 >/dev/null 2>&1
 if [ "x$?" == "x1" ] ; then
-  yum install -y ruby193
+  yum install -y /tmp/$package
 fi
-
-grep 'PATH LD_LIBRARY_PATH PKG_CONFIG_PATH MAN_PATH' /etc/sudoers || echo 'Defaults    env_keep += "PATH LD_LIBRARY_PATH PKG_CONFIG_PATH MAN_PATH"' >> /etc/sudoers

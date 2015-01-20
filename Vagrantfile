@@ -66,9 +66,9 @@ Vagrant.configure("2") do |config|
          '--show_diff',
          '--pluginsync',
          '--summarize',
-#         '--profile',
-        '--evaltrace',
-        '--trace',
+#        '--profile',
+#        '--evaltrace',
+#        '--trace',
 #        '--debug',
 #        '--parser future',
         ]
