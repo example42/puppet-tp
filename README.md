@@ -36,6 +36,8 @@ Tiny Puppet provides the following defines:
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application 
+- ```tp::netinstall```. (WIP) Installs from a remote url
+- ```tp::github```. (TODO) Installs (anything?;) directly from GitHub source
 
 
 ## Prerequisites and limitations
@@ -307,6 +309,15 @@ Public modules, which are required or optional dependencies for Tiny Puppet are 
 
     librarian-puppet install --puppetfile Puppetfile --path vagrant/modules/public
 
+On the shell of your VM you can run Puppet (same effect of ```vagrant provision```) with:
+
+    root@ubuntu1404:/#  /vagrant/bin/papply_vagrant.sh 
+
+this does a puppet apply on /vagrant/vagrant/manifests/site.pp with the correct parameters.
+
+If you specify a different manifest, puppet apply is done on it:
+
+    root@ubuntu1404:/#  /vagrant/bin/papply_vagrant.sh test.pp 
 
 ### Acceptance tests
 
