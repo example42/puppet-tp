@@ -121,33 +121,70 @@ Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them man
 
 ### Managing configurations
 
-Configure an application main configuration file directly providing its content:
+By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If you use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, you can disable these automatic relationships:
+
+    tp::conf { 'bind':
+      config_file_notify  => false,
+      config_file_require => false,
+    }
+
+You can also set custom resource references to point to actual resources you declare in your manifests:
+
+    tp::conf { 'bind':
+      config_file_notify  => Service['bind9'],
+      config_file_require => Package['bind9-server'],
+    }
+
+It's possible to manage files with different methods, for example directly providing its content:
 
     tp::conf { 'redis':
       content => 'my content is king',
     }
 
-
-Configure any configuration file of an application providing a custom erb template:
+or providing a custom erb template (used as ```content => template($template)```):
 
     tp::conf { 'openssh::ssh_config':
       template    => 'site/openssh/ssh_config.erb',
     }
 
 
-Configure a file providing a custom epp template:
+or using a custom epp template with Puppet code instead of Ruby (used as ```content => epp($epp)```):
 
     tp::conf { 'redis:
       epp   => 'site/redis/redis.conf.epp',
     }
 
 
-Provide a file via the fileserver:
+also it's possible to provide the source to use, instead of managing it with the content argument:
 
     tp::conf { 'redis':
-      source      => 'puppet:///modules/site/redis/redis.conf',
+      source      => [ "puppet:///modules/site/redis/redis.conf-${hostname}" ,
+                       'puppet:///modules/site/redis/redis.conf' ] ,
     }
 
+Tp:conf has some conventions on the actual configuration file manages.
+
+By default, if you just specify the application name, the file managed is the "main" configuration file of that application (in case this is not evident or may be questionable, check the data files for the actual value used).
+
+    # This manages /etc/ssh/sshd_config
+    tp::conf { 'openssh':
+      [...]
+    }
+
+If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the "base" configuration dir:
+
+    # This manages /etc/ssh/ssh_config
+    tp::conf { 'openssh::ssh_config':
+      [...]
+    }
+
+If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog): 
+
+    # This manages /usr/local/bin/openssh_check
+    tp::conf { 'openssh::ssh_check':
+      path => '/usr/local/bin/openssh_check',
+      [...]
+    }
 
 ### Managing directories
 

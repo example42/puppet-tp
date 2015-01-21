@@ -15,8 +15,8 @@ define tp::conf (
   $owner                = undef,
   $group                = undef,
 
-  $config_file_notify   = true, # If Package[$title] exists, require it
-  $config_file_require  = true, # If Service[$title] exists, notify it
+  $config_file_notify   = true,
+  $config_file_require  = true,
 
   $options_hash         = undef,
 
@@ -49,8 +49,8 @@ define tp::conf (
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
-  # Set require if package resource is present 
-  if defined("Package[${settings[package_name]}]") {
+  # Set require if package_name is present 
+  if $settings[package_name] and $settings[package_name] != '' {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
@@ -62,8 +62,8 @@ define tp::conf (
     default   => $config_file_require,
   }
 
-  # Set notify if service resource is present 
-  if defined("Service[${settings[service_name]}]") {
+  # Set notify if service_name is present 
+  if $settings[service_name] and $settings[service_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef
