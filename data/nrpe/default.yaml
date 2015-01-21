@@ -2,7 +2,7 @@
   nrpe::settings:
     package_name: 'nrpe'
     service_name: 'nrpe'
-    config_file_path: '/etc/nrpe/nrpe.conf'
+    config_file_path: '/etc/nagios/nrpe.cfg'
     config_dir_path: '/etc/nrpe.d'
     conf_dir_path: '/etc/nrpe.d'
     pid_file_path: '/var/run/nrpe.pid'
