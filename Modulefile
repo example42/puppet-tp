@@ -1,5 +1,5 @@
 name 'example42-tp'
-version '0.1.0'
+version '0.1.1'
 
 author 'Alessandro Franceschi'
 license 'Apache2'
