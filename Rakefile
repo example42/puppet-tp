@@ -6,3 +6,10 @@ PuppetSyntax.exclude_paths = ['spec/fixtures/**/*']
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.ignore_paths = ['pkg/**/*.pp', 'spec/**/*.pp', 'tests/**/*.pp']
+
+# Blacksmith
+begin
+  require 'puppet_blacksmith/rake_tasks'
+rescue LoadError
+  puts "Blacksmith needed only to push to the Forge"
+end
