@@ -70,12 +70,12 @@ define tp::repo (
     'RedHat': {
       if !defined(Yumrepo[$title]) {
         yumrepo { $title:
-          enabled        => $enabled_num,
-          descr          => $description,
-          baseurl        => $settings[repo_url],
-          gpgcheck       => $manage_yum_gpgcheck,
-          gpgkey         => $settings[key_url],
-          priority       => $settings[yum_priority],
+          enabled  => $enabled_num,
+          descr    => $description,
+          baseurl  => $settings[repo_url],
+          gpgcheck => $manage_yum_gpgcheck,
+          gpgkey   => $settings[key_url],
+          priority => $settings[yum_priority],
         }
       }
     }
@@ -100,7 +100,7 @@ define tp::repo (
           content => template('tp/apt/source.list.erb'),
           notify  => Exec['tp_apt_update'],
         }
-      }       
+      }
 
       if !defined(Exec["tp_aptkey_add_${settings[key]}"])
       and $settings[key]
@@ -112,7 +112,7 @@ define tp::repo (
           before  => File["${title}.list"],
           user    => 'root',
         }
-      }        
+      }
 
       if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
       and $settings[key]
@@ -124,7 +124,7 @@ define tp::repo (
           before  => File["${title}.list"],
           user    => 'root',
         }
-      }        
+      }
 
     }
     default: {
@@ -148,7 +148,7 @@ define tp::repo (
         priority       => ${settings[yum_priority]},
       }
 
-      apt::source { $title:
+      apt::source { ${title}:
         ensure     => ${ensure},
         comment    => ${description},
         location   => ${settings[repo_url]},

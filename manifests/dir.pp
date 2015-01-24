@@ -23,7 +23,7 @@ define tp::dir (
   $force                = undef,
 
   $debug                = false,
-  $debug_dir            = '/tmp', 
+  $debug_dir            = '/tmp',
 
   $data_module          = 'tp',
 
@@ -57,30 +57,30 @@ define tp::dir (
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
 
-  # Set require if package resource is present 
-  if defined("Package[${settings[package_name]}]") {
+  # Set require if package_name is present 
+  if $settings[package_name] and $settings[package_name] != '' {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
   }
-  $manage_require = $config_file_require ? {
+  $manage_require = $config_dir_require ? {
     ''        => undef,
     false     => undef,
     true      => $package_ref,
-    default   => $config_file_require,
+    default   => $config_dir_require,
   }
 
-  # Set notify if service resource is present 
-  if defined("Service[${settings[service_name]}]") {
+  # Set notify if service_name is present 
+  if $settings[service_name] and $settings[package_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef
   }
-  $manage_notify  = $config_file_notify ? {
+  $manage_notify  = $config_dir_notify ? {
     ''        => undef,
     false     => undef,
     true      => $service_ref,
-    default   => $config_file_notify,
+    default   => $config_dir_notify,
   }
 
   $manage_ensure = $ensure ? {
@@ -118,27 +118,26 @@ define tp::dir (
 
   # Debugging
   if $debug == true {
- 
     $debug_file_params = "
-    vcsrepo { $manage_path:
-      ensure   => $manage_ensure,
-      source   => $source,
-      provider => $vcsrepo,
-      owner    => $manage_owner,
-      group    => $manage_group,
+    vcsrepo { ${manage_path}:
+      ensure   => ${manage_ensure},
+      source   => ${source},
+      provider => ${vcsrepo},
+      owner    => ${manage_owner},
+      group    => ${manage_group},
     }
 
-    file { $manage_path:
-      ensure  => $manage_ensure,
-      source  => $source,
-      path    => $manage_path,
-      mode    => $manage_mode,
-      owner   => $manage_owner,
-      group   => $manage_group,
-      require => $manage_require,
-      notify  => $manage_notify,
-      recurse => $recurse,
-      purge   => $purge,
+    file { ${manage_path}:
+      ensure  => ${manage_ensure},
+      source  => ${source},
+      path    => ${manage_path},
+      mode    => ${manage_mode},
+      owner   => ${manage_owner},
+      group   => ${manage_group},
+      require => ${manage_require},
+      notify  => ${manage_notify},
+      recurse => ${recurse},
+      purge   => ${purge},
     }
     "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')

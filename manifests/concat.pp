@@ -81,7 +81,7 @@ define tp::concat (
   # Concat resources
   include concat
   
-  if !defined("::Concat[$manage_path]") {
+  if !defined(Concat[$manage_path]) {
     ::concat { $manage_path:
       ensure         => present,
       path           => $manage_path,
@@ -98,11 +98,11 @@ define tp::concat (
   }
 
   ::concat::fragment { "${manage_path}_${fragment}":
-    ensure         => $ensure,
-    source         => $source,
-    content        => $manage_content,
-    target         => $manage_path,
-    order          => $order,
+    ensure  => $ensure,
+    source  => $source,
+    content => $manage_content,
+    target  => $manage_path,
+    order   => $order,
   }
 
 
@@ -110,25 +110,25 @@ define tp::concat (
   if $debug == true {
  
     $debug_file_params = "
-    concat { $manage_path:
+    concat { ${manage_path}:
       ensure         => present,
-      path           => $manage_path,
-      mode           => $manage_mode,
-      owner          => $manage_owner,
-      group          => $manage_group,
-      require        => $manage_require,
-      notify         => $manage_notify,
-      warn           => $warn,
-      force          => $force,
-      replace        => $replace,
-      ensure_newline => $ensure_newline,
+      path           => ${manage_path},
+      mode           => ${manage_mode},
+      owner          => ${manage_owner},
+      group          => ${manage_group},
+      require        => ${manage_require},
+      notify         => ${manage_notify},
+      warn           => ${warn},
+      force          => ${force},
+      replace        => ${replace},
+      ensure_newline => ${ensure_newline},
     }
 
     concat::fragment { \"${manage_path}_${title}\":
-      ensure         => $ensure,
-      source         => $source,
-      content        => $manage_content,
-      target         => $manage_path,
+      ensure         => ${ensure},
+      source         => ${source},
+      content        => ${manage_content},
+      target         => ${manage_path},
     }
     "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')

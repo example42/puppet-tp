@@ -13,7 +13,6 @@ define tp::test (
   $acceptance_template = 'tp/test/acceptance.erb',
 
   $options_hash        = { },
- 
   $settings_hash       = { },
 
   $data_module         = 'tp',
@@ -59,25 +58,25 @@ define tp::test (
   # TODO: Refine
   if ! defined('/etc/tp') {
     file { '/etc/tp/':
-      ensure  => directory,
-      mode    => 0755,
-      owner   => root,
-      group   => root,
+      ensure => directory,
+      mode   => '0755',
+      owner  => root,
+      group  => root,
     }
   }
 
   if ! defined(File[$base_dir]) {
     file { $base_dir:
-      ensure  => directory,
-      mode    => 0755,
-      owner   => root,
-      group   => root,
+      ensure => directory,
+      mode   => '0755',
+      owner  => root,
+      group  => root,
     }
   }
 
   file { "${base_dir}/${title}":
     ensure  => $ensure,
-    mode    => 0755,
+    mode    => '0755',
     owner   => root,
     group   => root,
     content => template($acceptance_template),

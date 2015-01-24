@@ -22,7 +22,6 @@ define tp::puppi (
   $log_enable     = true ,
 
   $options_hash   = { },
- 
   $settings_hash  = { },
 
   $data_module    = 'tp',
@@ -136,7 +135,7 @@ define tp::puppi (
         owner   => $::puppi::params::configfile_owner,
         group   => $::puppi::params::configfile_group,
         require => Class['puppi'],
-        content => inline_template("<% @infos.each do |cmd| %><%= cmd %><% end %>"),
+        content => inline_template('<% @infos.each do |cmd| %><%= cmd %><% end %>'),
         tag     => 'tp_puppi_info',
       }
     }
@@ -152,7 +151,7 @@ define tp::puppi (
       owner   => $::puppi::params::configfile_owner,
       group   => $::puppi::params::configfile_group,
       require => Class['puppi'],
-      content => inline_template("<% @logs.each do |path| %><%= path %><% end %>"),
+      content => inline_template('<% @logs.each do |path| %><%= path %><% end %>'),
       tag     => 'tp_puppi_log',
     }
   }

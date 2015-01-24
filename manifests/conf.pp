@@ -92,18 +92,17 @@ define tp::conf (
 
   # Debugging
   if $debug == true {
- 
     $debug_file_params = "
     file { 'tp_conf_${manage_path}':
-     ensure  => $ensure,
-      source  => $source,
-      content => $manage_content,
-      path    => $manage_path,
-      mode    => $manage_mode,
-      owner   => $manage_owner,
-      group   => $manage_group,
-      require => $manage_require,
-      notify  => $manage_notify,
+      ensure  => ${ensure},
+      source  => ${source},
+      content => ${manage_content},
+      path    => ${manage_path},
+      mode    => ${manage_mode},
+      owner   => ${manage_owner},
+      group   => ${manage_group},
+      require => ${manage_require},
+      notify  => ${manage_notify},
     }
     "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')

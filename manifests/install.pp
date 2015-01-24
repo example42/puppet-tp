@@ -92,7 +92,7 @@ define tp::install (
     service { $settings[service_name]:
       ensure  => $service_ensure,
       enable  => $service_enable,
-      require => $service_require, 
+      require => $service_require,
     }
   }
 

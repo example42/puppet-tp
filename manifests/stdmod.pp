@@ -72,13 +72,13 @@ define tp::stdmod (
     config_dir_force          => $config_dir_force,
     config_dir_recurse        => $config_dir_recurse,
   }
-  $user_settings_clean = delete_undef_values($user_settings)  
+  $user_settings_clean = delete_undef_values($user_settings)
   $settings = merge($tp_settings,$user_settings_clean)
 
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
-    'default' => "Service[$settings[service_name]",
+    'default' => "Service[${settings[service_name]}]",
     'undef'   => undef,
     ''        => undef,
     default   => $config_file_notify,
@@ -120,7 +120,7 @@ define tp::stdmod (
     service { $settings[service_name]:
       ensure => $settings[service_ensure],
       enable => $settings[service_enable],
-    } 
+    }
   }
 
   if $config_file_source
@@ -161,7 +161,6 @@ define tp::stdmod (
 
   # Debugging
   if $debug == true {
- 
     $debug_file_params = "
     package { ${settings[package_name]}:
       ensure => ${settings[package_ensure]},
@@ -173,26 +172,26 @@ define tp::stdmod (
     } 
 
     file { ${settings[config_file_path]}:
-      ensure  => $config_file_ensure,
+      ensure  => ${config_file_ensure},
       path    => ${settings[config_file_path]},
       mode    => ${settings[config_file_mode]},
       owner   => ${settings[config_file_owner]},
       group   => ${settings[config_file_group]},
       source  => ${settings[config_file_source]},
-      content => $manage_config_file_content,
-      notify  => $manage_config_file_notify,
-      require => $manage_config_file_require,
+      content => ${manage_config_file_content},
+      notify  => ${manage_config_file_notify},
+      require => ${manage_config_file_require},
     }
 
     file { ${settings[config_dir_path]}:
-      ensure  => $config_dir_ensure,
+      ensure  => ${config_dir_ensure},
       path    => ${settings[config_dir_path]},
-      source  => $config_dir_source,
+      source  => ${config_dir_source},
       recurse => ${settings[config_dir_recurse]},
       purge   => ${settings[config_dir_purge]},
       force   => ${settings[config_dir_force]},
-      notify  => $manage_config_file_notify,
-      require => $manage_config_file_require,
+      notify  => ${manage_config_file_notify},
+      require => ${manage_config_file_require},
     }
     "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
