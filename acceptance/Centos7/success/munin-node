@@ -1,52 +1,17 @@
 # Package status
-Name        : munin-node
-Version     : 2.0.25
-Release     : 1.el7
-Architecture: noarch
-Install Date: Sun 04 Jan 2015 02:29:57 PM EST
-Group       : System Environment/Daemons
-Size        : 1346376
-License     : GPLv2
-Signature   : RSA/SHA256, Sat 29 Nov 2014 04:15:07 PM EST, Key ID 6a2faea2352c64e5
-Source RPM  : munin-2.0.25-1.el7.src.rpm
-Build Date  : Wed 26 Nov 2014 02:39:34 PM EST
-Build Host  : buildhw-07.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://munin-monitoring.org/
-Summary     : Network-wide graphing framework (node)
-Description :
-Munin is a highly flexible and powerful solution used to create graphs
-of virtually everything imaginable throughout your network, while still
-maintaining a rattling ease of installation and configuration.
-
-This package contains node software. You should install it on all the nodes
-in your network. It will know how to extract all sorts of data from the
-node it runs on, and will wait for the gatherer to request this data for
-further processing.
-
-It includes a range of plugins capable of extracting common values such as
-cpu usage, network usage, load average, and so on. Creating your own plugins
-which are capable of extracting other system-specific values is very easy,
-and is often done in a matter of minutes. You can also create plugins which
-relay information from other devices in your network that can't run Munin,
-such as a switch or a server running another operating system, by using SNMP
-or similar technology.
-
-Munin is written in Perl, and relies heavily on Tobi Oetiker's excellent
-RRDtool.
+munin-node-2.0.25-1.el7.noarch
 
 # Service status
 Redirecting to /bin/systemctl status  munin-node.service
 munin-node.service - Munin Node Server.
    Loaded: loaded (/usr/lib/systemd/system/munin-node.service; enabled)
-   Active: [1;32mactive (running)[0m since Sun 2015-01-04 14:40:11 EST; 3s ago
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:31:40 EST; 2s ago
      Docs: man:munin-node
- Main PID: 7496 (munin-node)
+ Main PID: 3649 (munin-node)
    CGroup: /system.slice/munin-node.service
-           └─7496 /usr/bin/perl -wT /usr/sbin/munin-node
+           └─3649 /usr/bin/perl -wT /usr/sbin/munin-node
 
-Jan 04 14:40:11 localhost.localdomain systemd[1]: Starting Munin Node Server....
-Jan 04 14:40:11 localhost.localdomain systemd[1]: PID file /var/run/munin/munin-node.pid not readable (yet?) after start.
-Jan 04 14:40:11 localhost.localdomain systemd[1]: Started Munin Node Server..
+Jan 24 11:31:40 centos7.example42.com systemd[1]: Starting Munin Node Server....
+Jan 24 11:31:40 centos7.example42.com systemd[1]: PID file /var/run/munin/mun...
+Jan 24 11:31:40 centos7.example42.com systemd[1]: Started Munin Node Server..
+Hint: Some lines were ellipsized, use -l to show in full.

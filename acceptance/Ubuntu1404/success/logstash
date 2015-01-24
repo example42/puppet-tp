@@ -1,21 +1,10 @@
 # Package status
-Package: logstash
-Status: install ok installed
-Priority: extra
-Section: default
-Installed-Size: 138320
-Maintainer: <jls@oh-my>
-Architecture: all
-Version: 1.4.2-1-2c0f5a1
-Depends: java7-runtime-headless | java6-runtime-headless | j2re1.7
-Conffiles:
- /etc/default/logstash 399f19c4d762840a36f6bc056c3739b8
- /etc/default/logstash-web d94db9f8dc1d4ced449175a96e8df09d
- /etc/logrotate.d/logstash 9bb11b4b058868bb41c658c9c3152a83
-Description: An extensible logging pipeline
-License: Apache 2.0
-Vendor: Elasticsearch
-Homepage: http://logstash.net
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  logstash       1.4.2-1-2c0f all          An extensible logging pipeline
 
 # Service status
-logstash start/running, process 9163
+logstash start/running, process 7157

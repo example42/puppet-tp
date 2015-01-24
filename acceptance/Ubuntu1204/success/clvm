@@ -1,24 +1,10 @@
 # Package status
-Package: clvm
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 654
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: lvm2
-Version: 2.02.66-4ubuntu7.4
-Depends: libc6 (>= 2.15), libcman3 (>= 3.1.7), libconfdb4 (>= 1.4.2), libcpg4 (>= 1.4.2), libdevmapper-event1.02.1 (>= 2:1.02.20), libdevmapper1.02.1 (>= 2:1.02.44), libdlm3 (>= 3.1.7), libquorum4 (>= 1.4.2), libsalck3 (>= 1.1.4), lvm2 (= 2.02.66-4ubuntu7.4), lsb-base, corosync | cman
-Conffiles:
- /etc/init.d/clvm c6217a976a8d7fb37aa0e8ee943b1e2a
- /etc/default/clvm bc56072b3bd711fd1d4078d903a45bba
-Description: Cluster LVM Daemon for lvm2
- This package provides the clustering interface for lvm2, when used with
- Red Hat's "cman" or corosync based (eg Pacemaker) cluster infrastructure.
- It allows logical volumes to be created on shared storage devices
- (eg Fibre Channel, or iSCSI).
-Homepage: http://sources.redhat.com/lvm2/
-Original-Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  clvm                     2.02.66-4ubuntu7.4       Cluster LVM Daemon for lvm2
 
 # Service status
  [31m*[39;49m clvmd: cluster not configured. Aborting.

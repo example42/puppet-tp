@@ -1,28 +1,10 @@
 # Package status
-Package: sysklogd
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 228
-Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 1.5-6ubuntu1
-Replaces: syslogd
-Provides: syslogd, system-log-daemon
-Depends: libc6 (>= 2.11), klogd | linux-kernel-log-daemon, adduser, lsb-base (>= 3.2-12ubuntu3), sysv-rc (>= 2.86.ds1-14.1ubuntu2)
-Conflicts: syslogd
-Conffiles:
- /etc/default/syslogd 723ca7411cc4fb42e9808b9dea96fa94
- /etc/syslog.conf ea9af8d2c94ab4289d044d613acf2ea4
- /etc/init.d/sysklogd a1a53c09d77f0c67f154f6a66134db4a
- /etc/cron.daily/sysklogd edbd559f90aeeadf3465d6a811d32272
- /etc/cron.weekly/sysklogd 4ced1b47069c48eace9fe5e9261af586
-Description: System Logging Daemon
- This package implements the system log daemon, which is an enhanced
- version of the standard Berkeley utility program. It is responsible
- for providing logging of messages received from programs and facilities
- on the local host as well as from remote hosts.
-Original-Maintainer: Martin Schulze <joey@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  sysklogd                 1.5-6ubuntu1             System Logging Daemon
 
 # Service status
 syslog: unrecognized service

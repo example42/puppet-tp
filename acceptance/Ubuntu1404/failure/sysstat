@@ -1,38 +1,4 @@
 # Package status
-Package: sysstat
-Status: install ok installed
-Priority: optional
-Section: admin
-Installed-Size: 856
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 10.2.0-1
-Depends: bzip2, lsb-base (>= 3.0-6), ucf (>= 2.003), debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.14), libsensors4 (>= 1:3.0.0)
-Recommends: cron
-Suggests: isag
-Conffiles:
- /etc/cron.daily/sysstat 19b1317e195208eed1a0bcd68be2e637
- /etc/cron.d/sysstat 455c3c071b6daabb4e4490828975034c
- /etc/init.d/sysstat 577050178b0105b10118acfe3335de3f
- /etc/sysstat/sysstat.ioconf fa92b01baa2130e26822c30fb27ac56e
- /etc/sysstat/sysstat dc1fdd130da993c2e5f8c34ca2042492
-Description: system performance tools for Linux
- The sysstat package contains the following system performance tools:
-  - sar: collects and reports system activity information;
-  - iostat: reports CPU utilization and disk I/O statistics;
-  - mpstat: reports global and per-processor statistics;
-  - pidstat: reports statistics for Linux tasks (processes);
-  - sadf: displays data collected by sar in various formats;
-  - nfsiostat: reports I/O statistics for network filesystems;
-  - cifsiostat: reports I/O statistics for CIFS filesystems.
- .
- The statistics reported by sar deal with I/O transfer rates,
- paging activity, process-related activities, interrupts,
- network activity, memory and swap space utilization, CPU
- utilization, kernel activities and TTY statistics, among
- others. Both UP and SMP machines are fully supported.
-Original-Maintainer: Robert Luberda <robert@debian.org>
-Homepage: http://pagesperso-orange.fr/sebastien.godard/
 
 # Service status
- [31m*[39;49m sadc cron jobs are disabled
+sysstat: unrecognized service

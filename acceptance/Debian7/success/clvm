@@ -2,26 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: clvm
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 712
-Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Multi-Arch: foreign
-Source: lvm2
-Version: 2.02.95-8
-Depends: libc6 (>= 2.4), libcman3 (>= 3.0.12), libconfdb4 (>= 1.4.2), libcpg4 (>= 1.4.2), libdevmapper-event1.02.1 (>= 2:1.02.74), libdevmapper1.02.1 (>= 2:1.02.74), libdlm3 (>= 3.0.12), libquorum4 (>= 1.4.2), libsalck3 (>= 1.1.4), libudev0 (>= 0.140), lvm2 (= 2.02.95-8), lsb-base
-Recommends: corosync | openais | cman
-Conffiles:
- /etc/init.d/clvm 1be1fa7eb1198b1c33cfd9acbd47b3a8
-Description: Cluster LVM Daemon for lvm2
- This package provides the clustering interface for lvm2, when used with
- Red Hat's "cman" or corosync based (eg Pacemaker) cluster infrastructure.
- It allows logical volumes to be created on shared storage devices
- (eg Fibre Channel, or iSCSI).
-Homepage: http://sources.redhat.com/lvm2/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  clvm                     2.02.95-8         amd64             Cluster LVM Daemon for lvm2
 
 # Service status
 [....] clvmd: cluster not configured. Aborting. ...[?25l7[1G[[31mFAIL[39;49m8[?12l[?25h [31mfailed![39;49m

@@ -1,42 +1,10 @@
 # Package status
-Package: ntp
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 1476
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 1:4.2.6.p3+dfsg-1ubuntu3.2
-Replaces: apparmor (<< 2.3.1+1403-0ubuntu10), apparmor-profiles (<< 2.3.1+1403-0ubuntu10)
-Depends: adduser, lsb-base (>= 3.2-13), netbase, libc6 (>= 2.15), libcap2 (>= 2.10), libedit2 (>= 2.11-20080614-1), libopts25 (>= 1:5.12), libssl1.0.0 (>= 1.0.0)
-Pre-Depends: dpkg (>= 1.15.7.2)
-Recommends: perl
-Suggests: ntp-doc, apparmor (>= 2.1+1075-0ubuntu6)
-Breaks: dhcp3-client (<< 4.1.0-1)
-Conflicts: apparmor (<< 2.3.1+1403-0ubuntu10), apparmor-profiles (<< 2.3.1+1403-0ubuntu10)
-Conffiles:
- /etc/dhcp/dhclient-exit-hooks.d/ntp f22a8b425cdecdd770cf33cc61b91ce4
- /etc/apparmor.d/tunables/ntpd 5519e4c01535818cb26f2ef9e527f191
- /etc/apparmor.d/usr.sbin.ntpd f4a91cde4bd3e23f86e497b1ac103043
- /etc/default/ntp cd7a62fbb18fa8fe5893dee93064b328
- /etc/cron.daily/ntp b88b0f0a4d3b4beec0cc4b09b6c2aaea
- /etc/init.d/ntp 7cff26c0420a53cfb71ab315dd257f8d
- /etc/ntp.conf 32280703a4ba7aa1148c48895097ed07
-Description: Network Time Protocol daemon and utility programs
- NTP, the Network Time Protocol, is used to keep computer clocks
- accurate by synchronizing them over the Internet or a local network,
- or by following an accurate hardware receiver that interprets GPS,
- DCF-77, NIST or similar time signals.
- .
- This package contains the NTP daemon and utility programs.  An NTP
- daemon needs to be running on each host that is to have its clock
- accuracy controlled by NTP.  The same NTP daemon is also used to
- provide NTP service to other hosts.
- .
- For more information about the NTP protocol and NTP server
- configuration and operation, install the package "ntp-doc".
-Homepage: http://support.ntp.org/
-Original-Maintainer: Debian NTP Team <pkg-ntp-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  ntp                      1:4.2.6.p3+dfsg-1ubuntu3 Network Time Protocol daemon and utility programs
 
 # Service status
  * NTP server is running

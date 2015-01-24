@@ -1,39 +1,17 @@
 # Package status
-Name        : lighttpd
-Version     : 1.4.35
-Release     : 1.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:16:18 AM EST
-Group       : System Environment/Daemons
-Size        : 905077
-License     : BSD
-Signature   : RSA/SHA256, Fri 14 Mar 2014 08:09:15 PM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : lighttpd-1.4.35-1.el7.src.rpm
-Build Date  : Wed 12 Mar 2014 01:19:44 PM EDT
-Build Host  : buildvm-16.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://www.lighttpd.net/
-Summary     : Lightning fast webserver with light system requirements
-Description :
-Secure, fast, compliant and very flexible web-server which has been optimized
-for high-performance environments. It has a very low memory footprint compared
-to other webservers and takes care of cpu-load. Its advanced feature-set
-(FastCGI, CGI, Auth, Output-Compression, URL-Rewriting and many more) make
-it the perfect webserver-software for every server that is suffering load
-problems.
+lighttpd-1.4.35-1.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  lighttpd.service
 lighttpd.service - Lightning Fast Webserver With Light System Requirements
    Loaded: loaded (/usr/lib/systemd/system/lighttpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:16:18 EST; 2s ago
- Main PID: 26937 (lighttpd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:24:26 EST; 2s ago
+ Main PID: 27959 (lighttpd)
    CGroup: /system.slice/lighttpd.service
-           └─26937 /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
+           └─27959 /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
 
-Jan 01 08:16:18 centos7.example42.com systemd[1]: Started Lightning Fast Webserver With Light System Requirements.
-Jan 01 08:16:18 centos7.example42.com lighttpd[26937]: 2015-01-01 08:16:18: (network.c.283) warning: please use server.use-ipv6 only for hostnames, not without server.bind / empty address;...ONLY changes
-Jan 01 08:16:18 centos7.example42.com lighttpd[26937]: 2015-01-01 08:16:18: (server.c.927) can't have more connections than fds/2:  1024 1024
+Jan 24 11:24:26 centos7.example42.com systemd[1]: Starting Lightning Fast Web...
+Jan 24 11:24:26 centos7.example42.com systemd[1]: Started Lightning Fast Webs...
+Jan 24 11:24:26 centos7.example42.com lighttpd[27959]: 2015-01-24 11:24:26: (...
+Jan 24 11:24:26 centos7.example42.com lighttpd[27959]: 2015-01-24 11:24:26: (...
 Hint: Some lines were ellipsized, use -l to show in full.

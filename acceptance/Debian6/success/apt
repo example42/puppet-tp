@@ -2,27 +2,9 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: apt
-Status: install ok installed
-Priority: important
-Section: admin
-Installed-Size: 5644
-Maintainer: APT Development Team <deity@lists.debian.org>
-Architecture: amd64
-Version: 0.8.10.3+squeeze1
-Replaces: manpages-pl (<< 20060617-3~)
-Provides: libapt-pkg4.10
-Depends: libc6 (>= 2.3.4), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.4.0), zlib1g (>= 1:1.2.2.3), debian-archive-keyring, gnupg
-Suggests: aptitude | synaptic | wajig, dpkg-dev, apt-doc, bzip2, lzma, python-apt
-Conflicts: python-apt (<< 0.7.93.2~)
-Conffiles:
- /etc/cron.daily/apt 49835cbcfa6a9d9259f1724fe2a32b86
- /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3
- /etc/apt/apt.conf.d/01autoremove 11e238fef20cf1b89c79140c7be9c964
-Description: Advanced front-end for dpkg
- This is Debian's next generation front-end for the dpkg package manager.
- It provides the apt-get utility and APT dselect method that provides a
- simpler, safer way to install and upgrade packages.
- .
- APT features complete installation ordering, multiple source capability
- and several other unique features, see the Users Guide in apt-doc.
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  apt                      0.8.10.3+squeeze1        Advanced front-end for dpkg

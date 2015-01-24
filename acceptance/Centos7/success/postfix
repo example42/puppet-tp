@@ -1,39 +1,20 @@
 # Package status
-Name        : postfix
-Epoch       : 2
-Version     : 2.10.1
-Release     : 6.el7
-Architecture: x86_64
-Install Date: Fri 01 Aug 2014 08:34:07 AM EDT
-Group       : System Environment/Daemons
-Size        : 12773475
-License     : IBM and GPLv2+
-Signature   : RSA/SHA256, Fri 04 Jul 2014 12:33:15 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : postfix-2.10.1-6.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 09:39:36 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.postfix.org
-Summary     : Postfix Mail Transport Agent
-Description :
-Postfix is a Mail Transport Agent (MTA), supporting LDAP, SMTP AUTH (SASL),
-TLS
+postfix-2.10.1-6.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  postfix.service
 postfix.service - Postfix Mail Transport Agent
    Loaded: loaded (/usr/lib/systemd/system/postfix.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:25:28 EST; 2s ago
-  Process: 11303 ExecStart=/usr/sbin/postfix start (code=exited, status=0/SUCCESS)
-  Process: 11300 ExecStartPre=/usr/libexec/postfix/chroot-update (code=exited, status=0/SUCCESS)
-  Process: 11298 ExecStartPre=/usr/libexec/postfix/aliasesdb (code=exited, status=0/SUCCESS)
- Main PID: 11375 (master)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:38:16 EST; 2s ago
+  Process: 13987 ExecStart=/usr/sbin/postfix start (code=exited, status=0/SUCCESS)
+  Process: 13984 ExecStartPre=/usr/libexec/postfix/chroot-update (code=exited, status=0/SUCCESS)
+  Process: 13982 ExecStartPre=/usr/libexec/postfix/aliasesdb (code=exited, status=0/SUCCESS)
+ Main PID: 14059 (master)
    CGroup: /system.slice/postfix.service
-           ├─11375 /usr/libexec/postfix/master -w
-           ├─11376 pickup -l -t unix -u
-           └─11380 qmgr -l -t unix -u
+           ├─14059 /usr/libexec/postfix/master -w
+           ├─14060 pickup -l -t unix -u
+           └─14061 qmgr -l -t unix -u
 
-Jan 01 08:25:28 centos7.example42.com postfix/master[11375]: daemon started -- version 2.10.1, configuration /etc/postfix
-Jan 01 08:25:28 centos7.example42.com systemd[1]: Started Postfix Mail Transport Agent.
+Jan 24 11:38:16 centos7.example42.com postfix/master[14059]: daemon started -...
+Jan 24 11:38:16 centos7.example42.com systemd[1]: Started Postfix Mail Transp...
+Hint: Some lines were ellipsized, use -l to show in full.

@@ -2,41 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: rsyslog
-Status: install ok installed
-Priority: important
-Section: admin
-Installed-Size: 1305
-Maintainer: Michael Biebl <biebl@debian.org>
-Architecture: amd64
-Version: 5.8.11-2
-Provides: linux-kernel-log-daemon, system-log-daemon
-Depends: libc6 (>= 2.9), zlib1g (>= 1:1.1.4), lsb-base (>= 3.2-14), initscripts (>= 2.88dsf-13.3)
-Recommends: logrotate
-Suggests: rsyslog-mysql | rsyslog-pgsql, rsyslog-doc, rsyslog-gnutls, rsyslog-gssapi, rsyslog-relp
-Conflicts: linux-kernel-log-daemon, system-log-daemon
-Conffiles:
- /etc/rsyslog.conf 169baf73fd49d20d142d088e663a9a63
- /etc/init.d/rsyslog 33f03646a4bc12656182034e79759b1b
- /etc/logrotate.d/rsyslog b995d89ccfe4a83ac3ffc5ab95b80f7b
- /etc/default/rsyslog 4e261348985ab81709d38359ea8f5c7d
- /etc/logcheck/ignore.d.server/rsyslog 650507df599fbbdd6cb4142bd77fd2ff
-Description: reliable system and kernel logging daemon
- Rsyslog is a multi-threaded implementation of syslogd (a system utility
- providing support for message logging), with features that include:
-  * reliable syslog over TCP, SSL/TLS and RELP
-  * on-demand disk buffering
-  * email alerting
-  * writing to MySQL or PostgreSQL databases (via separate output plugins)
-  * permitted sender lists
-  * filtering on any part of the syslog message
-  * on-the-wire message compression
-  * fine-grained output format control
-  * failover to backup destinations
-  * enterprise-class encrypted syslog relaying
- .
- It is the default syslogd on Debian systems.
-Homepage: http://www.rsyslog.com/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  rsyslog                  5.8.11-2          amd64             reliable system and kernel logging daemon
 
 # Service status
 [....] rsyslogd is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

@@ -1,25 +1,2 @@
 # Package status
-Name        : subversion
-Version     : 1.7.14
-Release     : 6.el7
-Architecture: x86_64
-Install Date: Fri 01 Aug 2014 08:34:06 AM EDT
-Group       : Development/Tools
-Size        : 4844375
-License     : ASL 2.0
-Signature   : RSA/SHA256, Fri 04 Jul 2014 01:06:22 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : subversion-1.7.14-6.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 03:27:20 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://subversion.apache.org/
-Summary     : A Modern Concurrent Version Control System
-Description :
-Subversion is a concurrent version control system which enables one
-or more users to collaborate in developing and maintaining a
-hierarchy of files and directories while keeping a history of all
-changes.  Subversion only stores the differences between versions,
-instead of every complete file.  Subversion is intended to be a
-compelling replacement for CVS.
+subversion-1.7.14-6.el7.x86_64

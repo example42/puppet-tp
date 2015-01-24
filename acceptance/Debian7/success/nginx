@@ -2,23 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: nginx
-Status: install ok installed
-Priority: optional
-Section: httpd
-Installed-Size: 87
-Maintainer: Kartik Mistry <kartik@debian.org>
-Architecture: all
-Version: 1.2.1-2.2+wheezy3
-Depends: nginx-full | nginx-light
-Description: small, powerful, scalable web/proxy server
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers.
- .
- This is a dependency package to install either nginx-full (by default) or
-  nginx-light.
-Homepage: http://nginx.net
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  nginx                    1.2.1-2.2+wheezy3 all               small, powerful, scalable web/proxy server
 
 # Service status
 [....] nginx is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

@@ -1,43 +1,10 @@
 # Package status
-Package: nagios3
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 29
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 3.5.1-1ubuntu1
-Depends: nagios3-cgi (= 3.5.1-1ubuntu1), nagios3-core (= 3.5.1-1ubuntu1)
-Suggests: nagios-nrpe-plugin
-Description: host/service/network monitoring and management system
- Nagios is a monitoring and management system for hosts, services and
- networks.
- .
- Nagios' features include:
- .
-  *  Monitoring of network services (via TCP port, SMTP, POP3, HTTP, NNTP,
-     PING, etc.)
-  *  Plugin interface to allow for user-developed service checks
-  *  Contact notifications when problems occur and get resolved (via email,
-     pager, or user-defined method)
-  *  Ability to define event handlers to be run during service or host events
-     (for proactive problem resolution)
-  *  Web output (current status, notifications, problem history, log file, etc.)
- .
- Nagios was written in C and is designed to be easy to understand and modify
- to fit your own needs.
- .
- This is a metapackage which depends on the nagios core and the webfrontend
- .
- This package is the new version 3.x series of nagios, which replaced
- the 2.x versions.
- .
- Nagios is a replacement of the Netsaint project. It accepts and uses the
- previous Netsaint modules transparently.
- .
- Upstream URL: http://www.nagios.org/
-Homepage: http://www.nagios.org/
-Original-Maintainer: Debian Nagios Maintainer Group <pkg-nagios-devel@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  nagios3        3.5.1-1ubunt amd64        host/service/network monitoring a
 
 # Service status
- * checking /usr/sbin/nagios3...       [203G [197G[ OK ]
+ * checking /usr/sbin/nagios3...       [80G [74G[ OK ]

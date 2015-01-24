@@ -1,27 +1,7 @@
 # Package status
-Package: vim-common
-Status: install ok installed
-Priority: important
-Section: editors
-Installed-Size: 295
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: vim
-Version: 2:7.3.429-2ubuntu2.1
-Depends: libc6 (>= 2.3.4)
-Recommends: vim | vim-gnome | vim-gtk | vim-athena | vim-nox | vim-tiny
-Conffiles:
- /etc/vim/vimrc 682aa2a07693cc27756eee9751db3903
-Description: Vi IMproved - Common files
- Vim is an almost compatible version of the UNIX editor Vi.
- .
- Many new features have been added: multi level undo, syntax
- highlighting, command line history, on-line help, filename
- completion, block operations, folding, Unicode support, etc.
- .
- This package contains files shared by all non GUI-enabled vim
- variants (vim and vim-tiny currently) available in Debian.
- Examples of such shared files are: manpages, common executables
- like xxd, and configuration files.
-Homepage: http://www.vim.org/
-Original-Maintainer: Debian Vim Maintainers <pkg-vim-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  vim-common               2:7.3.429-2ubuntu2.1     Vi IMproved - Common files

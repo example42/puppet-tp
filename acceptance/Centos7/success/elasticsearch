@@ -1,30 +1,16 @@
 # Package status
-Name        : elasticsearch
-Version     : 1.4.2
-Release     : 1
-Architecture: noarch
-Install Date: Sun 04 Jan 2015 04:37:05 AM EST
-Group       : Application/Internet
-Size        : 30200109
-License     : 2013, Elasticsearch
-Signature   : RSA/SHA1, Tue 16 Dec 2014 09:37:54 AM EST, Key ID d27d666cd88e42b4
-Source RPM  : elasticsearch-1.4.2-1.src.rpm
-Build Date  : Tue 16 Dec 2014 09:12:23 AM EST
-Build Host  : haswell
-Relocations : /usr 
-Packager    : Elasticsearch
-Summary     : elasticsearch
-Description :
-Elasticsearch - Open Source, Distributed, RESTful Search Engine
+elasticsearch-1.4.2-1.noarch
 
 # Service status
 elasticsearch.service - Starts and stops a single elasticsearch instance on this system
    Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; enabled)
-   Active: [1;32mactive (running)[0m since Sun 2015-01-04 04:37:07 EST; 5min ago
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:18:56 EST; 2s ago
      Docs: http://www.elasticsearch.org
- Main PID: 4417 (java)
+ Main PID: 19005 (java)
    CGroup: /system.slice/elasticsearch.service
-           └─4417 java -Xms256m -Xmx1g -Xss256k -Djava.awt.headless=true -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSI...
+           └─19005 java -Xms256m -Xmx1g -Xss256k -Djava.awt.headless=true -XX...
 
-Jan 04 04:37:07 localhost.localdomain systemd[1]: PID file /var/run/elasticsearch/elasticsearch.pid not readable (yet?) after start.
-Jan 04 04:37:07 localhost.localdomain systemd[1]: Started Starts and stops a single elasticsearch instance on this system.
+Jan 24 11:18:55 centos7.example42.com systemd[1]: Starting Starts and stops a...
+Jan 24 11:18:56 centos7.example42.com systemd[1]: PID file /var/run/elasticse...
+Jan 24 11:18:56 centos7.example42.com systemd[1]: Started Starts and stops a ...
+Hint: Some lines were ellipsized, use -l to show in full.

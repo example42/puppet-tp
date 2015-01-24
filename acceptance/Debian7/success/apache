@@ -2,24 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: apache2
-Status: install ok installed
-Priority: optional
-Section: httpd
-Installed-Size: 29
-Maintainer: Debian Apache Maintainers <debian-apache@lists.debian.org>
-Architecture: amd64
-Version: 2.2.22-13+deb7u3
-Depends: apache2-mpm-worker (= 2.2.22-13+deb7u3) | apache2-mpm-prefork (= 2.2.22-13+deb7u3) | apache2-mpm-event (= 2.2.22-13+deb7u3) | apache2-mpm-itk (= 2.2.22-13+deb7u3), apache2.2-common (= 2.2.22-13+deb7u3)
-Description: Apache HTTP Server metapackage
- The Apache Software Foundation's goal is to build a secure, efficient and
- extensible HTTP server as standards-compliant open source software. The
- result has long been the number one web server on the Internet.
- .
- It features support for HTTPS, virtual hosting, CGI, SSI, IPv6, easy
- scripting and database integration, request/response filtering, many
- flexible authentication schemes, and more.
-Homepage: http://httpd.apache.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  apache2                  2.2.22-13+deb7u4  amd64             Apache HTTP Server metapackage
 
 # Service status
-Apache2 is running (pid 18395).
+Apache2 is running (pid 15491).

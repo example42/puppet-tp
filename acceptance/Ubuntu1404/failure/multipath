@@ -1,26 +1,10 @@
 # Package status
-Package: multipath-tools
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 626
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 0.4.9-3ubuntu7.2
-Depends: libaio1 (>= 0.3.106-8), libc6 (>= 2.14), libdevmapper1.02.1 (>= 2:1.02.36), libreadline6 (>= 6.0), udev (>> 136-1), initscripts (>= 2.85-16), kpartx (>= 0.4.9-3ubuntu7.2), lsb-base (>= 3)
-Suggests: multipath-tools-boot
-Conflicts: multipath-tools-boot (<= 0.4.8+git0.761c66f-2~), multipath-tools-initramfs (<= 1.0.1)
-Conffiles:
- /etc/init.d/multipath-tools-boot e3b1a4949a282ceeda254c185f780002
- /etc/init.d/multipath-tools b0f5ff36184c823ec91ffd8b36133949
-Description: maintain multipath block device access
- These tools are in charge of maintaining the disk multipath device maps and
- react to path and map events.
- .
- If you install this package you may have to change the way you address block
- devices. See README.Debian for details.
-Homepage: http://christophe.varoqui.free.fr/
-Original-Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  multipath-tool 0.4.9-3ubunt amd64        maintain multipath block device a
 
 # Service status
 Usage: /etc/init.d/multipath-tools {start|stop|restart|reload|force-reload}

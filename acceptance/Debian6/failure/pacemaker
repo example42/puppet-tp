@@ -2,28 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: pacemaker
-Status: install ok installed
-Priority: optional
-Section: admin
-Installed-Size: 2972
-Maintainer: Debian HA Maintainers <debian-ha-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Version: 1.0.9.1+hg15626-1
-Replaces: pacemaker-heartbeat, pacemaker-openais
-Depends: libbz2-1.0, libc6 (>= 2.4), libcluster-glue, libcorosync4 (>= 1.2.1), libesmtp5 (>= 0.8.8), libglib2.0-0 (>= 2.24.0), libgnutls26 (>= 2.7.14-0), libheartbeat2 (>= 1:3.0.3), libltdl7 (>= 2.2.6b), libncurses5 (>= 5.7+20100313), libpam0g (>= 0.99.7.1), libsnmp15 (>= 5.4.3~dfsg), libssl0.9.8 (>= 0.9.8m-1), libuuid1 (>= 2.16), libxml2 (>= 2.7.4), libxslt1.1 (>= 1.1.25), python (<< 2.7), python (>= 2.6), python-central (>= 0.6.11), cluster-agents, adduser, corosync (>= 1.1.2) | heartbeat (>= 3.0)
-Conflicts: pacemaker-heartbeat, pacemaker-openais
-Description: HA cluster resource manager
- High-Availability cluster resource manager for Heartbeat as
- well as Corosync.
- .
- Pacemaker supports a very sophisticated dependency model for
- n-node clusters and can respond to node and resource-level
- failures.
- .
- It supports both the Heartbeat and Corosync cluster stacks.
-Homepage: http://clusterlabs.org/
-Python-Version: 2.6
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  pacemaker                1.0.9.1+hg15626-1        HA cluster resource manager
 
 # Service status
 pacemaker: unrecognized service

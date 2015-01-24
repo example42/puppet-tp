@@ -1,43 +1,18 @@
 # Package status
-Name        : haproxy
-Version     : 1.5.2
-Release     : 3.el7_0
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:13:56 AM EST
-Group       : System Environment/Daemons
-Size        : 2629581
-License     : GPLv2+
-Signature   : RSA/SHA256, Wed 24 Sep 2014 10:40:49 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : haproxy-1.5.2-3.el7_0.src.rpm
-Build Date  : Wed 24 Sep 2014 10:08:26 AM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://haproxy.1wt.eu/
-Summary     : HA-Proxy is a TCP/HTTP reverse proxy for high availability environments
-Description :
-HA-Proxy is a TCP/HTTP reverse proxy which is particularly suited for high
-availability environments. Indeed, it can:
-- route HTTP requests depending on statically assigned cookies
-- spread the load among several servers while assuring server persistence
-  through the use of HTTP cookies
-- switch to backup servers in the event a main one fails
-- accept connections to special ports dedicated to service monitoring
-- stop accepting connections without breaking existing ones
-- add/modify/delete HTTP headers both ways
-- block requests matching a particular pattern
+haproxy-1.5.2-3.el7_0.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  haproxy.service
 haproxy.service - HAProxy Load Balancer
    Loaded: loaded (/usr/lib/systemd/system/haproxy.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:13:57 EST; 2s ago
- Main PID: 22092 (haproxy-systemd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:21:41 EST; 2s ago
+ Main PID: 22957 (haproxy-systemd)
    CGroup: /system.slice/haproxy.service
-           ├─22092 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
-           ├─22093 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
-           └─22094 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+           ├─22957 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy....
+           ├─22958 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/hapr...
+           └─22961 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/hapr...
 
-Jan 01 08:13:57 centos7.example42.com systemd[1]: Started HAProxy Load Balancer.
-Jan 01 08:13:57 centos7.example42.com haproxy-systemd-wrapper[22092]: haproxy-systemd-wrapper: executing /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+Jan 24 11:21:41 centos7.example42.com systemd[1]: Starting HAProxy Load Balan...
+Jan 24 11:21:41 centos7.example42.com systemd[1]: Started HAProxy Load Balancer.
+Jan 24 11:21:41 centos7.example42.com haproxy-systemd-wrapper[22957]: haproxy...
+Hint: Some lines were ellipsized, use -l to show in full.

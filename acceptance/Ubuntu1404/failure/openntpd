@@ -1,33 +1,10 @@
 # Package status
-Package: openntpd
-Status: install ok half-configured
-Priority: optional
-Section: net
-Installed-Size: 180
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 20080406p-7
-Replaces: chrony, ntp, time-daemon
-Provides: time-daemon
-Depends: libc6 (>= 2.17), libssl1.0.0 (>= 1.0.0), adduser, netbase
-Conflicts: chrony, ntp, time-daemon
-Conffiles:
- /etc/openntpd/ntpd.conf b0eb68bc12ed6117d7d47467a1bcb931
- /etc/network/if-up.d/openntpd 2b0a7a1e4e8559078e88d6036d0a31ce
- /etc/default/openntpd b6d804adebef864a98155c7aafcfc0be
- /etc/init.d/openntpd 01974f3c189d9f893b712b7e134f5820
-Description: OpenBSD NTP daemon
- NTP, the Network Time Protocol, is used to keep the computer clocks
- synchronized. It provides the ability to sync the local clock to remote NTP
- servers and can act as NTP server itself, redistributing the local clock.
- .
- This is an alternative implementation of the NTP software, made by the OpenBSD
- Project. It makes use of privilege separation, only implements a subset of the
- NTP protocol, adjusting the rate of the clock to synchronize the local clock.
- .
- Alternative packages which provide similar functionality are ntp and chrony.
-Original-Maintainer: Ulises Vitulli <dererk@debian.org>
-Homepage: http://www.openntpd.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+iF  openntpd       20080406p-7  amd64        OpenBSD NTP daemon
 
 # Service status
  [31m*[39;49m OpenNTPd daemon is NOT running

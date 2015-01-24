@@ -1,34 +1,16 @@
 # Package status
-Name        : corosync
-Version     : 2.3.3
-Release     : 2.el7_0.1
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:09:21 AM EST
-Group       : System Environment/Base
-Size        : 452430
-License     : BSD
-Signature   : RSA/SHA256, Wed 12 Nov 2014 04:25:17 AM EST, Key ID 24c6a8a7f4a80eb5
-Source RPM  : corosync-2.3.3-2.el7_0.1.src.rpm
-Build Date  : Tue 11 Nov 2014 02:09:04 PM EST
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.corosync.org/
-Summary     : The Corosync Cluster Engine and Application Programming Interfaces
-Description :
-This package contains the Corosync Cluster Engine Executive, several default
-APIs and libraries, default configuration files, and an init script.
+corosync-2.3.3-2.el7_0.1.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  corosync.service
 corosync.service - Corosync Cluster Engine
    Loaded: loaded (/usr/lib/systemd/system/corosync.service; disabled)
-   Active: [1;31mfailed[0m (Result: exit-code) since Thu 2015-01-01 08:10:07 EST; 2s ago
-  Process: 15516 ExecStart=/usr/share/corosync/corosync start [1;31m(code=exited, status=1/FAILURE)[0m
+   Active: [1;31mfailed[0m (Result: exit-code) since Sat 2015-01-24 11:16:17 EST; 2s ago
+  Process: 15974 ExecStart=/usr/share/corosync/corosync start [1;31m(code=exited, status=1/FAILURE)[0m
 
-Jan 01 08:09:56 centos7.example42.com systemd[1]: Starting Corosync Cluster Engine...
-Jan 01 08:10:07 centos7.example42.com corosync[15516]: [62B blob data]
-Jan 01 08:10:07 centos7.example42.com systemd[1]: [1;39mcorosync.service: control process exited, code=exited status=1[0m
-Jan 01 08:10:07 centos7.example42.com systemd[1]: [1;31mFailed to start Corosync Cluster Engine.[0m
-Jan 01 08:10:07 centos7.example42.com systemd[1]: [1;39mUnit corosync.service entered failed state.[0m
+Jan 24 11:16:06 centos7.example42.com systemd[1]: Starting Corosync Cluster E...
+Jan 24 11:16:17 centos7.example42.com corosync[15974]: [62B blob data]
+Jan 24 11:16:17 centos7.example42.com systemd[1]: [1;39mcorosync.service: control p...[0m
+Jan 24 11:16:17 centos7.example42.com systemd[1]: [1;31mFailed to start Corosync Cl...[0m
+Jan 24 11:16:17 centos7.example42.com systemd[1]: [1;39mUnit corosync.service enter...[0m
+Hint: Some lines were ellipsized, use -l to show in full.

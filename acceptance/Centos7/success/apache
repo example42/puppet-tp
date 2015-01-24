@@ -1,38 +1,20 @@
 # Package status
-Name        : httpd
-Version     : 2.4.6
-Release     : 18.el7.centos
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:05:57 AM EST
-Group       : System Environment/Daemons
-Size        : 9793373
-License     : ASL 2.0
-Signature   : RSA/SHA256, Wed 23 Jul 2014 11:21:22 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : httpd-2.4.6-18.el7.centos.src.rpm
-Build Date  : Wed 23 Jul 2014 10:49:10 AM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://httpd.apache.org/
-Summary     : Apache HTTP Server
-Description :
-The Apache HTTP Server is a powerful, efficient, and extensible
-web server.
+httpd-2.4.6-19.el7.centos.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  httpd.service
 httpd.service - The Apache HTTP Server
    Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:05:57 EST; 2s ago
- Main PID: 9930 (httpd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:11:52 EST; 2s ago
+ Main PID: 9947 (httpd)
    Status: "Processing requests..."
    CGroup: /system.slice/httpd.service
-           ├─9930 /usr/sbin/httpd -DFOREGROUND
-           ├─9931 /usr/sbin/httpd -DFOREGROUND
-           ├─9932 /usr/sbin/httpd -DFOREGROUND
-           ├─9933 /usr/sbin/httpd -DFOREGROUND
-           ├─9934 /usr/sbin/httpd -DFOREGROUND
-           └─9935 /usr/sbin/httpd -DFOREGROUND
+           ├─9947 /usr/sbin/httpd -DFOREGROUND
+           ├─9948 /usr/sbin/httpd -DFOREGROUND
+           ├─9949 /usr/sbin/httpd -DFOREGROUND
+           ├─9950 /usr/sbin/httpd -DFOREGROUND
+           ├─9951 /usr/sbin/httpd -DFOREGROUND
+           └─9952 /usr/sbin/httpd -DFOREGROUND
 
-Jan 01 08:05:57 centos7.example42.com systemd[1]: Started The Apache HTTP Server.
+Jan 24 11:11:52 centos7.example42.com systemd[1]: Started The Apache HTTP Ser...
+Hint: Some lines were ellipsized, use -l to show in full.

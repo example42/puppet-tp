@@ -2,28 +2,9 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: vim-common
-Status: install ok installed
-Priority: important
-Section: editors
-Installed-Size: 364
-Maintainer: Debian Vim Maintainers <pkg-vim-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Source: vim
-Version: 2:7.2.445+hg~cb94c42c0e1a-1
-Depends: libc6 (>= 2.3)
-Recommends: vim | vim-gnome | vim-gtk | vim-lesstif | vim-nox | vim-tiny
-Conffiles:
- /etc/vim/vimrc 17f057776f704dedeadd2a5ce0d7dd62
-Description: Vi IMproved - Common files
- Vim is an almost compatible version of the UNIX editor Vi.
- .
- Many new features have been added: multi level undo, syntax
- highlighting, command line history, on-line help, filename
- completion, block operations, folding, Unicode support, etc.
- .
- This package contains files shared by all non GUI-enabled vim
- variants (vim and vim-tiny currently) available in Debian.
- Examples of such shared files are: manpages, common executables
- like xxd, and configuration files.
-Homepage: http://www.vim.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  vim-common               2:7.2.445+hg~cb94c42c0e1 Vi IMproved - Common files

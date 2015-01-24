@@ -2,32 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: nagios-nrpe-server
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 172
-Maintainer: Debian Nagios Maintainer Group <pkg-nagios-devel@lists.alioth.debian.org>
-Architecture: amd64
-Source: nagios-nrpe
-Version: 2.12-4
-Depends: libc6 (>= 2.3), libssl0.9.8 (>= 0.9.8f-5), libwrap0 (>= 7.6-4~), lsb-base (>= 3.0-3)
-Pre-Depends: adduser
-Recommends: nagios-plugins | nagios-plugins-basic
-Conflicts: nagios-nrpe-doc
-Conffiles:
- /etc/init.d/nagios-nrpe-server 57208699668170efec6dd680c42b7e7e
- /etc/default/nagios-nrpe-server b5c920ecab98943a1ee39504d9a9827e
- /etc/nagios/nrpe.cfg a82e7fc5d321a0dd0830c2981e5e5911
- /etc/nagios/nrpe_local.cfg d41d8cd98f00b204e9800998ecf8427e
-Description: Nagios Remote Plugin Executor Server
- Nagios is a host/service/network monitoring and management system.
- .
- The purpose of this addon is to allow you to execute Nagios plugins on a
- remote host in as transparent a manner as possible.
- .
- This program runs as a background process on the remote host and processes
- command execution requests from the check_nrpe plugin on the Nagios host.
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  nagios-nrpe-server       2.12-4                   Nagios Remote Plugin Executor Server
 
 # Service status
 Usage: {start|stop|restart|reload|force-reload} ... [31mfailed![39;49m

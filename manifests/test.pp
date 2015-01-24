@@ -35,14 +35,12 @@ define tp::test (
   # Default options and computed variables
   $options_defaults = {
     check_timeout          => '10',
-
     check_service_command  => "service ${settings[service_name]} status",
     check_package_command  => $::osfamily ? {
-      'RedHat' => "rpm -qi ${settings[package_name]}",
-      'Debian' => "dpkg -s ${settings[package_name]}",
+      'RedHat' => "rpm -q ${settings[package_name]}",
+      'Debian' => "dpkg -l ${settings[package_name]}",
       default  => "puppet resource package ${settings[package_name]}"
     },
-
     check_port_command     => 'check_tcp',
     check_port_critical    => '10',
     check_port_warning     => '5',

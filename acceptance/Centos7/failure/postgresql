@@ -1,29 +1,5 @@
 # Package status
-Name        : postgresql
-Version     : 9.2.7
-Release     : 1.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:25:54 AM EST
-Group       : Applications/Databases
-Size        : 16105592
-License     : PostgreSQL
-Signature   : RSA/SHA256, Fri 04 Jul 2014 12:33:26 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : postgresql-9.2.7-1.el7.src.rpm
-Build Date  : Tue 10 Jun 2014 03:50:12 AM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.postgresql.org/
-Summary     : PostgreSQL client programs
-Description :
-PostgreSQL is an advanced Object-Relational database management system (DBMS).
-The base postgresql package contains the client programs that you'll need to
-access a PostgreSQL DBMS server, as well as HTML documentation for the whole
-system.  These client programs can be located on the same machine as the
-PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
-over a network connection.  The PostgreSQL server can be found in the
-postgresql-server sub-package.
+postgresql-9.2.7-1.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  postgresql.service

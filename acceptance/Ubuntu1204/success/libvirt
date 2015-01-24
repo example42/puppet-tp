@@ -1,63 +1,10 @@
 # Package status
-Package: libvirt-bin
-Status: install ok installed
-Priority: optional
-Section: admin
-Installed-Size: 4206
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: libvirt
-Version: 0.9.8-2ubuntu17.20
-Depends: libblkid1 (>= 2.17.2), libc6 (>= 2.15), libcap-ng0, libdevmapper1.02.1 (>= 2:1.02.20), libgnutls26 (>= 2.12.6.1-0), libnl-3-200 (>= 3.2.3), libnuma1 (>= 2.0.8~rc3), libparted0debian1 (>= 2.2-1), libpcap0.8 (>= 0.9.8), libpciaccess0, libreadline6 (>= 6.0), libudev0 (>= 147), libvirt0 (= 0.9.8-2ubuntu17.20), libxml2 (>= 2.7.4), libyajl1 (>= 1.0.5), upstart-job, adduser, bridge-utils, cgroup-lite | cgroup-bin, dnsmasq-base (>= 2.46-1), dbus, gettext-base, iptables (>= 1.4.10), logrotate, netcat-openbsd
-Recommends: libxml2-utils, gawk, ebtables, dmidecode, iproute, parted
-Suggests: policykit-1 (>= 0.104-1ubuntu1.1), apparmor, pm-utils, qemu-kvm | qemu (>= 0.9.1), radvd
-Enhances: qemu, qemu-kvm, xen
-Conffiles:
- /etc/dnsmasq.d-available/libvirt-bin 492db6e67bcfa8de5e1d6e265d453b4e
- /etc/default/libvirt-bin f40696fff3196096b3056c46f7c7ad23
- /etc/apparmor.d/local/usr.sbin.libvirtd 7166fa490aaf905b7f71cb5407ef0696
- /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper 0137f53e2ac72d7896424634d4c148d4
- /etc/apparmor.d/usr.sbin.libvirtd 3ffa1584abfed342e158bced1f709fdf
- /etc/apparmor.d/libvirt/TEMPLATE b0dfa704c6297fd9a4e68f0137c6be88
- /etc/apparmor.d/abstractions/libvirt-qemu 52dbc2075609e12559847775777be071
- /etc/cron.daily/libvirt-bin 21a4c092781e8119b8d5aa9d9d3d9f8b
- /etc/init/libvirt-bin.conf 294bd13739a2870e0fb84db9102878ca
- /etc/libvirt/libvirtd.conf 59fba052389fb275a6ac428c43e440e5
- /etc/libvirt/qemu.conf 38da250d0104cba9403dd9fc8ea1f42c
- /etc/libvirt/lxc.conf d9ffe9ac12b7fb251fc5a7ab64775397
- /etc/libvirt/qemu/networks/default.xml 022837cab66167acca489a84b99718f9
- /etc/libvirt/libvirt.conf de4153ce1fd66c647bd634d65d3713ac
- /etc/libvirt/nwfilter/no-other-l2-traffic.xml 40036127d35fdd3e4561fbdfccde501f
- /etc/libvirt/nwfilter/no-other-rarp-traffic.xml 5725e2466b4117941592a26b9ad92863
- /etc/libvirt/nwfilter/allow-ipv4.xml 6e9c9c8759805419c2303692475990e0
- /etc/libvirt/nwfilter/qemu-announce-self-rarp.xml 60102e3d3e9fd580f1cd71354d85140a
- /etc/libvirt/nwfilter/no-arp-mac-spoofing.xml ab67320bb8e372393175bdb8f194b05c
- /etc/libvirt/nwfilter/qemu-announce-self.xml 23ee6fd207d0c242b29b10b81ee77fbf
- /etc/libvirt/nwfilter/allow-dhcp.xml 1bca6be50de745ed2ba8013d6bb8abe6
- /etc/libvirt/nwfilter/clean-traffic.xml 96eefcd19459910482860b232e986a95
- /etc/libvirt/nwfilter/allow-arp.xml 484f9687010dddab663e17bca727b9f5
- /etc/libvirt/nwfilter/allow-incoming-ipv4.xml 6a7cb819450f8112ba8556a249e39b8d
- /etc/libvirt/nwfilter/no-mac-spoofing.xml 56dd18af9061ed2a5c7f2d90e4596c34
- /etc/libvirt/nwfilter/no-ip-multicast.xml cce4184e3edc4933e8bbd79930445aa0
- /etc/libvirt/nwfilter/allow-dhcp-server.xml 94e9d3d686f3fea8d847eed26c5779e9
- /etc/libvirt/nwfilter/no-arp-ip-spoofing.xml 5919340a06e7095f1fe1ba34cfd79241
- /etc/libvirt/nwfilter/no-arp-spoofing.xml 654ca00aa12e253225dce0b103dd3f08
- /etc/libvirt/nwfilter/no-ip-spoofing.xml 6b01b2504e34e7585cb2c44938ec465c
- /etc/libvirt/nwfilter/no-mac-broadcast.xml 208b87240cfe6c08c64cca59dbc32703
- /etc/logrotate.d/libvirtd.uml a19a359be12c8dd27f25c12b79f3007b
- /etc/logrotate.d/libvirtd.qemu e862be8be1b0076daf7581e3122834d6
- /etc/logrotate.d/libvirtd.lxc 2a1745a98b9a7da33a8b7159ffd90f7c
- /etc/logrotate.d/libvirtd 07c99d1b26b30055fb4d1fc26652dc94
- /etc/sasl2/libvirt.conf ef5f31dd25967d2de2a830bef486f97c
-Description: programs for the libvirt library
- Libvirt is a C toolkit to interact with the virtualization capabilities
- of recent versions of Linux (and other OSes). The library aims at providing
- a long term stable C API for different virtualization mechanisms. It currently
- supports QEMU, KVM, XEN, OpenVZ, LXC, and VirtualBox.
- .
- This package contains the supporting binaries to use with libvirt
-Homepage: http://libvirt.org
-Original-Maintainer: Debian Libvirt Maintainers <pkg-libvirt-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  libvirt-bin              0.9.8-2ubuntu17.20       programs for the libvirt library
 
 # Service status
-libvirt-bin start/running, process 26775
+libvirt-bin start/running, process 32470

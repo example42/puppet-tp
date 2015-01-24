@@ -1,41 +1,19 @@
 # Package status
-Name        : dovecot
-Epoch       : 1
-Version     : 2.2.10
-Release     : 4.el7_0.1
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:11:24 AM EST
-Group       : System Environment/Daemons
-Size        : 10211768
-License     : MIT and LGPLv2
-Signature   : RSA/SHA256, Sat 05 Jul 2014 11:21:12 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : dovecot-2.2.10-4.el7_0.1.src.rpm
-Build Date  : Wed 25 Jun 2014 03:09:42 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.dovecot.org/
-Summary     : Secure imap and pop3 server
-Description :
-Dovecot is an IMAP server for Linux/UNIX-like systems, written with security
-primarily in mind.  It also contains a small POP3 server.  It supports mail
-in either of maildir or mbox formats.
-
-The SQL drivers and authentication plug-ins are in their subpackages.
+dovecot-2.2.10-4.el7_0.1.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  dovecot.service
 dovecot.service - Dovecot IMAP/POP3 email server
    Loaded: loaded (/usr/lib/systemd/system/dovecot.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:11:26 EST; 2s ago
- Main PID: 17790 (dovecot)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:17:46 EST; 2s ago
+ Main PID: 18324 (dovecot)
    CGroup: /system.slice/dovecot.service
-           ├─17790 /usr/sbin/dovecot -F
-           ├─17807 dovecot/anvil
-           ├─17808 dovecot/log
-           └─17811 dovecot/config
+           ├─18324 /usr/sbin/dovecot -F
+           ├─18341 dovecot/anvil
+           ├─18342 dovecot/log
+           └─18345 dovecot/config
 
-Jan 01 08:11:26 centos7.example42.com systemd[1]: Started Dovecot IMAP/POP3 email server.
-Jan 01 08:11:26 centos7.example42.com dovecot[17790]: [1;31mmaster: Error: setrlimit(RLIMIT_NPROC, 5214): Operation not permitted[0m
-Jan 01 08:11:26 centos7.example42.com dovecot[17790]: master: Dovecot v2.2.10 starting up for imap, pop3, lmtp (core dumps disabled)
+Jan 24 11:17:46 centos7.example42.com systemd[1]: Started Dovecot IMAP/POP3 e...
+Jan 24 11:17:46 centos7.example42.com dovecot[18324]: [1;31mmaster: Error: setrlimi...[0m
+Jan 24 11:17:46 centos7.example42.com dovecot[18324]: master: Dovecot v2.2.10...
+Hint: Some lines were ellipsized, use -l to show in full.

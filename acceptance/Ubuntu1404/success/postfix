@@ -1,38 +1,10 @@
 # Package status
-Package: postfix
-Status: install ok installed
-Priority: extra
-Section: mail
-Installed-Size: 3524
-Maintainer: LaMont Jones <lamont@debian.org>
-Architecture: amd64
-Version: 2.11.0-1
-Replaces: mail-transport-agent
-Provides: default-mta, mail-transport-agent
-Depends: libc6 (>= 2.14), libdb5.3, libsasl2-2 (>= 2.1.24), libsqlite3-0 (>= 3.5.9), libssl1.0.0 (>= 1.0.0), debconf (>= 0.5) | debconf-2.0, netbase, adduser (>= 3.48), dpkg (>= 1.8.3), lsb-base (>= 3.0-6), ssl-cert, cpio
-Recommends: python
-Suggests: procmail, postfix-mysql, postfix-pgsql, postfix-ldap, postfix-pcre, sasl2-bin, libsasl2-modules, dovecot-common, resolvconf, postfix-cdb, mail-reader, ufw, postfix-doc
-Conflicts: libnss-db (<< 2.2-3), mail-transport-agent, smail
-Conffiles:
- /etc/ppp/ip-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
- /etc/ppp/ip-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
- /etc/ufw/applications.d/postfix 5c7e746dc9255e750b8f50460de11a32
- /etc/init.d/postfix 49607f5c5126b292fd514edcaa6ee586
- /etc/rsyslog.d/postfix.conf d8a09827fff2a22311e4dd4a83e95c83
- /etc/insserv.conf.d/postfix 7fe2d086ff4822fc9fe13adab1090dce
- /etc/postfix/postfix-files 43d5c3390adda3ee999a080a845205fb
- /etc/postfix/post-install 5313a1031ec70f23e945b383a8f83e92
- /etc/postfix/postfix-script 37471c351d00b12855e810584ad65e77
- /etc/network/if-up.d/postfix fccc53fc4eeeab46941ebcc95a71e766
- /etc/network/if-down.d/postfix 52275dc23864f3bfca412c7558e28fe6
- /etc/resolvconf/update-libc.d/postfix a0548352443659052ed16d4ae7314506
-Description: High-performance mail transport agent
- Postfix is Wietse Venema's mail transport agent that started life as an
- alternative to the widely-used Sendmail program.  Postfix attempts to
- be fast, easy to administer, and secure, while at the same time being
- sendmail compatible enough to not upset existing users. Thus, the outside
- has a sendmail-ish flavor, but the inside is completely different.
-Homepage: http://www.postfix.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  postfix                  2.11.0-1          amd64             High-performance mail transport agent
 
 # Service status
  * postfix is running

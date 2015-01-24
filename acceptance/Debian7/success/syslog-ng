@@ -2,34 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: syslog-ng
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 33
-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
-Architecture: all
-Multi-Arch: foreign
-Version: 3.3.5-4
-Depends: syslog-ng-core (>= 3.3.5), syslog-ng-mod-sql, syslog-ng-mod-mongodb, syslog-ng-mod-json
-Description: Next generation system logging daemon (metapackage)
- syslog-ng is an enhanced syslog daemon, supporting, amongst others:
-  * Powerful configurability, while still being readable
-  * Filtering on any part of the syslog message
-  * Support for both legacy BSD and the new syslog protocol
-  * Wide range of source and destination drivers, including TCP
-    (plain, or over SSL/TLS), UDP, SQL, MongoDB
-  * Also supports fine-grained output format control
-  * Multi-threaded operation
- .
- The wide range of plugins make syslog-ng able to perform well in
- every situation, ranging from enterprise-class centralised
- deployments, through personal computers to ad-hoc connected networks.
- .
- This package is a metapackage, depending on the rest of syslog-ng,
- including all available plugins. It can be safely removed, if only
- parts of syslog-ng need to be installed.
-Homepage: http://www.balabit.com/network-security/syslog-ng/opensource-logging-system
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  syslog-ng                3.3.5-4           all               Next generation system logging daemon (metapackage)
 
 # Service status
 [....] syslog-ng is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

@@ -1,32 +1,15 @@
 # Package status
-Name        : vsftpd
-Version     : 3.0.2
-Release     : 9.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:36:23 AM EST
-Group       : System Environment/Daemons
-Size        : 351462
-License     : GPLv2 with exceptions
-Signature   : RSA/SHA256, Fri 04 Jul 2014 01:42:14 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : vsftpd-3.0.2-9.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 08:43:30 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : https://security.appspot.com/vsftpd.html
-Summary     : Very Secure Ftp Daemon
-Description :
-vsftpd is a Very Secure FTP daemon. It was written completely from
-scratch.
+vsftpd-3.0.2-9.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  vsftpd.service
 vsftpd.service - Vsftpd ftp daemon
    Loaded: loaded (/usr/lib/systemd/system/vsftpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:36:24 EST; 2s ago
- Main PID: 10870 (vsftpd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:49:16 EST; 2s ago
+ Main PID: 28562 (vsftpd)
    CGroup: /system.slice/vsftpd.service
-           └─10870 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+           └─28562 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
 
-Jan 01 08:36:24 centos7.example42.com systemd[1]: Started Vsftpd ftp daemon.
+Jan 24 11:49:16 centos7.example42.com systemd[1]: Starting Vsftpd ftp daemon...
+Jan 24 11:49:16 centos7.example42.com systemd[1]: Started Vsftpd ftp daemon.
+Hint: Some lines were ellipsized, use -l to show in full.

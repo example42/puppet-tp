@@ -1,49 +1,24 @@
 # Package status
-Name        : xinetd
-Epoch       : 2
-Version     : 2.3.15
-Release     : 12.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:36:48 AM EST
-Group       : System Environment/Daemons
-Size        : 266816
-License     : xinetd
-Signature   : RSA/SHA256, Fri 04 Jul 2014 01:46:43 AM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : xinetd-2.3.15-12.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 02:55:07 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.xinetd.org
-Summary     : A secure replacement for inetd
-Description :
-Xinetd is a secure replacement for inetd, the Internet services
-daemon. Xinetd provides access control for all services based on the
-address of the remote host and/or on time of access and can prevent
-denial-of-access attacks. Xinetd provides extensive logging, has no
-limit on the number of server arguments, and lets you bind specific
-services to specific IP addresses on your host machine. Each service
-has its own specific configuration file for Xinetd; the files are
-located in the /etc/xinetd.d directory.
+xinetd-2.3.15-12.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  xinetd.service
 xinetd.service - Xinetd A Powerful Replacement For Inetd
    Loaded: loaded (/usr/lib/systemd/system/xinetd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:36:49 EST; 2s ago
-  Process: 11550 ExecStart=/usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid $EXTRAOPTIONS (code=exited, status=0/SUCCESS)
- Main PID: 11551 (xinetd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:49:54 EST; 2s ago
+  Process: 29700 ExecStart=/usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid $EXTRAOPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 29701 (xinetd)
    CGroup: /system.slice/xinetd.service
-           └─11551 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+           └─29701 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
 
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing discard
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing discard
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing echo
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing echo
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing tcpmux
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing time
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: removing time
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: [1;39mxinetd Version 2.3.15 started with libwrap loadavg labeled-networking options compiled in.[0m
-Jan 01 08:36:49 centos7.example42.com xinetd[11551]: [1;39mStarted working: 0 available services[0m
-Jan 01 08:36:49 centos7.example42.com systemd[1]: Started Xinetd A Powerful Replacement For Inetd.
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing daytime
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing discard
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing discard
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing echo
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing echo
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing tcpmux
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing time
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: removing time
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: [1;39mxinetd Version 2.3.15 st...[0m
+Jan 24 11:49:54 centos7.example42.com xinetd[29701]: [1;39mStarted working: 0 avail...[0m
+Hint: Some lines were ellipsized, use -l to show in full.

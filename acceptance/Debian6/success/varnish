@@ -2,37 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: varnish
-Status: install ok installed
-Priority: optional
-Section: web
-Installed-Size: 864
-Maintainer: Varnish Package Maintainers <pkg-varnish-devel@lists.alioth.debian.org>
-Architecture: amd64
-Version: 2.1.3-8+deb6u2
-Depends: libc6 (>= 2.3.2), libncurses5 (>= 5.7+20100313), libvarnish1 (= 2.1.3-8+deb6u2), gcc (>= 3.3), libc6-dev | libc6.1-dev | libc-dev, adduser
-Conffiles:
- /etc/init.d/varnishncsa 7cecb270d26986f5267b2c1ae992c0dc
- /etc/init.d/varnishlog aa319f0247d36eb441a64289c66b5bc6
- /etc/init.d/varnish 142fe8214c6793b5c4bf04dbb66fdec5
- /etc/default/varnishncsa 55e0b206cf68b62364f66e9aae59bf0b
- /etc/default/varnishlog e9872e98cda51febd46fbe26911f0ab5
- /etc/default/varnish af3fd9c9e3dd6976367638113373f6f7
- /etc/varnish/default.vcl 6ed914af2a36aaf81ce0aefefa16a2fd
- /etc/logrotate.d/varnish cd342b7bd5a0157d6ff54832ca60b649
-Description: a state-of-the-art, high-performance HTTP accelerator
- Varnish is a state-of-the-art, high-performance HTTP accelerator.  It uses the
- advanced features in Linux 2.6, FreeBSD 6/7 and Solaris 10 to achieve its high
- performance.
- .
- Some of the features include:
-  * A modern design
-  * VCL - a very flexible configuration language
-  * Load balancing with health checking of backends
-  * Partial support for ESI - Edge Side Includes
-  * URL rewriting
-  * Graceful handling of "dead" backends
-Homepage: http://varnish-cache.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  varnish                  2.1.3-8+deb6u2           a state-of-the-art, high-performance HTTP accelerator
 
 # Service status
 could not access PID file for varnishd ... [31mfailed![39;49m

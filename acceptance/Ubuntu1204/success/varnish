@@ -1,41 +1,9 @@
 # Package status
-Package: varnish
-Status: install ok installed
-Priority: optional
-Section: web
-Installed-Size: 1258
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 3.0.2-1ubuntu0.1
-Replaces: libvarnishapi1 (<< 3.0.0-5)
-Depends: libc6 (>= 2.14), libedit2 (>= 2.11-20080614-1), libncurses5 (>= 5.5-5~), libpcre3 (>= 8.10), libtinfo5, libvarnishapi1 (>= 3.0.0), gcc (>= 3.3), libc6-dev | libc6.1-dev | libc-dev, adduser
-Suggests: varnish-doc
-Conffiles:
- /etc/init.d/varnishncsa a538d782a3cd832b68adc8086dc0f836
- /etc/init.d/varnish 102a586e527707375792e1cbd31995a6
- /etc/init.d/varnishlog 020124cc0a5f6c0d2d6dbdc804599e26
- /etc/varnish/default.vcl c17afde2e09436173bdcf9dce319c5a4
- /etc/logrotate.d/varnish cd342b7bd5a0157d6ff54832ca60b649
- /etc/default/varnishncsa 55e0b206cf68b62364f66e9aae59bf0b
- /etc/default/varnish 63601c62e229fb18ad82fb52f91a4fdb
- /etc/default/varnishlog e9872e98cda51febd46fbe26911f0ab5
-Description: state of the art, high-performance web accelerator
- Varnish Cache is a state of the art web accelerator written with
- performance and flexibility in mind.
- .
- Varnish Cache stores web pages in memory so web servers don't have to
- create the same web page over and over again. Varnish serves pages
- much faster than any application server; giving the website a
- significant speed up.
- .
- Some of the features include:
-  * A modern design
-  * VCL - a very flexible configuration language
-  * Load balancing with health checking of backends
-  * Partial support for ESI - Edge Side Includes
-  * URL rewriting
-  * Graceful handling of "dead" backends
-Homepage: http://varnish-cache.org/
-Original-Maintainer: Varnish Package Maintainers <pkg-varnish-devel@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  varnish                  3.0.2-1ubuntu0.1         state of the art, high-performance web accelerator
 
 # Service status

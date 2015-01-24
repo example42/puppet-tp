@@ -1,35 +1,21 @@
 # Package status
-Name        : varnish
-Version     : 4.0.1
-Release     : 2.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:35:50 AM EST
-Group       : System Environment/Daemons
-Size        : 1103708
-License     : BSD
-Signature   : RSA/SHA256, Wed 30 Jul 2014 02:02:35 PM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : varnish-4.0.1-2.el7.src.rpm
-Build Date  : Wed 30 Jul 2014 09:37:52 AM EDT
-Build Host  : buildhw-09.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://www.varnish-cache.org/
-Summary     : High-performance HTTP accelerator
-Description :
-This is Varnish Cache, a high-performance HTTP accelerator.
-Documentation wiki and additional information about Varnish is
-available on the following web site: http://www.varnish-cache.org/
+varnish-4.0.2-1.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  varnish.service
 varnish.service - Varnish a high-perfomance HTTP accelerator
    Loaded: loaded (/usr/lib/systemd/system/varnish.service; disabled)
-   Active: [1;31mfailed[0m (Result: exit-code) since Thu 2015-01-01 08:35:51 EST; 2s ago
-  Process: 9966 ExecStart=/usr/sbin/varnishd -P /var/run/varnish.pid -f $VARNISH_VCL_CONF -a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} -t $VARNISH_TTL -u $VARNISH_USER -g $VARNISH_GROUP -S $VARNISH_SECRET_FILE -s $VARNISH_STORAGE $DAEMON_OPTS [1;31m(code=exited, status=2)[0m
+   Active: [1;31mfailed[0m (Result: exit-code) since Sat 2015-01-24 11:48:40 EST; 2s ago
+  Process: 27631 ExecStartPre=/usr/sbin/varnishd -C -f $VARNISH_VCL_CONF [1;31m(code=exited, status=2)[0m
 
-Jan 01 08:35:51 centos7.example42.com varnishd[9966]: Failed to set permissions on ./vcl.IfDMBTzZ.so: Operation not permitted
-Jan 01 08:35:51 centos7.example42.com varnishd[9966]: VCL compilation failed
-Jan 01 08:35:51 centos7.example42.com systemd[1]: [1;39mvarnish.service: control process exited, code=exited status=2[0m
-Jan 01 08:35:51 centos7.example42.com systemd[1]: [1;31mFailed to start Varnish a high-perfomance HTTP accelerator.[0m
-Jan 01 08:35:51 centos7.example42.com systemd[1]: [1;39mUnit varnish.service entered failed state.[0m
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .deliver_func = VGC_fu...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .synth_func = VGC_func...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .backend_fetch_func = ...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .backend_response_func...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .backend_error_func = ...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .init_func = VGC_funct...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: .fini_func = VGC_funct...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: };
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: Failed to set permissi...
+Jan 24 11:48:40 centos7.example42.com varnishd[27631]: VCL compilation failed
+Hint: Some lines were ellipsized, use -l to show in full.

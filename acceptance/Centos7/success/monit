@@ -1,35 +1,17 @@
 # Package status
-Name        : monit
-Version     : 5.6
-Release     : 1.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:19:04 AM EST
-Group       : Applications/Internet
-Size        : 675956
-License     : AGPLv3
-Signature   : RSA/SHA256, Fri 14 Mar 2014 07:54:10 PM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : monit-5.6-1.el7.src.rpm
-Build Date  : Fri 07 Mar 2014 08:08:38 AM EST
-Build Host  : buildvm-01.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://mmonit.com/monit/
-Summary     : Manages and monitors processes, files, directories and devices
-Description :
-monit is a utility for managing and monitoring, processes, files, directories
-and devices on a UNIX system. Monit conducts automatic maintenance and repair
-and can execute meaningful causal actions in error situations.
+monit-5.6-1.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  monit.service
 monit.service - Pro-active monitoring utility for unix systems
    Loaded: loaded (/usr/lib/systemd/system/monit.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:19:04 EST; 2s ago
- Main PID: 31955 (monit)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:29:50 EST; 2s ago
+ Main PID: 907 (monit)
    CGroup: /system.slice/monit.service
-           └─31955 /usr/bin/monit -I
+           └─907 /usr/bin/monit -I
 
-Jan 01 08:19:04 centos7.example42.com systemd[1]: Started Pro-active monitoring utility for unix systems.
-Jan 01 08:19:04 centos7.example42.com monit[31955]: monit: generated unique Monit id 2cd08b7e0803d187dfb81ecff4396b95 and stored to '/root/.monit.id'
-Jan 01 08:19:04 centos7.example42.com monit[31955]: Starting monit daemon with http interface at [localhost:2812]
+Jan 24 11:29:50 centos7.example42.com systemd[1]: Starting Pro-active monitor...
+Jan 24 11:29:50 centos7.example42.com systemd[1]: Started Pro-active monitori...
+Jan 24 11:29:50 centos7.example42.com monit[907]: monit: generated unique Mon...
+Jan 24 11:29:50 centos7.example42.com monit[907]: Starting monit daemon with ...
+Hint: Some lines were ellipsized, use -l to show in full.

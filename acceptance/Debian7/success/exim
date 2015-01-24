@@ -2,35 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: exim4
-Status: install ok installed
-Priority: standard
-Section: mail
-Installed-Size: 44
-Maintainer: Exim4 Maintainers <pkg-exim4-maintainers@lists.alioth.debian.org>
-Architecture: all
-Version: 4.80-7
-Depends: debconf (>= 0.5) | debconf-2.0, debconf (>= 1.4.69) | cdebconf (>= 0.39), exim4-base (>= 4.80), exim4-daemon-light | exim4-daemon-heavy | exim4-daemon-custom
-Description: metapackage to ease Exim MTA (v4) installation
- Exim (v4) is a mail transport agent. exim4 is the metapackage depending
- on the essential components for a basic exim4 installation.
- .
- The Debian exim4 packages have their own web page,
- http://wiki.debian.org/PkgExim4. There is also a Debian-specific
- FAQ list. Information about the way the Debian packages are
- configured can be found in
- /usr/share/doc/exim4-base/README.Debian.gz, which additionally contains
- information about the way the Debian binary packages are built. The
- very extensive upstream documentation is shipped in
- /usr/share/doc/exim4-base/spec.txt.gz. To repeat the debconf-driven
- configuration process in a standard setup, invoke dpkg-reconfigure
- exim4-config. There is a Debian-centered mailing list,
- pkg-exim4-users@lists.alioth.debian.org. Please ask Debian-specific
- questions there, and only write to the upstream exim-users mailing
- list if you are sure that your question is not Debian-specific. You
- can find the subscription web page on
- http://lists.alioth.debian.org/mailman/listinfo/pkg-exim4-users
-Homepage: http://www.exim.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  exim4                    4.80-7            all               metapackage to ease Exim MTA (v4) installation
 
 # Service status
 [....] checking separate queue runner daemon...[?25l7[1G[[32m ok [39;49m8[?12l[?25hdone (not running).

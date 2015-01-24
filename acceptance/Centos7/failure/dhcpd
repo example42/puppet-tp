@@ -1,47 +1,21 @@
 # Package status
-Name        : dhcp
-Epoch       : 12
-Version     : 4.2.5
-Release     : 27.el7.centos.2
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:10:44 AM EST
-Group       : System Environment/Daemons
-Size        : 1444029
-License     : ISC
-Signature   : RSA/SHA256, Mon 06 Oct 2014 12:33:43 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : dhcp-4.2.5-27.el7.centos.2.src.rpm
-Build Date  : Mon 06 Oct 2014 09:45:35 AM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://isc.org/products/DHCP/
-Summary     : Dynamic host configuration protocol software
-Description :
-DHCP (Dynamic Host Configuration Protocol) is a protocol which allows
-individual devices on an IP network to get their own network
-configuration information (IP address, subnetmask, broadcast address,
-etc.) from a DHCP server. The overall purpose of DHCP is to make it
-easier to administer a large network.
-
-To use DHCP on your network, install a DHCP service (or relay agent),
-and on clients run a DHCP client daemon.  The dhcp package provides
-the ISC DHCP service and relay agent.
+dhcp-4.2.5-27.el7.centos.2.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  dhcpd.service
 dhcpd.service - DHCPv4 Server Daemon
    Loaded: loaded (/usr/lib/systemd/system/dhcpd.service; disabled)
-   Active: [1;31mfailed[0m (Result: exit-code) since Thu 2015-01-01 08:10:45 EST; 2s ago
+   Active: [1;31mfailed[0m (Result: exit-code) since Sat 2015-01-24 11:17:00 EST; 2s ago
      Docs: man:dhcpd(8)
            man:dhcpd.conf(5)
-  Process: 16686 ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid [1;31m(code=exited, status=1/FAILURE)[0m
- Main PID: 16686 (code=exited, status=1/FAILURE)
+  Process: 17185 ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid [1;31m(code=exited, status=1/FAILURE)[0m
+ Main PID: 17185 (code=exited, status=1/FAILURE)
 
-Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: [1;31min your dhcpd.conf file for the network segment[0m
-Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: [1;31mto which interface enp0s3 is attached. **[0m
-Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: [1;31mNot configured to listen on any interfaces![0m
-Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: Jan 01 08:10:45 centos7.example42.com dhcpd[16686]: [1;31mThis version of ISC DHCP is based on the release available[0m
-Jan 01 08:10:45 centos7.example42.com systemd[1]: [1;39mdhcpd.service: main process exited, code=exited, status=1/FAILURE[0m
-Jan 01 08:10:45 centos7.example42.com systemd[1]: [1;31mFailed to start DHCPv4 Server Daemon.[0m
-Jan 01 08:10:45 centos7.example42.com systemd[1]: [1;39mUnit dhcpd.service entered failed state.[0m
+Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: [1;31min your dhcpd.conf file f...[0m
+Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: [1;31mto which interface enp0s3...[0m
+Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: [1;31mNot configured to listen ...[0m
+Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: Jan 24 11:17:00 centos7.example42.com dhcpd[17185]: [1;31mThis version of ISC DHCP ...[0m
+Jan 24 11:17:00 centos7.example42.com systemd[1]: [1;39mdhcpd.service: main process...[0m
+Jan 24 11:17:00 centos7.example42.com systemd[1]: [1;31mFailed to start DHCPv4 Serv...[0m
+Jan 24 11:17:00 centos7.example42.com systemd[1]: [1;39mUnit dhcpd.service entered ...[0m
+Hint: Some lines were ellipsized, use -l to show in full.

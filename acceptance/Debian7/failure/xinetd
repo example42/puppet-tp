@@ -2,41 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: xinetd
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 315
-Maintainer: Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
-Architecture: amd64
-Version: 1:2.3.14-7.1+deb7u1
-Provides: inet-superserver
-Depends: libc6 (>= 2.7), libwrap0 (>= 7.6-4~), netbase, update-inetd
-Recommends: sysklogd | system-log-daemon, logrotate
-Conflicts: inet-superserver
-Conffiles:
- /etc/xinetd.conf a64b7bd7a27f50a9faa7d4931a5f7806
- /etc/xinetd.d/echo 8af1078b9dbe778d76a6cd070e153f99
- /etc/xinetd.d/discard 77f8ac8066a0427f2c2791caaf2d36a8
- /etc/xinetd.d/chargen 095cb40a0cb3e4cbbae0331d3915c4df
- /etc/xinetd.d/time 79611502b111ae2d459b6623b511861c
- /etc/xinetd.d/daytime 68a43a025bdf53317f5b3db387e56337
- /etc/default/xinetd 9908ac7857744b69a6ca5b18b8d53087
- /etc/init.d/xinetd aa4a3ded1aa147d835fd7999b87de0ff
-Description: replacement for inetd with many enhancements
- xinetd has access control mechanisms, extensive logging capabilities,
- the ability to make services available based on time, and can place
- limits on the number of servers that can be started, among other things.
- .
- It has the ability to redirect TCP streams to a remote host and port.
- This is useful for those of that use IP masquerading, or NAT, and want
- to be able to reach your internal hosts.
- .
- It also has the ability to bind specific services to specific interfaces.
- This is useful when you want to make services available for your internal
- network, but not the rest of the world. Or to have a different service
- running on the same port, but different interfaces.
-Homepage: http://www.xinetd.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  xinetd                   1:2.3.14-7.1+deb7 amd64             replacement for inetd with many enhancements
 
 # Service status
 Usage: /etc/init.d/xinetd {start|stop|reload|force-reload|restart}

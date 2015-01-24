@@ -5,16 +5,18 @@ package sendmailsendmail-cf is not installed
 Redirecting to /bin/systemctl status  sendmail.service
 sendmail.service - Sendmail Mail Transport Agent
    Loaded: loaded (/usr/lib/systemd/system/sendmail.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:32:53 EST; 2s ago
-  Process: 19431 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
-  Process: 19425 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
-  Process: 19423 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
- Main PID: 19438 (sendmail)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:45:25 EST; 2s ago
+  Process: 22234 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+  Process: 22229 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+  Process: 22227 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+ Main PID: 22240 (sendmail)
    CGroup: /system.slice/sendmail.service
-           └─19438 sendmail: accepting connections
+           └─22240 sendmail: accepting connections
 
-Jan 01 08:32:48 centos7.example42.com systemd[1]: PID file /run/sendmail.pid not readable (yet?) after start.
-Jan 01 08:32:48 centos7.example42.com sendmail[19438]: starting daemon (8.14.7): SMTP+queueing@01:00:00
-Jan 01 08:32:48 centos7.example42.com sendmail[19438]: [1;31mNOQUEUE: SYSERR(root): opendaemonsocket: daemon MTA: cannot bind: Address already in use[0m
-Jan 01 08:32:48 centos7.example42.com sendmail[19438]: [1;31mdaemon MTA: problem creating SMTP socket[0m
-Jan 01 08:32:53 centos7.example42.com systemd[1]: Started Sendmail Mail Transport Agent.
+Jan 24 11:45:20 centos7.example42.com systemd[1]: Starting Sendmail Mail Tran...
+Jan 24 11:45:20 centos7.example42.com systemd[1]: PID file /run/sendmail.pid ...
+Jan 24 11:45:20 centos7.example42.com sendmail[22240]: starting daemon (8.14....
+Jan 24 11:45:20 centos7.example42.com sendmail[22240]: [1;31mNOQUEUE: SYSERR(root):...[0m
+Jan 24 11:45:20 centos7.example42.com sendmail[22240]: [1;31mdaemon MTA: problem cr...[0m
+Jan 24 11:45:25 centos7.example42.com systemd[1]: Started Sendmail Mail Trans...
+Hint: Some lines were ellipsized, use -l to show in full.

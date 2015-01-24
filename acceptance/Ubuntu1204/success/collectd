@@ -1,34 +1,10 @@
 # Package status
-Package: collectd
-Status: install ok installed
-Priority: optional
-Section: utils
-Installed-Size: 125
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 4.10.1-2.1ubuntu7
-Depends: collectd-core, libc6 (>= 2.4), librrd4 (>= 1.3.0)
-Recommends: libc6 (>= 2.7), libcurl3-gnutls (>= 7.16.2-1), libdbi1 (>= 0.8.4), libesmtp6, libgcrypt11 (>= 1.4.5), libglib2.0-0 (>= 2.12.0), libmemcached6 (>= 0.44), libmysqlclient18 (>= 5.5.13-1), libnotify4 (>= 0.7.0), libopenipmi0, liboping0 (>= 0.3.3), libpcap0.8 (>= 0.9.8), libperl5.14 (>= 5.14.2), libpq5 (>= 8.4~), libpython2.7 (>= 2.7), librrd4 (>= 1.4~rc2), libsensors4 (>= 1:3.0.0), libsnmp15 (>= 5.4.3~dfsg), libtokyotyrant3, libupsclient1 (>= 2.4.1), libvirt0 (>= 0.3.2), libxml2 (>= 2.7.4), libyajl1 (>= 1.0.5)
-Conffiles:
- /etc/collectd/collectd.conf 944ae0984ea0e169152b0a774540bf26
- /etc/collectd/thresholds.conf 089206dac2837ecc7d06ce313437b790
- /etc/collectd/filters.conf ef267bd586547716a3e497782f504cfb
-Description: statistics collection and monitoring daemon
- collectd is a small daemon which collects system information periodically and
- provides mechanisms to monitor and store the values in a variety of ways.
- Since the daemon doesn't need to startup every time it wants to update the
- values it's very fast and easy on the system. Also, the statistics are very
- fine grained since the files are updated every 10 seconds by default.
- .
- The collected information can be used to find current performance bottlenecks
- (performance analysis) and predict future system load (capacity planning).
- .
- This package provides a full installation of the daemon, including the
- configuration. For the core system, see the "collectd-core" package, which
- allows sites to, e.g., provide customizations (like a custom default
- configuration) on top of it without having to modify the "collectd" package.
-Homepage: http://collectd.org/
-Original-Maintainer: Sebastian Harl <tokkee@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  collectd                 4.10.1-2.1ubuntu7        statistics collection and monitoring daemon
 
 # Service status
-collectd (10590) is running.
+collectd (2661) is running.

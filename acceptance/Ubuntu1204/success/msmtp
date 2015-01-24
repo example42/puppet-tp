@@ -1,26 +1,7 @@
 # Package status
-Package: msmtp-mta
-Status: install ok installed
-Priority: extra
-Section: mail
-Installed-Size: 66
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Source: msmtp
-Version: 1.4.26-1
-Replaces: mail-transport-agent
-Provides: mail-transport-agent
-Depends: msmtp
-Conflicts: mail-transport-agent
-Description: light SMTP client with support for server profiles - the regular MTA
- msmtp is an SMTP client that can be used to send mails from Mutt and probably
- other MUAs (mail user agents). It forwards mails to an SMTP server (for
- example at a free mail provider), which takes care of the final delivery.
- Using profiles, it can be easily configured to use different SMTP servers
- with different configurations, which makes it ideal for mobile clients.
- .
- This package is compiled with GSASL and TLS/SSL support.
- .
- This package provides the regular MTA program.
-Original-Maintainer: Emmanuel Bouthenot <kolter@debian.org>
-Homepage: http://msmtp.sourceforge.net/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  msmtp-mta                1.4.26-1                 light SMTP client with support for server profiles - the regular

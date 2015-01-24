@@ -1,27 +1,10 @@
 # Package status
-Package: mysql-server
-Status: install ok installed
-Priority: optional
-Section: database
-Installed-Size: 114
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Source: mysql-5.5
-Version: 5.5.40-0ubuntu0.12.04.1
-Depends: mysql-server-5.5
-Description: MySQL database server (metapackage depending on the latest version)
- This is an empty package that depends on the current "best" version of
- mysql-server (currently mysql-server-5.5), as determined by the MySQL
- maintainers. Install this package if in doubt about which MySQL
- version you need. That will install the version recommended by the
- package maintainers.
- .
- MySQL is a fast, stable and true multi-user, multi-threaded SQL database
- server. SQL (Structured Query Language) is the most popular database query
- language in the world. The main goals of MySQL are speed, robustness and
- ease of use.
-Homepage: http://dev.mysql.com/
-Original-Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  mysql-server             5.5.41-0ubuntu0.12.04.1  MySQL database server (metapackage depending on the latest versi
 
 # Service status
-mysql start/running, process 11228
+mysql start/running, process 25270

@@ -1,42 +1,10 @@
 # Package status
-Package: ntp
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 1468
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 1:4.2.6.p5+dfsg-3ubuntu2.14.04.1
-Replaces: apparmor (<< 2.3.1+1403-0ubuntu10), apparmor-profiles (<< 2.3.1+1403-0ubuntu10)
-Depends: adduser, lsb-base (>= 3.2-13), netbase, libc6 (>= 2.17), libcap2 (>= 2.10), libedit2 (>= 2.11-20080614), libopts25 (>= 1:5.18), libssl1.0.0 (>= 1.0.0)
-Pre-Depends: dpkg (>= 1.15.7.2)
-Recommends: perl
-Suggests: ntp-doc, apparmor (>= 2.1+1075-0ubuntu6)
-Breaks: dhcp3-client (<< 4.1.0-1)
-Conflicts: apparmor (<< 2.3.1+1403-0ubuntu10), apparmor-profiles (<< 2.3.1+1403-0ubuntu10)
-Conffiles:
- /etc/default/ntp cd7a62fbb18fa8fe5893dee93064b328
- /etc/dhcp/dhclient-exit-hooks.d/ntp f22a8b425cdecdd770cf33cc61b91ce4
- /etc/cron.daily/ntp af4becca9dde009fc606dae1575cf551
- /etc/apparmor.d/tunables/ntpd 5519e4c01535818cb26f2ef9e527f191
- /etc/apparmor.d/usr.sbin.ntpd a00aa055d1a5feff414bacc89b8c9f6e
- /etc/ntp.conf 32280703a4ba7aa1148c48895097ed07
- /etc/init.d/ntp 7cff26c0420a53cfb71ab315dd257f8d
-Description: Network Time Protocol daemon and utility programs
- NTP, the Network Time Protocol, is used to keep computer clocks
- accurate by synchronizing them over the Internet or a local network,
- or by following an accurate hardware receiver that interprets GPS,
- DCF-77, NIST or similar time signals.
- .
- This package contains the NTP daemon and utility programs.  An NTP
- daemon needs to be running on each host that is to have its clock
- accuracy controlled by NTP.  The same NTP daemon is also used to
- provide NTP service to other hosts.
- .
- For more information about the NTP protocol and NTP server
- configuration and operation, install the package "ntp-doc".
-Homepage: http://support.ntp.org/
-Original-Maintainer: Debian NTP Team <pkg-ntp-maintainers@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  ntp            1:4.2.6.p5+d amd64        Network Time Protocol daemon and 
 
 # Service status
  * NTP server is running

@@ -1,35 +1,16 @@
 # Package status
-Name        : libvirt
-Version     : 1.1.1
-Release     : 29.el7_0.3
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:15:54 AM EST
-Group       : Development/Libraries
-Size        : 0
-License     : LGPLv2+
-Signature   : RSA/SHA256, Fri 03 Oct 2014 02:05:34 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : libvirt-1.1.1-29.el7_0.3.src.rpm
-Build Date  : Fri 03 Oct 2014 02:00:56 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://libvirt.org/
-Summary     : Library providing a simple virtualization API
-Description :
-Libvirt is a C toolkit to interact with the virtualization capabilities
-of recent versions of Linux (and other OSes). The main package includes
-the libvirtd server exporting the virtualization support.
+libvirt-1.1.1-29.el7_0.4.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  libvirtd.service
 libvirtd.service - Virtualization daemon
    Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:15:55 EST; 3s ago
- Main PID: 26142 (libvirtd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:23:59 EST; 3s ago
+ Main PID: 27142 (libvirtd)
    CGroup: /system.slice/libvirtd.service
-           ├─26142 /usr/sbin/libvirtd
-           └─26287 /usr/bin/python -Es /usr/bin/firewall-cmd --direct --passthrough ipv4 --table nat --insert POSTROUTING --source 192.168.122.0/24 ! --destination 192.168.122.0/24 --jump MASQUERADE
+           ├─27142 /usr/sbin/libvirtd
+           └─27292 /usr/sbin/libvirtd
 
-Jan 01 08:15:54 centos7.example42.com systemd[1]: Starting Virtualization daemon...
-Jan 01 08:15:55 centos7.example42.com systemd[1]: Started Virtualization daemon.
+Jan 24 11:23:59 centos7.example42.com systemd[1]: Starting Virtualization dae...
+Jan 24 11:23:59 centos7.example42.com systemd[1]: Started Virtualization daemon.
+Hint: Some lines were ellipsized, use -l to show in full.

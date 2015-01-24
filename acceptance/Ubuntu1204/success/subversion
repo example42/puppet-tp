@@ -1,29 +1,7 @@
 # Package status
-Package: subversion
-Status: install ok installed
-Priority: optional
-Section: vcs
-Installed-Size: 1196
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 1.6.17dfsg-3ubuntu3.4
-Depends: libsvn1 (= 1.6.17dfsg-3ubuntu3.4), libapr1 (>= 1.2.7), libc6 (>= 2.4), libsasl2-2
-Suggests: subversion-tools, db4.8-util, patch
-Conffiles:
- /etc/bash_completion.d/subversion 091552fa965d2a4e06dd0c447dc48bfe
- /etc/subversion/servers 8f253f1970e97577e7f8ece2a9409c9a
- /etc/subversion/config 1ffcd8aa5fbae0c0c11e50140179bf64
- /etc/emacs/site-start.d/50psvn.el 8354cb014ecbde901559dcfd41fb9737
-Description: Advanced version control system
- Subversion, also known as svn, is a version control system much like
- the Concurrent Versions System (CVS).  Version control systems allow
- many individuals (who may be distributed geographically) to
- collaborate on a set of files (typically source code).  Subversion has
- all the major features of CVS, plus certain new features that CVS
- users often wish they had.
- .
- This package includes the Subversion client (svn), tools to create a
- Subversion repository (svnadmin) and to make a repository available
- over a network (svnserve).
-Homepage: http://subversion.apache.org/
-Original-Maintainer: Peter Samuelson <peter@p12n.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  subversion               1.6.17dfsg-3ubuntu3.4    Advanced version control system

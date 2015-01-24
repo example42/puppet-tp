@@ -1,0 +1,7 @@
+# Package status
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  nagios-plugins           1.4.15-5ubuntu3.2        Plugins for nagios compatible monitoring systems (metapackage)

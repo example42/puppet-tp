@@ -1,35 +1,5 @@
 # Package status
-Name        : nagios
-Version     : 3.5.1
-Release     : 1.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:21:20 AM EST
-Group       : Applications/System
-Size        : 5902208
-License     : GPLv2
-Signature   : RSA/SHA256, Sun 16 Feb 2014 02:20:21 PM EST, Key ID 6a2faea2352c64e5
-Source RPM  : nagios-3.5.1-1.el7.src.rpm
-Build Date  : Fri 07 Feb 2014 10:27:34 AM EST
-Build Host  : buildvm-14.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://www.nagios.org/
-Summary     : Nagios monitors hosts and services and yells if somethings breaks
-Description :
-Nagios is a program that will monitor hosts and services on your
-network.  It has the ability to send email or page alerts when a
-problem arises and when a problem is resolved.  Nagios is written
-in C and is designed to run under Linux (and some other *NIX
-variants) as a background process, intermittently running checks
-on various services that you specify.
-
-The actual service checks are performed by separate "plugin" programs
-which return the status of the checks to Nagios. The plugins are
-available at http://sourceforge.net/projects/nagiosplug.
-
-This package provides the core program, web interface, and documentation
-files for Nagios. Development files are built as a separate package.
+nagios-3.5.1-1.el7.x86_64
 
 # Service status
-nagios (pid 3296) is running...
+nagios (pid 5255) is running...

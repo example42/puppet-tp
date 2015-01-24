@@ -2,56 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: lighttpd
-Status: install ok installed
-Priority: optional
-Section: httpd
-Installed-Size: 960
-Maintainer: Debian lighttpd maintainers <pkg-lighttpd-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Version: 1.4.28-2+squeeze1.6
-Provides: httpd, httpd-cgi
-Depends: libattr1 (>= 2.4.41-1), libbz2-1.0, libc6 (>= 2.3.2), libfam0, libldap-2.4-2 (>= 2.4.7), libpcre3 (>= 7.7), libssl0.9.8 (>= 0.9.8m-1), zlib1g (>= 1:1.1.4), lsb-base (>= 3.2-14), mime-support, libterm-readline-perl-perl
-Recommends: spawn-fcgi
-Suggests: openssl, rrdtool, apache2-utils
-Conflicts: cherokee (<= 0.6.1-1)
-Conffiles:
- /etc/cron.daily/lighttpd 9d80b77e98ff86be248cc60e141d89cd
- /etc/init.d/lighttpd 3660dc6123c2451391c08911ed7cb499
- /etc/logrotate.d/lighttpd 877d9400f84d19ee51af273f5e110b9d
- /etc/lighttpd/lighttpd.conf eb89dfb89e28853499dbb75b2a00aaf7
- /etc/lighttpd/conf-available/10-accesslog.conf 697318b0baa0fbfb3fc4e0fd86ccdc87
- /etc/lighttpd/conf-available/10-cgi.conf 661bb741bb751aed2a1ab232bceb8112
- /etc/lighttpd/conf-available/10-proxy.conf 5d486330aabf5c85b8a0818db10642e1
- /etc/lighttpd/conf-available/10-rrdtool.conf c0bd115242393beb3f657fc5c0085731
- /etc/lighttpd/conf-available/10-simple-vhost.conf d17d43cb312c4df40b526d1bedc07644
- /etc/lighttpd/conf-available/10-usertrack.conf 689e1244b49de9a26e082995e6dbb523
- /etc/lighttpd/conf-available/README c376c00aeaa5aa71fba021b15b1bf45e
- /etc/lighttpd/conf-available/10-status.conf 41fb77020b190286b9eff3d2789bd3fa
- /etc/lighttpd/conf-available/10-evhost.conf 815f3ca21d690795a4684af2ac2850a0
- /etc/lighttpd/conf-available/10-flv-streaming.conf 18af10d342e3ea16fa6c9315ff7903ea
- /etc/lighttpd/conf-available/10-expire.conf e32afa7a1dc716a51a41983b08a3ee92
- /etc/lighttpd/conf-available/10-ssl.conf 0472162783ad23dcf4057c4f3fa773f3
- /etc/lighttpd/conf-available/05-auth.conf 943232c693b9eca56bac6f704bb4ffe4
- /etc/lighttpd/conf-available/10-userdir.conf 5f619ed9836594584f7ae6b56ad9de32
- /etc/lighttpd/conf-available/10-evasive.conf 4ceb8ae5c1c17cfeb986e69440ab77cd
- /etc/lighttpd/conf-available/90-debian-doc.conf ebd5920cbb1906aeceaf39454eb4bb2e
- /etc/lighttpd/conf-available/10-fastcgi.conf b65fccc7eae0abaefd2d87df372ffa96
- /etc/lighttpd/conf-available/10-ssi.conf ff09893820adcedfc35af066f6f6b51c
- /etc/lighttpd/conf-available/15-fastcgi-php.conf a0dc1760148f2d1700b185ee029ac515
- /etc/lighttpd/conf-available/10-no-www.conf 7ff9d96798f66788c4d1aa94e6b30600
-Description: A fast webserver with minimal memory footprint
- lighttpd is a small webserver and fast webserver developed with
- security in mind and a lot of features.
- It has support for
-   * CGI, FastCGI and SSI
-   * virtual hosts
-   * URL rewriting
-   * authentication (plain files, htpasswd, ldap)
-   * transparent content compression
-   * conditional configuration
- and configuration is straight-forward and easy.
-Homepage: http://www.lighttpd.net
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  lighttpd                 1.4.28-2+squeeze1.6      A fast webserver with minimal memory footprint
 
 # Service status
 lighttpd is running.

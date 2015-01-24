@@ -1,27 +1,14 @@
 # Package status
-Package: rabbitmq-server
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 4753
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 3.2.4-1
-Depends: erlang-nox (>= 1:13.b.3) | esl-erlang, adduser, logrotate
-Conffiles:
- /etc/logrotate.d/rabbitmq-server ddaa633357e5f6ff9d7970c6d0a9acd8
- /etc/default/rabbitmq-server 7cc5216f193f6be1cb32c45021197b39
- /etc/init.d/rabbitmq-server 5d49d9839503d8912b13dc1123498257
-Description: AMQP server written in Erlang
- RabbitMQ is an implementation of AMQP, the emerging standard for high
- performance enterprise messaging. The RabbitMQ server is a robust and
- scalable implementation of an AMQP broker.
-Original-Maintainer: RabbitMQ Team <packaging@rabbitmq.com>
-Homepage: http://www.rabbitmq.com/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  rabbitmq-server          3.2.4-1           all               AMQP server written in Erlang
 
 # Service status
 Status of node rabbit@ubuntu1404 ...
-[{pid,16159},
+[{pid,21359},
  {running_applications,[{rabbit,"RabbitMQ","3.2.4"},
                         {mnesia,"MNESIA  CXC 138 12","4.11"},
                         {os_mon,"CPO  CXC 138 46","2.2.14"},
@@ -31,23 +18,23 @@ Status of node rabbit@ubuntu1404 ...
                         {kernel,"ERTS  CXC 138 10","2.16.4"}]},
  {os,{unix,linux}},
  {erlang_version,"Erlang R16B03 (erts-5.10.4) [source] [64-bit] [async-threads:30] [kernel-poll:true]\n"},
- {memory,[{total,34837120},
+ {memory,[{total,34838816},
           {connection_procs,2632},
           {queue_procs,5264},
           {plugins,0},
-          {other_proc,13446048},
+          {other_proc,13447920},
           {mnesia,58048},
           {mgmt_db,0},
-          {msg_index,21448},
-          {other_ets,742680},
-          {binary,8720},
+          {msg_index,21416},
+          {other_ets,742576},
+          {binary,8744},
           {code,16522377},
           {atom,594537},
-          {other_system,3435366}]},
+          {other_system,3435302}]},
  {vm_memory_high_watermark,0.4},
  {vm_memory_limit,205519257},
  {disk_free_limit,50000000},
- {disk_free,37824978944},
+ {disk_free,37722509312},
  {file_descriptors,[{total_limit,924},
                     {total_used,3},
                     {sockets_limit,829},

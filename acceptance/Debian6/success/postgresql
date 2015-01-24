@@ -2,28 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: postgresql
-Status: install ok installed
-Priority: optional
-Section: database
-Installed-Size: 44
-Maintainer: Martin Pitt <mpitt@debian.org>
-Architecture: all
-Source: postgresql-8.4
-Version: 8.4.21-0squeeze1
-Depends: postgresql-8.4
-Description: object-relational SQL database (supported version)
- PostgreSQL is a fully featured object-relational database management
- system.  It supports a large part of the SQL standard and is designed
- to be extensible by users in many aspects.  Some of the features are:
- ACID transactions, foreign keys, views, sequences, subqueries,
- triggers, user-defined types and functions, outer joins, multiversion
- concurrency control.  Graphical user interfaces and bindings for many
- programming languages are available as well.
- .
- This package always depends on the currently supported PostgreSQL
- database server version.
-Homepage: http://www.postgresql.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  postgresql               8.4.21-0squeeze1         object-relational SQL database (supported version)
 
 # Service status
 Running clusters: 8.4/main 

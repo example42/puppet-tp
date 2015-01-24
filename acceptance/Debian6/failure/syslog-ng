@@ -2,33 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: syslog-ng
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 688
-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
-Architecture: amd64
-Version: 3.1.3-3
-Provides: linux-kernel-log-daemon, system-log-daemon
-Depends: libc6 (>= 2.3.4), libcap2 (>= 2.10), libdbi0, libevtlog0 (>= 0.2.3), libglib2.0-0 (>= 2.24.0), libnet1 (>= 1.1.2.1), libpcre3 (>= 7.7), libssl0.9.8 (>= 0.9.8m-1), libwrap0 (>= 7.6-4~), zlib1g (>= 1:1.1.4), lsb-base (>= 3.0-6)
-Recommends: logrotate
-Suggests: libdbd-mysql, libdbd-pgsql, libdbd-sqlite3
-Conflicts: linux-kernel-log-daemon, system-log-daemon
-Conffiles:
- /etc/default/syslog-ng dc02cc68e9bcc9dc693cf9a9a7704c76
- /etc/init.d/syslog-ng 4a89b9b53ae4a0728b2f2795de8967ac
- /etc/logcheck/ignore.d.paranoid/syslog-ng 06d6ab800ca17f0eff4e95f20b8d69a2
- /etc/logcheck/ignore.d.server/syslog-ng 04a2c223c735ff8380c8530322460e89
- /etc/logcheck/violations.ignore.d/syslog-ng d7efc0ad4366eb3961d0fc479255fc28
- /etc/logrotate.d/syslog-ng 131c8fcc4da562f6fc6d5c32a88d1313
- /etc/syslog-ng/syslog-ng.conf 75d2b9a9771270d398417d9bd3e5e9ad
-Description: Next generation logging daemon
- Syslog-ng tries to fill the gaps original syslogd's were lacking:
-   * powerful configurability
-   * filtering based on message content
-   * portability
-   * better network forwarding
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  syslog-ng                3.1.3-3                  Next generation logging daemon
 
 # Service status
 Usage: /etc/init.d/syslog-ng {start|stop|restart|reload|force-reload}

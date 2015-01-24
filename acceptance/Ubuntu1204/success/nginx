@@ -1,23 +1,10 @@
 # Package status
-Package: nginx
-Status: install ok installed
-Priority: optional
-Section: httpd
-Installed-Size: 85
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 1.1.19-1ubuntu0.6
-Depends: nginx-full | nginx-light
-Description: small, but very powerful and efficient web server and mail proxy
- Nginx (engine x) is a web server created by Igor Sysoev and kindly provided to
- the open-source community. This server can be used as standalone HTTP server
- and as a reverse proxy server before some Apache or another big server to
- reduce load to backend servers by many concurrent HTTP-sessions.
- .
- This is a dummy package that selects nginx-full by default, but also can be
- installed with nginx-light for upgrading to nginx-light directly.
-Homepage: http://nginx.net
-Original-Maintainer: Kartik Mistry <kartik@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  nginx                    1.1.19-1ubuntu0.7        small, but very powerful and efficient web server and mail proxy
 
 # Service status
  * nginx is running

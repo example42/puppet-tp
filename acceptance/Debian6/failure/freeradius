@@ -2,115 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: freeradius
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 2252
-Maintainer: Josip Rodin <joy-packages@debian.org>
-Architecture: amd64
-Version: 2.1.10+dfsg-2+squeeze1
-Provides: radius-server
-Depends: lsb-base (>= 3.1-23.2), libc6 (>= 2.4), libfreeradius2 (= 2.1.10+dfsg-2+squeeze1), libgdbm3 (>= 1.8.3), libltdl7 (>= 2.2.6b), libpam0g (>= 0.99.7.1), libperl5.10 (>= 5.10.1), libpython2.6 (>= 2.6), libssl0.9.8 (>= 0.9.8m-1), zlib1g (>= 1:1.1.4), freeradius-common, ssl-cert, ca-certificates, adduser
-Recommends: freeradius-utils
-Suggests: freeradius-ldap, freeradius-postgresql, freeradius-mysql, freeradius-krb5
-Conffiles:
- /etc/freeradius/modules/otp d773cba406fa141f7014f2a2a7b0d3bc
- /etc/freeradius/modules/attr_filter 424c90f5833d39d0e4a99b143db2c62b
- /etc/freeradius/modules/dynamic_clients 6d98af9d562b8b396e53d961eca5f527
- /etc/freeradius/modules/cui 7f15e755f1622bf8ef701dda90b625ac
- /etc/freeradius/modules/smsotp 97965983bd059dc4faddf9dafbc07762
- /etc/freeradius/modules/expr 560a10f8ba1d2dcc0115dbe505f86549
- /etc/freeradius/modules/ldap ff2821839042cfad71f71f8d6b679d2d
- /etc/freeradius/modules/mac2vlan f554ed38e91040258a2cd07d5b791d1d
- /etc/freeradius/modules/pap d7e1ea2a34af2ae89f9527d133e34a28
- /etc/freeradius/modules/passwd 26077b38a126feed585d748f44ee48e2
- /etc/freeradius/modules/perl 4bbce66b85956677b3b31739bf43f67a
- /etc/freeradius/modules/echo 0235695265cd8dd9ffb6c48b67bf5566
- /etc/freeradius/modules/sqlcounter_expire_on_login 738d7a0539e972ebcd9db91cdd894291
- /etc/freeradius/modules/chap 75153d33af2e12950df7a9673dd8944d
- /etc/freeradius/modules/mschap 0c45c841dfb8ea91d8ec8844a968406c
- /etc/freeradius/modules/ntlm_auth 5ab5cd4d597fb458b8b2d65c27a4f80e
- /etc/freeradius/modules/preprocess d94063d092ffbc78015225ad35a1c639
- /etc/freeradius/modules/mac2ip 7b8e52097a8ae18ad8fe1e26f15a0a91
- /etc/freeradius/modules/sql_log 5c35ac336cbb362f407748e14dc29c73
- /etc/freeradius/modules/inner-eap 36afe187b962d8c309a0cb92f6f36e0d
- /etc/freeradius/modules/radutmp 1c840a8293a833e4756d71a413f38fef
- /etc/freeradius/modules/policy a5bfb92024fb2c6e6855fca964ed3544
- /etc/freeradius/modules/pam 962a8457af257bf83038880823e1c5ee
- /etc/freeradius/modules/counter e83a044d62e9ffc91eaa58dfec01612a
- /etc/freeradius/modules/linelog 948799ab50c0a636ba19934726eff7d6
- /etc/freeradius/modules/unix 48c9f6c466db2d9738f5bb8b8dae3e5c
- /etc/freeradius/modules/realm c77b757444917049bfba1db21077dc51
- /etc/freeradius/modules/logintime 74faaf189a5b046628ef73b553a799ed
- /etc/freeradius/modules/attr_rewrite b891bd92156cb019b5507c1cb54905c9
- /etc/freeradius/modules/detail 7e79bce0dedbeafd25c52f9b745467be
- /etc/freeradius/modules/digest 1ea3051bb18b89c1f2afece056af8364
- /etc/freeradius/modules/detail.log 82883aad49dc6606d04c19fbc450b55b
- /etc/freeradius/modules/sradutmp eb236d73de207a33f56cb534fb281324
- /etc/freeradius/modules/files 7decad9652fdfd6fd683523427da7ea9
- /etc/freeradius/modules/etc_group 7c8672a932187ce8b06a301fa61f7485
- /etc/freeradius/modules/detail.example.com cfb83f5a2f96079bf30d27288f2e5dce
- /etc/freeradius/modules/smbpasswd b57b1e283af7eaaaf6b690a6cde87221
- /etc/freeradius/modules/expiration 75acbbd8a517922b090bc8e90a5beb63
- /etc/freeradius/modules/checkval f34ca8ef949afaa871b6fed214da58cf
- /etc/freeradius/modules/wimax 7a165bb46064c8f5f36094fe8c412446
- /etc/freeradius/modules/ippool 8874d6dee89f289d2c0ff11be3264af3
- /etc/freeradius/modules/always c729e172002d3e392c841e2eb5fe8ba7
- /etc/freeradius/modules/exec 0947190b3cf5df462b286cd304a83ce4
- /etc/freeradius/modules/krb5 d766ac7c39ba4c6afc98221e525713b1
- /etc/freeradius/modules/opendirectory 6d8282c73151b59ddf44d8ee269e7691
- /etc/freeradius/modules/acct_unique 87534fcff686812bb44fa4ddc09784ce
- /etc/freeradius/huntgroups 2621bb91a534b66f16d517d8ea80585a
- /etc/freeradius/sql.conf e4dece46a77d34785ed0cc13de1a53d8
- /etc/freeradius/preproxy_users 64f4e1093945b43e932190f7f965a82d
- /etc/freeradius/experimental.conf 12fa20eaa61bc9d7bc49d923db2b00b3
- /etc/freeradius/ldap.attrmap 80f8aa25401722003f1c1d5147ee5236
- /etc/freeradius/eap.conf f1b612bc38ec5890818cf4599aa9406f
- /etc/freeradius/attrs.accounting_response b364771ac9e6d813bb52588786df44ef
- /etc/freeradius/attrs 94de14b9b07abb470c010a4fa8dbf344
- /etc/freeradius/policy.conf b751031d78dac4be339852d4684beb63
- /etc/freeradius/attrs.access_reject c1ce472dd118b59d0ded913ade149ef5
- /etc/freeradius/attrs.access_challenge bdae0b695981dc231f27790c63e1070b
- /etc/freeradius/attrs.pre-proxy be8dfc3fbebd160c10abcbed3fa46ff2
- /etc/freeradius/proxy.conf 077a7b70e0bd2bea07dd96a758dee6c3
- /etc/freeradius/hints c21a9db73d9202ce6ddf2ab401227896
- /etc/freeradius/sqlippool.conf d4d516a328d01126958b5e754c49d719
- /etc/freeradius/sites-available/README a547aa32453e29360803567f96a48d2e
- /etc/freeradius/sites-available/inner-tunnel 5c1c5ea8b389df6b4cb8ffac1bb4854f
- /etc/freeradius/sites-available/proxy-inner-tunnel 9037a7a72e021daa8305142686834018
- /etc/freeradius/sites-available/dynamic-clients 4e9397afb1f92da93f1acaaa2f4a8b6f
- /etc/freeradius/sites-available/status f496f01c628546395c807553b1b7cfa3
- /etc/freeradius/sites-available/example b29e3dcb98c2881e7dd5fd71a70d984d
- /etc/freeradius/sites-available/originate-coa f59e81dd5a862675f63bbd7cec6eb07f
- /etc/freeradius/sites-available/control-socket c01cf58ccf4d2cb96b2fd191bf750027
- /etc/freeradius/sites-available/coa 8e6d9b18c1ef898d6bcc1fcb993e80d3
- /etc/freeradius/sites-available/vmps 6bdd77df0cec53e0b8d222b2b60d20cf
- /etc/freeradius/sites-available/buffered-sql 9c75a63a87bb88fba277409ea818ffd9
- /etc/freeradius/sites-available/robust-proxy-accounting 78e8c5470d3c30fba7a6668aba54b14a
- /etc/freeradius/sites-available/decoupled-accounting e83789ae77064aab18cb566e53b152ab
- /etc/freeradius/sites-available/virtual.example.com a99c89712491e5a39bb69ead9eac736d
- /etc/freeradius/sites-available/copy-acct-to-home-server e3da34c28c25565f71c29947b9a7b49f
- /etc/freeradius/sites-available/dhcp 98affbfca8eed8a94a93d26491b0e30b
- /etc/freeradius/sites-available/default 85d96faca45e7fbce4ca0119c6181b12
- /etc/freeradius/acct_users 9ff7bba585b8a59f2bb8addfeaf33ad2
- /etc/freeradius/templates.conf 49e637f0ac3216f90a30523b78e91ac1
- /etc/freeradius/policy.txt 9ad3c1ebbbee1dcdb24ecb242f4d7315
- /etc/freeradius/users fffe69b69911f1bacdb20d129bce8a95
- /etc/freeradius/clients.conf aba0be0f95e832c85fa37f52925c5011
- /etc/pam.d/radiusd fa685991be6bf997e33da0b122738fdc
- /etc/logrotate.d/freeradius 5646fe1658b073570ff0b029ec9a7528
- /etc/init.d/freeradius 64224405367dd53fde2af4de54d1607c
- /etc/default/freeradius 953b74b3c0baee52e6855a239a786261
-Description: a high-performance and highly configurable RADIUS server
- FreeRADIUS is a high-performance RADIUS server with support for:
-  - many vendor-specific attributes
-  - proxying and replicating requests by any criteria
-  - authentication on system passwd, SQL, Kerberos, LDAP, users file, or PAM
-  - multiple DEFAULT configurations
-  - regexp matching in string attributes
- and lots more.
-Homepage: http://www.freeradius.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  freeradius               2.1.10+dfsg-2+squeeze1   a high-performance and highly configurable RADIUS server
 
 # Service status
 Usage: /etc/init.d/freeradius start|stop|restart|force-reload|reload

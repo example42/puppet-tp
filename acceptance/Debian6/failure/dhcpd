@@ -2,33 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: isc-dhcp-server
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 916
-Maintainer: Debian ISC DHCP maintainers <pkg-dhcp-devel@lists.alioth.debian.org>
-Architecture: amd64
-Source: isc-dhcp
-Version: 4.1.1-P1-15+squeeze8
-Replaces: dhcp3-server
-Provides: dhcp3-server
-Depends: debianutils (>= 2.8.2), isc-dhcp-common (= 4.1.1-P1-15+squeeze8), lsb-base, libc6 (>= 2.7), debconf (>= 0.5) | debconf-2.0
-Suggests: isc-dhcp-server-ldap
-Conflicts: dhcp
-Conffiles:
- /etc/init.d/isc-dhcp-server cbd487676dbef86e90d455ac854c4b82
- /etc/dhcp/dhcpd.conf 53f47e5880af137405c2ce30b4924cf3
-Description: ISC DHCP server for automatic IP address assignment
- This is the server from the Internet Software Consortium's implementation of
- DHCP. For more information, visit http://www.isc.org.
- .
- Dynamic Host Configuration Protocol (DHCP) is a protocol like BOOTP
- (actually dhcpd includes much of the functionality of bootpd). It
- gives client machines "leases" for IP addresses and can
- automatically set their network configuration.
- .
- This server can handle multiple ethernet interfaces.
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  isc-dhcp-server          4.1.1-P1-15+squeeze8     ISC DHCP server for automatic IP address assignment
 
 # Service status
 Status of ISC DHCP server: dhcpd is not running.

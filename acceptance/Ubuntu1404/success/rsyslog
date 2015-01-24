@@ -1,43 +1,10 @@
 # Package status
-Package: rsyslog
-Status: install ok installed
-Priority: important
-Section: admin
-Installed-Size: 1540
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 7.4.4-1ubuntu2.3
-Provides: linux-kernel-log-daemon, system-log-daemon
-Depends: libc6 (>= 2.17), libestr0 (>= 0.1.4), libjson-c2 (>= 0.10), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4), init-system-helpers (>= 1.13~), sysv-rc (>= 2.88dsf-24) | file-rc (>= 0.8.16), lsb-base (>= 4.1+Debian3), initscripts (>= 2.88dsf-13.3), adduser, ucf
-Recommends: logrotate
-Suggests: rsyslog-mysql | rsyslog-pgsql, rsyslog-doc, rsyslog-gnutls, rsyslog-gssapi, rsyslog-relp, apparmor (>= 2.3)
-Conflicts: linux-kernel-log-daemon, system-log-daemon
-Conffiles:
- /etc/logrotate.d/rsyslog a5b57eb392a10dba65760e89dcdc508c
- /etc/logcheck/ignore.d.server/rsyslog 650507df599fbbdd6cb4142bd77fd2ff
- /etc/rsyslog.conf 85a6fb16706f325b4cc9c84657526bd3
- /etc/init/dmesg.conf 218f9baf50c95553d5b611d62de520e1
- /etc/init/rsyslog.conf 34b6c083e007bed20e8341486361529b
- /etc/init.d/rsyslog eff44a6fdc4a3117d170417bb6b7be1e
- /etc/default/rsyslog c7af23c348917e877399baea1849727a
- /etc/apparmor.d/usr.sbin.rsyslogd b19cc6250081ef3700146db17f1efa44
-Description: reliable system and kernel logging daemon
- Rsyslog is a multi-threaded implementation of syslogd (a system utility
- providing support for message logging), with features that include:
-  * reliable syslog over TCP, SSL/TLS and RELP
-  * on-demand disk buffering
-  * email alerting
-  * writing to MySQL or PostgreSQL databases (via separate output plugins)
-  * permitted sender lists
-  * filtering on any part of the syslog message
-  * on-the-wire message compression
-  * fine-grained output format control
-  * failover to backup destinations
-  * enterprise-class encrypted syslog relaying
- .
- It is the default syslogd on Debian systems.
-Homepage: http://www.rsyslog.com/
-Original-Maintainer: Michael Biebl <biebl@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  rsyslog                  7.4.4-1ubuntu2.3  amd64             reliable system and kernel logging daemon
 
 # Service status
-rsyslog start/running, process 905
+rsyslog start/running, process 901

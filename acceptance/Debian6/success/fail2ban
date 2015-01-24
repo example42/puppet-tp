@@ -2,85 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: fail2ban
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 592
-Maintainer: Yaroslav Halchenko <debian@onerussian.com>
-Architecture: all
-Version: 0.8.4-3+squeeze2
-Depends: python (>= 2.4), python-central (>= 0.6.11), lsb-base (>= 2.0-7)
-Recommends: iptables, whois
-Suggests: python-gamin, mailx
-Conffiles:
- /etc/fail2ban/fail2ban.conf a9ee70b6f372d15e4ef48ec35bcab756
- /etc/fail2ban/filter.d/exim.conf 8841aa0390115ab833975eb0849d1b9f
- /etc/fail2ban/filter.d/postfix.conf 0d2fe9118e8563b0339051d11677349f
- /etc/fail2ban/filter.d/couriersmtp.conf d010a33b861a61875f713e17ad8d69a8
- /etc/fail2ban/filter.d/webmin-auth.conf 5c069bed4cd0ee10d6df61c1ba051457
- /etc/fail2ban/filter.d/cyrus-imap.conf fe90dd9a5348e427bb4e2e7706ccf65a
- /etc/fail2ban/filter.d/qmail.conf efac1de350ee5fcec987f1f3829979f7
- /etc/fail2ban/filter.d/vsftpd.conf 866dbfcdcf71d5bcd34bec70c45fcc05
- /etc/fail2ban/filter.d/lighttpd-fastcgi.conf ee9124c93aabd6841b2971c3828d801d
- /etc/fail2ban/filter.d/named-refused.conf 1ddeb77a6bc5ca303ff9a6f7cb81b938
- /etc/fail2ban/filter.d/gssftpd.conf cb9e0021cf3ca69a322a047663fa68b9
- /etc/fail2ban/filter.d/sshd-ddos.conf 9fd5704b55603de758d84f56bea1be2a
- /etc/fail2ban/filter.d/sasl.conf 704403a6b2ddfe3d886e7e43c0089299
- /etc/fail2ban/filter.d/php-url-fopen.conf ff212d37a889131f48263fe0760366b6
- /etc/fail2ban/filter.d/common.conf d30c1808759ba9ef12437e05499e11f4
- /etc/fail2ban/filter.d/pam-generic.conf 8e5f27e6301911a94882f870462416cc
- /etc/fail2ban/filter.d/sieve.conf 2e550582024dee0bf8f91897166577e0
- /etc/fail2ban/filter.d/xinetd-fail.conf 690d78c2dc3df31724096123c7cc0b49
- /etc/fail2ban/filter.d/wuftpd.conf fce93ee05d9c7c64afe54ef201ed0c62
- /etc/fail2ban/filter.d/courierlogin.conf e0ebb1e9c282128d3bda8f9a580d9d5e
- /etc/fail2ban/filter.d/apache-common.conf 72a110f537d6fe3a296e947012d4718b
- /etc/fail2ban/filter.d/apache-auth.conf ea4d2596e5b1ae1a23cffb7f896f4784
- /etc/fail2ban/filter.d/apache-overflows.conf 64b112eb853bdb713deb8f487d82eab7
- /etc/fail2ban/filter.d/apache-badbots.conf dd21cde15d4a95e1e9b55a1e3d3c9241
- /etc/fail2ban/filter.d/apache-nohome.conf 5e3d12c006b9774853b309f1212d4dff
- /etc/fail2ban/filter.d/pure-ftpd.conf 79b96c5a75d2c378723b1cefdfb7b6c4
- /etc/fail2ban/filter.d/apache-noscript.conf 1ecbacae6f0999018a5a476fe231efbe
- /etc/fail2ban/filter.d/proftpd.conf 04aab22060ccb90635075392080fd858
- /etc/fail2ban/filter.d/sshd.conf 10190bbf4901926cbaa9ca19d0d39ce3
- /etc/fail2ban/action.d/iptables-multiport.conf d72bf1fbcffcd25208f5457633d923df
- /etc/fail2ban/action.d/sendmail-whois.conf 864c821c322a78f59e350fc525e64780
- /etc/fail2ban/action.d/iptables.conf 711ea0b0acad1df94da827e2de1950e4
- /etc/fail2ban/action.d/ipfw.conf 9bf5a121e3613aaab4a52256ff7f595b
- /etc/fail2ban/action.d/mail-whois-lines.conf 72240ec8fcfdb77aeea345134b0cef69
- /etc/fail2ban/action.d/sendmail-whois-lines.conf 9c6f00bc42f110c387b1af1b441f0166
- /etc/fail2ban/action.d/mail.conf e1a88b283c1b026c53ba29eb53e5fba1
- /etc/fail2ban/action.d/shorewall.conf 8567cff49f278a1ba118475a7dd2f1ab
- /etc/fail2ban/action.d/sendmail.conf 57dc3b17c08311b3a9130bf61310b3a1
- /etc/fail2ban/action.d/hostsdeny.conf c0f0bc253c4daaaedb0a8046cf696ffe
- /etc/fail2ban/action.d/iptables-multiport-log.conf 180c8f21b51f76bb9e29f3456a73daa1
- /etc/fail2ban/action.d/mail-whois.conf 84659e408a0fab477c4e26e37d08b7b6
- /etc/fail2ban/action.d/iptables-allports.conf 7fe1f45e8fee59567a66504ce75ce8fd
- /etc/fail2ban/action.d/iptables-new.conf f8383e20656f0e49139f7f5457f9bcfa
- /etc/fail2ban/action.d/complain.conf 1bb9c9611fd4886bf0a577dd16606bfa
- /etc/fail2ban/action.d/ipfilter.conf 64b0e9a9070a522a14d7de77a17951e8
- /etc/fail2ban/action.d/sendmail-buffered.conf 15c839fa72bb1ec763b2b06d97238a56
- /etc/fail2ban/action.d/dshield.conf 9259d87d6118978eab0ae46f2748ae5f
- /etc/fail2ban/action.d/mail-buffered.conf 4c7e98cc317bb7e2f7faafc25ded3340
- /etc/fail2ban/action.d/mynetwatchman.conf 73238e2cf4256fd086939b5ee34fd0a2
- /etc/fail2ban/jail.conf 294410d124378d6fe8d565c50c2e331c
- /etc/logrotate.d/fail2ban 6355f432ca66b144e52b4002a41c8a1d
- /etc/default/fail2ban 81c373db4e1bc7097acdbaa4983cfad9
- /etc/init.d/fail2ban 247d7ec36581a94edea0a44fcd6a50cc
-Description: bans IPs that cause multiple authentication errors
- Monitors log files (e.g. /var/log/auth.log,
- /var/log/apache/access.log) and temporarily or persistently bans
- failure-prone addresses by updating existing firewall rules. The
- software was completely rewritten at version 0.7.0 and now allows
- easy specification of different actions to be taken such as to ban an
- IP using iptables or hostsdeny rules, or simply to send a
- notification email. Currently, by default, supports ssh/apache/vsftpd
- but configuration can be easily extended for monitoring any other ASCII
- file. All filters and actions are given in the config files, thus
- fail2ban can be adopted to be used with a variety of files and
- firewalls.
-Homepage: http://www.fail2ban.org
-Python-Version: current, >= 2.4
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  fail2ban                 0.8.4-3+squeeze2         bans IPs that cause multiple authentication errors
 
 # Service status
 Status of authentication failure monitor:fail2ban is running.

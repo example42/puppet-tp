@@ -1,53 +1,15 @@
 # Package status
-Name        : redis
-Version     : 2.8.14
-Release     : 2.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:31:02 AM EST
-Group       : Unspecified
-Size        : 1068489
-License     : BSD
-Signature   : RSA/SHA256, Fri 12 Sep 2014 12:46:27 PM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : redis-2.8.14-2.el7.src.rpm
-Build Date  : Thu 11 Sep 2014 05:49:02 PM EDT
-Build Host  : buildvm-09.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://redis.io
-Summary     : A persistent key-value database
-Description :
-Redis is an advanced key-value store. It is often referred to as a data
-structure server since keys can contain strings, hashes, lists, sets and
-sorted sets.
-
-You can run atomic operations on these types, like appending to a string;
-incrementing the value in a hash; pushing to a list; computing set
-intersection, union and difference; or getting the member with highest
-ranking in a sorted set.
-
-In order to achieve its outstanding performance, Redis works with an
-in-memory dataset. Depending on your use case, you can persist it either
-by dumping the dataset to disk every once in a while, or by appending
-each command to a log.
-
-Redis also supports trivial-to-setup master-slave replication, with very
-fast non-blocking first synchronization, auto-reconnection on net split
-and so forth.
-
-Other features include Transactions, Pub/Sub, Lua scripting, Keys with a
-limited time-to-live, and configuration settings to make Redis behave like
-a cache.
-
-You can use Redis from most programming languages also.
+redis-2.8.14-2.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  redis.service
 redis.service - Redis persistent key-value database
    Loaded: loaded (/usr/lib/systemd/system/redis.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:31:03 EST; 2s ago
- Main PID: 16868 (redis-server)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:43:30 EST; 2s ago
+ Main PID: 19609 (redis-server)
    CGroup: /system.slice/redis.service
-           └─16868 /usr/bin/redis-server 127.0.0.1:6379
+           └─19609 /usr/bin/redis-server 127.0.0.1:6379
 
-Jan 01 08:31:03 centos7.example42.com systemd[1]: Started Redis persistent key-value database.
+Jan 24 11:43:30 centos7.example42.com systemd[1]: Starting Redis persistent k...
+Jan 24 11:43:30 centos7.example42.com systemd[1]: Started Redis persistent ke...
+Hint: Some lines were ellipsized, use -l to show in full.

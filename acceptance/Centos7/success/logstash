@@ -1,23 +1,5 @@
 # Package status
-Name        : logstash
-Version     : 1.4.2
-Release     : 1_2c0f5a1
-Architecture: noarch
-Install Date: Sun 04 Jan 2015 01:15:31 PM EST
-Group       : default
-Size        : 141637420
-License     : ASL 2.0
-Signature   : RSA/SHA1, Tue 24 Jun 2014 09:47:22 AM EDT, Key ID d27d666cd88e42b4
-Source RPM  : logstash-1.4.2-1_2c0f5a1.src.rpm
-Build Date  : Tue 24 Jun 2014 08:41:30 AM EDT
-Build Host  : oh-my
-Relocations : / 
-Packager    : <jls@oh-my>
-Vendor      : Elasticsearch
-URL         : http://logstash.net
-Summary     : An extensible logging pipeline
-Description :
-An extensible logging pipeline
+logstash-1.4.2-1_2c0f5a1.noarch
 
 # Service status
 logstash is running

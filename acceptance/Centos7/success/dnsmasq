@@ -1,44 +1,20 @@
 # Package status
-Name        : dnsmasq
-Version     : 2.66
-Release     : 12.el7
-Architecture: x86_64
-Install Date: Fri 01 Aug 2014 08:33:36 AM EDT
-Group       : System Environment/Daemons
-Size        : 475528
-License     : GPLv2
-Signature   : RSA/SHA256, Thu 03 Jul 2014 09:08:51 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : dnsmasq-2.66-12.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 04:30:42 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.thekelleys.org.uk/dnsmasq/
-Summary     : A lightweight DHCP/caching DNS server
-Description :
-Dnsmasq is lightweight, easy to configure DNS forwarder and DHCP server.
-It is designed to provide DNS and, optionally, DHCP, to a small network.
-It can serve the names of local machines which are not in the global
-DNS. The DHCP server integrates with the DNS server and allows machines
-with DHCP-allocated addresses to appear in the DNS with names configured
-either in each host or in a central configuration file. Dnsmasq supports
-static and dynamic DHCP leases and BOOTP for network booting of diskless
-machines.
+dnsmasq-2.66-12.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  dnsmasq.service
 dnsmasq.service - DNS caching server.
    Loaded: loaded (/usr/lib/systemd/system/dnsmasq.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:10:57 EST; 2s ago
- Main PID: 17140 (dnsmasq)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:17:15 EST; 2s ago
+ Main PID: 17653 (dnsmasq)
    CGroup: /system.slice/dnsmasq.service
-           └─17140 /usr/sbin/dnsmasq -k
+           └─17653 /usr/sbin/dnsmasq -k
 
-Jan 01 08:10:57 centos7.example42.com systemd[1]: Starting DNS caching server....
-Jan 01 08:10:57 centos7.example42.com systemd[1]: Started DNS caching server..
-Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: started, version 2.66 cachesize 150
-Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: compile time options: IPv6 GNU-getopt DBus no-i18n IDN DHCP DHCPv6 no-Lua TFTP no-conntrack ipset auth
-Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: reading /etc/resolv.conf
-Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: using nameserver 10.0.2.3#53
-Jan 01 08:10:57 centos7.example42.com dnsmasq[17140]: read /etc/hosts - 2 addresses
+Jan 24 11:17:15 centos7.example42.com systemd[1]: Starting DNS caching server...
+Jan 24 11:17:15 centos7.example42.com systemd[1]: Started DNS caching server..
+Jan 24 11:17:15 centos7.example42.com dnsmasq[17653]: started, version 2.66 c...
+Jan 24 11:17:15 centos7.example42.com dnsmasq[17653]: compile time options: I...
+Jan 24 11:17:15 centos7.example42.com dnsmasq[17653]: reading /etc/resolv.conf
+Jan 24 11:17:15 centos7.example42.com dnsmasq[17653]: using nameserver 10.0.2...
+Jan 24 11:17:15 centos7.example42.com dnsmasq[17653]: read /etc/hosts - 2 add...
+Hint: Some lines were ellipsized, use -l to show in full.

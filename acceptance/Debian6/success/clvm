@@ -2,23 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: clvm
-Status: install ok installed
-Priority: extra
-Section: admin
-Installed-Size: 572
-Maintainer: Debian LVM Team <pkg-lvm-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Source: lvm2
-Version: 2.02.66-5
-Depends: libc6 (>= 2.7), libcman3 (>= 3.0.12), libdevmapper1.02.1 (>= 2:1.02.44), libdlm3 (>= 3.0.12), lvm2 (= 2.02.66-5), lsb-base, cman
-Conffiles:
- /etc/init.d/clvm d1c2168a0a3e51705a17d41b22107473
-Description: Cluster LVM Daemon for lvm2
- This package provides the clustering interface for lvm2, when used with
- Red Hat's "cman" cluster infrastructure. It allows logical volumes to
- be created on shared storage devices (eg Fibre Channel, or iSCSI).
-Homepage: http://sources.redhat.com/lvm2/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  clvm                     2.02.66-5                Cluster LVM Daemon for lvm2
 
 # Service status
 clvmd: cluster not configured. Aborting. ... [31mfailed![39;49m

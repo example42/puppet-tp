@@ -1,40 +1,10 @@
 # Package status
-Package: mongodb-server
-Status: install ok installed
-Priority: optional
-Section: database
-Installed-Size: 9912
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: mongodb
-Version: 1:2.0.4-1ubuntu2.1
-Replaces: mongodb (<= 1:1.4.2-2)
-Depends: mongodb-clients, libboost-filesystem1.46.1 (>= 1.46.1-1), libboost-program-options1.46.1 (>= 1.46.1-1), libboost-system1.46.1 (>= 1.46.1-1), libboost-thread1.46.1 (>= 1.46.1-1), libc6 (>= 2.15), libgcc1 (>= 1:4.1.1), libpcre3 (>= 8.10), libpcrecpp0 (>= 7.7), libstdc++6 (>= 4.6), upstart-job, adduser
-Conffiles:
- /etc/logrotate.d/mongodb-server 62df81d9a72519dac9c60723c8d36b1d
- /etc/mongodb.conf 7701f24ebc9fe694c8691439904e98e1
- /etc/init/mongodb.conf d180260f0a9ea5309b4f2b5105407431
-Description: object/document-oriented database (server package)
- MongoDB is a high-performance, open source, schema-free
- document-oriented  data store that's easy to deploy, manage
- and use. It's network accessible, written in C++ and offers
- the following features :
- .
-    * Collection oriented storage - easy storage of object-
-      style data
-    * Full index support, including on inner objects
-    * Query profiling
-    * Replication and fail-over support
-    * Efficient storage of binary data including large
-      objects (e.g. videos)
-    * Auto-sharding for cloud-level scalability (Q209)
- .
- High performance, scalability, and reasonable depth of
- functionality are the goals for the project.
- .
- This package contains the server itself.
-Homepage: http://www.mongodb.org
-Original-Maintainer: Antonin Kral <A.Kral@sh.cvut.cz>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  mongodb-server           1:2.0.4-1ubuntu2.1       object/document-oriented database (server package)
 
 # Service status
-mongodb start/running, process 1884
+mongodb start/running, process 8105

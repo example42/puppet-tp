@@ -2,23 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: mcollective
-Status: install ok installed
-Priority: extra
-Section: utils
-Installed-Size: 92
-Maintainer: Riccardo Setti <giskard@debian.org>
-Architecture: all
-Version: 2.7.0-1puppetlabs1
-Depends: ruby (>= 1.8.1), mcollective-common (= 2.7.0-1puppetlabs1)
-Conffiles:
- /etc/init.d/mcollective 2bab506f0d5c5aeb3cfcfca3bb6a95c0
- /etc/mcollective/server.cfg fa9e329fc3617875d5187b7733f179b3
- /etc/mcollective/facts.yaml 385b230b5b4b558f86657dbafe1b5a17
-Description: build server orchestration or parallel job execution systems
- The Marionette Collective aka. mcollective is a framework
- to build server orchestration or parallel job execution systems.
-Homepage: http://marionette-collective.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  mcollective              2.7.0-1puppetlabs1       build server orchestration or parallel job execution systems
 
 # Service status
 mcollective is running.

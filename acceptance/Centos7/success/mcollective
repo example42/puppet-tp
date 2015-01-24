@@ -1,33 +1,16 @@
 # Package status
-Name        : mcollective
-Version     : 2.7.0
-Release     : 1.el7
-Architecture: noarch
-Install Date: Thu 01 Jan 2015 08:17:43 AM EST
-Group       : System Environment/Daemons
-Size        : 14067
-License     : ASL 2.0
-Signature   : RSA/SHA512, Tue 02 Dec 2014 12:44:21 PM EST, Key ID 1054b7a24bd6ec30
-Source RPM  : mcollective-2.7.0-1.el7.src.rpm
-Build Date  : Tue 25 Nov 2014 01:05:34 PM EST
-Build Host  : grand.delivery.puppetlabs.net
-Relocations : (not relocatable)
-Packager    : Puppet Labs <info@puppetlabs.com>
-URL         : http://puppetlabs.com/mcollective/introduction/
-Summary     : Application Server for hosting Ruby code on any capable middleware
-Description :
-The Marionette Collective:
-
-Server for the mcollective Application Server
+mcollective-2.7.0-1.el7.noarch
 
 # Service status
 Redirecting to /bin/systemctl status  mcollective.service
 mcollective.service - The Marionette Collective
    Loaded: loaded (/usr/lib/systemd/system/mcollective.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:17:44 EST; 2s ago
- Main PID: 29925 (mcollectived)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:28:29 EST; 2s ago
+ Main PID: 31235 (mcollectived)
    CGroup: /system.slice/mcollective.service
-           └─29925 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollective/server.cfg --pidfile=/var/run/mcollective.pid --daemonize
+           └─31235 /usr/bin/ruby /usr/sbin/mcollectived --config=/etc/mcollec...
 
-Jan 01 08:17:44 centos7.example42.com systemd[1]: PID file /var/run/mcollective.pid not readable (yet?) after start.
-Jan 01 08:17:44 centos7.example42.com systemd[1]: Started The Marionette Collective.
+Jan 24 11:28:29 centos7.example42.com systemd[1]: Starting The Marionette Col...
+Jan 24 11:28:29 centos7.example42.com systemd[1]: PID file /var/run/mcollecti...
+Jan 24 11:28:29 centos7.example42.com systemd[1]: Started The Marionette Coll...
+Hint: Some lines were ellipsized, use -l to show in full.

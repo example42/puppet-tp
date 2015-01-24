@@ -1,35 +1,20 @@
 # Package status
-Name        : activemq
-Version     : 5.9.1
-Release     : 2.el7
-Architecture: noarch
-Install Date: Thu 01 Jan 2015 08:04:56 AM EST
-Group       : System Environment/Daemons
-Size        : 42746413
-License     : ASL 2.0
-Signature   : RSA/SHA512, Mon 01 Dec 2014 05:51:00 PM EST, Key ID 1054b7a24bd6ec30
-Source RPM  : activemq-5.9.1-2.el7.src.rpm
-Build Date  : Mon 01 Dec 2014 05:15:01 PM EST
-Build Host  : mills.delivery.puppetlabs.net
-Relocations : (not relocatable)
-URL         : http://activemq.apache.org/
-Summary     : Apache ActiveMQ
-Description :
-ApacheMQ is a JMS Compliant Messaging System
+activemq-5.9.1-2.el7.noarch
 
 # Service status
 Redirecting to /bin/systemctl status  activemq.service
 activemq.service - ActiveMQ
    Loaded: loaded (/usr/lib/systemd/system/activemq.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:04:58 EST; 4s ago
- Main PID: 9026 (java)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:10:50 EST; 4s ago
+ Main PID: 9020 (java)
    CGroup: /system.slice/activemq.service
-           ‣ 9026 java -Xms512m -Xmx512m -Djava.util.logging.config.file=logging.properties -Dhawtio.realm=activemq -Dhawtio.role=admins -Dhawtio.rolePrincipalClasses=org.apache.activemq.jaas.GroupPri...
+           ‣ 9020 java -Xms512m -Xmx512m -Djava.util.logging.config.file=logg...
 
-Jan 01 08:04:57 centos7.example42.com activemq[9009]: INFO: Loading '/etc/sysconfig/activemq'
-Jan 01 08:04:57 centos7.example42.com activemq[9009]: INFO: Using java 'java'
-Jan 01 08:04:57 centos7.example42.com activemq[9009]: INFO: Starting - inspect logfiles specified in logging.properties and log4j.properties to get details
-Jan 01 08:04:57 centos7.example42.com activemq[9009]: INFO: changing to user 'activemq' to invoke java
-Jan 01 08:04:57 centos7.example42.com su[9016]: [1;39m(to activemq) root on none[0m
-Jan 01 08:04:58 centos7.example42.com activemq[9009]: INFO: pidfile created : '/var/run/activemq/activemq.pid' (pid '9026')
-Jan 01 08:04:58 centos7.example42.com systemd[1]: Started ActiveMQ.
+Jan 24 11:10:50 centos7.example42.com activemq[9003]: INFO: Loading '/etc/sys...
+Jan 24 11:10:50 centos7.example42.com activemq[9003]: INFO: Using java 'java'
+Jan 24 11:10:50 centos7.example42.com activemq[9003]: INFO: Starting - inspec...
+Jan 24 11:10:50 centos7.example42.com activemq[9003]: INFO: changing to user ...
+Jan 24 11:10:50 centos7.example42.com su[9010]: [1;39m(to activemq) root on none[0m
+Jan 24 11:10:50 centos7.example42.com activemq[9003]: INFO: pidfile created :...
+Jan 24 11:10:50 centos7.example42.com systemd[1]: Started ActiveMQ.
+Hint: Some lines were ellipsized, use -l to show in full.

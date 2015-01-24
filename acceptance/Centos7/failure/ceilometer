@@ -1,1 +1,2 @@
-sudo: /etc/tp/test/ceilometer: command not found
+# Package status
+package openstack-ceilometer-common is not installed

@@ -1,28 +1,2 @@
 # Package status
-Name        : logrotate
-Version     : 3.8.6
-Release     : 4.el7
-Architecture: x86_64
-Install Date: Fri 01 Aug 2014 08:33:27 AM EDT
-Group       : System Environment/Base
-Size        : 102451
-License     : GPL+
-Signature   : RSA/SHA256, Thu 03 Jul 2014 11:34:56 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : logrotate-3.8.6-4.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 05:58:02 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : https://fedorahosted.org/logrotate/
-Summary     : Rotates, compresses, removes and mails system log files
-Description :
-The logrotate utility is designed to simplify the administration of
-log files on a system which generates a lot of log files.  Logrotate
-allows for the automatic rotation compression, removal and mailing of
-log files.  Logrotate can be set to handle a log file daily, weekly,
-monthly or when the log file gets to a certain size.  Normally,
-logrotate runs as a daily cron job.
-
-Install the logrotate package if you need a utility to deal with the
-log files on your system.
+logrotate-3.8.6-4.el7.x86_64

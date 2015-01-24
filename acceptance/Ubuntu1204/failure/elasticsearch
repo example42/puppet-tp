@@ -1,0 +1,10 @@
+# Package status
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  elasticsearch            1.4.2                    Open Source, Distributed, RESTful Search Engine
+
+# Service status
+ [31m*[39;49m elasticsearch is not running

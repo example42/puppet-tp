@@ -1,45 +1,16 @@
 # Package status
-Name        : syslog-ng
-Version     : 3.5.6
-Release     : 1.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:34:30 AM EST
-Group       : System Environment/Daemons
-Size        : 1670193
-License     : GPLv2+
-Signature   : RSA/SHA256, Wed 13 Aug 2014 05:01:36 PM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : syslog-ng-3.5.6-1.el7.src.rpm
-Build Date  : Wed 13 Aug 2014 09:55:21 AM EDT
-Build Host  : buildvm-21.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://www.balabit.com/network-security/syslog-ng
-Summary     : Next-generation syslog server
-Description :
-syslog-ng is an enhanced log daemon, supporting a wide range of input and
-output methods: syslog, unstructured text, message queues, databases (SQL
-and NoSQL alike) and more.
-
-Key features:
-
- * receive and send RFC3164 and RFC5424 style syslog messages
- * work with any kind of unstructured data
- * receive and send JSON formatted messages
- * classify and structure logs with builtin parsers (csv-parser(),
-   db-parser(), ...)
- * normalize, crunch and process logs as they flow through the system
- * hand on messages for further processing using message queues (like
-   AMQP), files or databases (like PostgreSQL or MongoDB).
+syslog-ng-3.5.6-1.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  syslog-ng.service
 syslog-ng.service - System Logger Daemon
    Loaded: loaded (/usr/lib/systemd/system/syslog-ng.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:34:31 EST; 2s ago
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:47:09 EST; 2s ago
      Docs: man:syslog-ng(8)
- Main PID: 7599 (syslog-ng)
+ Main PID: 25180 (syslog-ng)
    CGroup: /system.slice/syslog-ng.service
-           └─7599 /usr/sbin/syslog-ng -F -p /var/run/syslogd.pid
+           └─25180 /usr/sbin/syslog-ng -F -p /var/run/syslogd.pid
 
-Jan 01 08:34:31 centos7.example42.com systemd[1]: Started System Logger Daemon.
+Jan 24 11:47:09 centos7.example42.com systemd[1]: Starting System Logger Daem...
+Jan 24 11:47:09 centos7.example42.com systemd[1]: Started System Logger Daemon.
+Hint: Some lines were ellipsized, use -l to show in full.

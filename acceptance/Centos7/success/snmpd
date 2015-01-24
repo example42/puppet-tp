@@ -1,43 +1,16 @@
 # Package status
-Name        : net-snmp
-Epoch       : 1
-Version     : 5.7.2
-Release     : 18.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:29:14 AM EST
-Group       : System Environment/Daemons
-Size        : 869851
-License     : BSD
-Signature   : RSA/SHA256, Thu 03 Jul 2014 11:55:38 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : net-snmp-5.7.2-18.el7.src.rpm
-Build Date  : Mon 09 Jun 2014 02:52:25 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://net-snmp.sourceforge.net/
-Summary     : A collection of SNMP protocol tools and libraries
-Description :
-SNMP (Simple Network Management Protocol) is a protocol used for
-network management. The NET-SNMP project includes various SNMP tools:
-an extensible agent, an SNMP library, tools for requesting or setting
-information from SNMP agents, tools for generating and handling SNMP
-traps, a version of the netstat command which uses SNMP, and a Tk/Perl
-mib browser. This package contains the snmpd and snmptrapd daemons,
-documentation, etc.
-
-You will probably also want to install the net-snmp-utils package,
-which contains NET-SNMP utilities.
+net-snmp-5.7.2-18.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  snmpd.service
 snmpd.service - Simple Network Management Protocol (SNMP) Daemon.
    Loaded: loaded (/usr/lib/systemd/system/snmpd.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:33:07 EST; 2s ago
- Main PID: 19939 (snmpd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:45:42 EST; 2s ago
+ Main PID: 22755 (snmpd)
    CGroup: /system.slice/snmpd.service
-           └─19939 /usr/sbin/snmpd -LS0-6d -f
+           └─22755 /usr/sbin/snmpd -LS0-6d -f
 
-Jan 01 08:33:07 centos7.example42.com snmpd[19939]: [1;39mmibII/mta_sendmail.c:open_sendmailst: could not guess version of statistics file "/var/log/mail/statistics"[0m
-Jan 01 08:33:07 centos7.example42.com snmpd[19939]: NET-SNMP version 5.7.2
-Jan 01 08:33:07 centos7.example42.com systemd[1]: Started Simple Network Management Protocol (SNMP) Daemon..
+Jan 24 11:45:41 centos7.example42.com snmpd[22755]: [1;39mmibII/mta_sendmail.c:open...[0m
+Jan 24 11:45:42 centos7.example42.com snmpd[22755]: NET-SNMP version 5.7.2
+Jan 24 11:45:42 centos7.example42.com systemd[1]: Started Simple Network Mana...
+Hint: Some lines were ellipsized, use -l to show in full.

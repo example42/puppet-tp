@@ -1,38 +1,19 @@
 # Package status
-Name        : nginx
-Epoch       : 1
-Version     : 1.6.2
-Release     : 4.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:21:58 AM EST
-Group       : System Environment/Daemons
-Size        : 1440795
-License     : BSD
-Signature   : RSA/SHA256, Thu 23 Oct 2014 10:01:23 AM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : nginx-1.6.2-4.el7.src.rpm
-Build Date  : Wed 22 Oct 2014 03:52:52 PM EDT
-Build Host  : buildvm-06.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://nginx.org/
-Summary     : A high performance web server and reverse proxy server
-Description :
-Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and
-IMAP protocols, with a strong focus on high concurrency, performance and low
-memory usage.
+nginx-1.6.2-4.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  nginx.service
 nginx.service - The nginx HTTP and reverse proxy server
    Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:21:59 EST; 2s ago
- Main PID: 4587 (nginx)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:34:21 EST; 2s ago
+ Main PID: 7292 (nginx)
    CGroup: /system.slice/nginx.service
-           ├─4587 nginx: master process /usr/sbin/nginx
-           └─4588 nginx: worker process
+           ├─7292 nginx: master process /usr/sbin/nginx
+           └─7293 nginx: worker process
 
-Jan 01 08:21:59 centos7.example42.com nginx[4583]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-Jan 01 08:21:59 centos7.example42.com nginx[4583]: nginx: configuration file /etc/nginx/nginx.conf test is successful
-Jan 01 08:21:59 centos7.example42.com systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
-Jan 01 08:21:59 centos7.example42.com systemd[1]: Started The nginx HTTP and reverse proxy server.
+Jan 24 11:34:20 centos7.example42.com systemd[1]: Starting The nginx HTTP and...
+Jan 24 11:34:21 centos7.example42.com nginx[7288]: nginx: the configuration f...
+Jan 24 11:34:21 centos7.example42.com nginx[7288]: nginx: configuration file ...
+Jan 24 11:34:21 centos7.example42.com systemd[1]: Failed to read PID from fil...
+Jan 24 11:34:21 centos7.example42.com systemd[1]: Started The nginx HTTP and ...
+Hint: Some lines were ellipsized, use -l to show in full.

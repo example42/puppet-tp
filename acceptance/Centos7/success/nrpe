@@ -1,42 +1,20 @@
 # Package status
-Name        : nrpe
-Version     : 2.15
-Release     : 2.el7
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:22:35 AM EST
-Group       : Applications/System
-Size        : 294857
-License     : GPLv2
-Signature   : RSA/SHA256, Fri 02 May 2014 12:38:05 AM EDT, Key ID 6a2faea2352c64e5
-Source RPM  : nrpe-2.15-2.el7.src.rpm
-Build Date  : Wed 30 Apr 2014 09:42:08 PM EDT
-Build Host  : buildhw-01.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://www.nagios.org
-Summary     : Host/service/network monitoring agent for Nagios
-Description :
-Nrpe is a system daemon that will execute various Nagios plugins
-locally on behalf of a remote (monitoring) host that uses the
-check_nrpe plugin.  Various plugins that can be executed by the
-daemon are available at:
-http://sourceforge.net/projects/nagiosplug
-
-This package provides the core agent.
+nrpe-2.15-2.el7.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  nrpe.service
 nrpe.service - NRPE
    Loaded: loaded (/usr/lib/systemd/system/nrpe.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:22:35 EST; 2s ago
- Main PID: 5884 (nrpe)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:35:01 EST; 2s ago
+ Main PID: 8631 (nrpe)
    CGroup: /system.slice/nrpe.service
-           └─5884 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
+           └─8631 /usr/sbin/nrpe -c /etc/nagios/nrpe.cfg -d
 
-Jan 01 08:22:35 centos7.example42.com nrpe[5884]: [1;39mStarting up daemon[0m
-Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Server listening on 0.0.0.0 port 5666.
-Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Server listening on :: port 5666.
-Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Listening for connections on port 0
-Jan 01 08:22:35 centos7.example42.com nrpe[5884]: Allowing connections from: 127.0.0.1
-Jan 01 08:22:35 centos7.example42.com systemd[1]: Started NRPE.
+Jan 24 11:35:01 centos7.example42.com systemd[1]: Starting NRPE...
+Jan 24 11:35:01 centos7.example42.com systemd[1]: Started NRPE.
+Jan 24 11:35:01 centos7.example42.com nrpe[8631]: [1;39mStarting up daemon[0m
+Jan 24 11:35:01 centos7.example42.com nrpe[8631]: Server listening on 0.0.0.0...
+Jan 24 11:35:01 centos7.example42.com nrpe[8631]: Server listening on :: port...
+Jan 24 11:35:01 centos7.example42.com nrpe[8631]: Listening for connections o...
+Jan 24 11:35:01 centos7.example42.com nrpe[8631]: Allowing connections from: ...
+Hint: Some lines were ellipsized, use -l to show in full.

@@ -2,44 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: nagios3
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 32
-Maintainer: Debian Nagios Maintainer Group <pkg-nagios-devel@lists.alioth.debian.org>
-Architecture: amd64
-Version: 3.2.1-2+squeeze1
-Depends: nagios3-core (= 3.2.1-2+squeeze1), nagios3-cgi (= 3.2.1-2+squeeze1)
-Suggests: nagios-nrpe-plugin
-Description: A host/service/network monitoring and management system
- Nagios is a monitoring and management system for hosts, services and
- networks.
- .
- Nagios' features include:
- .
-  *  Monitoring of network services (via TCP port, SMTP, POP3, HTTP, NNTP,
-     PING, etc.)
-  *  Plugin interface to allow for user-developed service checks
-  *  Contact notifications when problems occur and get resolved (via email,
-     pager, or user-defined method)
-  *  Ability to define event handlers to be run during service or host events
-     (for proactive problem resolution)
-  *  Web output (current status, notifications, problem history, log file, etc.)
- .
- Nagios was written in C and is designed to be easy to understand and modify
- to fit your own needs.
- .
- This is a metapackage which depends on the nagios core and the webfrontend
- .
- This package is the new version 3.x series of nagios, which replaced
- the 2.x versions.
- .
- Nagios is a replacement of the Netsaint project. It accepts and uses the
- previous Netsaint modules transparently.
- .
- Upstream URL: http://www.nagios.org/
-Homepage: http://www.nagios.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  nagios3                  3.2.1-2+squeeze1         A host/service/network monitoring and management system
 
 # Service status
 

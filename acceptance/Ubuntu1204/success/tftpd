@@ -1,28 +1,10 @@
 # Package status
-Package: tftpd-hpa
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 143
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: tftp-hpa
-Version: 5.2-1ubuntu1
-Depends: debconf (>= 0.5) | debconf-2.0, upstart-job, libc6 (>= 2.11), libwrap0 (>= 7.6-4~), adduser
-Suggests: syslinux-common
-Conflicts: atftpd, tftpd
-Conffiles:
- /etc/init/tftpd-hpa.conf 3647737c313ad1968b8463388ded2d26
-Description: HPA's tftp server
- Trivial File Transfer Protocol (TFTP) is a file transfer protocol, mainly to
- serve boot images over the network to other machines (PXE).
- .
- tftp-hpa is an enhanced version of the BSD TFTP client and server. It
- possesses a number of bugfixes and enhancements over the original.
- .
- This package contains the server.
-Homepage: http://www.kernel.org/pub/software/network/tftp/
-Original-Maintainer: Daniel Baumann <daniel.baumann@progress-technologies.net>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  tftpd-hpa                5.2-1ubuntu1             HPA's tftp server
 
 # Service status
-tftpd-hpa start/running, process 13081
+tftpd-hpa start/running, process 3938

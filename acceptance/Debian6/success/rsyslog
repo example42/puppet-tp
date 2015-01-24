@@ -2,42 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: rsyslog
-Status: install ok installed
-Priority: important
-Section: admin
-Installed-Size: 812
-Maintainer: Michael Biebl <biebl@debian.org>
-Architecture: amd64
-Version: 4.6.4-2
-Provides: linux-kernel-log-daemon, system-log-daemon
-Depends: libc6 (>= 2.3.4), zlib1g (>= 1:1.1.4), lsb-base (>= 3.2-14)
-Recommends: logrotate
-Suggests: rsyslog-mysql | rsyslog-pgsql, rsyslog-doc, rsyslog-gnutls, rsyslog-gssapi, rsyslog-relp
-Conflicts: linux-kernel-log-daemon, system-log-daemon
-Conffiles:
- /etc/logrotate.d/rsyslog 31d935885fddd3a8f9ff0559c3fcd62e
- /etc/init.d/rsyslog 41b1941cc8839b50c757f096152615b2
- /etc/logcheck/ignore.d.server/rsyslog ab2fcd4afbeb84a6725e16601361ebb6
- /etc/rsyslog.conf 2994925a782dfe332b9ed7ce118ddb17
- /etc/default/rsyslog 4101a0ab2d7993a19c7d4eb74bf6494b
-Description: enhanced multi-threaded syslogd
- Rsyslog is an enhanced syslogd supporting, amongst others:
-  * reliable syslog over TCP and SSL/TLS
-  * on-demand disk buffering
-  * email alerting
-  * writing to MySQL or PostgreSQL databases (via separate output plugins)
-  * permitted sender lists
-  * filtering on any part of the syslog message
-  * on-the-wire message compression
-  * fine grained output format control
-  * backup log destinations
- .
- It is quite compatible to stock sysklogd and can be used as a drop-in
- replacement. Its advanced features make it suitable for enterprise-class,
- encryption protected syslog relay chains while at the same time being very
- easy to setup for the novice user.
-Homepage: http://www.rsyslog.com/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  rsyslog                  4.6.4-2                  enhanced multi-threaded syslogd
 
 # Service status
 rsyslogd is running.

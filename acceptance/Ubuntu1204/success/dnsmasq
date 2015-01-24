@@ -1,0 +1,10 @@
+# Package status
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  dnsmasq                  2.59-4ubuntu0.1          Small caching DNS proxy and DHCP/TFTP server
+
+# Service status
+ * Checking DNS forwarder and DHCP server dnsmasq       [120G  * (running)

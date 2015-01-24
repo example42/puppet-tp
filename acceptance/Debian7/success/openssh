@@ -2,49 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: openssh-server
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 708
-Maintainer: Debian OpenSSH Maintainers <debian-ssh@lists.debian.org>
-Architecture: amd64
-Multi-Arch: foreign
-Source: openssh
-Version: 1:6.0p1-4
-Replaces: openssh-client (<< 1:3.8.1p1-11), ssh, ssh-krb5
-Provides: ssh-server
-Depends: libc6 (>= 2.8), libcomerr2 (>= 1.01), libgssapi-krb5-2 (>= 1.10+dfsg~), libkrb5-3 (>= 1.6.dfsg.2), libpam0g (>= 0.99.7.1), libselinux1 (>= 1.32), libssl1.0.0 (>= 1.0.1), libwrap0 (>= 7.6-4~), zlib1g (>= 1:1.1.4), debconf (>= 1.2.0) | debconf-2.0, openssh-client (= 1:6.0p1-4), libpam-runtime (>= 0.76-14), libpam-modules (>= 0.72-9), adduser (>= 3.9), dpkg (>= 1.9.0), lsb-base (>= 3.2-13), procps
-Recommends: xauth, ncurses-term, openssh-blacklist, openssh-blacklist-extra
-Suggests: ssh-askpass, rssh, molly-guard, ufw, monkeysphere
-Conflicts: rsh-client (<< 0.16.1-1), sftp, ssh (<< 1:3.8.1p1-9), ssh-krb5 (<< 1:4.3p2-7), ssh-nonfree (<< 2), ssh-socks, ssh2
-Conffiles:
- /etc/init.d/ssh 33017d7ec97eda623412c3fd05dedb8f
- /etc/default/ssh 500e3cf069fe9a7b9936108eb9d9c035
- /etc/network/if-up.d/openssh-server f9d5bc239ec0720cb8ad6e1455fbf21e
- /etc/ufw/applications.d/openssh-server 486b78d54b93cc9fdc950c1d52ff479e
- /etc/pam.d/sshd ee93e13ec6aa3f3120c6939a2880a5b6
-Description: secure shell (SSH) server, for secure access from remote machines
- This is the portable version of OpenSSH, a free implementation of
- the Secure Shell protocol as specified by the IETF secsh working
- group.
- .
- Ssh (Secure Shell) is a program for logging into a remote machine
- and for executing commands on a remote machine.
- It provides secure encrypted communications between two untrusted
- hosts over an insecure network. X11 connections and arbitrary TCP/IP
- ports can also be forwarded over the secure channel.
- It can be used to provide applications with a secure communication
- channel.
- .
- This package provides the sshd server.
- .
- In some countries it may be illegal to use any encryption at all
- without a special permit.
- .
- sshd replaces the insecure rshd program, which is obsolete for most
- purposes.
-Homepage: http://www.openssh.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  openssh-server           1:6.0p1-4         amd64             secure shell (SSH) server, for secure access from rem
 
 # Service status
 [....] sshd is running[?25l7[1G[[32m ok [39;49m8[?12l[?25h.

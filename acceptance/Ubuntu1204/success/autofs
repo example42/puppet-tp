@@ -1,21 +1,10 @@
 # Package status
-Package: autofs
-Status: install ok installed
-Priority: extra
-Section: utils
-Installed-Size: 45
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Source: autofs5
-Version: 5.0.6-0ubuntu5.2
-Depends: autofs5
-Conflicts: autofs (<< 4.1.4+debian-2.1ubuntu2)
-Description: dummy transitional package from autofs to autofs5
- This transitional package helps users to transition from the autofs package to
- the autofs5 package. Once this package and its dependencies are installed you
- can safely remove it.
-Homepage: http://www.kernel.org/pub/linux/daemons/autofs/v5/
-Orginal-Maintainer: Jan Christoph Nordholz <hesso@pool.math.tu-berlin.de>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  autofs                   5.0.6-0ubuntu5.2         dummy transitional package from autofs to autofs5
 
 # Service status
-autofs start/running, process 5673
+autofs start/running, process 14044

@@ -2,39 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: mongodb-server
-Status: install ok installed
-Priority: optional
-Section: database
-Installed-Size: 4500
-Maintainer: Antonin Kral <A.Kral@sh.cvut.cz>
-Architecture: amd64
-Source: mongodb
-Version: 1:1.4.4-3
-Depends: mongodb-clients, libboost-filesystem1.42.0 (>= 1.42.0-1), libboost-program-options1.42.0 (>= 1.42.0-1), libboost-system1.42.0 (>= 1.42.0-1), libboost-thread1.42.0 (>= 1.42.0-1), libc6 (>= 2.3.2), libgcc1 (>= 1:4.1.1), libmozjs2d (>= 1.9.1), libpcre3 (>= 7.7), libpcrecpp0 (>= 7.7), libstdc++6 (>= 4.4.0), adduser
-Conffiles:
- /etc/mongodb.conf 017f85be26f88b68efc5e8f803ca71ce
- /etc/init.d/mongodb a0db45621b080da31b3692d9dd363721
-Description: An object/document-oriented database (server package)
- MongoDB is a high-performance, open source, schema-free
- document-oriented  data store that's easy to deploy, manage
- and use. It's network accessible, written in C++ and offers
- the following features :
- .
-    * Collection oriented storage - easy storage of object-
-      style data
-    * Full index support, including on inner objects
-    * Query profiling
-    * Replication and fail-over support
-    * Efficient storage of binary data including large
-      objects (e.g. videos)
-    * Auto-sharding for cloud-level scalability (Q209)
- .
- High performance, scalability, and reasonable depth of
- functionality are the goals for the project.
- .
- This package contains the server itself.
-Homepage: http://www.mongodb.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  mongodb-server           1:1.4.4-3                An object/document-oriented database (server package)
 
 # Service status
 Checking status of database: mongodb running.

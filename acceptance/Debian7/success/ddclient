@@ -2,31 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: ddclient
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 309
-Maintainer: Torsten Landschoff <torsten@debian.org>
-Architecture: all
-Version: 3.8.0-11.5
-Provides: dyndns-client
-Depends: perl5, debconf (>= 0.5) | debconf-2.0, lsb-base (>= 3.1), initscripts (>= 2.86)
-Recommends: libio-socket-ssl-perl
-Conffiles:
- /etc/ppp/ip-up.d/ddclient 78414be049206a6a0deb90475d568789
- /etc/init.d/ddclient 53d757a580b20e3401dc08e77b61e582
-Description: address updating utility for dynamic DNS services
- This package provides a client to update dynamic IP addresses with
- several dynamic DNS service providers, such as DynDNS.com.
- .
- This makes it possible to use a fixed hostname (such as
- myhost.dyndns.org) to access a machine with a dynamic IP address.
- .
- This client supports both dynamic and (near) static services, as  well as
- MX record and alternative name management. It caches the address, and
- only attempts the update when it has changed.
-Homepage: http://ddclient.sf.net
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  ddclient                 3.8.0-11.5        all               address updating utility for dynamic DNS services
 
 # Service status
 Status of Dynamic DNS service update utility: ddclient is running.

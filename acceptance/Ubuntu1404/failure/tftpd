@@ -1,9 +1,4 @@
 # Package status
-Package: tftpd-hpa
-Status: install ok not-installed
-Priority: extra
-Section: net
-Architecture: amd64
 
 # Service status
 tftpd-hpa: unrecognized service

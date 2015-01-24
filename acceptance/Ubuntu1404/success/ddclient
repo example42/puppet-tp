@@ -1,31 +1,10 @@
 # Package status
-Package: ddclient
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 330
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 3.8.1-1ubuntu2
-Provides: dyndns-client
-Depends: perl5, debconf (>= 0.5) | debconf-2.0, lsb-base (>= 3.1), initscripts (>= 2.86)
-Recommends: libio-socket-ssl-perl
-Conffiles:
- /etc/NetworkManager/dispatcher.d/50-ddclient a1200a2f57e06cb0c553704e822c9996
- /etc/ppp/ip-up.d/ddclient 78414be049206a6a0deb90475d568789
- /etc/init.d/ddclient bfc4886d9e34c23c8ec43a0814fdf54e
-Description: address updating utility for dynamic DNS services
- This package provides a client to update dynamic IP addresses with
- several dynamic DNS service providers, such as DynDNS.com.
- .
- This makes it possible to use a fixed hostname (such as
- myhost.dyndns.org) to access a machine with a dynamic IP address.
- .
- This client supports both dynamic and (near) static services, as  well as
- MX record and alternative name management. It caches the address, and
- only attempts the update when it has changed.
-Original-Maintainer: Torsten Landschoff <torsten@debian.org>
-Homepage: http://ddclient.sf.net
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  ddclient       3.8.1-1ubunt all          address updating utility for dyna
 
 # Service status
 Status of Dynamic DNS service update utility: ddclient is running.

@@ -2,47 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: munin-node
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 1624
-Maintainer: Munin Debian Maintainers <munin-deb-maint@linpro.no>
-Architecture: all
-Source: munin
-Version: 1.4.5-3
-Replaces: munin-plugins-extra
-Depends: perl, libnet-server-perl, procps, adduser, lsb-base (>= 3.2-4), gawk, munin-common (= 1.4.5-3)
-Recommends: libnet-snmp-perl
-Suggests: munin, munin-plugins-extra, munin-java-plugins, libwww-perl, liblwp-useragent-determined-perl, libnet-irc-perl, mysql-client, smartmontools (>= 5.37-6~bpo40+1), acpi | lm-sensors, python, ruby, ethtool, libdbd-pg-perl, libdbd-mysql-perl, libcache-cache-perl, net-tools, hdparm, libcrypt-ssleay-perl, libtext-csv-xs-perl, libxml-simple-perl, logtail, libnet-ssleay-perl
-Conffiles:
- /etc/munin/munin-node.conf 44e233eebda9759a7360b0b42370349b
- /etc/munin/plugin-conf.d/munin-node dd21deadefc2eb4247e03916a3859103
- /etc/logrotate.d/munin-node e91a36fc6ff24c1557e5b469bde8ac2d
- /etc/init.d/munin-node 3307d41dcee13b9708b1e527612725a2
- /etc/cron.d/munin-node 64b993c241bef6ad98b0f50f0de9d18b
-Description: network-wide graphing framework (node)
- Munin is a highly flexible and powerful solution used to create graphs of
- virtually everything imaginable throughout your network, while still
- maintaining a rattling ease of installation and configuration.
- .
- This package contains the daemon for the nodes being monitored.  You should
- install it on all the nodes in your network. It will know how to extract all
- sorts of data from the node it runs on, and will wait for the gatherer to
- request this data for further processing.
- .
- It includes a range of plugins capable of extracting common values such as cpu
- usage, network usage, load average, and so on. Creating your own plugins which
- are capable of extracting other system-specific values is very easy, and is
- often done in a matter of minutes. You can also create plugins which relay
- information from other devices in your network that can't run Munin, such as a
- switch or a server running another operating system, by using SNMP or similar
- technology.
- .
- Munin is written in Perl, and relies heavily on Tobi Oetiker's excellent
- RRDtool. To see a real example of Munin in action, you can follow a link
- from <http://munin.projects.linpro.no/> to a live installation.
-Homepage: http://munin-monitoring.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  munin-node               1.4.5-3                  network-wide graphing framework (node)
 
 # Service status
-Munin-Node is running (PID: 25038).
+Munin-Node is running (PID: 12895).

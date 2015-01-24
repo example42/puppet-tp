@@ -1,27 +1,10 @@
 # Package status
-Package: mariadb-server
-Status: install ok installed
-Priority: optional
-Section: database
-Installed-Size: 66
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Source: mariadb-5.5
-Version: 5.5.40-0ubuntu0.14.04.1
-Depends: mariadb-server-5.5 (>= 5.5.40-0ubuntu0.14.04.1)
-Description: MariaDB database server (metapackage depending on the latest version)
- This is an empty package that depends on the current "best" version of
- mariadb-server (currently mariadb-server-5.5), as determined by the MariaDB
- maintainers. Install this package if in doubt about which MariaDB
- version you need. That will install the version recommended by the
- package maintainers.
- .
- MariaDB is a fast, stable and true multi-user, multi-threaded SQL database
- server. SQL (Structured Query Language) is the most popular database query
- language in the world. The main goals of MariaDB are speed, robustness and
- ease of use.
-Homepage: http://mariadb.org/
-Original-Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  mariadb-server 5.5.40-0ubun all          MariaDB database server (metapack
 
 # Service status
-mysql start/running, process 11227
+mysql start/running, process 10878

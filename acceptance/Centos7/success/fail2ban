@@ -1,47 +1,18 @@
 # Package status
-Name        : fail2ban
-Version     : 0.9.1
-Release     : 2.el7
-Architecture: noarch
-Install Date: Thu 01 Jan 2015 08:12:38 AM EST
-Group       : Unspecified
-Size        : 0
-License     : GPLv2+
-Signature   : RSA/SHA256, Mon 15 Dec 2014 12:55:12 PM EST, Key ID 6a2faea2352c64e5
-Source RPM  : fail2ban-0.9.1-2.el7.src.rpm
-Build Date  : Sun 14 Dec 2014 03:56:11 PM EST
-Build Host  : buildvm-11.phx2.fedoraproject.org
-Relocations : (not relocatable)
-Packager    : Fedora Project
-Vendor      : Fedora Project
-URL         : http://fail2ban.sourceforge.net/
-Summary     : Daemon to ban hosts that cause multiple authentication errors
-Description :
-Fail2Ban scans log files and bans IP addresses that makes too many password
-failures. It updates firewall rules to reject the IP address. These rules can
-be defined by the user. Fail2Ban can read multiple log files such as sshd or
-Apache web server ones.
-
-Fail2Ban is able to reduce the rate of incorrect authentications attempts
-however it cannot eliminate the risk that weak authentication presents.
-Configure services to use only two factor or public/private authentication
-mechanisms if you really want to protect services.
-
-This is a meta-package that will install the default configuration.  Other
-sub-packages are available to install support for other actions and
-configurations.
+fail2ban-0.9.1-2.el7.noarch
 
 # Service status
 Redirecting to /bin/systemctl status  fail2ban.service
 fail2ban.service - Fail2Ban Service
    Loaded: loaded (/usr/lib/systemd/system/fail2ban.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:12:39 EST; 2s ago
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:20:00 EST; 2s ago
      Docs: man:fail2ban(1)
- Main PID: 19721 (fail2ban-server)
+ Main PID: 20506 (fail2ban-server)
    CGroup: /system.slice/fail2ban.service
-           └─19721 /usr/bin/python /usr/bin/fail2ban-server -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid -x -b
+           └─20506 /usr/bin/python /usr/bin/fail2ban-server -s /var/run/fail2...
 
-Jan 01 08:12:39 centos7.example42.com systemd[1]: Starting Fail2Ban Service...
-Jan 01 08:12:39 centos7.example42.com fail2ban-client[19718]: 2015-01-01 08:12:39,562 fail2ban.server         [19719]: INFO    Starting Fail2ban v0.9.1
-Jan 01 08:12:39 centos7.example42.com fail2ban-client[19718]: 2015-01-01 08:12:39,562 fail2ban.server         [19719]: INFO    Starting in daemon mode
-Jan 01 08:12:39 centos7.example42.com systemd[1]: Started Fail2Ban Service.
+Jan 24 11:20:00 centos7.example42.com systemd[1]: Starting Fail2Ban Service...
+Jan 24 11:20:00 centos7.example42.com fail2ban-client[20503]: 2015-01-24 11:2...
+Jan 24 11:20:00 centos7.example42.com fail2ban-client[20503]: 2015-01-24 11:2...
+Jan 24 11:20:00 centos7.example42.com systemd[1]: Started Fail2Ban Service.
+Hint: Some lines were ellipsized, use -l to show in full.

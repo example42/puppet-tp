@@ -1,49 +1,10 @@
 # Package status
-Package: elasticsearch
-Status: install ok installed
-Priority: optional
-Section: web
-Installed-Size: 29482
-Maintainer: Elasticsearch Team <info@elasticsearch.com>
-Architecture: all
-Version: 1.4.2
-Depends: libc6, adduser
-Conffiles:
- /etc/init.d/elasticsearch 54e8fb3292039ca25fb0b1aa14b89a81
- /etc/default/elasticsearch b7dd0244db2907626a0773ca8be281d7
- /etc/elasticsearch/logging.yml b114b7900c5cc0d7cdd29c467008eebb
- /etc/elasticsearch/elasticsearch.yml 08a09998560b7b786eca1e594b004ddc
-Description: Open Source, Distributed, RESTful Search Engine
- Elasticsearch is a distributed RESTful search engine built for the cloud.
- .
- Features include:
- .
- + Distributed and Highly Available Search Engine.
-  - Each index is fully sharded with a configurable number of shards.
-  - Each shard can have one or more replicas.
-  - Read / Search operations performed on either one of the replica shard.
- + Multi Tenant with Multi Types.
-  - Support for more than one index.
-  - Support for more than one type per index.
-  - Index level configuration (number of shards, index storage, ...).
- + Various set of APIs
-  - HTTP RESTful API
-  - Native Java API.
-  - All APIs perform automatic node operation rerouting.
- + Document oriented
-  - No need for upfront schema definition.
-  - Schema can be defined per type for customization of the indexing process.
- + Reliable, Asynchronous Write Behind for long term persistency.
- + (Near) Real Time Search.
- + Built on top of Lucene
-  - Each shard is a fully functional Lucene index
-  - All the power of Lucene easily exposed through simple
-    configuration/plugins.
- + Per operation consistency
-  - Single document level operations are atomic, consistent, isolated and
-    durable.
- + Open Source under the Apache License, version 2 ("ALv2").
-Homepage: http://www.elasticsearch.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  elasticsearch  1.4.2        all          Open Source, Distributed, RESTful
 
 # Service status
  * elasticsearch is running

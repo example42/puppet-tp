@@ -1,31 +1,10 @@
 # Package status
-Package: nagios-nrpe-server
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 127
-Maintainer: Ubuntu Developers <ubuntu-devel@lists.ubuntu.com>
-Architecture: amd64
-Source: nagios-nrpe
-Version: 2.12-5ubuntu1.2
-Depends: libc6 (>= 2.15), libssl1.0.0 (>= 1.0.0), libwrap0 (>= 7.6-4~), lsb-base (>= 3.0-3)
-Pre-Depends: adduser
-Recommends: nagios-plugins | nagios-plugins-basic
-Conflicts: nagios-nrpe-doc
-Conffiles:
- /etc/init.d/nagios-nrpe-server 231ecc717d2f74acecd3f5abac9f5783
- /etc/nagios/nrpe_local.cfg 19c1c67393a0b6002f4595b535c71cc2
- /etc/nagios/nrpe.cfg 8d0bc6cfc108b658e247eb6168fd14f7
- /etc/default/nagios-nrpe-server b5c920ecab98943a1ee39504d9a9827e
-Description: Nagios Remote Plugin Executor Server
- Nagios is a host/service/network monitoring and management system.
- .
- The purpose of this addon is to allow you to execute Nagios plugins on a
- remote host in as transparent a manner as possible.
- .
- This program runs as a background process on the remote host and processes
- command execution requests from the check_nrpe plugin on the Nagios host.
-Original-Maintainer: Debian Nagios Maintainer Group <pkg-nagios-devel@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  nagios-nrpe-server       2.12-5ubuntu1.2          Nagios Remote Plugin Executor Server
 
 # Service status
  * nagios-nrpe is running

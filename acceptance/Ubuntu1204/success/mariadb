@@ -1,4 +1,4 @@
 # Package status
 
 # Service status
-mysql stop/waiting
+mysql start/running, process 20752

@@ -1,39 +1,10 @@
 # Package status
-Package: samba
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 22864
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 2:3.6.3-2ubuntu2.11
-Replaces: samba-common (<= 2.0.5a-2)
-Depends: samba-common (= 2:3.6.3-2ubuntu2.11), libwbclient0 (= 2:3.6.3-2ubuntu2.11), libacl1 (>= 2.2.51-5), libattr1 (>= 1:2.4.46-5), libc6 (>= 2.15), libcap2 (>= 2.10), libcomerr2 (>= 1.01), libcups2 (>= 1.4.0), libgssapi-krb5-2 (>= 1.10+dfsg~), libk5crypto3 (>= 1.6.dfsg.2), libkrb5-3 (>= 1.10+dfsg~), libldap-2.4-2 (>= 2.4.7), libpam0g (>= 0.99.7.1), libpopt0 (>= 1.14), libtalloc2 (>= 2.0.4~git20101213), libtdb1 (>= 1.2.7+git20101214), zlib1g (>= 1:1.1.4), debconf (>= 0.5) | debconf-2.0, upstart-job, libpam-runtime (>= 1.0.1-11), libpam-modules, lsb-base (>= 3.2-13), procps, update-inetd, adduser, samba-common-bin
-Recommends: logrotate, tdb-tools
-Suggests: openbsd-inetd | inet-superserver, smbldap-tools, ldb-tools, ctdb, ufw
-Conflicts: samba4 (<< 4.0.0~alpha6-2)
-Conffiles:
- /etc/ufw/applications.d/samba 9d474788f9a1955e16134f2794be473d
- /etc/network/if-up.d/samba 2c617f0d1baebc4ba4177087a7eefc57
- /etc/logrotate.d/samba 9a7687a2498ae9bfbe6c1cc252818113
- /etc/init/nmbd.conf 737e820c320801a2a0fc9e9c84d43fc0
- /etc/init/smbd.conf ef97a6e85e7f13aba5e63321990a31a4
- /etc/cron.daily/samba f6519535df7964f95cdd7db501bf3ad2
-Description: SMB/CIFS file, print, and login server for Unix
- Samba is an implementation of the SMB/CIFS protocol for Unix systems,
- providing support for cross-platform file and printer sharing with
- Microsoft Windows, OS X, and other Unix systems.  Samba can also function
- as an NT4-style domain controller, and can integrate with both NT4 domains
- and Active Directory realms as a member server.
- .
- This package provides the components necessary to use Samba as a
- stand-alone file and print server.  For use in an NT4 domain or Active
- Directory realm, you will also need the winbind package.
- .
- This package is not required for connecting to existing SMB/CIFS servers
- (see smbclient) or for mounting remote filesystems (see cifs-utils).
-Homepage: http://www.samba.org
-Original-Maintainer: Debian Samba Maintainers <pkg-samba-maint@lists.alioth.debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  samba                    2:3.6.3-2ubuntu2.11      SMB/CIFS file, print, and login server for Unix
 
 # Service status
 samba: unrecognized service

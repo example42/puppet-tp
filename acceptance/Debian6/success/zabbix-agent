@@ -2,33 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: zabbix-agent
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 504
-Maintainer: Christoph Haas <haas@debian.org>
-Architecture: amd64
-Source: zabbix
-Version: 1:1.8.2-1squeeze4
-Depends: libc6 (>= 2.7), libldap-2.4-2 (>= 2.4.7), libopenipmi0, debconf (>= 0.5) | debconf-2.0, adduser, ucf, lsb-base
-Suggests: logrotate
-Conffiles:
- /etc/logrotate.d/zabbix-agent 2e3c0cd2aea37d02cf9c3fdf06e21e5a
- /etc/init.d/zabbix-agent b84b9f3428fdb4841514fa3d8625e504
-Description: network monitoring solution - agent
- Zabbix is a server/client network monitoring system with many features.
- It can be used for:
- .
-  - high level monitoring of IT services;
-  - centralized monitoring of your servers and applications;
-  - monitoring of SNMP-enabled devices;
-  - performance monitoring (process load, network activity, disk
-    activity, memory usage, OS parameters etc.);
-  - data visualization.
- .
- This package provides the software needed to integrate a host as a Zabbix
- client.
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  zabbix-agent             1:1.8.2-1squeeze4        network monitoring solution - agent
 
 # Service status
 Zabbix agent is running

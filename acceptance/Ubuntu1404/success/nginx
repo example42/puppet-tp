@@ -1,22 +1,10 @@
 # Package status
-Package: nginx
-Status: install ok installed
-Priority: optional
-Section: httpd
-Installed-Size: 93
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 1.4.6-1ubuntu3.1
-Depends: nginx-core (>= 1.4.6-1ubuntu3.1) | nginx-full (>= 1.4.6-1ubuntu3.1) | nginx-light (>= 1.4.6-1ubuntu3.1) | nginx-extras (>= 1.4.6-1ubuntu3.1) | nginx-naxsi (>= 1.4.6-1ubuntu3.1), nginx-core (<< 1.4.6-1ubuntu3.1.1~) | nginx-full (<< 1.4.6-1ubuntu3.1.1~) | nginx-light (<< 1.4.6-1ubuntu3.1.1~) | nginx-extras (<< 1.4.6-1ubuntu3.1.1~) | nginx-naxsi (<< 1.4.6-1ubuntu3.1.1~)
-Description: small, powerful, scalable web/proxy server
- Nginx ("engine X") is a high-performance web and reverse proxy server
- created by Igor Sysoev. It can be used both as a standalone web server
- and as a proxy to reduce the load on back-end HTTP or mail servers.
- .
- This is a dependency package to install either nginx-core (by default),
- nginx-full, nginx-light, nginx-extras, or nginx-naxsi.
-Homepage: http://nginx.net
-Original-Maintainer: Kartik Mistry <kartik@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  nginx          1.4.6-1ubunt all          small, powerful, scalable web/pro
 
 # Service status
  * nginx is running

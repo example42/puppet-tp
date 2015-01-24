@@ -1,36 +1,10 @@
 # Package status
-Package: activemq
-Status: install ok installed
-Priority: optional
-Section: java
-Installed-Size: 217
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 5.6.0+dfsg-1
-Depends: adduser (>= 3.11), libactivemq-java (= 5.6.0+dfsg-1), openjdk-6-jre-headless | java6-runtime-headless
-Conffiles:
- /etc/default/activemq 3353e02e20e45a2224c1559f7e52e0a7
- /etc/activemq/instances-available/main/activemq.xml 0d815a59ffa96e5978540ceee4623b56
- /etc/activemq/instances-available/main/log4j.properties 7a52b5daa7fba629b28bc9c05ccc3dc0
- /etc/init.d/activemq 8eb32df2af38fce26258548ae04c538b
-Description: Java message broker - server
- Apache ActiveMQ is a message broker built around Java Message Service (JMS)
- API : allow sending messages between two or more clients in a loosely coupled,
- reliable, and asynchronous way.
- .
- This message broker supports :
-  * JMS 1.1 and J2EE 1.4 with support for transient, persistent, transactional
-    and XA messaging
-  * Spring Framework, CXF and Axis integration
-  * pluggable transport protocols such as in-VM, TCP, SSL, NIO, UDP, multicast,
-    JGroups and JXTA
-  * persistence using JDBC along with journaling
-  * OpenWire (cross language wire protocol) and
-    Stomp (Streaming Text Orientated Messaging Protocol) protocols
- .
- This package contains a server installation of ActiveMQ.
-Original-Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
-Homepage: http://activemq.apache.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  activemq       5.6.0+dfsg-1 all          Java message broker - server
 
 # Service status
- * Checking status of ActiveMQ instance activemq       [203G [197G[ OK ]
+ * Checking status of ActiveMQ instance activemq       [80G [74G[ OK ]

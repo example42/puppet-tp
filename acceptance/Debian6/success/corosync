@@ -2,34 +2,11 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: corosync
-Status: install ok installed
-Priority: optional
-Section: admin
-Installed-Size: 1124
-Maintainer: Debian HA Maintainers <debian-ha-maintainers@lists.alioth.debian.org>
-Architecture: amd64
-Version: 1.2.1-4
-Depends: libc6 (>= 2.3.4), libcorosync4 (>= 1.2.1-4), lsb-base (>= 3.0-6), adduser
-Conflicts: openais (<< 0.85), openais-legacy (<< 1.0.0)
-Conffiles:
- /etc/logrotate.d/corosync 2dc66bb756d1291aacbcf51cf9b6ac0a
- /etc/init.d/corosync 880eba43fed5c24a0e5fcae4811322f8
- /etc/corosync/corosync.conf 0fcea3053fda4fd8548464b8ac8e3e62
- /etc/corosync/corosync.conf.example fe637260bca3c106618688f7e796c3a9
- /etc/default/corosync f0458bf4654686c58e90de00f2721566
-Description: Standards-based cluster framework (daemon and modules)
- The corosync project is a project to implement a production quality
- "Revised BSD" licensed implementation of all core functionalities
- required by openais. The project implements cutting edge research
- on virtual synchrony to provide 100% correct operation in the face of
- failures or partitionable networks with excellent performance
- characteristics.
- .
- The Application Interface Specification is a software API and policies
- which are used to develop applications that maintain service during
- faults.
- .
- This package contains the corosync daemon and modules.
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  corosync                 1.2.1-4                  Standards-based cluster framework (daemon and modules)
 
 # Service status

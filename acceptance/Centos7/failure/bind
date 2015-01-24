@@ -1,28 +1,5 @@
 # Package status
-Name        : bind
-Epoch       : 32
-Version     : 9.9.4
-Release     : 14.el7_0.1
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:07:07 AM EST
-Group       : System Environment/Daemons
-Size        : 4488995
-License     : ISC
-Signature   : RSA/SHA256, Fri 12 Dec 2014 06:11:28 AM EST, Key ID 24c6a8a7f4a80eb5
-Source RPM  : bind-9.9.4-14.el7_0.1.src.rpm
-Build Date  : Fri 12 Dec 2014 05:53:39 AM EST
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.isc.org/products/BIND/
-Summary     : The Berkeley Internet Name Domain (BIND) DNS (Domain Name System) server
-Description :
-BIND (Berkeley Internet Name Domain) is an implementation of the DNS
-(Domain Name System) protocols. BIND includes a DNS server (named),
-which resolves host names to IP addresses; a resolver library
-(routines for applications to use when interfacing with DNS); and
-tools for verifying that the DNS server is operating properly.
+bind-9.9.4-14.el7_0.1.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  bind9.service

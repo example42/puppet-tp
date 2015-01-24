@@ -1,71 +1,7 @@
 # Package status
-Package: munin
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 649
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: all
-Version: 2.0.19-3
-Depends: perl, perl-modules | libparse-recdescent-perl, librrds-perl, libhtml-template-perl, libdigest-md5-perl, libtime-hires-perl, libstorable-perl, rrdtool, adduser, liblog-log4perl-perl, ttf-dejavu, munin-common (>= 2.0.19-3), cron, libdate-manip-perl, libfile-copy-recursive-perl, liburi-perl, libio-socket-inet6-perl
-Recommends: munin-node, munin-doc
-Suggests: www-browser, httpd, libnet-ssleay-perl, libapache2-mod-fcgid | libcgi-fast-perl
-Conffiles:
- /etc/munin/templates/munin-categoryview.tmpl 2f785b0be5e4064912230252bb97e59e
- /etc/munin/templates/munin-overview.tmpl 2dcba55f65ff714410cbe445e1b8dfd0
- /etc/munin/templates/munin-comparison-month.tmpl 65bcda71eaa8706e52e8b24a27b4f037
- /etc/munin/templates/munin-comparison-year.tmpl 7b60b6e00db7d5567653f5a9f64f41ff
- /etc/munin/templates/munin-nodeview.tmpl b444c3b23f867ffc382d8f2f204b540e
- /etc/munin/templates/munin-comparison-day.tmpl 9b1cdd2c19e9fe28885c3c2696a5b8ad
- /etc/munin/templates/munin-domainview.tmpl 51bf7768f46777d12d386857f98088a2
- /etc/munin/templates/munin-comparison-week.tmpl 7f1a45e67f9a2be935688c110e45216c
- /etc/munin/templates/partial/navigation.tmpl c4749c57b26e1bed066305ed7e1c2292
- /etc/munin/templates/partial/bottom_navigation.tmpl 61dc2a69537bc23903a0748214dfb800
- /etc/munin/templates/partial/path.tmpl af6f7d856ef07d4a158c9b2815cfabc1
- /etc/munin/templates/partial/generated_by.tmpl 8e686d1c27746d11a93accf698d46446
- /etc/munin/templates/partial/logo_navigation_problem.tmpl 97d98675cce1d1bd15447f818702435a
- /etc/munin/templates/partial/head.tmpl baa85358d5c4f8471d936e03380d0cde
- /etc/munin/templates/partial/logo_navigation.tmpl 085bb826aaa2b1995e6ceb17cbd253fc
- /etc/munin/templates/partial/logo_path.tmpl bf7d15c58efd7c1c5aabfe0489857ce7
- /etc/munin/templates/partial/footer.tmpl 096a6244bdee68b96b737317bd6c08a8
- /etc/munin/templates/partial/logo_navigation_comparison.tmpl 03682ac866b991b4d77d840cd0f12e83
- /etc/munin/templates/munin-dynazoom.tmpl 6fcf276496bc77b890d139022b269714
- /etc/munin/templates/munin-serviceview.tmpl 5f5bd35ec9c07c9bd0909138847713eb
- /etc/munin/templates/munin-problemview.tmpl 48e99a7c2e30e1c728a198b79fdef63b
- /etc/munin/static/querystring.js 9ae7b7300a6e5f256dee21ffe13cc05a
- /etc/munin/static/style-1.2.css 405496a7ddd478daa48914e9167f1e7e
- /etc/munin/static/formatdate.js 5faf50cc9d0028a68f1b9cc886e2024c
- /etc/munin/static/definitions.html 90bc0c354b429d006d1b249ebe4798d8
- /etc/munin/static/logo-h.png 143ac7d567fb19a2056a1f9ae1369957
- /etc/munin/static/style.css f824b4bdf41b5c632dd97c4da025e6cf
- /etc/munin/static/zoom.js 458784c0a3f5a65faf9f0029fd73037a
- /etc/munin/static/favicon.ico 934624a112e74e6428a86a706cf7521d
- /etc/munin/static/logo.png 84c15a8de7aa16ba4a8f386e763f8c65
- /etc/munin/static/style-new.css a04b1de8b45deb5fc2b4aec07ba2e6cf
- /etc/munin/static/dynazoom.html bab59d2c181e125a8302178162f09084
- /etc/munin/munin.conf 1f6c56471473b50cb4ef344887711173
- /etc/munin/apache.conf 3b1f230f2722f2a0d6faabf9eed23f5e
- /etc/logrotate.d/munin 8090967e6b6bfabc3b873166d02cd174
- /etc/cron.d/munin 396c01b445483612f1c8957534d80366
- /etc/init/munin.conf 60fd5aadafb506772f9783149b760f84
- /etc/init.d/munin 89f27eab7c06df138c36c6c88e6929e0
-Description: network-wide graphing framework (grapher/gatherer)
- Munin is a highly flexible and powerful solution used to create graphs of
- virtually everything imaginable throughout your network, while still
- maintaining a rattling ease of installation and configuration.
- .
- This package contains the grapher/gatherer. You will only need one instance of
- it in your network. It will periodically poll all the nodes in your network
- it's aware of for data, which it in turn will use to create graphs and HTML
- pages, suitable for viewing with your graphical web browser of choice.
- .
- It is also able to alert you if any value is outside of a preset boundary,
- useful if you want to be alerted if a filesystem is about to grow full, for
- instance.  You can do this by making Munin run an arbitrary command when you
- need to be alert it, or make use of the intrinsic Nagios support.
- .
- Munin is written in Perl, and relies heavily on Tobi Oetiker's excellent
- RRDtool. To see a real example of Munin in action, you can follow a link
- from <http://munin-monitoring.org/> to a live installation.
-Original-Maintainer: Munin Debian Maintainers <packaging@munin-monitoring.org>
-Homepage: http://munin-monitoring.org
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  munin          2.0.19-3     all          network-wide graphing framework (

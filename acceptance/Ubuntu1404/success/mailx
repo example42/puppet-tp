@@ -1,34 +1,7 @@
 # Package status
-Package: bsd-mailx
-Status: install ok installed
-Priority: standard
-Section: mail
-Installed-Size: 179
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 8.1.2-0.20131005cvs-1
-Replaces: mailx (<< 1:20071201)
-Provides: mail-reader, mailx
-Depends: base-files (>= 2.2.0), default-mta | mail-transport-agent, libbsd0 (>= 0.2.0), libc6 (>= 2.14), liblockfile1 (>= 1.0)
-Breaks: mailutils (<< 1:1.1+dfsg1-4), mailx (<< 1:20071201)
-Conffiles:
- /etc/mail.rc 2bd8160a85f53c20e55ebd375fc89431
-Description: simple mail user agent
- bsd-mailx is the traditional simple command-line-mode mail user agent.
- Even if you don't use it, it may be required by other programs.
- .
- The /usr/bin/mail command provided by this package is a very simple one,
- and does not include many features that can be found in more advanced
- mail user agents.
- .
- For example bsd-mailx DOES NOT support:
-  - MIME           (i.e. no attachments, no UTF-8 or other charsets support);
-  - SMTP protocol  (/usr/sbin/sendmail interface only is used);
-  - POP3/IMAP      (bsd-mailx reads local mailboxes only);
-  - maildir format (traditional mbox only format is supported).
- .
- If the above features are needed, please consider installing another package
- providing similar /usr/bin/mail interface:
-  - heirloom-mailx package,
-  - or mailutils package.
-Original-Maintainer: Robert Luberda <robert@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name           Version      Architecture Description
++++-==============-============-============-=================================
+ii  bsd-mailx      8.1.2-0.2013 amd64        simple mail user agent

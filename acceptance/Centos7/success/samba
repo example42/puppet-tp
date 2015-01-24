@@ -1,39 +1,18 @@
 # Package status
-Name        : samba
-Epoch       : 0
-Version     : 4.1.1
-Release     : 37.el7_0
-Architecture: x86_64
-Install Date: Thu 01 Jan 2015 08:32:08 AM EST
-Group       : System Environment/Daemons
-Size        : 1657523
-License     : GPLv3+ and LGPLv3+
-Signature   : RSA/SHA256, Tue 05 Aug 2014 03:59:24 PM EDT, Key ID 24c6a8a7f4a80eb5
-Source RPM  : samba-4.1.1-37.el7_0.src.rpm
-Build Date  : Tue 05 Aug 2014 03:33:22 PM EDT
-Build Host  : worker1.bsys.centos.org
-Relocations : (not relocatable)
-Packager    : CentOS BuildSystem <http://bugs.centos.org>
-Vendor      : CentOS
-URL         : http://www.samba.org/
-Summary     : Server and Client software to interoperate with Windows machines
-Description :
-Samba is the standard Windows interoperability suite of programs for Linux and Unix.
+samba-4.1.1-37.el7_0.x86_64
 
 # Service status
 Redirecting to /bin/systemctl status  smb.service
 smb.service - Samba SMB Daemon
    Loaded: loaded (/usr/lib/systemd/system/smb.service; enabled)
-   Active: [1;32mactive (running)[0m since Thu 2015-01-01 08:32:09 EST; 2s ago
- Main PID: 18530 (smbd)
+   Active: [1;32mactive (running)[0m since Sat 2015-01-24 11:44:33 EST; 3s ago
+ Main PID: 21302 (smbd)
    Status: "smbd: ready to serve connections..."
    CGroup: /system.slice/smb.service
-           ├─18530 /usr/sbin/smbd
-           └─18534 /usr/sbin/smbd
+           ├─21302 /usr/sbin/smbd
+           └─21306 /usr/sbin/smbd
 
-Jan 01 08:32:09 centos7.example42.com smbd[18529]: [1;31m[2015/01/01 08:32:09.070858,  0] ../source3/smbd/server.c:1278(main)[0m
-Jan 01 08:32:09 centos7.example42.com smbd[18529]: [1;31mstandard input is not a socket, assuming -D option[0m
-Jan 01 08:32:09 centos7.example42.com systemd[1]: [1;39msmb.service: Supervising process 18530 which is not our child. We'll most likely not notice when it exits.[0m
-Jan 01 08:32:09 centos7.example42.com smbd[18530]: [1;31m[2015/01/01 08:32:09.162958,  0] ../lib/util/become_daemon.c:136(daemon_ready)[0m
-Jan 01 08:32:09 centos7.example42.com systemd[1]: Started Samba SMB Daemon.
-Jan 01 08:32:09 centos7.example42.com smbd[18534]: [1;31mSTATUS=daemon 'smbd' finished starting up and ready to serve connectionsfailed to retrieve printer list: NT_STATUS_UNSUCCESSFUL[0m
+Jan 24 11:44:33 centos7.example42.com smbd[21302]: [1;31m[2015/01/24 11:44:33.82640...[0m
+Jan 24 11:44:33 centos7.example42.com systemd[1]: Started Samba SMB Daemon.
+Jan 24 11:44:33 centos7.example42.com smbd[21306]: [1;31mSTATUS=daemon 'smbd' finis...[0m
+Hint: Some lines were ellipsized, use -l to show in full.

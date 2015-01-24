@@ -2,32 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: vsftpd
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 464
-Maintainer: Daniel Baumann <daniel@lists.debian-maintainers.org>
-Architecture: amd64
-Version: 2.3.2-3+squeeze2
-Replaces: ftp-server
-Provides: ftp-server
-Depends: debconf (>= 0.5) | debconf-2.0, libc6 (>= 2.7), libcap2 (>= 2.10), libpam0g (>= 0.99.7.1), libssl0.9.8 (>= 0.9.8m-1), libwrap0 (>= 7.6-4~), adduser, libpam-modules, netbase
-Recommends: logrotate
-Conflicts: ftp-server
-Conffiles:
- /etc/pam.d/vsftpd e75200b7896d8b2c2f2590d0e3d4a6ef
- /etc/logrotate.d/vsftpd dac2cb7b9cfd8a03b4fa9ca3601a43a6
- /etc/ftpusers 839f3157aad792bafbbdcd932a95a345
- /etc/init.d/vsftpd 00b3e409e7609add476f17d4bd0d6471
- /etc/vsftpd.conf dea8e91888577cacafb3b031873c60ef
-Description: lightweight, efficient FTP server written for security
- This package provides the "Very Secure FTP Daemon", written from
- the ground up with security in mind.
- .
- It supports both anonymous and non-anonymous FTP access, PAM authentication,
- bandwidth limiting, and the Linux sendfile() facility.
-Homepage: http://vsftpd.beasts.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version                  Description
++++-========================-========================-================================================================
+ii  vsftpd                   2.3.2-3+squeeze2         lightweight, efficient FTP server written for security
 
 # Service status
 vsftpd is running

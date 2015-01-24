@@ -2,32 +2,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 /bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 # Package status
-Package: openvswitch-switch
-Status: install ok installed
-Priority: extra
-Section: net
-Installed-Size: 2946
-Maintainer: Open vSwitch developers <dev@openvswitch.org>
-Architecture: amd64
-Source: openvswitch
-Version: 1.4.2+git20120612-9.1~deb7u1
-Depends: libc6 (>= 2.7), libssl1.0.0 (>= 1.0.0), python, openvswitch-common (= 1.4.2+git20120612-9.1~deb7u1), module-init-tools, procps, uuid-runtime, netbase
-Suggests: openvswitch-datapath-module
-Conffiles:
- /etc/init.d/openvswitch-switch e19490b929abd335570d25987dda3ece
- /etc/logrotate.d/openvswitch-switch b141ebf682a208857d373bd0d1db0404
-Description: Open vSwitch switch implementations
- Open vSwitch is a production quality, multilayer, software-based, Ethernet
- virtual switch. It is designed to enable massive network automation through
- programmatic extension, while still supporting standard management interfaces
- and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag). In
- addition, it is designed to support distribution across multiple physical
- servers similar to VMware's vNetwork distributed vswitch or Cisco's Nexus
- 1000V.
- .
- openvswitch-switch provides the userspace components and utilities for
- the Open vSwitch kernel-based switch.
-Homepage: http://openvswitch.org/
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  openvswitch-switch       1.4.2+git20120612 amd64             Open vSwitch switch implementations
 
 # Service status
 ovsdb-server is not running

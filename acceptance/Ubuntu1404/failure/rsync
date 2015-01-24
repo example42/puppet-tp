@@ -1,32 +1,10 @@
 # Package status
-Package: rsync
-Status: install ok installed
-Priority: optional
-Section: net
-Installed-Size: 634
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Multi-Arch: foreign
-Version: 3.1.0-2ubuntu0.1
-Depends: libacl1 (>= 2.2.51-8), libc6 (>= 2.15), libpopt0 (>= 1.14), zlib1g (>= 1:1.1.4), lsb-base (>= 3.2-14), base-files (>= 4.0.1)
-Suggests: openssh-client, openssh-server
-Breaks: duplicity (<< 0.6.11)
-Conffiles:
- /etc/default/rsync e0d7efac23e911c65f44b08de446e837
- /etc/init.d/rsync 14875a3578ab580e9b887b6b158b8291
-Description: fast, versatile, remote (and local) file-copying tool
- rsync is a fast and versatile file-copying tool which can copy locally
- and to/from a remote host. It offers many options to control its behavior,
- and its remote-update protocol can minimize network traffic to make
- transferring updates between machines fast and efficient.
- .
- It is widely used for backups and mirroring and as an improved copy
- command for everyday use.
- .
- This package provides both the rsync command line tool and optional
- daemon functionality.
-Homepage: http://rsync.samba.org/
-Original-Maintainer: Paul Slootman <paul@debian.org>
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                     Version           Architecture      Description
++++-========================-=================-=================-=====================================================
+ii  rsync                    3.1.0-2ubuntu0.1  amd64             fast, versatile, remote (and local) file-copying tool
 
 # Service status
  [31m*[39;49m rsync is not running
