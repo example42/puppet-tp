@@ -12,8 +12,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'root',
         'group'   => 'root',
-#        'require' => 'Package[redis]',
-#        'notify'  => 'Service[redis]',
+        'require' => 'Package[redis]',
+        'notify'  => 'Service[redis]',
       })
     end
   end
@@ -32,8 +32,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-#        'require' => 'Package[redis-test]',
-#        'notify'  => 'Service[redis-test]',
+        'require' => 'Package[redis-test]',
+        'notify'  => 'Service[redis-test]',
       })
     end
   end
@@ -53,8 +53,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-#        'require' => 'Package[redis-testos]',
-#        'notify'  => 'Service[redis-testos]',
+        'require' => 'Package[redis-testos]',
+        'notify'  => 'Service[redis-testos]',
       })
     end
   end
@@ -75,8 +75,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0755',
         'owner'   => 'test',
         'group'   => 'test',
-#        'require' => 'Package[redis-testos001]',
-#        'notify'  => 'Service[redis-testos001]',
+        'require' => 'Package[redis-testos001]',
+        'notify'  => 'Service[redis-testos001]',
       })
     end
   end
@@ -120,8 +120,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
- #       'require' => 'Package[redis]',                    
- #       'notify'  => 'Service[redis]',                    
+        'require' => 'Package[redis]',                    
+        'notify'  => 'Service[redis]',                    
       })                                                  
     end                                                   
   end 
@@ -151,8 +151,8 @@ describe 'tp::dir', :type => :define do
         'mode'    => '0777',                              
         'owner'   => 'mytest',
         'group'   => 'mytest',                              
-#        'require' => 'Package[redis-testos001]',
-#        'notify'  => 'Service[redis-testos001]',
+        'require' => 'Package[redis-testos001]',
+        'notify'  => 'Service[redis-testos001]',
       })
     end
   end

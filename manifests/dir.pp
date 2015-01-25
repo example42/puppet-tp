@@ -15,8 +15,8 @@ define tp::dir (
   $owner                = undef,
   $group                = undef,
 
-  $config_dir_notify    = 'default',
-  $config_dir_require   = undef,
+  $config_dir_notify    = true,
+  $config_dir_require   = true,
 
   $purge                = undef,
   $recurse              = undef,
