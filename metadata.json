@@ -1,11 +1,14 @@
 {
   "name": "example42-tp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "summary": "Tiny Puppet",
   "license": "Apache 2.0",
   "author": "Alessandro Franceschi",
-  "types": [],
-  "checksums": {},
+  "types": [
+
+  ],
+  "checksums": {
+  },
   "source": "https://github.com/example42/puppet-tp",
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
