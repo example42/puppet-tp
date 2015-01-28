@@ -1,0 +1,9 @@
+---
+  nfs::settings:
+    service_name: 'nfs'
+    config_file_path: '/etc/exports'
+    pid_file_path: '/var/run/nfs.pid'
+    process_name: 'nfs'
+    process_user: 'root'
+    process_group: 'root'
+    tcp_port: '2049'
