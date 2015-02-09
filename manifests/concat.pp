@@ -108,7 +108,6 @@ define tp::concat (
 
   # Debugging
   if $debug == true {
- 
     $debug_file_params = "
     concat { ${manage_path}:
       ensure         => present,
