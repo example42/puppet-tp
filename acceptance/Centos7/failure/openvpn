@@ -1,9 +1,0 @@
-# Package status
-openvpn-2.3.6-1.el7.x86_64
-
-# Service status
-Redirecting to /bin/systemctl status  openvpn.service
-openvpn.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

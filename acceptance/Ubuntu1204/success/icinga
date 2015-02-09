@@ -1,10 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  icinga                   1.6.1-2                  host and network monitoring system - metapackage
-
-# Service status
- * checking /usr/sbin/icinga...       [120G [114G[ OK ]

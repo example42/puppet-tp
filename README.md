@@ -147,7 +147,6 @@ or providing a custom erb template (used as ```content => template($template)```
       template    => 'site/openssh/ssh_config.erb',
     }
 
-
 or using a custom epp template with Puppet code instead of Ruby (used as ```content => epp($epp)```):
 
     tp::conf { 'redis:
@@ -172,6 +171,13 @@ By default, if you just specify the application name, the file managed is the "m
     }
 
 If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the "base" configuration dir:
+
+    # This manages /etc/ssh/ssh_config
+    tp::conf { 'openssh::ssh_config':
+      [...]
+    }
+
+If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog): 
 
     # This manages /etc/ssh/ssh_config
     tp::conf { 'openssh::ssh_config':
@@ -239,9 +245,9 @@ Currently Tiny Puppet supports applications' installation only via the OS native
 
 The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
-Generally you don't have to use directly the ```tp::repo``` defind, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
+Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
-If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
+If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
 
     tp::install { 'elasticsearch':
       auto_repo        => false,
@@ -326,75 +332,9 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
 
 ## Testing and playing with Tiny Puppet
 
-You can test Tiny Puppet on different Operating Systems with Vagrant:
+You can test Tiny Puppet and play with it using [Tiny Puppet Playground](https://github.com/example42/tp-playground).
 
-    vagrant status
-
-The default Vagrantfile uses the cachier plugin, you can install it with:
-
-    vagrant plugin install vagrant-cachier
-
-You absolutely need to have the VirtualBox guest additions working on the Vagrant's VMs, if the provided ones are not updated you may use the VBguest plugin to automatically install them:
-
-    vagrant plugin install vagrant-vbguest
-
-Besides the ```Vagrantfile``` all the Vagrant stuff is under the ```vagrant``` directory.
-
-The default manifest is ```vagrant/manifests/site.pp```, you can play with Tiny Puppet there and verify there what you can do with it.
-
-Public modules, which are required or optional dependencies for Tiny Puppet are under ```vagrant/modules/public```, populate them with Librarian Puppet:
-
-    librarian-puppet install --puppetfile Puppetfile --path vagrant/modules/public
-
-On the shell of your VM you can run Puppet (same effect of ```vagrant provision```) with:
-
-    root@ubuntu1404:/#  /vagrant/bin/papply_vagrant.sh 
-
-this does a puppet apply on /vagrant/vagrant/manifests/site.pp with the correct parameters.
-
-If you specify a different manifest, puppet apply is done on it:
-
-    root@ubuntu1404:/#  /vagrant/bin/papply_vagrant.sh test.pp 
-
-### Acceptance tests
-
-The ```bin/test.sh``` script is the quickest way to test how Tiny Puppet manages different applications on different Operating Systems.
-
-You need to run the VM you want to test on:
-
-    vagrant up Ubuntu1404
-
-and then execute commands like these:
-
-  - To test apache installation on Ubuntu1404:
-
-    ```bin/test.sh apache Ubuntu1404```
-
-  - To test ALL the supported applications on Centos7:
-
-    ```bin/test.sh all Centos7```
-
-  - To test ALL the applications on Centos7 and save the results in the ```acceptance``` dir:
-
-    ```bin/test.sh all Centos7 acceptance```
-
-  - To run puppi check for proftpd applications on Centos7:
-
-    ```bin/test.sh all Centos7 puppi```
-
-
-Do not expect everything to work seamlessly, this is a test environment to verify functionality and coverage on different Operating Systems. 
-
-
-### Compatibility matrix
-
-Routinely the results of acceptance tests are saved in the [```acceptance```](https://github.com/example42/puppet-tp/tree/master/acceptance)  directory: use it as a reference on the current support matrix of different applications on different Operating Systems.
-
-Note however that Tiny Puppet support may extend to other OS: the acceptance tests use directly ```puppet apply``` on ```tp``` defines, so they need to run locally and have the expected prerequisites (such as the Ruby version).
-
-Note also that some tests fail for trivial reasons such as the absence of a valid configuration file by default or missing data to configure dedicated repositories or execution order issues while running tests on the same VM or errors in the test scripts.
-
-Check the output of the check scripts, under the ```success``` and ```failure``` directories for some details on the reasons some tests are failing.
+Check this [**Compatibility Matrix**](https://github.com/example42/tp-playground/tree/master/acceptance) for a quick overview on how different applications are currently supported on different Operating Systems.
 
 
 ## Usage on the Command Line (TODO)

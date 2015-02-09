@@ -1,7 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  msmtp-mta                1.4.26-1                 light SMTP client with support for server profiles - the regular

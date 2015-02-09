@@ -1,11 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name           Version      Architecture Description
-+++-==============-============-============-=================================
-ii  exim4          4.82-3ubuntu all          metapackage to ease Exim MTA (v4)
-
-# Service status
- * checking separate queue runner daemon...       [80G [74G[ OK ]
- * checking combined SMTP listener and queue runner daemon...       [80G [74G[ OK ]

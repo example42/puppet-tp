@@ -1,9 +1,0 @@
-# Package status
-package jenkins is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  jenkins.service
-jenkins.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

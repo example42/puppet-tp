@@ -1,9 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  haproxy                  1.4.18-0ubuntu1.2        fast and reliable load balancing reverse proxy
-
-# Service status

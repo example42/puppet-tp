@@ -1,9 +1,0 @@
-# Package status
-package jboss is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  jboss.service
-jboss.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

@@ -1,9 +1,0 @@
-# Package status
-mongodb-server-2.6.5-2.el7.x86_64
-
-# Service status
-Redirecting to /bin/systemctl status  mongodb.service
-mongodb.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

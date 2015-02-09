@@ -1,7 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  lsb-base                 4.0-0ubuntu20.2          Linux Standard Base 4.0 init script functionality

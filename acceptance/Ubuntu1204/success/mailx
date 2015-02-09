@@ -1,7 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  bsd-mailx                8.1.2-0.20111106cvs-1ubu simple mail user agent

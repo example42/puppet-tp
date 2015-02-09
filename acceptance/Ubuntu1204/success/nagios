@@ -1,10 +1,0 @@
-# Package status
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                     Version                  Description
-+++-========================-========================-================================================================
-ii  nagios3                  3.2.3-3ubuntu1.1         A host/service/network monitoring and management system
-
-# Service status
- * checking /usr/sbin/nagios3...       [120G [114G[ OK ]

@@ -1,9 +1,0 @@
-# Package status
-package MariaDB-server is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  mysql.service
-mysql.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

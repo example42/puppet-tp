@@ -1,9 +1,0 @@
-# Package status
-package bluepill is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  bluepill.service
-bluepill.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

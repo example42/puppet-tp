@@ -1,9 +1,0 @@
-# Package status
-package zabbix-agent is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  zabbix-agent.service
-zabbix-agent.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

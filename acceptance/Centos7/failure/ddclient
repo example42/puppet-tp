@@ -1,9 +1,0 @@
-# Package status
-package ddclient is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  ddclient.service
-ddclient.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-

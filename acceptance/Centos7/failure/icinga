@@ -1,9 +1,0 @@
-# Package status
-package icinga is not installed
-
-# Service status
-Redirecting to /bin/systemctl status  icinga.service
-icinga.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
-
