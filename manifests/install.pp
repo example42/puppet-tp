@@ -1,11 +1,83 @@
+# @define tp::install
 #
+# This define installs the application (app) set as title.
+# It manages the packages presence and, eventually, the relevant
+# services on different OS.
+# Several parameters allow any kind of override of default settings and
+# customization.
+# The list of supported applications, and the relevant OS coverage is in the data/ directory of this module.
 #
-# = Define: tp
+# @example installation (on any supported OS):
+#   tp::install { $app: }
 #
-# This class installs and manages tp
+# @example disinstallation
+#   tp::install { 'nginx':
+#     ensure => absent,
+#   }
 #
+# @example installation and configuration via a custom hash of tp::conf
+# resources used to manage configuration files
+#   tp::install { 'puppet':
+#     conf_hash => hiera('tp::puppet::confs'),
+#   }
 #
-# == Parameters
+# @example installation with custom settings
+#   tp::install { 'apache':
+#     settings_hash => {
+#        package_name     => 'opt_apache',
+#        service_enable   => false,
+#        config_file_path => '/opt/apache/conf/httpd.conf',
+#        config_dir_path  => '/opt/apache/conf/',
+#      }
+#   }
+#
+# @param ensure                    Default: present
+#   Define if to install (present, default value) or remove (absent) the application.
+#
+# @param conf_hash                 Default: { } 
+#   An hash of tp::conf resources that feed a create_resources function.
+#
+# @param dir_hash                  Default: { } 
+#   An hash of tp::dir resources that feed a create_resources function.
+#
+# @param settings_hash             Default: { } 
+#   An hash that can override the application settings tp returns, according to the
+#   underlying Operating System and the default behaviour
+#
+# @param auto_repo                 Default: true
+#   Boolean to enable automatic package repo management for the specified
+#   application. Repo data is not always provided.
+#
+# @param extra_class               Default: undef
+#
+# @param dependency_class          Default: undef
+#
+# @param monitor_class             Default: undef
+#   Optional name of a custom class where you can manage the
+#   monitoring of this application.
+#
+# @param firewall_class            Default: undef
+#   Optional name of a custom class where you can manage the
+#   monitoring of this application.
+#
+# @param firewall_class            Default: undef
+
+# @param puppi_enable              Default: false
+#   Enable puppi integration. Default disabled.
+#   If set true, the puppi module is needed.
+#   
+# 
+# @param test_enable               Default: false
+#   If true, it is called the define tp::test, which creates a script that
+#   should test the functionality of the app
+#
+# @param test_template  Default: undef
+#   Custom template to use to for the content of test script, used 
+#
+# @param data_module               Default: 'tp'
+#   Name of the module tp data is looked for
+
+
 #
 define tp::install (
 
@@ -26,7 +98,7 @@ define tp::install (
   $puppi_enable              = false,
 
   $test_enable               = false,
-  $test_acceptance_template  = undef,
+  $test_template             = undef,
 
   $data_module               = 'tp',
 
@@ -109,7 +181,7 @@ define tp::install (
 
   if $test_enable == true {
     tp::test { $title:
-      acceptance_template => $test_acceptance_template,
+      template => $test_template,
     }
   }
 
