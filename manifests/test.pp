@@ -10,7 +10,7 @@ define tp::test (
 
   $ensure              = present,
 
-  $acceptance_template = 'tp/test/acceptance.erb',
+  $template            = 'tp/test/acceptance.erb',
 
   $options_hash        = { },
   $settings_hash       = { },
@@ -77,7 +77,7 @@ define tp::test (
     mode    => '0755',
     owner   => root,
     group   => root,
-    content => template($acceptance_template),
+    content => template($template),
     tag     => 'tp_test',
   }
 

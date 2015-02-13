@@ -10,6 +10,8 @@ define tp::conf (
   $epp                  = undef,
   $content              = undef,
 
+  $base_dir             = 'config',
+
   $path                 = undef,
   $mode                 = undef,
   $owner                = undef,
@@ -39,7 +41,15 @@ define tp::conf (
   $settings = tp_lookup($app,'settings',$data_module,'merge')
 
   if $file {
-    $auto_path = "${settings[config_dir_path]}/${file}"
+    # TODO: Find a way to interpolate $base_dir 
+    $auto_path = $base_dir ? {
+      'config' => "${settings[config_dir_path]}/${file}",
+      'conf'   => "${settings[conf_dir_path]}/${file}",
+      'data'   => "${settings[data_dir_path]}/${file}",
+      'log'    => "${settings[log_dir_path]}/${file}",
+      'ssl'    => "${settings[ssl_dir_path]}/${file}",
+      default  => "${settings[config_dir_path]}/${file}",
+    }
   } else {
     $auto_path = $settings['config_file_path']
   }
