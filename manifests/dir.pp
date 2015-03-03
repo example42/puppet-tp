@@ -1,5 +1,103 @@
+# @define tp::dir
 #
-# = Define: tp::dir
+# This define manages whole directories related to the application (app)
+# set in the title.
+# If the vcsrepo parameter is set, the content of the directory is populated
+# from the url defined in the source parameter.
+# If no vcsrepo is used, the directory is manage by the native file resource.
+# The actual path of the managed directory is determined with this logic:
+# - If the path parameter is passed, that's the path used
+# - If an absolute dir path is set in the title, then it's used this path
+# - If no path is explicitly set and the title contains only the app
+#   name (ex: 'apache') then it's managed its *main* configuration directory
+#   as determined tp's data/ directory.
+# - If no path is set and the title is :: separated (ex: 'apache::conf'), then
+#   the dir path name is set by the second element set in the title.
+#   Currently supported values for dir types are:
+#    - config (default, it refers to the main configuraion directory of the app)
+#    - conf (a conf.d style directory where to place configuration fragments)
+#    - log (the logs dir, if exists)
+#    - data (where application data is stored)
+#   Planned, and TODO, support for any name for directory types
+#
+# @example management of apache main configuration directory:
+#
+#   tp::dir { 'apache':
+#     source => 'puppet:///modules/site/apache/role/fe',
+#   }
+#
+# @example management of the directory set as title, with the purge enforcement
+# that removes any local file not present on the source directory (Be careful
+# with purge ad force params, they can delete files)
+#
+#   tp::dir { '/data/www/default':
+#     source => 'puppet:///modules/site/apache/role/fe',
+#     purge  => true,
+#     force  => true,
+#   }
+#
+#
+# @param ensure                    Default: present
+#   Define the status of the directory: present (default value) or absent
+#
+# @param source                    Default: undef
+#   This sets the source content for the managed dir.
+#   When the vcsrepo option is set it accepts any vcs tool's supported url.
+#   For example: https://github.com/example42/puppet-tp 
+#   By default a normal directory is managed, whose content may be
+#   populated referring to a directory like: puppet:///modules/site/app/test/
+#   This would refer to the content of the directory $MODULEPATH/site/files/app/test/ 
+#
+# @param vcsrepo                   Default: undef
+#   If set the directory is managed via the vcsrepo resource.
+#   vcsrepo options are bzr, cvs, git, hg, p4, svn
+#   It requires a valid source parameter
+#
+# @param path                      Default: undef
+#   The actual path of the directory to manage.
+#   If not explicitly defined, the managed path depends on the application name
+#   set as title, the underlying OS, and the dir_type set.
+#
+# @param mode                      Default: undef
+#   Parameter mode for the managed file resource.
+#   By default is defined according to app and OS, the same applies for the
+#   following params.
+#
+# @param owner                     Default: undef
+#   Parameter owner for the managed file resource.
+#
+# @param group                     Default: undef
+#   Parameter group for the managed file resource.
+#
+# @param config_dir_notify         Default: true
+#   By default changes in the managed dir trigger a service restart of the
+#   app in the title. Set to false to avoid any restart of set the name of a Puppet
+#   resource to notify. (Ex: Service[nginx])
+
+# @param config_dir_require        Default: true,
+#   By default the resource managed requires the app package, if tp::install has
+#   not been used to install the app, you may have references to an unknown
+#   resource. Set this to false to not set any dependency, or define a resource
+#   to require before managing the dir (Ex: Package[apache2])
+#
+# @param purge                     Default: undef,
+#   Parameter purge for the managed file resource.
+#
+# @param recurse                   Default: undef,
+#   Parameter recurse for the managed file resource.
+#
+# @param force                     Default: undef,
+#   Parameter force for the managed file resource.
+#
+# @param debug                     Default: false,
+#   If set to true it prints debug information for tp into the directory set in
+#   debug_dir
+#
+# @param debug_dir                 Default: '/tmp',
+#   The directory where tp stoes dbug info, when enabled
+#
+# @param data_module               Default: 'tp'
+#   Name of the module where tp data is looked for
 #
 define tp::dir (
 
@@ -7,7 +105,7 @@ define tp::dir (
 
   $source               = undef,
   $vcsrepo              = undef,
-
+ 
   $dir_type             = 'config',
 
   $path                 = undef,
@@ -45,9 +143,11 @@ define tp::dir (
   } else {
     $settings = tp_lookup($app,'settings',$data_module,'merge')
   }
+  # TODO: Find a sane and general purpose approach (Puppet 3 compatible)
   $dir_type_path = $dir_type ? {
+  # $dir_type_path = $dir ? {
     'config' => $settings[config_dir_path],
-    'confd'  => $settings[confd_dir_path],
+    'conf'   => $settings[conf_dir_path],
     'log'    => $settings[log_dir_path],
     'data'   => $settings[data_dir_path],
     default  => undef,
@@ -91,6 +191,7 @@ define tp::dir (
     'absent' => 'absent',
   }
 
+  # Finally, the resources managed
   if $vcsrepo {
     vcsrepo { $manage_path:
       ensure   => $manage_ensure,
