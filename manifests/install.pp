@@ -174,13 +174,19 @@ define tp::install (
     create_resources('tp::dir', $dir_hash )
   }
 
+
+  # Optional puppi integration 
   if $puppi_enable == true {
-    tp::puppi { $title: }
+    tp::puppi { $title:
+      settings_hash => $settings,
+    }
   }
 
+  # Test script creation (use to test, check, monitor the app)
   if $test_enable == true {
     tp::test { $title:
-      template => $test_template,
+      settings_hash       => $settings,
+      acceptance_template => $test_acceptance_template,
     }
   }
 

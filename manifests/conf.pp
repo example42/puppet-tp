@@ -1,26 +1,45 @@
 # @define tp::conf
 #
-# This define manages configuration files for the the application (app)
-# set in the given title.
+# This define manages configuration files for the application
+# set in the title.
 # It can manage the content of the managed files using different
 # methods (source, template, epp, content)
-# Th actual path of the managed configuration files is determined by
+# The actual path of the managed configuration files is determined by
 # various elements:
-# - If the path parameter is passed, that's the path used
-# - If no path is explicitly set and the title contains only the app
-#   name, then it's managed the MAIN configuration of the application,
-#   as determined tp's data/ directory.
-# - If no path is set and the title has a format like: app::file, then
-#   the path is composed using tha app's main configuration directory and
-#   the file name used in the title (after the ::)
-# See the examples below for more details.
+# - If the path parameter is explicitly set, that's the path used in any case
+#
+#   tp::conf { 'openssh::root_config':
+#     path    => '/root/.ssh/config', # This is the path of the managed file
+#     content => template('site/openssh/root_config.erb'),
+#   }
+#
+# - If path parameter is not set and the title contains only the app
+#   name, which is the basic and most direct usage, then it's managed the
+#   *main configuration file* of the application, as defined by the variable
+#   config_file_path in the tp/data/$app directory according to the underlying OS.
+#
+#   tp::conf { 'openssh':  # Path is defined by tp $settings['config_file_path']
+#     template('site/openssh/sshd_config.erb'),
+#   }
+#
+# - When the title has a format like: app::file, the path is composed using tha
+#   app's *main configuration directory* and the file name used in the second
+#   part of the title (after the ::)
+#
+#   tp::conf { 'openssh::ssh_config': # Path is $settings['config_dir_path']/ssh_config
+#     template('site/openssh/ssh_config.erb'),
+#   }
+#
+# See below for more examples.
 #
 # @example management of openssh main configuration file
 # (/etc/ssh/sshd_config) using a template
 #
 #   tp::conf { 'openssh':
-#     template => 'site/openssh/sshd_config',
+#     template     => 'site/openssh/sshd_config',
+#     options_hash => hiera('openssh::options_hash'), 
 #   }
+#
 #
 # @example management of openssh client file (/etc/ssh/ssh_config) using
 # a static source
@@ -29,16 +48,36 @@
 #     source => 'puppet:///modules/site/openssh/ssh_config',
 #   }
 #
-# @example management of a file related to openssh with an
-# explicit path given (In this case the title is not used for
-# any specific purpose, but it should have a unique name and
-# refer to the relevat app in he first part of the title (before ::) 
+# @example direct management of the content of a file
 #
-#   tp::conf { 'openssh::root_config':
-#     path   => '/root/.ssh/config',
-#     source => 'puppet:///modules/site/openssh/root/config',
+#   tp::conf { 'motd':
+#     content => "Welcome to ${::fqdn}\n",
 #   }
 #
+# @example management of a file related to openssh with an
+# explicit path given and the content populated via a Puppet epp template.
+# In this case the title is not used for any specific purpose, but it should
+# have a unique name and refer to the relevat app in the first part of the title (before ::) 
+#
+#   tp::conf { 'openssh::root_config': # Title must be unique
+#     path   => '/root/.ssh/config',
+#     epp    => 'site/openssh/root/config.epp',
+#     mode   => '0640',
+#   }
+#
+# @example when no automatic service restart is triggered by configuration file
+# changes
+#
+#   tp::conf { 'nginx':
+#     config_file_notify => false,
+#   }
+#
+# @example to customise notify and require dependencies
+#
+#   tp::conf { 'nginx::nginx_fe.conf':
+#     config_file_notify  => "Service['fe_nginx']",
+#     config_file_require => "Class['site::fe::nginx']",
+#   }
 #
 # @param ensure                    Default: present
 #   Define the status of the file: present (default value) or absent
@@ -67,7 +106,7 @@
 #   content => $content,
 #   This parameter is alternative to source, template and epp.
 #
-# @param options_hash              Default: { },
+# @param options_hash              Default: { },
 #   Generic hash of configuration parameters specific for the app that can be
 #   used in the provided erb or epp templates respectively as @options_hash['key'] or
 #   $options_hash['key']
