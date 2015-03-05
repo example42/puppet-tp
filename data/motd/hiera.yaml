@@ -1,0 +1,6 @@
+---
+ :hierarchy:
+   - "%{title}/lsbdistcodename/%{lsbdistcodename}"
+   - "%{title}/operatingsystem/%{operatingsystem}"
+   - "%{title}/default"
+   - default
