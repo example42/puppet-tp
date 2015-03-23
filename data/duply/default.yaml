@@ -1,0 +1,5 @@
+---
+  duply::settings:
+    package_name: 'duply'
+    config_dir_path: '/etc/duply'
+    config_dir_mode: '0600'
