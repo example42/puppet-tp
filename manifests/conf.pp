@@ -176,6 +176,10 @@ define tp::conf (
   validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
+  # Sample code for tp lookup for app specific default options 
+  # $tp_options = tp_lookup($app,'options',$data_module,'merge')
+  # $options = merge($tp_options,$options_hash)
+  $options = $options_hash
 
   # Settings evaluation
   $title_elements = split ($title, '::')
