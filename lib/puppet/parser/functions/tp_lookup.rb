@@ -30,6 +30,7 @@ module Puppet::Parser::Functions
         :title                  => app,
         :osfamily               => lookupvar("::osfamily"),
         :operatingsystem        => lookupvar("::operatingsystem"),
+        :operatingsystemmajrelease => lookupvar("::operatingsystemmajrelease"),
         :operatingsystemrelease => lookupvar("::operatingsystemrelease"),
         :dependency_class       => lookupvar("dependency_class")
       }

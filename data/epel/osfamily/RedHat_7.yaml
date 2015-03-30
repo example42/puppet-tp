@@ -1,0 +1,5 @@
+---
+  epel::settings:
+    description: 'Extra Packages for Enterprise Linux 7 - $basearch'
+    yum_mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&amp;arch=$basearch'
+    key_url: 'https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7'

@@ -1,0 +1,5 @@
+---
+  epel::settings:
+    comment: 'Extra Packages for Enterprise Linux 5 - $basearch'
+    mirror_list: 'https://mirrors.fedoraproject.org/metalink?repo=epel-5&amp;arch=$basearch'
+    key_url: 'https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-5'

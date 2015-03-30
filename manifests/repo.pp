@@ -15,6 +15,7 @@ define tp::repo (
 
   $yum_priority        = undef,
   $yum_gpgcheck        = undef,
+  $yum_mirrorlist      = undef,
 
   $apt_key_server      = undef,
   $apt_key_fingerprint = undef,
@@ -48,6 +49,7 @@ define tp::repo (
     apt_key_fingerprint => $apt_key_fingerprint,
     apt_release         => $apt_release,
     yum_priority        => $yum_priority,
+    yum_mirrorlist      => $yum_mirrorlist,
     apt_repos           => $apt_repos,
     apt_release         => $apt_release,
     apt_include_src     => $apt_include_src,
@@ -70,12 +72,13 @@ define tp::repo (
     'RedHat': {
       if !defined(Yumrepo[$title]) {
         yumrepo { $title:
-          enabled  => $enabled_num,
-          descr    => $description,
-          baseurl  => $settings[repo_url],
-          gpgcheck => $manage_yum_gpgcheck,
-          gpgkey   => $settings[key_url],
-          priority => $settings[yum_priority],
+          enabled    => $enabled_num,
+          descr      => $description,
+          baseurl    => $settings[repo_url],
+          gpgcheck   => $manage_yum_gpgcheck,
+          gpgkey     => $settings[key_url],
+          priority   => $settings[yum_priority],
+          mirrorlist => $settings[yum_mirrorlist],
         }
       }
     }
