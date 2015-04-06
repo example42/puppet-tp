@@ -111,6 +111,10 @@
 #   used in the provided erb or epp templates respectively as @options_hash['key'] or
 #   $options_hash['key']
 #
+# @param settings_hash             Default: { }
+#   An hash that can override the application settings tp returns, according to the
+#   underlying Operating System and the default behaviour
+#
 # @param mode                      Default: undef
 #   Parameter mode for the managed file resource.
 #   By default is defined according to app and OS, the same applies for the
@@ -164,6 +168,7 @@ define tp::conf (
   $config_file_require  = true,
 
   $options_hash         = undef,
+  $settings_hash        = { } ,
 
   $debug                = false,
   $debug_dir            = '/tmp',
@@ -185,7 +190,8 @@ define tp::conf (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
-  $settings = tp_lookup($app,'settings',$data_module,'merge')
+  $tp_settings=tp_lookup($app,'settings',$data_module,'merge')
+  $settings=merge($tp_settings,$settings_hash)
 
   if $file {
     # TODO: Find a way to interpolate $base_dir 
