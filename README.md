@@ -30,13 +30,13 @@ Tiny Puppet provides the following defines:
 - ```tp::conf```. It allows to manage configuration files
 - ```tp::dir```. Manages the content of directories
 - ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
-- ```tp::line```. (TODO) Manages single lines in a configuration file
-- ```tp::repo```. Manages extra repositories for the supported applications
-- ```tp::concat```. (WIP) Manages file fragments of a configuration file
-- ```tp::instance```. (TODO) Manages an application instance
-- ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application 
+- ```tp::repo```. Manages extra repositories for the supported applications
+- ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
+- ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::netinstall```. (WIP) Installs from a remote url
+- ```tp::instance```. (TODO) Manages an application instance
+- ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::github```. (TODO) Installs (anything?;) directly from GitHub source
 
 
