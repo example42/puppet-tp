@@ -185,8 +185,8 @@ define tp::install (
   # Test script creation (use to test, check, monitor the app)
   if $test_enable == true {
     tp::test { $title:
-      settings_hash       => $settings,
-      acceptance_template => $test_acceptance_template,
+      settings_hash => $settings,
+      template      => $test_acceptance_template,
     }
   }
 
