@@ -5,6 +5,11 @@
     config_file_path: '/etc/apache2/apache2.conf'
     init_file_path: '/etc/default/apache2'
     config_dir_path: '/etc/apache2'
+    mods-available_dir_path: '/etc/apache2/mods-available'
+    mods-enabled_dir_path: '/etc/apache2/mods-enabled'
+    sites-available_dir_path: '/etc/apache2/sites-available'
+    sites-enabled_dir_path: '/etc/apache2/sites-enabled'
+    conf_dir_path: '/etc/apache2/conf.d'
     pid_file_path: '/var/run/apache2.pid'
     log_file_path: [ '/var/log/apache2/access.log' , '/var/log/apache2/error.log' ]
     log_dir_path: '/var/log/apache2'
