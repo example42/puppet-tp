@@ -39,6 +39,14 @@ Tiny Puppet provides the following defines:
 - ```tp::line```. (TODO) Manages single lines in a configuration file
 - ```tp::github```. (TODO) Installs (anything?;) directly from GitHub source
 
+Some defines have an experimental alternative based on Puppet's future parser.
+They are compatible only with Puppet 3.7 (with future parser enabled) or later.
+They keep full compatibility on parameters and usage patterns.
+
+- ```tp::install4```. (WIP) Future parser version of tp::install
+- ```tp::conf4```. (WIP) Future parser version of tp::conf
+- ```tp::dir4```. (WIP) Future parser version of tp::dir
+
 
 ## Prerequisites and limitations
 

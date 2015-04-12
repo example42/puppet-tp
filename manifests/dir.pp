@@ -86,6 +86,10 @@
 # @param recurse                   Default: undef,
 #   Parameter recurse for the managed file resource.
 #
+# @param settings_hash             Default: { }
+#   An hash that can override the application specific settings returned
+#   by tp according to the underlying Operating System
+#
 # @param force                     Default: undef,
 #   Parameter force for the managed file resource.
 #
@@ -120,6 +124,8 @@ define tp::dir (
   $recurse              = undef,
   $force                = undef,
 
+  $settings_hash        = { } ,
+
   $debug                = false,
   $debug_dir            = '/tmp',
 
@@ -138,11 +144,13 @@ define tp::dir (
   if $title =~ /^\/.*$/ {
     # If title is an absolute path do a safe lookup to
     # a dummy app
-    $settings = tp_lookup('test','settings','tp','merge')
+    $tp_settings = tp_lookup('test','settings','tp','merge')
     $title_path = $title
   } else {
-    $settings = tp_lookup($app,'settings',$data_module,'merge')
+    $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   }
+  $settings=merge($tp_settings,$settings_hash)
+
   # TODO: Find a sane and general purpose approach (Puppet 3 compatible)
   $dir_type_path = $dir_type ? {
   # $dir_type_path = $dir ? {
