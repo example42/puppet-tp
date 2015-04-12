@@ -287,6 +287,46 @@ describe 'tp::conf', :type => :define do
     end                                                   
   end 
 
+  context 'with title apache::test.conf on RedHat and default base_dir' do
+    let(:title) { 'apache::test.conf' }
+    let(:facts) {
+      {
+        :osfamily => 'RedHat',
+      }
+    }
+    let(:params) {
+      {
+        'content'   => '# test.conf',
+      }
+    }
+    it do
+      should contain_file('/etc/httpd/test.conf').with({
+        'ensure'  => 'present',                           
+        'path'    => '/etc/httpd/test.conf',             
+      })                                                  
+    end                                                   
+  end 
+
+  context 'with title apache::test.conf on RedHat and conf base_dir' do
+    let(:title) { 'apache::test.conf' }
+    let(:facts) {
+      {
+        :osfamily => 'RedHat',
+      }
+    }
+    let(:params) {
+      {
+        'content'   => '# test.conf',
+        'base_dir'  => 'conf',
+      }
+    }
+    it do
+      should contain_file('/etc/httpd/conf.d/test.conf').with({
+        'ensure'  => 'present',                           
+        'path'    => '/etc/httpd/conf.d/test.conf',             
+      })                                                  
+    end                                                   
+  end 
 
   context 'with title redis and custom parameters and forced path' do
     let(:title) { 'redis' }

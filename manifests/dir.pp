@@ -26,6 +26,13 @@
 #     source => 'puppet:///modules/site/apache/role/fe',
 #   }
 #
+# @example management of apache logs directory:
+#
+#   tp::dir { 'apache::logs': # The logs name here is needed just to have an unique title
+#     base_dir => 'log',
+#     mode     => '0640',
+#   }
+#
 # @example management of the directory set as title, with the purge enforcement
 # that removes any local file not present on the source directory (Be careful
 # with purge ad force params, they can delete files)
@@ -53,10 +60,16 @@
 #   vcsrepo options are bzr, cvs, git, hg, p4, svn
 #   It requires a valid source parameter
 #
+# @param base_dir                  Default: 'config',
+#   Type of the directory to manage, when a path is not explicitly set.
+#   This name must have a corresponding entry in TP data with
+#   a key named ${base_dir}_dir_path.
+#   The default 'config' value maps to the key config_dir_path
+#
 # @param path                      Default: undef
 #   The actual path of the directory to manage.
 #   If not explicitly defined, the managed path depends on the application name
-#   set as title, the underlying OS, and the dir_type set.
+#   set as title, the underlying OS, and the base_dir set.
 #
 # @param mode                      Default: undef
 #   Parameter mode for the managed file resource.
@@ -110,7 +123,7 @@ define tp::dir (
   $source               = undef,
   $vcsrepo              = undef,
  
-  $dir_type             = 'config',
+  $base_dir             = 'config',
 
   $path                 = undef,
   $mode                 = undef,
@@ -148,19 +161,13 @@ define tp::dir (
     $title_path = $title
   } else {
     $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+    $title_path = undef
   }
   $settings=merge($tp_settings,$settings_hash)
 
-  # TODO: Find a sane and general purpose approach (Puppet 3 compatible)
-  $dir_type_path = $dir_type ? {
-  # $dir_type_path = $dir ? {
-    'config' => $settings[config_dir_path],
-    'conf'   => $settings[conf_dir_path],
-    'log'    => $settings[log_dir_path],
-    'data'   => $settings[data_dir_path],
-    default  => undef,
-  }
-  $manage_path    = tp_pick($path, $title_path, $dir_type_path)
+  $base_dir_path = $settings["${base_dir}_dir_path"]
+
+  $manage_path    = tp_pick($path, $title_path, $base_dir_path)
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])

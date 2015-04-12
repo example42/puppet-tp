@@ -6,7 +6,7 @@
 # methods (source, template, epp, content)
 # The actual path of the managed configuration files is determined by
 # various elements:
-# - If the path parameter is explicitly set, that's the path used in any case
+# - If the path parameter is explicitly set, that's always the path used
 #
 #   tp::conf { 'openssh::root_config':
 #     path    => '/root/.ssh/config', # This is the path of the managed file
@@ -19,16 +19,25 @@
 #   config_file_path in the tp/data/$app directory according to the underlying OS.
 #
 #   tp::conf { 'openssh':  # Path is defined by tp $settings['config_file_path']
-#     template('site/openssh/sshd_config.erb'),
+#     template => 'site/openssh/sshd_config.erb', 
 #   }
 #
-# - When the title has a format like: app::file, the path is composed using tha
-#   app's *main configuration directory* and the file name used in the second
-#   part of the title (after the ::)
+# - When the title has a format like: app::file and no base_dir is set the path
+#   is composed using the app's *main configuration directory* and the file name
+#   used in the second part of the title (after the ::)
 #
 #   tp::conf { 'openssh::ssh_config': # Path is $settings['config_dir_path']/ssh_config
-#     template('site/openssh/ssh_config.erb'),
+#     template => 'site/openssh/ssh_config.erb',
 #   }
+#
+# - When the title has a format like: app::file it's also possible to specify,
+#   with the bas_dir parameter, the directory where to place the file:
+#
+#   tp::conf { 'apache::example42.com.conf':
+#     template => 'site/apache/example42.com.conf.erb',
+#     base_dir => 'conf',
+#   }
+#   Path is: $settings['conf_dir_path']/example42.com.conf
 #
 # See below for more examples.
 #
@@ -52,6 +61,20 @@
 #
 #   tp::conf { 'motd':
 #     content => "Welcome to ${::fqdn}\n",
+#   }
+#
+# @example management of a .conf file (configuration files placed typically
+# in directory called conf.d or *.d ). Note that here is used as $base_dir
+# 'conf' instead of the default 'config'.
+# For example with Apache on RedHat:
+# 'config' dir is '/etc/httpd'
+# 'conf' dir is '/etc/httpd/conf.d'
+# Other "common" base_dir values are 'log', 'data' but actually any value
+# can be used as long as there's a corresponding key in the TP settings data.
+#
+#   tp::conf { 'rsyslog::logserver':
+#     content  => "*.* @@syslog.example42.com\n",
+#     base_dir => 'conf',
 #   }
 #
 # @example management of a file related to openssh with an
@@ -105,6 +128,12 @@
 #   Content of the file. Used as follows:
 #   content => $content,
 #   This parameter is alternative to source, template and epp.
+#
+# @param base_dir                  Default: 'config',
+#   Type of the directory where to place the file, when a path is
+#   not explicitly set. This name must have a corresponding entry
+#   in TP data with a key named ${base_dir}_dir_path.
+#   The default 'config' value maps to the key config_dir_path
 #
 # @param options_hash              Default: { },
 #   Generic hash of configuration parameters specific for the app that can be
@@ -194,15 +223,8 @@ define tp::conf (
   $settings=merge($tp_settings,$settings_hash)
 
   if $file {
-    # TODO: Find a way to interpolate $base_dir 
-    $auto_path = $base_dir ? {
-      'config' => "${settings[config_dir_path]}/${file}",
-      'conf'   => "${settings[conf_dir_path]}/${file}",
-      'data'   => "${settings[data_dir_path]}/${file}",
-      'log'    => "${settings[log_dir_path]}/${file}",
-      'ssl'    => "${settings[ssl_dir_path]}/${file}",
-      default  => "${settings[config_dir_path]}/${file}",
-    }
+    $real_dir = $settings["${base_dir}_dir_path"]
+    $auto_path = "${real_dir}/${file}"
   } else {
     $auto_path = $settings['config_file_path']
   }

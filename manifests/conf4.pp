@@ -47,16 +47,8 @@ define tp::conf4 (
   $settings = $tp_settings + $settings_hash
 
   if $file {
-    $real_dir = $settings["${base_dir}_path"]
-    $auto_path4= "${real_dir}/${file}"
-    $auto_path  = $base_dir ? {
-      'config' => "${settings[config_dir_path]}/${file}",
-      'conf'   => "${settings[conf_dir_path]}/${file}",
-      'data'   => "${settings[data_dir_path]}/${file}",
-      'log'    => "${settings[log_dir_path]}/${file}",
-      'ssl'    => "${settings[ssl_dir_path]}/${file}",
-      default  => "${settings[config_dir_path]}/${file}",
-    }
+    $real_dir = $settings["${base_dir}_dir_path"]
+    $auto_path = "${real_dir}/${file}"
   } else {
     $auto_path = $settings['config_file_path']
   }

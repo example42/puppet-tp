@@ -12,7 +12,7 @@ define tp::dir4 (
   Any $source                 = undef,
   Any $vcsrepo                = undef,
  
-  String $dir_type            = 'config',
+  String $base_dir            = 'config',
 
   Any $path                   = undef,
   Any $mode                   = undef,
@@ -48,17 +48,8 @@ define tp::dir4 (
     $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   }
   $settings = $tp_settings + $settings_hash
-
-  # TODO: Find a sane and general purpose approach (Puppet 3 compatible)
-  $dir_type_path = $dir_type ? {
-  # $dir_type_path = $dir ? {
-    'config' => $settings[config_dir_path],
-    'conf'   => $settings[conf_dir_path],
-    'log'    => $settings[log_dir_path],
-    'data'   => $settings[data_dir_path],
-    default  => undef,
-  }
-  $manage_path    = tp_pick($path, $title_path, $dir_type_path)
+  $base_dir_path = $settings["${base_dir}_dir_path"]
+  $manage_path    = tp_pick($path, $title_path, $base_dir_path)
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])

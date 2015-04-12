@@ -180,10 +180,10 @@ describe 'tp::dir', :type => :define do
   end 
 
 
-  context 'with title apache on RedHat with dir_type = data' do
+  context 'with title apache on RedHat with base_dir = data' do
     let(:title) { 'apache' }
     let(:params) { {
-        'dir_type'  => 'data',
+        'base_dir'  => 'data',
         'source'    => 'puppet:///modules/site/apache/default_site',
     } }
     let(:facts) { {

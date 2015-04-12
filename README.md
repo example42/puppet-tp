@@ -217,7 +217,7 @@ Manage a specific directory type. Currently defined directories types are:
 Note that some of these directory types might not be defined for every application.
 
     tp::dir { 'apache':
-      dir_type => 'data',
+      base_dir => 'data',
       source   => 'puppet:///modules/site/apache/default_site',
     }
 
@@ -239,9 +239,10 @@ Populate any custom directory from a Subversion repository (it requires Puppet L
 Provide a data directory (the default DocumentRoot, for apache) from a Git repository (it requires Puppet Labs' vcsrepo module) (TODO):
 
     tp::dir { 'apache':
-      # Dir_type is a tag that defines the type do directory for the specified application.
-      # Default: config. Other possible dir types: 'data', 'log', 'confd', 'lib', available according to the application
-      dir_type    => 'data' 
+      # base_dir is a tag that defines the type of directory for the specified application.
+      # Default: config. Other possible dir types: 'data', 'log', 'confd', 'lib'
+      # or any other name defined in the application data with a format like: ${base_dir}_dir_path
+      base_dir    => 'data' 
       source      => 'https://git.example.42/apps/my_app/',
       vcsrepo     => 'git',
     }
