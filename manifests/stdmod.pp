@@ -36,7 +36,6 @@ define tp::stdmod (
   $config_dir_force          = undef,
   $config_dir_recurse        = undef,
 
-  $extra_class               = undef,
   $dependency_class          = undef,
   $monitor_class             = undef,
   $firewall_class            = undef,
@@ -106,7 +105,9 @@ define tp::stdmod (
 
 
   # Dependency class
-  if $dependency_class { include $dependency_class }
+  if $dependency_class and $dependency_class != '' {
+    include $dependency_class
+  }
 
 
   # Resources
@@ -154,9 +155,12 @@ define tp::stdmod (
 
 
   # Extra classes
-  if $extra_class { include $extra_class }
-  if $monitor_class { include $monitor_class }
-  if $firewall_class { include $firewall_class }
+  if $monitor_class and $monitor_class != '' {
+    include $monitor_class
+  }
+  if $firewall_class and $firewall_class != '' {
+    include $firewall_class
+  }
 
 
   # Debugging

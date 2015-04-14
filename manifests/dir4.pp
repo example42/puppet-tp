@@ -7,31 +7,31 @@
 #
 define tp::dir4 (
 
-  String $ensure              = 'present',
+  String[1]              $ensure             = 'present',
 
-  Any $source                 = undef,
-  Any $vcsrepo                = undef,
- 
-  String $base_dir            = 'config',
+  Variant[Undef,String]  $source             = undef,
+  Variant[Undef,String]  $vcsrepo            = undef,
 
-  Any $path                   = undef,
-  Any $mode                   = undef,
-  Any $owner                  = undef,
-  Any $group                  = undef,
+  String[1]              $base_dir           = 'config',
 
-  Boolean $config_dir_notify  = true,
-  Boolean $config_dir_require = true,
+  Variant[Undef,String]  $path               = undef,
+  Variant[Undef,String]  $mode               = undef,
+  Variant[Undef,String]  $owner              = undef,
+  Variant[Undef,String]  $group              = undef,
 
-  Any $purge                  = undef,
-  Any $recurse                = undef,
-  Any $force                  = undef,
+  Boolean                $config_dir_notify  = true,
+  Boolean                $config_dir_require = true,
 
-  Hash $settings_hash         = { } ,
+  Variant[Undef,Boolean] $purge              = undef,
+  Variant[Undef,Boolean] $recurse            = undef,
+  Variant[Undef,Boolena] $force              = undef,
 
-  Boolean $debug              = false,
-  String $debug_dir           = '/tmp',
+  Hash                   $settings_hash      = { } ,
 
-  String $data_module         = 'tp',
+  Boolean                $debug              = false,
+  String[1]              $debug_dir          = '/tmp',
+
+  String[1]              $data_module        = 'tp',
 
   ) {
 

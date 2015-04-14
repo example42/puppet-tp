@@ -7,25 +7,25 @@
 #
 define tp::install4 (
 
-  String $ensure        = present,
+  String[1]             $ensure           = present,
 
-  Hash $conf_hash       = { } ,
-  Hash $dir_hash        = { } ,
+  Hash                  $conf_hash        = { },
+  Hash                  $dir_hash         = { },
 
-  Hash $settings_hash   = { } ,
+  Hash                  $settings_hash    = { },
 
-  Boolean $auto_repo    = true,
+  Boolean               $auto_repo        = true,
 
-  Any $dependency_class = undef,
-  Any $monitor_class    = undef,
-  Any $firewall_class   = undef,
+  Variant[Undef,String] $dependency_class = undef,
+  Variant[Undef,String] $monitor_class    = undef,
+  Variant[Undef,String] $firewall_class   = undef,
 
-  Boolean $puppi_enable = false,
+  Boolean               $puppi_enable     = false,
 
-  Boolean $test_enable  = false,
-  Any $test_template    = undef,
+  Boolean               $test_enable      = false,
+  Variant[Undef,String] $test_template    = undef,
 
-  String $data_module   = 'tp',
+  String[1]             $data_module      = 'tp',
 
   ) {
 
@@ -51,8 +51,9 @@ define tp::install4 (
   }
 
   # Dependency class
-  if $dependency_class { require $dependency_class }
-
+  if $dependency_class and $dependency_class != '' {
+    require $dependency_class
+  }
 
   # Automatic repo management
   if $auto_repo == true
@@ -73,7 +74,7 @@ define tp::install4 (
   # Resources
   if $settings[package_name] {
     $packages_array=any2array($settings[package_name])
-    $packages_array.each |$pkg| { 
+    $packages_array.each |$pkg| {
       package { $pkg:
         ensure => $ensure,
       }
@@ -82,7 +83,7 @@ define tp::install4 (
 
   if $settings[service_name] {
     $services_array=any2array($settings[service_name])
-    $services_array.each |$svc| { 
+    $services_array.each |$svc| {
       service { $svc:
         ensure  => $service_ensure,
         enable  => $service_enable,
@@ -110,12 +111,16 @@ define tp::install4 (
   if $test_enable == true {
     tp::test { $title:
       settings_hash       => $settings,
-      acceptance_template => $test_acceptance_template,
+      acceptance_template => $test_template,
     }
   }
 
   # Extra classes
-  if $monitor_class { include $monitor_class }
-  if $firewall_class { include $firewall_class }
+  if $monitor_class and $monitor_class != '' {
+    include $monitor_class
+  }
+  if $firewall_class and $firewall_class != '' {
+    include $firewall_class
+  }
 
 }

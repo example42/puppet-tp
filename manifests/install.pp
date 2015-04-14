@@ -133,7 +133,9 @@ define tp::install (
   }
 
   # Dependency class
-  if $dependency_class { require $dependency_class }
+  if $dependency_class and $depenency_class {
+    include $dependency_class
+  }
 
 
   # Automatic repo management
@@ -186,12 +188,16 @@ define tp::install (
   if $test_enable == true {
     tp::test { $title:
       settings_hash => $settings,
-      template      => $test_acceptance_template,
+      template      => $test_template,
     }
   }
 
   # Extra classes
-  if $monitor_class { include $monitor_class }
-  if $firewall_class { include $firewall_class }
+  if $monitor_class and $monitor_class != '' {
+    include $monitor_class
+  }
+  if $firewall_class and $firewall_class != '' {
+    include $firewall_class
+  }
 
 }

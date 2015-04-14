@@ -7,30 +7,30 @@
 #
 define tp::conf4 (
 
-  String $ensure               = present,
+  String[1]             $ensure              = present,
 
-  Any $source                  = undef,
-  Any $template                = undef,
-  Any $epp                     = undef,
-  Any $content                 = undef,
+  Variant[Undef,String] $source              = undef,
+  Variant[Undef,String] $template            = undef,
+  Variant[Undef,String] $epp                 = undef,
+  Variant[Undef,String] $content             = undef,
 
-  String $base_dir             = 'config',
+  String[1]             $base_dir            = 'config',
 
-  Any    $path                 = undef,
-  Any    $mode                 = undef,
-  Any    $owner                = undef,
-  Any    $group                = undef,
+  Variant[Undef,String] $path                = undef,
+  Variant[Undef,String] $mode                = undef,
+  Variant[Undef,String] $owner               = undef,
+  Variant[Undef,String] $group               = undef,
 
-  Boolean $config_file_notify  = true,
-  Boolean $config_file_require = true,
+  Boolean               $config_file_notify  = true,
+  Boolean               $config_file_require = true,
 
-  Hash $options_hash           = { },
-  Hash $settings_hash          = { } ,
+  Hash                  $options_hash        = { },
+  Hash                  $settings_hash       = { } ,
 
-  Boolean $debug               = false,
-  String $debug_dir            = '/tmp',
+  Boolean               $debug               = false,
+  String[1]             $debug_dir           = '/tmp',
 
-  String $data_module          = 'tp',
+  String[1]             $data_module         = 'tp',
 
   ) {
 
