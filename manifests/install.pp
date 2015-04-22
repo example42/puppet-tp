@@ -154,17 +154,17 @@ define tp::install (
 
   # Resources
   if $settings[package_name] {
-    package { $settings[package_name]:
-      ensure => $ensure,
-    }
+    ensure_resource( 'package', $settings[package_name], {
+      'ensure' => $ensure
+    } )
   }
 
   if $settings[service_name] {
-    service { $settings[service_name]:
-      ensure  => $service_ensure,
-      enable  => $service_enable,
-      require => $service_require,
-    }
+    ensure_resource( 'service', $settings[service_name], {
+      'ensure'  => $service_ensure,
+      'enable'  => $service_enable,
+      'require' => $service_require,
+    } )
   }
 
   if $conf_hash != {} {
