@@ -122,7 +122,7 @@ define tp::dir (
 
   $source               = undef,
   $vcsrepo              = undef,
- 
+
   $base_dir             = 'config',
 
   $path                 = undef,
