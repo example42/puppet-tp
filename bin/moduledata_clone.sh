@@ -50,7 +50,7 @@ function clone() {
     NEWMODULE=$name
   fi
   
-  if [ -f data/$NEWMODULE/hira.yaml ] ; then
+  if [ -f data/$NEWMODULE/hiera.yaml ] ; then
     echo "Data for $NEWMODULE already exists."
     echo "Move or delete it if you want to recreate it. Quitting."
     exit 1
