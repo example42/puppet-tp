@@ -101,13 +101,11 @@ describe 'tp::stdmod', :type => :define do
   context 'with custom classes' do
     let(:params) {
       {
-        :extra_class      => 'tp::spec::extra',
         :dependency_class => 'tp::spec::dependency',
         :monitor_class    => 'tp::spec::monitor',
         :firewall_class   => 'tp::spec::firewall',
       }
     }
-    it { should contain_class('tp::spec::extra') }
     it { should contain_class('tp::spec::dependency') }
     it { should contain_class('tp::spec::monitor') }
     it { should contain_class('tp::spec::firewall') }

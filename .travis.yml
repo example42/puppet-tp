@@ -1,15 +1,19 @@
 language: ruby
 rvm:
   - 1.9.3
+  - 2.1.0
 script:
   - "rake spec SPEC_OPTS='--format documentation'"
 env:
   - PUPPET_VERSION="~> 2.6.18"
   - PUPPET_VERSION="~> 2.7.26"
-  - PUPPET_VERSION="~> 3.7.3"
+  - PUPPET_VERSION="~> 3.7.5"
+  - PUPPET_VERSION="~> 3.7.5" PARSER="future"
 matrix:
   exclude:
     - rvm: 1.9.3
+      env: PUPPET_VERSION="~> 2.6.18"
+    - rvm: 2.1.0
       env: PUPPET_VERSION="~> 2.6.18"
 notifications:
   email:

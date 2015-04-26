@@ -24,7 +24,7 @@ define tp::dir4 (
 
   Variant[Undef,Boolean] $purge              = undef,
   Variant[Undef,Boolean] $recurse            = undef,
-  Variant[Undef,Boolena] $force              = undef,
+  Variant[Undef,Boolean] $force              = undef,
 
   Hash                   $settings_hash      = { } ,
 
