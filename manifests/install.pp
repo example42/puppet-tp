@@ -133,7 +133,7 @@ define tp::install (
   }
 
   # Dependency class
-  if $dependency_class and $depenency_class {
+  if $dependency_class and $dependency_class != '' {
     include $dependency_class
   }
 

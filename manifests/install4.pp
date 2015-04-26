@@ -32,11 +32,13 @@ define tp::install4 (
   # Settings evaluation
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
-  $service_require = $settings[package_name] ? {
-    ''      => undef,
-    undef   => undef,
-    default => Package[$settings[package_name]],
+
+  if $settings[package_name] =~ Variant[Undef,String[0]] {
+    $service_require = undef
+  } else {
+    $service_require = Package[$settings[package_name]]
   }
+
   $service_ensure = $ensure ? {
     'present' => $settings[service_ensure],
     true      => $settings[service_ensure],
@@ -52,7 +54,8 @@ define tp::install4 (
 
   # Dependency class
   if $dependency_class and $dependency_class != '' {
-    require $dependency_class
+    include $dependency_class
+    contain $dependency_class
   }
 
   # Automatic repo management

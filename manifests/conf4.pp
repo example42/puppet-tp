@@ -7,30 +7,30 @@
 #
 define tp::conf4 (
 
-  String[1]             $ensure              = present,
+  String[1]               $ensure              = present,
 
-  Variant[Undef,String] $source              = undef,
-  Variant[Undef,String] $template            = undef,
-  Variant[Undef,String] $epp                 = undef,
-  Variant[Undef,String] $content             = undef,
+  Variant[Undef,String]   $source              = undef,
+  Variant[Undef,String]   $template            = undef,
+  Variant[Undef,String]   $epp                 = undef,
+  Variant[Undef,String]   $content             = undef,
 
-  String[1]             $base_dir            = 'config',
+  String[1]               $base_dir            = 'config',
 
-  Variant[Undef,String] $path                = undef,
-  Variant[Undef,String] $mode                = undef,
-  Variant[Undef,String] $owner               = undef,
-  Variant[Undef,String] $group               = undef,
+  Variant[Undef,String]   $path                = undef,
+  Variant[Undef,String]   $mode                = undef,
+  Variant[Undef,String]   $owner               = undef,
+  Variant[Undef,String]   $group               = undef,
 
-  Boolean               $config_file_notify  = true,
-  Boolean               $config_file_require = true,
+  Variant[Boolean,String] $config_file_notify  = true,
+  Variant[Boolean,String] $config_file_require = true,
 
-  Hash                  $options_hash        = { },
-  Hash                  $settings_hash       = { } ,
+  Hash                    $options_hash        = { },
+  Hash                    $settings_hash       = { } ,
 
-  Boolean               $debug               = false,
-  String[1]             $debug_dir           = '/tmp',
+  Boolean                 $debug               = false,
+  String[1]               $debug_dir           = '/tmp',
 
-  String[1]             $data_module         = 'tp',
+  String[1]               $data_module         = 'tp',
 
   ) {
 
