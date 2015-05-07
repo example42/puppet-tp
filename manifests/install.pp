@@ -120,16 +120,14 @@ define tp::install (
     default => Package[$settings[package_name]],
   }
   $service_ensure = $ensure ? {
-    'present' => $settings[service_ensure],
-    true      => $settings[service_ensure],
     'absent'  => 'stopped',
     false     => 'stopped',
+    default   => $settings[service_ensure],
   }
   $service_enable = $ensure ? {
-    'present' => $settings[service_enable],
-    true      => $settings[service_enable],
     'absent'  => false,
     false     => false,
+    default   => $settings[service_enable],
   }
 
   # Dependency class

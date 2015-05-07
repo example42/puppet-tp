@@ -7,25 +7,25 @@
 #
 define tp::install4 (
 
-  String[1]             $ensure           = present,
+  Variant[Boolean,String] $ensure           = present,
 
-  Hash                  $conf_hash        = { },
-  Hash                  $dir_hash         = { },
+  Hash                    $conf_hash        = { },
+  Hash                    $dir_hash         = { },
+ 
+  Hash                    $settings_hash    = { },
 
-  Hash                  $settings_hash    = { },
+  Boolean                 $auto_repo        = true,
 
-  Boolean               $auto_repo        = true,
+  Variant[Undef,String]   $dependency_class = undef,
+  Variant[Undef,String]   $monitor_class    = undef,
+  Variant[Undef,String]   $firewall_class   = undef,
 
-  Variant[Undef,String] $dependency_class = undef,
-  Variant[Undef,String] $monitor_class    = undef,
-  Variant[Undef,String] $firewall_class   = undef,
+  Boolean                 $puppi_enable     = false,
 
-  Boolean               $puppi_enable     = false,
+  Boolean                 $test_enable      = false,
+  Variant[Undef,String]   $test_template    = undef,
 
-  Boolean               $test_enable      = false,
-  Variant[Undef,String] $test_template    = undef,
-
-  String[1]             $data_module      = 'tp',
+  String[1]               $data_module      = 'tp',
 
   ) {
 
@@ -40,16 +40,14 @@ define tp::install4 (
   }
 
   $service_ensure = $ensure ? {
-    'present' => $settings[service_ensure],
-    true      => $settings[service_ensure],
-    'absent'  => 'stopped',
-    false     => 'stopped',
+    'absent' => 'stopped',
+    false    => 'stopped',
+    default  => $settings[service_ensure],
   }
   $service_enable = $ensure ? {
-    'present' => $settings[service_enable],
-    true      => $settings[service_enable],
-    'absent'  => false,
-    false     => false,
+    'absent' => false,
+    false    => false,
+    default  => $settings[service_enable],
   }
 
   # Dependency class
