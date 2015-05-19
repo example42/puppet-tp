@@ -90,6 +90,7 @@ define tp::repo (
           path        => '/bin:/sbin:/usr/bin:/usr/sbin',
           logoutput   => false,
           refreshonly => true,
+          before      => Package[$settings[package_name]],
         }
       }
 
