@@ -96,7 +96,6 @@ define tp::repo (
           before      => Package[$settings[package_name]],
         }
       }
-
       if !defined(File["${title}.list"])
       and !empty($settings[key]) {
         file { "${title}.list":
