@@ -93,9 +93,15 @@ define tp::repo (
           path        => '/bin:/sbin:/usr/bin:/usr/sbin',
           logoutput   => false,
           refreshonly => true,
-          before      => Package[$settings[package_name]],
         }
       }
+
+      if is_string($settings[package_name])
+      and $settings[package_name] != ''
+      and is_string($settings[key]) {
+        Exec['tp_apt_update'] -> Package[$settings[package_name]]
+      }
+
       if !defined(File["${title}.list"])
       and !empty($settings[key]) {
         file { "${title}.list":
