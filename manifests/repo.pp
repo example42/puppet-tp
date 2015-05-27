@@ -84,7 +84,10 @@ define tp::repo (
     }
     # To avoid to introduce another dependency we manage apt repos directly
     'Debian': {
-      if !defined(Exec['tp_apt_update']) {
+      if !defined(Exec['tp_apt_update'])
+      and is_string($settings[package_name])
+      and $settings[package_name] != ''
+      and is_string($settings[key]) {
         exec { 'tp_apt_update':
           command     => '/usr/bin/apt-get -qq update',
           path        => '/bin:/sbin:/usr/bin:/usr/sbin',
@@ -93,8 +96,8 @@ define tp::repo (
           before      => Package[$settings[package_name]],
         }
       }
-
-      if !defined(File["${title}.list"]) {
+      if !defined(File["${title}.list"])
+      and !empty($settings[key]) {
         file { "${title}.list":
           ensure  => $ensure,
           path    => "/etc/apt/sources.list.d/${title}.list",
@@ -107,8 +110,8 @@ define tp::repo (
       }
 
       if !defined(Exec["tp_aptkey_add_${settings[key]}"])
-      and $settings[key]
-      and $settings[key_url] {
+      and !empty($settings[key])
+      and !empty($settings[key_url]) {
         exec { "tp_aptkey_add_${settings[key]}":
           command => "wget -O - ${settings[key_url]} | apt-key add -",
           unless  => "apt-key list | grep -q ${settings[key]}",
@@ -119,8 +122,8 @@ define tp::repo (
       }
 
       if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
-      and $settings[key]
-      and $settings[apt_key_server] {
+      and !empty($settings[key])
+      and !empty($settings[apt_key_server]) {
         exec { "tp_aptkey_adv_${settings[key]}":
           command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
           unless  => "apt-key list | grep -q ${settings[key]}",
