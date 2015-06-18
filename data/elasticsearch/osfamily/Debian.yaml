@@ -1,7 +1,7 @@
 ---
   elasticsearch::settings:
     init_file_path: '/etc/default/elasticsearch'
-    repo_url: 'http://packages.elastic.co/elasticsearch/1.5/debian'
+    repo_url: 'http://packages.elastic.co/elasticsearch/1.6/debian'
     key: 'D88E42B4'
     key_url: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
     apt_repos: 'main'
