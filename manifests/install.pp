@@ -144,6 +144,7 @@ define tp::install (
       true      => true,
       'absent'  => false,
       false     => false,
+      default   => true,
     }
     tp::repo { $title:
       enabled => $repo_enabled,
