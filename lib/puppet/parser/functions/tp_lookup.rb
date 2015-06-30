@@ -11,18 +11,18 @@ module Puppet::Parser::Functions
 
     app = args[0]
     res = args[1]
-    data_module = args[2]
+    datamodule = args[2]
     args[3].to_s.length!=0 ? look = args[3] : look = 'direct'
     key = app + "::" + res
 
     value = { }
 
-    if mp = Puppet::Module.find(data_module, compiler.environment.to_s)
+    if mp = Puppet::Module.find(datamodule, compiler.environment.to_s)
       
       hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
 
       unless File.exist?(hiera_file_path)
-        raise Puppet::ParseError, ("Can't find #{hiera_file_path}. It looks like #{app} is not yet supported on #{data_module}")
+        raise Puppet::ParseError, ("I can't find data for: #{app}. Looking in file: #{hiera_file_path}. Using this data module: #{datamodule}")
       end
 
       hiera = YAML::load(File.open(hiera_file_path))
@@ -53,7 +53,7 @@ module Puppet::Parser::Functions
       }
 
     else
-      raise(Puppet::ParseError, "Could not find module #{data_module} in environment #{compiler.environment}")
+      raise(Puppet::ParseError, "Could not find module #{datamodule} in environment #{compiler.environment}")
     end
 
     return value
