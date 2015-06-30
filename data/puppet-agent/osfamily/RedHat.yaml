@@ -1,0 +1,5 @@
+---
+  puppet-agent::settings:
+    repo_url: 'http://yum.puppetlabs.com/el/7/PC1/\$basearch'
+    key: ''
+    key_url: 'http://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs'

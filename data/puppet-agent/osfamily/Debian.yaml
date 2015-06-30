@@ -1,0 +1,8 @@
+---
+  puppet-agent::settings:
+    repo_url: 'https://apt.puppetlabs.com'
+    key: 'D88E42B4'
+    key_url: 'https://apt.puppetlabs.com/pubkey.gpg'
+    apt_repos: 'main'
+    apt_release: 'stable'
+
