@@ -76,6 +76,13 @@
 #   Custom template to use to for the content of test script, used 
 #   by the tp::test define. It requires test_enable = true
 #
+# @param debug                     Default: false,
+#   If set to true it prints debug information for tp into the directory set in
+#   debug_dir
+#
+# @param debug_dir                 Default: '/tmp',
+#   The directory where tp stoes dbug info, when enabled
+#
 # @param data_module               Default: 'tp'
 #   Name of the module where tp data is looked for
 #
@@ -99,6 +106,9 @@ define tp::install (
   $test_enable               = false,
   $test_template             = undef,
 
+  $debug                     = false,
+  $debug_dir                 = '/tmp',
+
   $data_module               = 'tp',
 
   ) {
@@ -106,6 +116,7 @@ define tp::install (
   # Parameters validation
   validate_bool($auto_repo)
   validate_bool($puppi_enable)
+  validate_bool($debug)
   validate_hash($conf_hash)
   validate_hash($dir_hash)
   validate_hash($settings_hash)
@@ -198,5 +209,18 @@ define tp::install (
   if $firewall_class and $firewall_class != '' {
     include $firewall_class
   }
+
+  # Debugging
+  if $debug == true {
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    $manage_debug_content = "SCOPE:\n${debug_scope}"
+
+    file { "tp_install_debug_${title}":
+      ensure  => present,
+      content => $manage_debug_content,
+      path    => "${debug_dir}/tp_install_debug_${title}",
+    }
+  }
+
 
 }

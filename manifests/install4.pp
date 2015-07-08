@@ -25,6 +25,9 @@ define tp::install4 (
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
+  Boolean                 $debug               = false,
+  String[1]               $debug_dir           = '/tmp',
+
   String[1]               $data_module      = 'tp',
 
   ) {
