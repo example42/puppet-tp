@@ -67,19 +67,23 @@ define tp::augeas (
   }
 
 
-  if !defined(Concat[$manage_path]) {
+  if !defined(Augeas[$manage_path]) {
     ::augeas { $manage_path:
-      ensure         => present,
-      path           => $manage_path,
-      mode           => $manage_mode,
-      owner          => $manage_owner,
-      group          => $manage_group,
-      require        => $manage_require,
-      notify         => $manage_notify,
-      warn           => $warn,
-      force          => $force,
-      replace        => $replace,
-      ensure_newline => $ensure_newline,
+      context    => undef,
+      changes    => undef,
+      onlyif     => undef,
+      force      => undef,
+      incl       => undef,
+      lens       => undef,
+      load_path  => undef,
+      onlyif     => undef,
+      returns    => undef,
+      root       => undef,
+      show_diff  => undef,
+      type_check => undef,
+
+      require    => $manage_require,
+      notify     => $manage_notify,
     }
   }
 
