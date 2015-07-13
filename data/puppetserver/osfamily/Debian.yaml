@@ -1,0 +1,8 @@
+---
+  puppetserver::settings:
+    repo_url: 'https://apt.puppetlabs.com'
+    key: '07BB6C57'
+    key_url: 'https://apt.puppetlabs.com/pubkey.gpg'
+    apt_repos: 'PC1'
+    apt_release: 'stable'
+
