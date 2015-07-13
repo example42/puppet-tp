@@ -1,6 +1,6 @@
 ---
 # TODO: Verify and manage Windows versions older than 2008
-  puppet-agent::settings:
+  puppetserver::settings:
     config_file_path: 'C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf'
     fileserver_file_path: 'C:\ProgramData\PuppetLabs\puppet\etc\fileserver.conf'
     routes_file_path: 'C:\ProgramData\PuppetLabs\puppet\etc\routes.yaml'
