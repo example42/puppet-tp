@@ -1,9 +1,0 @@
----
-  bind::settings:
-    config_file_path: '/etc/named.conf'
-    config_dir_path: '/etc/named'
-    init_file_path: '/etc/sysconfig/named'
-    pid_file_path: '/var/run/named/named.pid'
-    service_name: 'named'
-    process_user: 'named'
-    process_group: 'named'

@@ -1,5 +1,0 @@
----
-  nfs::settings:
-    package_name: 'nfs-kernel-server'
-    service_name: 'nfs-kernel-server'
-    init_file_path: '/etc/default/nfs'

@@ -1,3 +1,0 @@
----
-  graylog2::settings:
-    init_file_path: '/etc/sysconfig/graylog2'

@@ -1,5 +1,0 @@
----
-  rabbitmq::settings:
-    package_name: 'rabbitmq-server'
-    service_name: 'rabbitmq-server'
-    init_file_path: '/etc/default/rabbitmq-server'

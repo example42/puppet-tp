@@ -1,6 +1,0 @@
----
-  multipath::settings:
-    package_name: 'multipath-tools'
-    service_name: 'multipath-tools'
-    config_file_path: '/etc/multipath.conf'
-    init_file_path: '/etc/default/multipath-tools'

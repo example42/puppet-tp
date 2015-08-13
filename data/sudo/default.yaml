@@ -1,5 +1,0 @@
----
-  sudo::settings:
-    config_file_path: '/etc/sudors'
-    config_file_mode: '0440'
-    config_dir_path: '/etc/sudoers.d'

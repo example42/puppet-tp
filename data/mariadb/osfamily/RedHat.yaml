@@ -1,4 +1,0 @@
----
-  mariadb::settings:
-    package_name: 'MariaDB-server'
-    init_file_path: '/etc/sysconfig/mysql'

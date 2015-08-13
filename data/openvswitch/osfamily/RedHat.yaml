@@ -1,3 +1,0 @@
----
-  openvswitch::settings:
-    init_file_path: '/etc/sysconfig/openvswitch-switch'

@@ -1,6 +1,0 @@
----
-  nagios::settings:
-    config_file_mode: '0664'
-    config_file_owner: 'nagios'
-    config_file_group: 'nagios'
-    init_file_path: '/etc/sysconfig/nagios'

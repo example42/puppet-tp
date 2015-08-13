@@ -1,4 +1,0 @@
----
-  epel::settings:
-    comment: 'Extra Packages for Enterprise Linux - $basearch'
-    key_url: 'https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL'

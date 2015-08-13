@@ -1,3 +1,0 @@
----
-  munin::settings:
-    www_dir_path: '/var/www/html/munin'

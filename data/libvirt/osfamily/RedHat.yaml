@@ -1,3 +1,0 @@
----
-  libvirt::settings:
-    init_file_path: '/etc/sysconfig/libvirtd'

@@ -1,7 +1,0 @@
----
-  snmpd::settings:
-    config_file_mode: '0600'
-    config_dir_path: '/etc/snmp'
-    process_user: 'snmp'
-    process_group: 'snmp'
-    init_file_path: '/etc/default/snmpd'

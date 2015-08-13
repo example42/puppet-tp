@@ -1,5 +1,0 @@
----
-  nfs::settings:
-    package_name: 'nfs-utils'
-    process_name: 'nfsd'
-    init_file_path: '/etc/sysconfig/nfs'
