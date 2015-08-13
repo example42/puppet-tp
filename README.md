@@ -17,6 +17,8 @@ It features:
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
+  - Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.

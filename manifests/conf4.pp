@@ -30,7 +30,7 @@ define tp::conf4 (
   Boolean                 $debug               = false,
   String[1]               $debug_dir           = '/tmp',
 
-  String[1]               $data_module         = 'tp',
+  String[1]               $data_module         = 'tinydata',
 
   ) {
 

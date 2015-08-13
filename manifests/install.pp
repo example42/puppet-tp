@@ -6,7 +6,7 @@
 # Several parameters allow any kind of override of default settings and
 # customization.
 # The list of supported applications, and the relevant OS coverage is in
-# the data/ directory of this module.
+# the data/ directory of the referred data_module.
 #
 # @example installation (of any any supported app and OS):
 #   tp::install { $app: }
@@ -83,7 +83,7 @@
 # @param debug_dir                 Default: '/tmp',
 #   The directory where tp stoes dbug info, when enabled
 #
-# @param data_module               Default: 'tp'
+# @param data_module               Default: 'tinydata'
 #   Name of the module where tp data is looked for
 #
 define tp::install (
@@ -109,7 +109,7 @@ define tp::install (
   $debug                     = false,
   $debug_dir                 = '/tmp',
 
-  $data_module               = 'tp',
+  $data_module               = 'tinydata',
 
   ) {
 

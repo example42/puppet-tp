@@ -24,7 +24,7 @@ define tp::puppi (
   $options_hash   = { },
   $settings_hash  = { },
 
-  $data_module    = 'tp',
+  $data_module    = 'tinydata',
 
   $verbose        = false,
 

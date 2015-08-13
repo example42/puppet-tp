@@ -113,7 +113,7 @@
 # @param debug_dir                 Default: '/tmp',
 #   The directory where tp stoes dbug info, when enabled
 #
-# @param data_module               Default: 'tp'
+# @param data_module               Default: 'tinydata'
 #   Name of the module where tp data is looked for
 #
 define tp::dir (
@@ -142,7 +142,7 @@ define tp::dir (
   $debug                = false,
   $debug_dir            = '/tmp',
 
-  $data_module          = 'tp',
+  $data_module          = 'tinydata',
 
   ) {
 
