@@ -14,11 +14,6 @@
 # @example installation of postfix
 #   tp::install { 'postfix': }
 #
-# @example disinstallation of nginx
-#   tp::install { 'nginx':
-#     ensure => absent,
-#   }
-#
 # @example installation and configuration via a custom hash of tp::conf
 # resources used to manage configuration files
 #   tp::install { 'puppet':
@@ -34,9 +29,6 @@
 #        config_dir_path  => '/opt/apache/conf/',
 #      }
 #   }
-#
-# @param ensure                    Default: present
-#   Define if to install (present, default value) or remove (absent) the application.
 #
 # @param conf_hash                 Default: { } 
 #   An hash of tp::conf resources that feed a create_resources function call.
@@ -88,8 +80,6 @@
 #
 define tp::install (
 
-  $ensure                    = present,
-
   $conf_hash                 = { } ,
   $dir_hash                  = { } ,
 
@@ -130,16 +120,8 @@ define tp::install (
     undef   => undef,
     default => Package[$settings[package_name]],
   }
-  $service_ensure = $ensure ? {
-    'absent'  => 'stopped',
-    false     => 'stopped',
-    default   => $settings[service_ensure],
-  }
-  $service_enable = $ensure ? {
-    'absent'  => false,
-    false     => false,
-    default   => $settings[service_enable],
-  }
+  $service_ensure = $settings[service_ensure]
+  $service_enable = $settings[service_enable]
 
   # Dependency class
   if $dependency_class and $dependency_class != '' {
@@ -150,15 +132,8 @@ define tp::install (
   # Automatic repo management
   if $auto_repo == true
   and $settings[repo_url] {
-    $repo_enabled = $ensure ? {
-      'present' => true,
-      true      => true,
-      'absent'  => false,
-      false     => false,
-      default   => true,
-    }
     tp::repo { $title:
-      enabled => $repo_enabled,
+      enabled => true,
       before  => Package[$settings[package_name]],
     }
   }
@@ -167,7 +142,7 @@ define tp::install (
   # Resources
   if $settings[package_name] {
     ensure_resource( 'package', $settings[package_name], {
-      'ensure' => $ensure
+      'ensure' => 'present',
     } )
   }
 
