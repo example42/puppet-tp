@@ -1,4 +1,0 @@
----
-  dovecot::settings:
-    config_file_path: '/etc/dovecot.conf'
-    init_file_path: '/etc/sysconfig/dovecot'

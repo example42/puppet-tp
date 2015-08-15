@@ -1,8 +1,0 @@
----
-  snmpd::settings:
-    package_name: 'net-snmp'
-    service_name: 'net-snmp'
-    config_file_path: '/etc/net-snmp/snmp/snmpd.conf'
-    config_file_mode: '0444'
-    config_file_group: 'bin'
-    config_dir_path: '/etc/net-snmp/snmp'

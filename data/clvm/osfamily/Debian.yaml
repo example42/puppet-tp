@@ -1,5 +1,0 @@
----
-  clvm::settings:
-    package_name: 'clvm'
-    service_name: 'clvm'
-    init_file_path: '/etc/default/clvmd'

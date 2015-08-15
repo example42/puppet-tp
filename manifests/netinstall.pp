@@ -61,7 +61,7 @@ define tp::netinstall (
   $test_enable               = false,
   $test_acceptance_template  = undef,
 
-  $data_module               = 'tp',
+  $data_module               = 'tinydata',
 
   ) {
 

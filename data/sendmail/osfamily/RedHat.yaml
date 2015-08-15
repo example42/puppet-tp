@@ -1,4 +1,0 @@
----
-  sendmail::settings:
-    package_name: 'sendmail-cf'
-    init_file_path: '/etc/sysconfig/sendmail'

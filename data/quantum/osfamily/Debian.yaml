@@ -1,5 +1,0 @@
----
-  quantum::settings:
-    package_name: 'quantum-server'
-    service_name: 'quantum-server'
-    init_file_path: '/etc/default/quantum'

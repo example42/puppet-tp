@@ -11,7 +11,7 @@ define tp::install4 (
 
   Hash                    $conf_hash        = { },
   Hash                    $dir_hash         = { },
- 
+
   Hash                    $settings_hash    = { },
 
   Boolean                 $auto_repo        = true,
@@ -25,10 +25,10 @@ define tp::install4 (
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
-  Boolean                 $debug               = false,
-  String[1]               $debug_dir           = '/tmp',
+  Boolean                 $debug            = false,
+  String[1]               $debug_dir        = '/tmp',
 
-  String[1]               $data_module      = 'tp',
+  String[1]               $data_module      = 'tinydata',
 
   ) {
 

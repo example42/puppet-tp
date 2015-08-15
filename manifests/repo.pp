@@ -28,7 +28,7 @@ define tp::repo (
   $debug               = false,
   $debug_dir           = '/tmp',
 
-  $data_module         = 'tp',
+  $data_module         = 'tinydata',
 
 ) {
 

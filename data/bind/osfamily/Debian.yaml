@@ -1,6 +1,0 @@
----
-  bind::settings:
-    package_name: 'bind9'
-    service_name: 'bind9'
-    init_file_path: '/etc/default/bind9'
-    pid_file_path: '/var/run/named/named.pid'

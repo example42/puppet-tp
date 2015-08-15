@@ -3,25 +3,20 @@
 #
 define tp::monitor (
 
-  $ensure               = present,
+  Variant[Boolean,String] $ensure           = present,
 
-  $tool                 = undef,
+  Hash                    $tools_hash       = { },
+  Hash                    $options_hash     = { },
+  Hash                    $settings_hash    = { },
 
-  $options_hash         = undef,
+  Boolean                 $auto_repo        = true,
 
-  $settings_hash        = undef,
+  Boolean                 $debug            = false,
+  String[1]               $debug_dir        = '/tmp',
 
-  $debug                = false,
-  $debug_dir            = '/tmp',
-
-  $data_module          = 'tp',
+  String[1]               $data_module      = 'tinydata',
 
   ) {
-
-  # Parameters validation
-  validate_bool($debug)
-  validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
-
 
   # Settings evaluation
   $title_elements = split ($title, '::')
@@ -29,5 +24,6 @@ define tp::monitor (
   $tool = $title_elements[1]
   $settings = tp_lookup($app,'settings',$data_module,'merge')
 
+  # TODO: Implement interfaces
 
 }

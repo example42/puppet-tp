@@ -17,6 +17,8 @@ It features:
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
+  - Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
@@ -67,15 +69,19 @@ Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
 
 **IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
 
-Tiny Puppet requires Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
+Tiny Puppet requires these Puppet modules:
+
+ - The [tinydata](https://github.com/example42/tinydata) module
+
+ - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 
 If you use the relevant defines, other dependencies are needed:
 
-```tp::concat``` requires Puppet Labs' [concat](https://github.com/puppetlabs/puppetlabs-concat) module.
+  - Define ```tp::concat``` requires Puppet Labs' [concat](https://github.com/puppetlabs/puppetlabs-concat) module.
 
-```tp::dir``` , when used with the ```vcsrepo``` argument, requires Puppet Labs' [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
+  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires Puppet Labs' [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
 
-```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
+  - Define ```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
 
 
 ## Usage in manifests
@@ -125,6 +131,10 @@ Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them man
     tp::stdmod { 'redis':
       config_file_template => 'site/redis/redis.conf',
     }
+
+To uninstall an application:
+
+    tp::uninstall { 'redis': }
 
 
 ### Managing configurations

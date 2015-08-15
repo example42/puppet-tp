@@ -1,6 +1,0 @@
----
-  php::settings:
-    package_name: 'php5'
-    config_file_path: '/etc/php5/apache2/php.ini'
-    config_dir_path: '/etc/php5'    
-    conf_dir_path: '/etc/php5/conf.d'

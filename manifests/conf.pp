@@ -1,7 +1,7 @@
 # @define tp::conf
 #
-# This define manages configuration files for the application
-# set in the title.
+# This define manages configuration files for the application named
+# in the used title..
 # It can manage the content of the managed files using different
 # methods (source, template, epp, content)
 # The actual path of the managed configuration files is determined by
@@ -173,7 +173,7 @@
 # @param debug_dir                 Default: '/tmp',
 #   The directory where tp stoes dbug info, when enabled
 #
-# @param data_module               Default: 'tp'
+# @param data_module               Default: 'tinydata'
 #   Name of the module where tp data is looked for
 #
 #
@@ -202,7 +202,7 @@ define tp::conf (
   $debug                = false,
   $debug_dir            = '/tmp',
 
-  $data_module          = 'tp',
+  $data_module          = 'tinydata',
 
   ) {
 

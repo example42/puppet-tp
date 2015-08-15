@@ -1,5 +1,0 @@
----
-  cron::settings:
-    config_file_path: '/etc/crontab'
-    config_dir_path: '/etc/cron.d'
-    conf_dir_path: '/etc/cron.d'

@@ -1,8 +1,0 @@
----
-  munin::settings:
-    package_name: 'munin'
-    config_file_path: '/etc/munin/munin.conf'
-    config_dir_path: '/etc/munin'
-    conf_dir_path: '/etc/munin/munin.d'
-    log_file_path: '/var/log/munin/munin.log'
-    log_dir_path: '/var/log/munin'

@@ -4,6 +4,7 @@ fixtures:
     "concat": "git://github.com/puppetlabs/puppetlabs-concat.git"
     "vcsrepo": "git://github.com/puppetlabs/puppetlabs-vcsrepo.git"
     "puppi": "git://github.com/example42/puppi.git"
+    "tinydata": "git://github.com/example42/tinydata.git"
   symlinks:
     "tp": "#{source_dir}"
 

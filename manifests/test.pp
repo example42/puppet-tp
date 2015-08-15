@@ -15,7 +15,7 @@ define tp::test (
   $options_hash        = { },
   $settings_hash       = { },
 
-  $data_module         = 'tp',
+  $data_module         = 'tinydata',
   $base_dir            = '/etc/tp/test',
 
   $verbose             = false,

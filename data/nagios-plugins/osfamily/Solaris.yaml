@@ -1,3 +1,0 @@
----
-  nagios-plugins::settings:
-    package_name: 'nagios_plugins'
