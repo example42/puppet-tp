@@ -18,9 +18,9 @@ gem 'puppet-lint',            :require => false
 gem 'puppet-syntax',          :require => false
 gem 'rspec-puppet',           :require => false
 gem 'coveralls',              :require => false
+gem 'metadata-json-lint',     :require => false
 
 # gem 'puppetlabs_spec_helper', :git => 'https://github.com/puppetlabs/puppetlabs_spec_helper', :require => true
 # gem 'rspec-puppet', :git => 'https://github.com/rodjek/rspec-puppet', :require => true
 
-# rspec 3 spews warnings with rspec-puppet 1.0.1
-gem 'rspec-core', '~> 2.0',    :require => false
+gem 'rspec', '~> 3.1.0',    :platforms => :ruby_18

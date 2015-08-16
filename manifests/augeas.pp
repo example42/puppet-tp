@@ -76,7 +76,6 @@ define tp::augeas (
       incl       => undef,
       lens       => undef,
       load_path  => undef,
-      onlyif     => undef,
       returns    => undef,
       root       => undef,
       show_diff  => undef,

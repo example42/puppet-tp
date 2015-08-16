@@ -24,6 +24,6 @@ define tp::monitor (
   $tool = $title_elements[1]
   $settings = tp_lookup($app,'settings',$data_module,'merge')
 
-  # TODO: Implement interfaces
+  ## TODO: Implement interfaces
 
 }
