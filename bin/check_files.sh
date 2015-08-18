@@ -66,7 +66,7 @@ fi
 echo
 
 echo "${YELLOW}Checking whitespace and colon count in YAML files.${CLR}"
-for i in $(find data -name '*.yaml')
+for i in $(find ../tinydata/data -name '*.yaml')
 do
   echo -ne "$i - "
   err=$(cat "$i" | perl -e '$i=0; while($_ = <>) { $i++; if ( $_ !~ /^([ ]{2})+\S([^:]+(::\w+)*):\s+/ ) { $_ =~ s/^\s+//; print "line $i - $_"; } }' | grep ':' | grep -v '#')
