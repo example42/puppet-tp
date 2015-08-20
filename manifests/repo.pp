@@ -98,6 +98,7 @@ define tp::repo (
 
       if is_string($settings[package_name])
       and $settings[package_name] != ''
+      and $settings[package_name] != undef
       and is_string($settings[key]) {
         Exec['tp_apt_update'] -> Package[$settings[package_name]]
       }
