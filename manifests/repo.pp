@@ -87,6 +87,7 @@ define tp::repo (
       if !defined(Exec['tp_apt_update'])
       and is_string($settings[package_name])
       and $settings[package_name] != ''
+      and $settings[package_name] != undef
       and is_string($settings[key]) {
         exec { 'tp_apt_update':
           command     => '/usr/bin/apt-get -qq update',
