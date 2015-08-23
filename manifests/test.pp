@@ -54,8 +54,8 @@ define tp::test (
   $array_tcp_port=any2array($settings['tcp_port'])
 
   # TODO: Refine
-  if ! defined('/etc/tp') {
-    file { '/etc/tp/':
+  if ! defined(File['/etc/tp']) {
+    file { '/etc/tp':
       ensure => directory,
       mode   => '0755',
       owner  => root,
