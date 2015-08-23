@@ -104,7 +104,7 @@ define tp::install4 (
   }
 
 
-  # Optional puppi integration 
+  # Optional puppi integration
   if $puppi_enable == true {
     tp::puppi { $title:
       settings_hash => $settings,
@@ -115,7 +115,7 @@ define tp::install4 (
   if $test_enable == true {
     tp::test { $title:
       settings_hash       => $settings,
-      acceptance_template => $test_template,
+      template            => $test_template,
     }
   }
 
