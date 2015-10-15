@@ -13,7 +13,7 @@ It features:
 
   - Out of the box and easily expandable support for most common Operating Systems
 
-  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/puppet-tp/tree/master/data).
+  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
