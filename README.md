@@ -24,6 +24,23 @@ It is intended to be used in modules that operate at an higher abstraction layer
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
 
 
+## Important upgrade note for forthcoming Version 1.x
+
+The current version of tp (0.9.x) has defines based on Puppet 3 (but work also on Puppet 4) and has extra Puppet4 only defines with the 4 suffix, for example:
+
+    tp::install  # Works on Puppet 3 and 4 
+    tp::install4 # Optimised for Puppet 4 (doesn't work on earlier versions)
+
+When tp 1.x will be released we want to switch this naming as follows:
+
+    tp::install  # Optimised for Puppet 4 (doesn't work on earlier versions)
+    tp::install3  # Works on Puppet 3 and 4 
+
+The current code and documentation refer to the pre 1.x layout: this will be changed at 1.0.0 release.
+
+We are sorry for the confusion, but we think that it's better to make this choice now, rather than mess more later or being forced to use an outdated Puppet version.
+
+
 ## Provided Resources
 
 Tiny Puppet provides the following defines:
