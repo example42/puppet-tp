@@ -114,8 +114,8 @@ define tp::install4 (
   # Test script creation (use to test, check, monitor the app)
   if $test_enable == true {
     tp::test { $title:
-      settings_hash       => $settings,
-      template            => $test_template,
+      settings_hash => $settings,
+      template      => $test_template,
     }
   }
 
