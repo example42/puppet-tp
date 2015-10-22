@@ -406,4 +406,4 @@ Tail the log(s) of the specified application (TODO)
 
 
 [![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
-[![Coverage Status](https://coveralls.io/repos/alvagante/puppet-tp/badge.png)](https://coveralls.io/r/alvagante/puppet-tp)
+[![Coverage Status](https://coveralls.io/repos&/example42/puppet-tp/badge.png)](https://coveralls.io/r/example42/puppet-tp)
