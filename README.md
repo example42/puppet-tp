@@ -1,5 +1,8 @@
 # Tiny Puppet 
 
+[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
+[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
+
 ## Yet Another Puppet Abstraction Layer
 
 Tiny Puppet is single Puppet module that manages virtually any application.
@@ -405,5 +408,3 @@ Tail the log(s) of the specified application (TODO)
     puppet tp log redis
 
 
-[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
-[![Coverage Status](https://coveralls.io/repos&/example42/puppet-tp/badge.png)](https://coveralls.io/r/example42/puppet-tp)
