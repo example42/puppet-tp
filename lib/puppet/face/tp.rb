@@ -24,7 +24,7 @@ Puppet::Face.define(:tp, '0.0.1') do
 
     when_invoked do |app, options|
 
-      raise "TODO"
+      exec ( "/etc/tp/test/" + app )
 
     end
   end
@@ -37,7 +37,7 @@ Puppet::Face.define(:tp, '0.0.1') do
 
     when_invoked do |app, options|
 
-      raise "TODO"
+      exec ( "/etc/tp/info/" + app )
 
     end
   end
@@ -46,7 +46,7 @@ Puppet::Face.define(:tp, '0.0.1') do
     summary "Tail all the logs relevant to an application."
     when_invoked do |app, options|
 
-      raise "TODO"
+      exec ( "tp log " + app )
 
     end
   end

@@ -44,17 +44,12 @@
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
 #
-# @param dependency_class          Default: undef
-#   Optional name of a custom class whe you can manage depenencies
-#   required for the installation of the given application
+# @param monitor_enable               Default: false
+#   If true, it is activated monitoring
 #
-# @param monitor_class             Default: undef
-#   Optional name of a custom class where you can manage the
-#   monitoring of this application.
-#
-# @param firewall_class            Default: undef
-#   Optional name of a custom class where you can manage the
-#   monitoring of this application.
+# @param monitor_template  Default: undef
+#   Custom template to use to for the content of test script, used 
+#   by the tp::test define. It requires test_enable = true
 #
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
@@ -78,62 +73,62 @@
 # @param data_module               Default: 'tinydata'
 #   Name of the module where tp data is looked for
 #
+#
 define tp::install (
 
-  $conf_hash                 = { } ,
-  $dir_hash                  = { } ,
+  Variant[Boolean,String] $ensure           = present,
 
-  $settings_hash             = { } ,
+  Hash                    $conf_hash        = { },
+  Hash                    $dir_hash         = { },
 
-  $auto_repo                 = true,
+  Hash                    $settings_hash    = { },
 
-  $dependency_class          = undef,
-  $monitor_class             = undef,
-  $firewall_class            = undef,
+  Boolean                 $auto_repo        = true,
 
-  $puppi_enable              = false,
+  Boolean                 $puppi_enable     = false,
 
-  $test_enable               = false,
-  $test_template             = undef,
+  Boolean                 $test_enable      = false,
+  Variant[Undef,String]   $test_template    = undef,
 
-  $debug                     = false,
-  $debug_dir                 = '/tmp',
+  Boolean                 $debug_enable     = false,
+  String[1]               $debug_dir        = '/tmp',
 
-  $data_module               = 'tinydata',
+  String[1]               $data_module      = 'tinydata',
 
   ) {
 
-  # Parameters validation
-  validate_bool($auto_repo)
-  validate_bool($puppi_enable)
-  validate_bool($debug)
-  validate_hash($conf_hash)
-  validate_hash($dir_hash)
-  validate_hash($settings_hash)
-
-
   # Settings evaluation
-  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
-  $settings=merge($tp_settings,$settings_hash)
-  $service_require = $settings[package_name] ? {
-    ''      => undef,
-    undef   => undef,
-    default => Package[$settings[package_name]],
-  }
-  $service_ensure = $settings[service_ensure]
-  $service_enable = $settings[service_enable]
+  $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
+  $settings = $tp_settings + $settings_hash
 
-  # Dependency class
-  if $dependency_class and $dependency_class != '' {
-    include $dependency_class
+  if $settings[package_name] =~ Variant[Undef,String[0]] {
+    $service_require = undef
+  } else {
+    $service_require = Package[$settings[package_name]]
   }
 
+  $service_ensure = $ensure ? {
+    'absent' => 'stopped',
+    false    => 'stopped',
+    default  => $settings[service_ensure],
+  }
+  $service_enable = $ensure ? {
+    'absent' => false,
+    false    => false,
+    default  => $settings[service_enable],
+  }
 
   # Automatic repo management
   if $auto_repo == true
   and $settings[repo_url] {
+    $repo_enabled = $ensure ? {
+      'present' => true,
+      true      => true,
+      'absent'  => false,
+      false     => false,
+    }
     tp::repo { $title:
-      enabled => true,
+      enabled => $repo_enabled,
       before  => Package[$settings[package_name]],
     }
   }
@@ -141,17 +136,23 @@ define tp::install (
 
   # Resources
   if $settings[package_name] {
-    ensure_resource( 'package', $settings[package_name], {
-      'ensure' => 'present',
-    } )
+    $packages_array=any2array($settings[package_name])
+    $packages_array.each |$pkg| {
+      package { $pkg:
+        ensure => $ensure,
+      }
+    }
   }
 
   if $settings[service_name] {
-    ensure_resource( 'service', $settings[service_name], {
-      'ensure'  => $service_ensure,
-      'enable'  => $service_enable,
-      'require' => $service_require,
-    } )
+    $services_array=any2array($settings[service_name])
+    $services_array.each |$svc| {
+      service { $svc:
+        ensure  => $service_ensure,
+        enable  => $service_enable,
+        require => $service_require,
+      }
+    }
   }
 
   if $conf_hash != {} {
@@ -161,6 +162,22 @@ define tp::install (
     create_resources('tp::dir', $dir_hash )
   }
 
+  # Optional monitor integration 
+  if $monitor_enable == true {
+    tp::monitor { $title:
+      settings_hash => $settings,
+      options_hash  => $options,
+    }
+  }
+
+
+  # Optional test automation integration
+  if $test_enable == true {
+    tp::test { $title:
+      settings_hash       => $settings,
+      acceptance_template => $test_template,
+    }
+  }
 
   # Optional puppi integration 
   if $puppi_enable == true {
@@ -168,34 +185,5 @@ define tp::install (
       settings_hash => $settings,
     }
   }
-
-  # Test script creation (use to test, check, monitor the app)
-  if $test_enable == true {
-    tp::test { $title:
-      settings_hash => $settings,
-      template      => $test_template,
-    }
-  }
-
-  # Extra classes
-  if $monitor_class and $monitor_class != '' {
-    include $monitor_class
-  }
-  if $firewall_class and $firewall_class != '' {
-    include $firewall_class
-  }
-
-  # Debugging
-  if $debug == true {
-    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    $manage_debug_content = "SCOPE:\n${debug_scope}"
-
-    file { "tp_install_debug_${title}":
-      ensure  => present,
-      content => $manage_debug_content,
-      path    => "${debug_dir}/tp_install_debug_${title}",
-    }
-  }
-
 
 }
