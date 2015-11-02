@@ -1,14 +1,19 @@
-# Minimal Theme
+# Tiny Puppet
 
-[Demo the Theme](http://orderedlist.github.com/minimal/)
+Tiny Puppet is single Puppet module that manages virtually any application.
 
-This is the raw HTML and styles that are used for the *minimal* theme on [GitHub Pages](http://pages.github.com/).
+It can replace or integrate existing component application modules.
 
-Syntax highlighting is provided on GitHub Pages by [Pygments](http://pygments.org).
+It features:
 
-# License
+- Quick, easy to use, standard, coherent, powerful interface to the managed resources
 
-This work is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/).
+- Out of the box and easily expandable support for most common Operating Systems
 
+- Modular data source design. Support for an easily growing set of applications.
+
+- Smooth coexistence with any existing Puppet modules setup: you decide what to manage
+
+Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
 
 
