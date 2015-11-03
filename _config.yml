@@ -5,7 +5,7 @@ email: info@example42.com
 author: Example42
 description: > # "Tiny Puppet is an abstraction layer on top of Puppet DSL which allows installation and configuration of any application"
 
-pygments: true
-markdown: maruku
+highlighter: pygments
+markdown: kramdown
 exclude: ['vendor']
 
