@@ -1,6 +1,7 @@
 /.idea
 /.gradle
 /.rvmrc
+/_site
 build
 pkg/
 coverage/
