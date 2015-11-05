@@ -4,41 +4,43 @@ title: 'Tiny Puppet - Essential Applications Management'
 subTitle: 'Yet Another Puppet Abstraction layer'
 ---
 
-# Tiny Puppet
+# Essential Applications Management
 
-Tiny Puppet is single Puppet module that manages virtually any application.
+Tiny Puppet is a Puppet module that allows management virtually any application on any Operating System.
 
-It can replace or integrate existing component application modules.
+It's based on the assumption that its user knows and wants to control how to shape the application's configuration files.
 
 It features:
 
-- Quick, easy to use, standard, coherent, powerful interface to the managed resources
+- Quick, easy to use, standard, coherent, powerful interface to install packages, manage services and  configuration files, in whatever way preferred
 
 - Out of the box and easily expandable support for most common Operating Systems
 
 - Modular data source design. Support for an easily growing set of applications.
 
-- Smooth coexistence with any existing Puppet modules setup: you decide what to manage
+- Smooth coexistence with any existing Puppet modules setup: according to situations and needs can be used as alternative or complementary to normal component components
 
-Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+All the data used by Tiny Puppet to support different applications is stored in the separated module ([tinydata](https://github.com/example42/tinydata).
+
+This is the list of the currently [supported applications](https://github.com/example42/tinydata/tree/master/data).
 
 
 ## Tiny Puppet defines
 
 Tiny Puppet provides the following defines:
 
-- ```tp::install```. It installs an application and starts its service, by default
-- ```tp::conf```. It allows to manage configuration files
-- ```tp::dir```. Manages the content of directories
-- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
+- ```tp::install```. Install an application and start its service, by default
+- ```tp::conf```. Manage configuration files
+- ```tp::dir```. Manage the content of directories, also via vcs repositories
+- ```tp::stdmod```. Manage an application using StdMod compliant parameters
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application
 - ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional)
 
-The following defines are Work In Progress or planned / envisioned:
+Other defines Work In Progress, planned or envisioned:
 
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::netinstall```. (WIP) Installs from a remote url
 - ```tp::instance```. (TODO) Manages an application instance
-- ```tp::line```. (TODO) Manages single lines in a configuration file
+- ```tp::line```. (TODO?) Manages single lines in a configuration file
 - ```tp::github```. (TODO) Installs (anything?;) directly from GitHub source
