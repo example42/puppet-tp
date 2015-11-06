@@ -13,12 +13,6 @@ Install an application with default settings (package installed, service started
 
     tp::install { 'redis': }
 
-Install an application specifying a custom dependency class (where, for example, you can add a custom package repository. Note however that for some applications and Operating System TP provides and manages automatically the upstream repository)
-
-    tp::install { 'lighttpd':
-      dependency_class => 'site::lighttpd::repo',
-    }
-
 Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
 
     tp::conf { 'rsyslog':
@@ -32,6 +26,10 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
       source      => 'https://git.example.42/apps/my_app/',
       vcsrepo     => 'git',
     }
+
+Uninstall an application:
+
+    tp::uninstall { 'redis': }
 
 
 ## Installation alternatives
@@ -53,26 +51,8 @@ Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them man
       config_file_template => 'site/redis/redis.conf',
     }
 
-To uninstall an application:
-
-    tp::uninstall { 'redis': }
-
 
 ## Managing configurations
-
-By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If you use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, you can disable these automatic relationships:
-
-    tp::conf { 'bind':
-      config_file_notify  => false,
-      config_file_require => false,
-    }
-
-You can also set custom resource references to point to actual resources you declare in your manifests:
-
-    tp::conf { 'bind':
-      config_file_notify  => Service['bind9'],
-      config_file_require => Package['bind9-server'],
-    }
 
 It's possible to manage files with different methods, for example directly providing its content:
 
@@ -96,40 +76,68 @@ or using a custom epp template with Puppet code instead of Ruby (used as ```cont
 also it's possible to provide the source to use, instead of managing it with the content argument:
 
     tp::conf { 'redis':
-      source      => [ "puppet:///modules/site/redis/redis.conf-${hostname}" ,
+      source      => [ "puppet:///modules/site/redis/redis.conf-${::hostname}" ,
                        'puppet:///modules/site/redis/redis.conf' ] ,
     }
 
-Tp:conf has some conventions on the actual configuration file manages.
 
-By default, if you just specify the application name, the file managed is the "main" configuration file of that application (in case this is not evident or may be questionable, check the data files for the actual value used).
+By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If you use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, you can disable these automatic relationships:
+
+    tp::conf { 'bind':
+      config_file_notify  => false,
+      config_file_require => false,
+    }
+
+You can also set custom resource references to point to actual resources you declare in your manifests:
+
+    tp::conf { 'bind':
+      config_file_notify  => Service['bind9'],
+      config_file_require => Package['bind9-server'],
+    }
+
+
+#### File paths conventions
+
+Tp:conf has some conventions on the actual paths of the managed configuration files.
+
+By default, if you just specify the application name, the file managed is the *main configuration file* of that application (in case this is not evident or may be questionable, check the data files for the actual value used for the settings key ```config_file_path```).
 
     # This manages /etc/ssh/sshd_config
     tp::conf { 'openssh':
       [...]
     }
 
-If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the "base" configuration dir:
+If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the *main configuration directory* (setting ```config_dir_path```):
 
     # This manages /etc/ssh/ssh_config
     tp::conf { 'openssh::ssh_config':
       [...]
     }
 
-If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog):
-
-    # This manages /etc/ssh/ssh_config
-    tp::conf { 'openssh::ssh_config':
-      [...]
-    }
-
-If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog):
+If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog, in this way are automatically managed package dependencies and services notifications):
 
     # This manages /usr/local/bin/openssh_check
     tp::conf { 'openssh::ssh_check':
       path => '/usr/local/bin/openssh_check',
       [...]
     }
+
+If you specify a ```base_dir``` and use a title with the format: ```application::file_name``` the file is created with the defined name in the indicated base directory (as , and if, configured in the settings):
+
+    # Path is (in RedHat derivatives) /etc/httpd/conf.d/example42.com.conf
+    tp::conf { 'apache::example42.com.conf':
+      template => 'site/apache/example42.com.conf.erb',
+      base_dir => 'conf', # Use the settings key: conf_dir_path
+    }
+
+There are different possible base_dir values, they may be defined according to the application. The most common ones are:
+
+    base_dir param    Settings key       Description
+    config            config_dir_path    The main configuration directory
+    conf              conf_dir_path      A dir that contains fragments of configurations (usuallu /conf.d/)
+    log               log_dir_path       Directory where are placed the application logs
+    data              data_dir_path      Directory is placed application data
+
 
 ## Managing directories
 

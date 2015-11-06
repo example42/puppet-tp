@@ -4,7 +4,7 @@ title: 'Tiny Puppet - Essential Applications Management'
 subTitle: 'Yet Another Puppet Abstraction layer'
 ---
 
-## Difference between versions 0.x and 1.x
+## Difference between tp versions 0.x and 1.x
 
 Since Tiny Puppet version 1.x the main tp defines are compatible only with Puppet 4 or Puppet 3 with future parser enabled. In environments where you have Puppet 3 (or earlier) you can use the relevant defines with the 3 prefix.
 

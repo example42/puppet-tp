@@ -4,13 +4,23 @@ title: 'Tiny Puppet - Essential Applications Management'
 subTitle: 'Yet Another Puppet Abstraction layer'
 ---
 
-# Essential Applications Management
+# Essential Application Management
 
-Tiny Puppet is a Puppet module that allows management of virtually any application on any Operating System.
+Tiny Puppet is a Puppet module that allows management of virtually **any application on any Operating System**:
 
-It's based on the assumption that its user knows and wants to control how to shape the managed application's configuration files.
+    tp::install { 'any_app': }
 
-It features:
+It's based on the assumption that its user knows and wants to control how to shape the managed application's configuration file:
+
+    tp::conf { 'any_app':
+      template     => 'site/any_app/my_conf.erb',
+      options_hash => hiera_hash('any_app::options'),
+    }
+
+It's **not a joke**, it just works like that, as long as your application can be installed via a native package (Tiny Puppet can manage also additional repos) and you know how to configure it.
+
+
+Tiny Puppet features:
 
 - Quick, easy to use, standard, coherent, powerful interface to install packages, manage services and  configuration files, in whatever way preferred.
 
@@ -20,9 +30,9 @@ It features:
 
 - Smooth coexistence with any existing Puppet modules setup: according to situations and needs can be used as alternative or complementary to normal component modules.
 
-All the data used by Tiny Puppet to support different applications is stored in the separated module ([tinydata](https://github.com/example42/tinydata).
+All the data used by Tiny Puppet to support different applications is stored in the separated [tinydata](https://github.com/example42/tinydata) module.
 
-This is the list of the currently [supported applications](https://github.com/example42/tinydata/tree/master/data).
+This is the list of the currently [supported applications](https://github.com/example42/tinydata/tree/master/data), feel free to send Pull Requests to support new apps or have better OS coverage.
 
 
 ## Tiny Puppet defines
