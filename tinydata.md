@@ -12,7 +12,7 @@ Here for each supported application there is a directory inside the ```data/``` 
 
 - the ```hiera.yaml``` file which describes the hierarchy to use to lookup for the relevant application data.
 
-- the yaml files where data is stored according to the defined hierarchy.
+- the yaml files where data is stored, as an hash under the ```app_name::settings``` key according to the defined hierarchy.
 
 A sample ```hiera.yaml``` is like this:
 
@@ -30,7 +30,7 @@ so the lookup is done, if ```$title == 'mariadb'```  and ```$::osfamily == 'RedH
 
 The last file contains general defaults for every application.
 
-Note that even if we use a file called ```hiera.yaml``` to configure the lookup hierarchy for each application, Tiny Puppet DOES NOT currently use Hiera for any of its lookups, it used a custom function called [tp_lookup](https://github.com/example42/puppet-tp/blob/master/lib/puppet/parser/functions/tp_lookup.rb). The behaviour is similar even if Hiera is much more complete, for example we can interpolate variables in tinydata.
+Note that even if we use a file called ```hiera.yaml``` to configure the lookup hierarchy for each application, Tiny Puppet DOES NOT currently use Hiera for any of its lookups, it used a custom function called [tp_lookup](https://github.com/example42/puppet-tp/blob/master/lib/puppet/parser/functions/tp_lookup.rb). The behavior is similar even if Hiera has other use cases and is much more complete, for example we can't interpolate variables in tinydata.
 
 
 ## Using custom data
@@ -51,7 +51,7 @@ The tinydata module is the default module where data is looked for, but you can 
       data_module => 'my_data',
     }
 
-This implies that you need to have a directory like ```my_data/data/apache``` where you have an ```hiera.yaml``` where your hierarchy is described and the relevant yaml files where data for your apache is defined under the ```settings``` key.
+This implies that you need to have a directory like ```my_data/data/apache``` where you have an ```hiera.yaml``` where your hierarchy is described and the relevant yaml files where data for your apache is defined under the ```apache::settings``` key.
 
 You can use a different data module for different tp defines.
 
@@ -66,7 +66,7 @@ If you don't need to provide a complete separated module, you can override the d
       },
     }
 
-Whenever you use custom settings or a custom data module you will probably need to use the same settings for each define of a given application. For example:
+Whenever you use custom settings or a custom data module you will probably need to use the same settings for each define of a given application. Here follows an example where we use Hiera to store data both for settings and for options:
 
     $nginx_settings = hiera_hash('nginx::settings')
     $nginx_options = hiera_hash('nginx::options')
@@ -84,7 +84,7 @@ Note the different between the parameters:
 
 - ```settings_hash``` An hash of settings that override the default tiny data for an applications (settings like: package_name, service_name, config_dir_path...)
 
-- ```options_hash``` An hash of application specific options which you can use in your templates as needed (things like, for apache: DocumentRoot, Port, ServerName... ) 
+- ```options_hash``` An hash of application specific options which you can use in your templates as needed (things like, for apache: DocumentRoot, Port, ServerName... )
 
 
 ## Update policy
@@ -93,12 +93,12 @@ Our commitment is to keep Tiny Data as updated and correct as possible, also if 
 
 Whenever new references to new versions of applications or operating systems (for example in additional repos url) are available, they will be updated.
 
-If existing data for some Operating Systems is incorrect we will update it without caring about possible backwards incompatibilities on existing setups, we won't even follow SemVer rules for tinydata.
+If existing data for some Operating Systems is incorrect we will update it without caring about backwards incompatibilities, we won't even follow SemVer rules for tinydata.
 
 The driving principle is to have the correct data for each version of each supported operating system and application.
 
 We recommend to make a local fork of this module and update it from the upstream version only after relevant testing.
 
-Bug reporting or pull request are always welcomed.
+Bug reporting or pull requests on GitHub are always welcomed.
 
 For more info on cross OS compatibility testing and status, check the [this](/playground.html) page.
