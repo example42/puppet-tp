@@ -31,27 +31,20 @@
 #
 define tp::uninstall (
 
-  $conf_hash                 = { } ,
-  $dir_hash                  = { } ,
+  Hash      $conf_hash                 = { } ,
+  Hash      $dir_hash                  = { } ,
 
-  $settings_hash             = { } ,
+  Hash      $settings_hash             = { } ,
 
-  $auto_repo                 = true,
+  Boolean   $auto_repo                 = true,
 
-  $data_module               = 'tinydata',
+  String[1] $data_module               = 'tinydata',
 
   ) {
 
-  # Parameters validation
-  validate_bool($auto_repo)
-  validate_hash($conf_hash)
-  validate_hash($dir_hash)
-  validate_hash($settings_hash)
-
-
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
-  $settings=merge($tp_settings,$settings_hash)
+  $settings = $tp_settings + $settings_hash
 
   # Automatic repo management
   if $auto_repo == true
