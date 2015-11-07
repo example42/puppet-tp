@@ -6,7 +6,7 @@ subTitle: 'Yet Another Puppet Abstraction layer'
 
 ## Difference between tp versions 0.x and 1.x
 
-Since Tiny Puppet version 1.x the main tp defines are compatible only with Puppet 4 or Puppet 3 with future parser enabled. In environments where you have Puppet 3 (or earlier) you can use the relevant defines with the 3 prefix.
+Since Tiny Puppet version 1.x the main tp defines are compatible only with Puppet 4 or Puppet 3 with future parser enabled. In environments where we have Puppet 3 (or earlier) we can use the relevant defines with the 3 prefix.
 
 On tp version 0.x the defaults are different: the default defines are compatible with any Puppet version and Puppet 4 versions have the 4 suffix.
 
@@ -26,13 +26,13 @@ On tp 1.x the naming is as follows:
 
 Tiny Puppet is currently developed and mostly tested on Ruby 1.9.3, it's expected to work on more recent versions and **does not** work on Ruby 1.8.7.
 
-This means that your Puppet Master should run on stock setups on these OS:
+This means that our Puppet Master should run on stock setups on these OS:
   - Ubuntu 14.04
   - Debian 7
   - RedHat 7
   - CentOS 7
 
-Your clients may run on different Operating Systems and are actually supported in TP data, in fact, to run acceptance tests on other OS a compatible Ruby version is pre-installed in the provisioning of the relevant Vagrant boxes:
+Our clients may run on different Operating Systems and are actually supported in TP data, in fact, to run acceptance tests on other OS a compatible Ruby version is pre-installed in the provisioning of the relevant Vagrant boxes:
   - Ubuntu 12.04
   - Debian 6
   - CentOS 6
@@ -47,7 +47,7 @@ Tiny Puppet requires these Puppet modules:
 
  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 
-If you use the relevant defines, other dependencies are needed:
+If we use the relevant defines, other dependencies are needed:
 
   - Define ```tp::concat``` requires Puppet Labs' [concat](https://github.com/puppetlabs/puppetlabs-concat) module.
 

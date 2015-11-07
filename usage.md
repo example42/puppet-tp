@@ -34,7 +34,7 @@ Uninstall an application:
 
 ## Installation alternatives
 
-Install custom packages (with the ```settings_hash``` argument you can override any application specific setting)
+Install custom packages (with the ```settings_hash``` argument we can override any application specific setting)
 
     tp::install { 'redis':
       settings_hash => {
@@ -45,7 +45,7 @@ Install custom packages (with the ```settings_hash``` argument you can override 
 
 Use the ```tp::stdmod``` define to manage an application using stdmod compliant parameters.
 
-Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them manage packages and services) and may be complementary to ```tp::conf``` (you can configure files with both).
+Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them manage packages and services) and may be complementary to ```tp::conf``` (we can configure files with both).
 
     tp::stdmod { 'redis':
       config_file_template => 'site/redis/redis.conf',
@@ -81,14 +81,14 @@ also it's possible to provide the source to use, instead of managing it with the
     }
 
 
-By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If you use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, you can disable these automatic relationships:
+By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If we use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, we can disable these automatic relationships:
 
     tp::conf { 'bind':
       config_file_notify  => false,
       config_file_require => false,
     }
 
-You can also set custom resource references to point to actual resources you declare in your manifests:
+We can also set custom resource references to point to actual resources We declare in our manifests:
 
     tp::conf { 'bind':
       config_file_notify  => Service['bind9'],
@@ -100,21 +100,21 @@ You can also set custom resource references to point to actual resources you dec
 
 Tp:conf has some conventions on the actual paths of the managed configuration files.
 
-By default, if you just specify the application name, the file managed is the *main configuration file* of that application (in case this is not evident or may be questionable, check the data files for the actual value used for the settings key ```config_file_path```).
+By default, if we just specify the application name, the file managed is the *main configuration file* of that application (in case this is not evident or may be questionable, check the data files for the actual value used for the settings key ```config_file_path```).
 
     # This manages /etc/ssh/sshd_config
     tp::conf { 'openssh':
       [...]
     }
 
-If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the *main configuration directory* (setting ```config_dir_path```):
+If we specify a file name after the application name in the title, separated by ```::```, that file is placed in the *main configuration directory* (setting ```config_dir_path```):
 
     # This manages /etc/ssh/ssh_config
     tp::conf { 'openssh::ssh_config':
       [...]
     }
 
-If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog, in this way are automatically managed package dependencies and services notifications):
+If we explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in our catalog, in this way are automatically managed package dependencies and services notifications):
 
     # This manages /usr/local/bin/openssh_check
     tp::conf { 'openssh::ssh_check':
@@ -122,7 +122,7 @@ If you explicitly set a path, that path is used and the title is ignored (be sur
       [...]
     }
 
-If you specify a ```base_dir``` and use a title with the format: ```application::file_name``` the file is created with the defined name in the indicated base directory (as , and if, configured in the settings):
+If we specify a ```base_dir``` and use a title with the format: ```application::file_name``` the file is created with the defined name in the indicated base directory (as , and if, configured in the settings):
 
     # Path is (in RedHat derivatives) /etc/httpd/conf.d/example42.com.conf
     tp::conf { 'apache::example42.com.conf':
@@ -149,7 +149,7 @@ Manage a whole configuration directory:
 
 Manage a specific directory type. Currently defined directories types are:
   - ```config``` : The application [main] configuration directory (Default value)
-  - ```conf``` : A directory where you can place single configuration files (typically called ./conf.d )
+  - ```conf``` : A directory where we can place single configuration files (typically called ./conf.d )
   - ```data``` : Directory where application data resides
   - ```log``` : Dedicated directory for logs, if present
 
@@ -193,9 +193,9 @@ Currently Tiny Puppet supports applications' installation only via the OS native
 
 The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
-Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
+Generally we don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
-If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
+If, for whatever reason, we don't want to automatically manage a repository for an application, we can set to ```false``` the ```auto_repo``` parameter, and, eventually we can manage the repository in a custom dependency class:
 
     tp::install { 'elasticsearch':
       auto_repo        => false,
@@ -205,11 +205,11 @@ If, for whatever reason, you don't want to automatically manage a repository for
 
 ## Usage with Hiera
 
-You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
+We may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
 
-Although such approach is very powerful (and totally optional) we recommend not to abuse of it.
+Although such approach is very powerful (and totally optional) it's recommended not to abuse of it.
 
-Tiny Puppet is intended to be used in modules like profiles, your data should map to parameters of such classes, but if you want to manage directly via Hiera some tp resources you have to include the main class:
+Tiny Puppet is intended to be used in modules like profiles, our data should map to parameters of such classes, but if we want to manage directly via Hiera some tp resources we have to include the main class:
 
     include tp
 

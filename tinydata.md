@@ -45,19 +45,19 @@ Both the arguments are available in all the tp functions.
 
 #### Using a custom data module
 
-The tinydata module is the default module where data is looked for, but you can provide a custom module for your own application settings:
+The tinydata module is the default module where data is looked for, but we can provide a custom module for our own application settings:
 
     tp::install { 'apache':
       data_module => 'my_data',
     }
 
-This implies that you need to have a directory like ```my_data/data/apache``` where you have an ```hiera.yaml``` where your hierarchy is described and the relevant yaml files where data for your apache is defined under the ```apache::settings``` key.
+This implies that we need to have a directory like ```my_data/data/apache``` where we have an ```hiera.yaml``` where our hierarchy is described and the relevant yaml files where data for our apache is defined under the ```apache::settings``` key.
 
-You can use a different data module for different tp defines.
+We can use a different data module for different tp defines.
 
 #### Providing custom settings
 
-If you don't need to provide a complete separated module, you can override the default tinydata settings for a given application using the ```settings_hash``` parameter, which expects an hash having key names like the settings keys in the tinydata files.
+If we don't need to provide a complete separated module, we can override the default tinydata settings for a given application using the ```settings_hash``` parameter, which expects an hash having key names like the settings keys in the tinydata files.
 
     tp::install { 'apache':
       settings_hash => {
@@ -66,7 +66,7 @@ If you don't need to provide a complete separated module, you can override the d
       },
     }
 
-Whenever you use custom settings or a custom data module you will probably need to use the same settings for each define of a given application. Here follows an example where we use Hiera to store data both for settings and for options:
+Whenever we use custom settings or a custom data module we will probably need to use the same settings for each define of a given application. Here follows an example where we use Hiera to store data both for settings and for options:
 
     $nginx_settings = hiera_hash('nginx::settings')
     $nginx_options = hiera_hash('nginx::options')
@@ -84,7 +84,7 @@ Note the different between the parameters:
 
 - ```settings_hash``` An hash of settings that override the default tiny data for an applications (settings like: package_name, service_name, config_dir_path...)
 
-- ```options_hash``` An hash of application specific options which you can use in your templates as needed (things like, for apache: DocumentRoot, Port, ServerName... )
+- ```options_hash``` An hash of application specific options which we can use in our templates as needed (things like, for apache: DocumentRoot, Port, ServerName... )
 
 
 ## Update policy

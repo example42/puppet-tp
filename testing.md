@@ -31,7 +31,7 @@ By default ```tp::test``` uses [this template](https://github.com/example42/pupp
       test_template => 'site/tp/test/test.erb',
     }
 
-The location of this script is determined by the ```base_dir``` parameter of ```tp::test```, the default value is ```/etc/tp/test/```, so you can run the above script, from the node's shell, executing:
+The location of this script is determined by the ```base_dir``` parameter of ```tp::test```, the default value is ```/etc/tp/test/```, so we can run the above script, from the node's shell, executing:
 
     /etc/tp/test/redis
 

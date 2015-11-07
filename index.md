@@ -17,7 +17,7 @@ It's based on the assumption that its user knows and wants to control how to sha
       options_hash => hiera_hash('any_app::options'),
     }
 
-It's **not a joke**, it just works like that, as long as your application can be installed via a native package (Tiny Puppet can manage also additional repos) and you know how to configure it.
+It's **not a joke**, it just works like that, as long as our application can be installed via a native package (Tiny Puppet can manage also additional repos) and we know how to configure it.
 
 
 Tiny Puppet features:
