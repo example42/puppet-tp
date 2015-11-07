@@ -32,11 +32,14 @@
 #      }
 #   }
 #
-# @param conf_hash                 Default: { } 
+# @param conf_hash                 Default: { }
 #   An hash of tp::conf3 resources that feed a create_resources function call.
 #
-# @param dir_hash                  Default: { } 
+# @param dir_hash                  Default: { }
 #   An hash of tp::dir3 resources that feed a create_resources function call.
+#
+# @param options_hash              Default: { },
+#   Generic hash of configuration parameters specific for the app
 #
 # @param settings_hash             Default: { } 
 #   An hash that can override the application settings tp returns, according to the
@@ -85,6 +88,7 @@ define tp::install3 (
   $conf_hash                 = { } ,
   $dir_hash                  = { } ,
 
+  $options_hash              = { } ,
   $settings_hash             = { } ,
 
   $auto_repo                 = true,
@@ -175,6 +179,7 @@ define tp::install3 (
   if $test_enable == true {
     tp::test3 { $title:
       settings_hash => $settings,
+      options_hash  => $options_hash,
       template      => $test_template,
     }
   }

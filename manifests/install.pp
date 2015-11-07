@@ -30,13 +30,17 @@
 #      }
 #   }
 #
-# @param conf_hash                 Default: { } 
+# @param conf_hash                 Default: { }
 #   An hash of tp::conf resources that feed a create_resources function call.
 #
-# @param dir_hash                  Default: { } 
+# @param dir_hash                  Default: { }
 #   An hash of tp::dir resources that feed a create_resources function call.
 #
-# @param settings_hash             Default: { } 
+# @param options_hash              Default: { },
+#   Generic hash of configuration parameters specific for the app, they are
+#   passed to tp::test if test_enable parameter is true
+#
+# @param settings_hash             Default: { }
 #   An hash that can override the application settings tp returns, according to the
 #   underlying Operating System and the default behaviour
 #
@@ -48,19 +52,19 @@
 #   If true, it is activated monitoring
 #
 # @param monitor_template  Default: undef
-#   Custom template to use to for the content of test script, used 
+#   Custom template to use to for the content of test script, used
 #   by the tp::test define. It requires test_enable = true
 #
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
-#   
+#
 # @param test_enable               Default: false
 #   If true, it is called the define tp::test, which creates a script that
 #   should test the functionality of the app
 #
 # @param test_template  Default: undef
-#   Custom template to use to for the content of test script, used 
+#   Custom template to use to for the content of test script, used
 #   by the tp::test define. It requires test_enable = true
 #
 # @param debug                     Default: false,
@@ -81,6 +85,7 @@ define tp::install (
   Hash                    $conf_hash        = { },
   Hash                    $dir_hash         = { },
 
+  Hash                    $options_hash     = { },
   Hash                    $settings_hash    = { },
 
   Boolean                 $auto_repo        = true,
@@ -162,11 +167,11 @@ define tp::install (
     create_resources('tp::dir', $dir_hash )
   }
 
-  # Optional monitor integration 
+  # Optional monitor integration
   if $monitor_enable == true {
     tp::monitor { $title:
       settings_hash => $settings,
-      options_hash  => $options,
+      options_hash  => $options_hash,
     }
   }
 
@@ -175,11 +180,12 @@ define tp::install (
   if $test_enable == true {
     tp::test { $title:
       settings_hash       => $settings,
+      options_hash        => $options_hash,
       acceptance_template => $test_template,
     }
   }
 
-  # Optional puppi integration 
+  # Optional puppi integration
   if $puppi_enable == true {
     tp::puppi { $title:
       settings_hash => $settings,
