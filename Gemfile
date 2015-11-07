@@ -18,6 +18,7 @@ gem 'puppet-lint',            :require => false
 gem 'puppet-syntax',          :require => false
 gem 'rspec-puppet',           :require => false
 gem 'coveralls',              :require => false
+gem 'simplecov',              :require => false
 gem 'metadata-json-lint',     :require => false
 
 # gem 'puppetlabs_spec_helper', :git => 'https://github.com/puppetlabs/puppetlabs_spec_helper', :require => true
