@@ -175,26 +175,6 @@ describe 'tp::conf3', :type => :define do
   end 
 
 
-  skip 'with custom epp template and options_hash' do
-    let(:title) { 'redis' }
-    let(:params) {
-      {
-        'epp'          => 'tp/spec/spec.epp',
-        'options_hash' => { 
-          'key_a'  => 'value_a',
-          'key_b'  => 'value_b',
-        },
-      }
-    }
-    it do 
-      should contain_file('/etc/redis/redis.conf').with({
-        'ensure'  => 'present',                           
-        'path'    => '/etc/redis/redis.conf',             
-        'content' => "key_a = value_a ; key_b = value_b\n",
-      })                                                  
-    end                                                   
-  end 
-
   context 'with title redis::redis2.conf' do
     let(:title) { 'redis::redis2.conf' }
     it do
@@ -401,21 +381,4 @@ describe 'tp::conf3', :type => :define do
     end 
   end
 
-  skip 'with custom epp template and options_hash' do
-    let(:title) { 'redis' }
-    let(:params) { {
-      'epp'          => 'tp/spec/spec.epp',
-      'options_hash' => { 
-        'key_a'  => 'value_a',
-        'key_b'  => 'value_b',
-        },
-      } }
-    it do 
-      should contain_file('/etc/redis/redis2.conf').with({
-        'ensure'  => 'present',                           
-        'path'    => '/etc/redis/redis2.conf',             
-        'content' => "key_a = value_a ; key_b = value_b\n",
-      })                                                  
-    end                                                   
-  end 
 end

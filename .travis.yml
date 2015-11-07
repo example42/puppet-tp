@@ -10,7 +10,6 @@ env:
   - PUPPET_VERSION="~> 2.7.26"
   - PUPPET_VERSION="~> 3.7.5"
   - PUPPET_VERSION="~> 3.7.5" PARSER="future"
-  - PUPPET_VERSION="~> 4.2"
   - PUPPET_VERSION="~> 4.2" PARSER="future"
 matrix:
   exclude:
@@ -23,4 +22,4 @@ matrix:
 sudo: false
 notifications:
   email:
-    - al@lab42.it
+    - al@example42.com

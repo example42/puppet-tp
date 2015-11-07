@@ -80,19 +80,5 @@ if ENV['PARSER'] == 'future'
       it { should contain_service('apache2').with_enable('true') }
     end
   
-  
-    context 'with custom classes' do
-      let(:params) {
-        {
-          :dependency_class => 'tp::spec::dependency',
-          :monitor_class    => 'tp::spec::monitor',
-          :firewall_class   => 'tp::spec::firewall',
-        }
-      }
-      it { should contain_class('tp::spec::dependency') }
-      it { should contain_class('tp::spec::monitor') }
-      it { should contain_class('tp::spec::firewall') }
-    end
-  
   end
 end
