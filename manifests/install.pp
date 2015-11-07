@@ -168,9 +168,9 @@ define tp::install (
   # Optional test automation integration
   if $test_enable == true {
     tp::test { $title:
-      settings_hash       => $settings,
-      options_hash        => $options_hash,
-      acceptance_template => $test_template,
+      settings_hash => $settings,
+      options_hash  => $options_hash,
+      template      => $test_template,
     }
   }
 
