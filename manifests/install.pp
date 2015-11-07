@@ -48,13 +48,6 @@
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
 #
-# @param monitor_enable               Default: false
-#   If true, it is activated monitoring
-#
-# @param monitor_template  Default: undef
-#   Custom template to use to for the content of test script, used
-#   by the tp::test define. It requires test_enable = true
-#
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
@@ -160,19 +153,15 @@ define tp::install (
     }
   }
 
+  $resources_defaults = {
+    'settings_hash' => $settings,
+    'options_hash'  => $options_hash,
+  }
   if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash )
+    create_resources('tp::conf', $conf_hash, $resources_defaults )
   }
   if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash )
-  }
-
-  # Optional monitor integration
-  if $monitor_enable == true {
-    tp::monitor { $title:
-      settings_hash => $settings,
-      options_hash  => $options_hash,
-    }
+    create_resources('tp::dir', $dir_hash, $resources_defaults )
   }
 
 
