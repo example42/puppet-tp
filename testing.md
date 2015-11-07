@@ -70,7 +70,7 @@ and then execute commands like these:
 
         bin/test.sh all Centos7 puppi
 
-   - To test all the applications on all the running VMs saving the output in the acceptance dir:
+  - To test all the applications on all the running VMs saving the output in the acceptance dir:
 
         bin/test.sh all all acceptance
 
