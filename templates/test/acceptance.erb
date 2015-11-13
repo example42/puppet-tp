@@ -13,3 +13,8 @@ echo
 echo "# Service status"
 <%= @options['check_service_command'] %>
 <% end -%>
+
+<% if ! @settings['service_name'] and ! @settings['service_name'] != "" and ! @settings['package_name'] and ! @settings['package_name'] != "" -%>
+echo "Nothing to test"	
+exit 99
+<% end -%>
