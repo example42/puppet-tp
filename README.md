@@ -27,24 +27,22 @@ It is intended to be used in modules that operate at an higher abstraction layer
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
 
 
-## Important upgrade note for forthcoming Version 1.x
+## Important upgrade note for Version 1.x
 
-The current version of tp (0.9.x) has this layout for defines::
+Previous versions of tp (0.9.x) have this layout for defines::
 
     tp::install  # Works on Puppet 3 and 4 
     tp::install3 # Works on Puppet 3 and 4, clone of tp::install
     tp::install4 # Optimised for Puppet 4 (doesn't work on earlier versions)
 
-When tp 1.x will be released we want to switch this naming as follows:
+Starting from version 1.x the naming is as follows:
 
     tp::install  # Optimised for Puppet 4 (doesn't work on earlier versions)
     tp::install3  # Works on Puppet 3 and 4 clone of tp::install from 0.x
 
-The current code and documentation refer to the pre 1.x layout: this will be changed at 1.0.0 release.
+If you use Puppet 4 you can use the default functions (without any suffix).
 
-If you are using Tiny Puppet 0.x and have Puppet 4 you have nothing to do, the new functions work as before.
-
-If you have a Puppet 3 environment you should start to use defines with the 3 suffix (renaming functions like tp::conf to tp::conf3), in order to be able to seamlessly upgrade to tp 1.x when released.
+If you have a Puppet 3 or 2 environment you have to use defines with the 3 suffix (they work also on Puppet 4 but don't use any of the new language features).
 
 We are sorry for the confusion, but we think that it's better to make this choice now, rather than mess more later or being forced to use an outdated Puppet version.
 
@@ -63,16 +61,8 @@ Tiny Puppet provides the following defines:
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::netinstall```. (WIP) Installs from a remote url
 - ```tp::instance```. (TODO) Manages an application instance
-- ```tp::line```. (TODO) Manages single lines in a configuration file
-- ```tp::github```. (TODO) Installs (anything?;) directly from GitHub source
-
-Some defines have an experimental alternative based on Puppet's future parser.
-They are compatible only with Puppet 3.7 (with future parser enabled) or later.
-They keep full compatibility on parameters and usage patterns.
-
-- ```tp::install4```. (WIP) Future parser version of tp::install
-- ```tp::conf4```. (WIP) Future parser version of tp::conf
-- ```tp::dir4```. (WIP) Future parser version of tp::dir
+- ```tp::line```. (TODO?) Manages single lines in a configuration file
+- ```tp::github```. (TODO?) Installs (anything?;) directly from GitHub source
 
 
 ## Prerequisites and limitations
