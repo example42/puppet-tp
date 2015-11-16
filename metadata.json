@@ -1,6 +1,6 @@
 {
   "name": "example42-tp",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi",
@@ -76,6 +76,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 3.2.0 < 5.0.0"
+    },
+    {
+      "name": "example42/tinydata",
+      "version_requirement": ">= 0.0.1 < 5.0.0"
     }
   ]
 }

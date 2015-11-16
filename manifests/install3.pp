@@ -137,7 +137,8 @@ define tp::install3 (
 
   # Automatic repo management
   if $auto_repo == true
-  and $settings[repo_url] {
+  and $settings[repo_url]
+  or $settings[yum_mirrorlist] {
     tp::repo3 { $title:
       enabled => true,
       before  => Package[$settings[package_name]],

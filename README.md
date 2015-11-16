@@ -1,8 +1,11 @@
 # Tiny Puppet 
 
+[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
+[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
+
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is single Puppet module that manages virtually any application.
+[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application.
 
 It can replace or integrate existing component application modules.
 
@@ -13,7 +16,7 @@ It features:
 
   - Out of the box and easily expandable support for most common Operating Systems
 
-  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/puppet-tp/tree/master/data).
+  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
 
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
@@ -22,6 +25,28 @@ It features:
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
+
+
+## Important upgrade note for forthcoming Version 1.x
+
+The current version of tp (0.9.x) has this layout for defines::
+
+    tp::install  # Works on Puppet 3 and 4 
+    tp::install3 # Works on Puppet 3 and 4, clone of tp::install
+    tp::install4 # Optimised for Puppet 4 (doesn't work on earlier versions)
+
+When tp 1.x will be released we want to switch this naming as follows:
+
+    tp::install  # Optimised for Puppet 4 (doesn't work on earlier versions)
+    tp::install3  # Works on Puppet 3 and 4 clone of tp::install from 0.x
+
+The current code and documentation refer to the pre 1.x layout: this will be changed at 1.0.0 release.
+
+If you are using Tiny Puppet 0.x and have Puppet 4 you have nothing to do, the new functions work as before.
+
+If you have a Puppet 3 environment you should start to use defines with the 3 suffix (renaming functions like tp::conf to tp::conf3), in order to be able to seamlessly upgrade to tp 1.x when released.
+
+We are sorry for the confusion, but we think that it's better to make this choice now, rather than mess more later or being forced to use an outdated Puppet version.
 
 
 ## Provided Resources
@@ -262,7 +287,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
 
 Currently Tiny Puppet supports applications' installation only via the OS native packaging system. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
 
-The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
+The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
 Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
@@ -351,9 +376,11 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
 
 ## Testing and playing with Tiny Puppet
 
-You can test Tiny Puppet and play with it using [Tiny Puppet Playground](https://github.com/example42/tp-playground).
+You can experiment and play with Tiny Puppet using the [Tiny Puppet Playground](https://github.com/example42/tp-playground).
 
-Check this [**Compatibility Matrix**](https://github.com/example42/tp-playground/tree/master/acceptance) for a quick overview on how different applications are currently supported on different Operating Systems.
+Acceptance tests are regularly done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+
+Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
 
 
 ## Usage on the Command Line (TODO)
@@ -383,5 +410,3 @@ Tail the log(s) of the specified application (TODO)
     puppet tp log redis
 
 
-[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
-[![Coverage Status](https://coveralls.io/repos/alvagante/puppet-tp/badge.png)](https://coveralls.io/r/alvagante/puppet-tp)
