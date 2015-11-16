@@ -42,7 +42,7 @@ Since ```tp::test``` uses the same settings data used by ```tp::install```, it's
 
 This comes incredibly handy when we want to run acceptance tests on what we install via tp.
 
-In the [/playground.html](Tiny Puppet Playground) there's the ```bin/test.sh``` script which allows quick testing of supported applications on the Operating Systems available in the Vagrant playground.
+In the [TP Acceptance](https://github.com/example42/tp-acceptance) repo there's the ```bin/test_app.sh``` script which allows quick testing of supported applications on the Operating Systems available in the Vagrant playground.
 
 We just need to run the VM we want to test on:
 
@@ -52,27 +52,27 @@ and then execute commands like these:
 
   - To test apache installation on Ubuntu1404:
 
-        bin/test.sh apache Ubuntu1404
+        bin/test_app.sh apache Ubuntu1404
 
   - To test ALL the supported applications on Centos7:
 
-        bin/test.sh all Centos7
+        bin/test_app.sh all Centos7
 
   - To test ALL the applications on Centos7 and save the results in the ```acceptance``` dir:
 
-        bin/test.sh all Centos7 acceptance
+        bin/test_app.sh all Centos7 acceptance
 
   - To test an application on all the running VMs and save the results in the ```acceptance``` dir:
 
-        bin/test.sh munin all acceptance
+        bin/test_app.sh munin all acceptance
 
   - To run puppi check for proftpd applications on Centos7:
 
-        bin/test.sh all Centos7 puppi
+        bin/test_app.sh all Centos7 puppi
 
   - To test all the applications on all the running VMs saving the output in the acceptance dir:
 
-        bin/test.sh all all acceptance
+        bin/test_app.sh all all acceptance
 
 We can even try to test applications not installed via Tiny Puppet: the data we use to test packages and services (and possibly listening ports, somewhen in the future) is the one expected for a given OS.
 

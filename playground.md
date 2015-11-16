@@ -6,7 +6,7 @@ subTitle: 'Yet Another Puppet Abstraction layer'
 
 # Tiny Puppet Playground
 
-The [Tiny Puppet Playground](https://github.com/example42/tp-playground) is a Vagrant environment where we can test tp on different operating systems.
+The [Tiny Puppet Playground](https://github.com/example42/tp-playground) is a Vagrant environment where we can experiment and test tp on different operating systems.
 
 To install and setup the playground:
 
@@ -50,12 +50,3 @@ this does a ```puppet apply``` on ```/vagrant/manifests/site.pp``` with the corr
 If we specify a different manifest, puppet apply is done on it:
 
     root@ubuntu1404:/#  /vagrant/bin/papply_vagrant.sh /vagrant/manifests/test.pp
-
-
-### Applications / Operating Systems compatibility matrix
-
-On the tp playground are routinely executed [/testing.html](acceprance tests). Their result is saved in the [```acceptance```](https://github.com/example42/tp-playground/tree/master/acceptance)  directory: we can use it as a reference on the current support matrix of different applications on different Operating Systems.
-
-It's worth noting that some tests fail for trivial reasons such as the absence of a valid configuration file by default or missing data to configure dedicated repositories or execution order issues while running tests on the same VM or errors in the test scripts.
-
-We can check the output of the check scripts, under the ```success``` and ```failure``` directories for some details on the reasons some tests are failing.
