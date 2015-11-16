@@ -8,29 +8,23 @@
 #
 define tp::test (
 
-  $ensure              = present,
+  Variant[Boolean,String] $ensure              = present,
 
-  $template            = 'tp/test/acceptance.erb',
+  String                  $template            = 'tp/test/acceptance.erb',
 
-  $options_hash        = { },
-  $settings_hash       = { },
+  Hash                    $options_hash        = { },
+  Hash                    $settings_hash       = { },
 
-  $data_module         = 'tinydata',
-  $base_dir            = '/etc/tp/test',
+  String[1]               $data_module         = 'tinydata',
+  String[1]               $base_dir            = '/etc/tp/test',
 
-  $verbose             = false,
+  Boolean                 $verbose             = false,
 
   ) {
 
-  # Parameters validation
-  validate_bool($verbose)
-  validate_hash($options_hash)
-  validate_hash($settings_hash)
-
-
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
-  $settings=merge($tp_settings,$settings_hash)
+  $settings = $tp_settings + $settings_hash
 
   # Default options and computed variables
   $options_defaults = {

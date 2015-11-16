@@ -8,6 +8,7 @@ define tp::monitor (
   Hash                    $tools_hash       = { },
   Hash                    $options_hash     = { },
   Hash                    $settings_hash    = { },
+  Hash                    $templates_hash   = { },
 
   Boolean                 $auto_repo        = true,
 

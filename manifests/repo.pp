@@ -5,30 +5,29 @@
 #
 define tp::repo (
 
-  $enabled             = true,
+  Boolean                   $enabled             = true,
 
-  $description         = "${title} repository",
+  String[1]                 $description         = "${title} repository",
 
-  $repo_url            = undef,
-  $key_url             = undef,
-  $key                 = undef,
+  Variant[Undef,String[1]]  $repo_url            = undef,
+  Variant[Undef,String[1]]  $key_url             = undef,
+  Variant[Undef,String[1]]  $key                 = undef,
 
-  $yum_priority        = undef,
-  $yum_gpgcheck        = undef,
-  $yum_mirrorlist      = undef,
+  Variant[Undef,Integer]    $yum_priority        = undef,
+  Variant[Undef,String[1],Boolean] $yum_gpgcheck        = undef,
+  Variant[Undef,String[1]] $yum_mirrorlist      = undef,
 
-  $apt_key_server      = undef,
-  $apt_key_fingerprint = undef,
-  $apt_release         = undef,
-  $apt_repos           = undef,
-  $apt_release         = undef,
-  $apt_pin             = undef,
-  $apt_include_src     = false,
+  Variant[Undef,String[1]] $apt_key_server      = undef,
+  Variant[Undef,String[1]] $apt_key_fingerprint = undef,
+  Variant[Undef,String[1]] $apt_release         = undef,
+  Variant[Undef,String[1]] $apt_repos           = undef,
+  Variant[Undef,String[1]] $apt_pin             = undef,
+  Boolean                  $apt_include_src     = false,
 
-  $debug               = false,
-  $debug_dir           = '/tmp',
+  Boolean                  $debug               = false,
+  String[1]                $debug_dir           = '/tmp',
 
-  $data_module         = 'tinydata',
+  String[1]                $data_module         = 'tinydata',
 
 ) {
 
@@ -56,7 +55,7 @@ define tp::repo (
     apt_pin             => $apt_pin,
   }
   $user_settings_clean = delete_undef_values($user_settings)
-  $settings = merge($tp_settings,$user_settings_clean)
+  $settings = $tp_settings + $user_settings_clean
 
   $manage_yum_gpgcheck = $yum_gpgcheck ? {
     undef   => $settings[key_url] ? {

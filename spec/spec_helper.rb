@@ -6,7 +6,6 @@ if ENV['PARSER'] == 'future'
     c.parser = 'future'
   end
 end
-
 SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 SimpleCov.start do
   add_filter 'spec/fixtures/modules/'

@@ -10,46 +10,42 @@
 #
 define tp::stdmod (
 
-  $package_name              = undef,
-  $package_ensure            = 'present',
+  Variant[Undef,String]         $package_name              = undef,
+  Variant[Undef,Boolean,String] $package_ensure            = 'present',
 
-  $service_name              = undef,
-  $service_ensure            = undef,
-  $service_enable            = undef,
+  Variant[Undef,String]         $service_name              = undef,
+  Variant[Undef,String]         $service_ensure            = undef,
+  Variant[Undef,Boolean]        $service_enable            = undef,
 
-  $config_file_path          = undef,
-  $config_file_replace       = undef,
-  $config_file_require       = undef,
-  $config_file_notify        = 'default',
-  $config_file_source        = undef,
-  $config_file_template      = undef,
-  $config_file_epp           = undef,
-  $config_file_content       = undef,
-  $config_file_options_hash  = undef,
-  $config_file_owner         = undef,
-  $config_file_group         = undef,
-  $config_file_mode          = undef,
+  Variant[Undef,String]         $config_file_path          = undef,
+  Variant[Undef,String,Boolean] $config_file_replace       = undef,
+  Variant[Undef,String,Boolean] $config_file_require       = undef,
+  Variant[Undef,String,Boolean] $config_file_notify        = 'default',
+  Variant[Undef,String]         $config_file_source        = undef,
+  Variant[Undef,String]         $config_file_template      = undef,
+  Variant[Undef,String]         $config_file_epp           = undef,
+  Variant[Undef,String]         $config_file_content       = undef,
+  Variant[Undef,Hash]           $config_file_options_hash  = undef,
+  Variant[Undef,String]         $config_file_owner         = undef,
+  Variant[Undef,String]         $config_file_group         = undef,
+  Variant[Undef,String]         $config_file_mode          = undef,
 
-  $config_dir_path           = undef,
-  $config_dir_source         = undef,
-  $config_dir_purge          = undef,
-  $config_dir_force          = undef,
-  $config_dir_recurse        = undef,
+  Variant[Undef,String]         $config_dir_path           = undef,
+  Variant[Undef,String]         $config_dir_source         = undef,
+  Variant[Undef,Boolean]        $config_dir_purge          = undef,
+  Variant[Undef,Boolean]        $config_dir_force          = undef,
+  Variant[Undef,Boolean]        $config_dir_recurse        = undef,
 
-  $dependency_class          = undef,
-  $monitor_class             = undef,
-  $firewall_class            = undef,
+  Variant[Undef,String]         $dependency_class          = undef,
+  Variant[Undef,String]         $monitor_class             = undef,
+  Variant[Undef,String]         $firewall_class            = undef,
 
-  $debug                     = false,
-  $debug_dir                 = '/tmp',
+  Variant[Undef,Boolean]        $debug                     = false,
+  Variant[Undef,String]         $debug_dir                 = '/tmp',
 
-  $data_module               = 'tinydata',
+  Variant[Undef,String]         $data_module               = 'tinydata',
 
   ) {
-
-  # Parameters validation
-  validate_bool($debug)
-  
 
   # Settings evaluation
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
@@ -72,7 +68,7 @@ define tp::stdmod (
     config_dir_recurse        => $config_dir_recurse,
   }
   $user_settings_clean = delete_undef_values($user_settings)
-  $settings = merge($tp_settings,$user_settings_clean)
+  $settings = $tp_settings + $user_settings_clean
 
   $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
   $manage_config_file_require = "Package[${settings[package_name]}]"

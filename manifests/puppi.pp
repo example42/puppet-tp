@@ -1,5 +1,4 @@
 #
-#
 # = Define: tp::puppi
 #
 # Manages Puppi integration
@@ -10,42 +9,32 @@
 #
 define tp::puppi (
 
-  $ensure         = present,
+  Enum['present','absent']   $ensure         = present,
 
-  $check_enable   = true ,
-  $check_template = 'tp/puppi/check.erb',
+  Boolean                    $check_enable   = true ,
+  String                     $check_template = 'tp/puppi/check.erb',
 
-  $info_enable    = true ,
-  $info_template  = 'tp/puppi/info.erb',
-  $info_defaults  = true,
+  Boolean                    $info_enable    = true ,
+  String[1]                  $info_template  = 'tp/puppi/info.erb',
+  Boolean                    $info_defaults  = true,
 
-  $log_enable     = true ,
+  Boolean                    $log_enable     = true,
 
-  $options_hash   = { },
-  $settings_hash  = { },
+  Hash                       $options_hash   = { },
+  Hash                       $settings_hash  = { },
 
-  $data_module    = 'tinydata',
+  String[1]                  $data_module    = 'tinydata',
 
-  $verbose        = false,
+  Boolean                    $verbose        = false,
 
   ) {
 
   # If we use tp::puppi we need puppi
   include puppi
 
-  # Parameters validation
-  validate_bool($check_enable)
-  validate_bool($info_enable)
-  validate_bool($info_defaults)
-  validate_bool($log_enable)
-  validate_bool($verbose)
-  validate_hash($options_hash)
-  validate_hash($settings_hash)
-
-
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
-  $settings=merge($tp_settings,$settings_hash)
+  $settings = $tp_settings + $settings_hash
 
   # Default options and computed variables
   $puppi_defaults = {

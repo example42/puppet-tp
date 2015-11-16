@@ -5,7 +5,7 @@
 
 ## Yet Another Puppet Abstraction Layer
 
-Tiny Puppet is single Puppet module that manages virtually any application.
+[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application.
 
 It can replace or integrate existing component application modules.
 
@@ -287,7 +287,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
 
 Currently Tiny Puppet supports applications' installation only via the OS native packaging system. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
 
-The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/puppet-tp/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
+The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
 Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
@@ -376,9 +376,11 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
 
 ## Testing and playing with Tiny Puppet
 
-You can test Tiny Puppet and play with it using [Tiny Puppet Playground](https://github.com/example42/tp-playground).
+You can experiment and play with Tiny Puppet using the [Tiny Puppet Playground](https://github.com/example42/tp-playground).
 
-Check this [**Compatibility Matrix**](https://github.com/example42/tp-playground/tree/master/acceptance) for a quick overview on how different applications are currently supported on different Operating Systems.
+Acceptance tests are regularly done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+
+Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
 
 
 ## Usage on the Command Line (TODO)
