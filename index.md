@@ -12,7 +12,7 @@ We can install an application and start its eventual services with:
 
     tp::install { 'apache': }
 
-This and the following examples use defines optimized for Puppet 4, with earlier versions we can use the alternatives with 3 prefix, such as:
+This and the following examples use defines optimized for Puppet 4, with earlier versions we can use the alternatives the suffix 3, such as:
 
     tp::install3 { 'apache': }
 
