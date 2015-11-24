@@ -12,9 +12,13 @@ We can install an application and start its eventual services with:
 
     tp::install { 'apache': }
 
-We can configure its main configuration file with a custom template populated from an custom hash of options with something like:
+This and the following examples use defines optimized for Puppet 4, with earlier versions we can use the alternatives with 3 prefix, such as:
 
-    tp::conf { 'openssh'
+    tp::install3 { 'apache': }
+
+We can configure the *main* configuration file of our application with a custom template populated from an custom hash of options with something like:
+
+    conf { 'openssh'
       template     => 'site/openssh/sshd_config.erb',
       options_hash => hiera_hash('openssh::options'),
     }
@@ -77,7 +81,7 @@ All the data used by Tiny Puppet to support different applications is stored in 
 
 ## Tiny Puppet defines
 
-Tiny Puppet provides the following defines:
+Tiny Puppet provides the following defines (Puppet 4 compatible only)
 
 - ```tp::install```. Install an application and start its service, by default
 - ```tp::conf```. Manage configuration files
@@ -86,6 +90,8 @@ Tiny Puppet provides the following defines:
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application
 - ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional)
+
+If you use Puppet 3 or earlier, use the alternatives : ```tp::install3```, ```tp::conf3```, ```tp::dir3``` and so on.
 
 Other defines are under work, planned or envisioned:
 
