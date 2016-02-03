@@ -21,7 +21,6 @@ define tp::repo3 (
   $apt_key_fingerprint = undef,
   $apt_release         = undef,
   $apt_repos           = undef,
-  $apt_release         = undef,
   $apt_pin             = undef,
   $apt_include_src     = false,
 
