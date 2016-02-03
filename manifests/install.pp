@@ -105,26 +105,13 @@ define tp::install (
     $service_require = Package[$settings[package_name]]
   }
 
-  $service_ensure = $ensure ? {
-    'absent' => 'stopped',
-    false    => 'stopped',
-    default  => $settings[service_ensure],
-  }
-  $service_enable = $ensure ? {
-    'absent' => false,
-    false    => false,
-    default  => $settings[service_enable],
-  }
+  $service_ensure = tp::ensure2boolean($ensure, $settings[service_ensure])
+  $service_enable = tp::ensure2boolean($ensure, $settings[service_ensure])
 
   # Automatic repo management
   if $auto_repo == true
   and $settings[repo_url] {
-    $repo_enabled = $ensure ? {
-      'present' => true,
-      true      => true,
-      'absent'  => false,
-      false     => false,
-    }
+    $repo_enabled = tp::ensure2boolean($ensure)
     tp::repo { $title:
       enabled => $repo_enabled,
       before  => Package[$settings[package_name]],
