@@ -10,8 +10,6 @@ define tp::concat3 (
   $epp                  = undef,
   $content              = undef,
 
-  $order                = undef,
-
   $path                 = undef,
   $mode                 = undef,
   $owner                = undef,
