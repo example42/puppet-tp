@@ -53,13 +53,13 @@ define tp::conf (
     $auto_path = $settings['config_file_path']
   }
   $manage_path    = tp_pick($path, $auto_path)
-  $manage_content = tp_content($content, $template, $epp)
+  $manage_content = ::tp::content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
   # Set require if package_name is present 
-  if $settings[package_name] and $settings[package_name] != '' {
+  if ::tp::is_something($settings[package_name]) {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
@@ -72,7 +72,7 @@ define tp::conf (
   }
 
   # Set notify if service_name is present 
-  if $settings[service_name] and $settings[service_name] != '' {
+  if ::tp::is_something($settings[service_name]) {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef

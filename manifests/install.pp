@@ -95,7 +95,7 @@ define tp::install (
 
   ) {
 
-  # Settings evaluation
+  # Settings lookup on tinydata ( + user settings)
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
@@ -111,9 +111,8 @@ define tp::install (
   # Automatic repo management
   if $auto_repo == true
   and $settings[repo_url] {
-    $repo_enabled = tp::ensure2boolean($ensure)
     tp::repo { $title:
-      enabled => $repo_enabled,
+      enabled => ::tp::ensure2boolean($ensure),
       before  => Package[$settings[package_name]],
     }
   }

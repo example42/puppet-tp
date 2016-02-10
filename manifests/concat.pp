@@ -45,7 +45,7 @@ define tp::concat (
   $fragment = $title_elements[1]
   $settings = tp_lookup($app,'settings',$data_module,'merge')
   $manage_path = tp_pick($path, $settings['config_file_path'])
-  $manage_content = tp_content($content, $template, $epp)
+  $manage_content = ::tp::content($content, $template, $epp)
   $manage_mode = tp_pick($mode, $settings[config_file_mode])
   $manage_owner = tp_pick($owner, $settings[config_file_owner])
   $manage_group = tp_pick($group, $settings[config_file_group])

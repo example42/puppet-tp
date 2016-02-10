@@ -1,7 +1,7 @@
 #
 # = Define: tp::stdmod
 #
-# This defines reproduces a standard module based
+# This defines reproduces a module interface based
 # on a this stdmod standard template
 # (https://github.com/stdmod/puppet-skeleton-standard)
 #
@@ -70,7 +70,7 @@ define tp::stdmod (
   $user_settings_clean = delete_undef_values($user_settings)
   $settings = $tp_settings + $user_settings_clean
 
-  $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
+  $manage_config_file_content = ::tp::content($config_file_content, $config_file_template, $config_file_epp)
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
     'default' => "Service[${settings[service_name]}]",

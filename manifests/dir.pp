@@ -55,7 +55,7 @@ define tp::dir (
   $manage_group   = tp_pick($group, $settings[config_dir_group])
 
   # Set require if package_name is present 
-  if $settings[package_name] and $settings[package_name] != '' {
+  if ::tp::is_something($settings[package_name]) {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
@@ -68,7 +68,7 @@ define tp::dir (
   }
 
   # Set notify if service_name is present 
-  if $settings[service_name] and $settings[package_name] != '' {
+  if ::tp::is_something($settings[service_name]) {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef
