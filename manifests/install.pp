@@ -105,8 +105,8 @@ define tp::install (
     $service_require = Package[$settings[package_name]]
   }
 
-  $service_ensure = tp::ensure2boolean($ensure, $settings[service_ensure])
-  $service_enable = tp::ensure2boolean($ensure, $settings[service_ensure])
+  $service_ensure = ::tp::ensure2boolean($ensure, $settings[service_ensure])
+  $service_enable = ::tp::ensure2boolean($ensure, $settings[service_ensure])
 
   # Automatic repo management
   if $auto_repo == true
