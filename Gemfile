@@ -12,7 +12,7 @@ else
   gem 'facter', :require => false
 end
 
-gem 'rake',                   :require => false
+gem 'rake', '2.3.2', :require => true
 gem 'puppetlabs_spec_helper', :require => false
 gem 'puppet-lint',            :require => false
 gem 'puppet-syntax',          :require => false
