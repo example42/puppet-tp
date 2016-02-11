@@ -12,11 +12,11 @@ else
   gem 'facter', :require => false
 end
 
-gem 'rake', '2.3.2', :require => true
+gem 'rake',                   :require => false
 gem 'puppetlabs_spec_helper', :require => false
 gem 'puppet-lint',            :require => false
 gem 'puppet-syntax',          :require => false
-gem 'rspec-puppet',           :require => false
+gem 'rspec-puppet','>=2.3',   :require => true
 gem 'coveralls',              :require => false
 gem 'simplecov',              :require => false
 gem 'metadata-json-lint',     :require => false
