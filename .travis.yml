@@ -8,9 +8,9 @@ script:
 env:
   - PUPPET_VERSION="~> 2.6.18"
   - PUPPET_VERSION="~> 2.7.26"
-  - PUPPET_VERSION="~> 3.7.5"
-  - PUPPET_VERSION="~> 3.7.5" PARSER="future"
-  - PUPPET_VERSION="~> 4.2" PARSER="future"
+  - PUPPET_VERSION="~> 3.8.5"
+  - PUPPET_VERSION="~> 3.8.5" PARSER="future"
+  - PUPPET_VERSION="~> 4.3.2" 
 matrix:
   exclude:
     - rvm: 1.9.3
