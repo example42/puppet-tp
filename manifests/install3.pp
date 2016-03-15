@@ -32,6 +32,10 @@
 #      }
 #   }
 #
+# @param ensure                    Default: present
+#   Manage application status. Valid values are present, absent or the
+#   package version number.
+#
 # @param conf_hash                 Default: { }
 #   An hash of tp::conf3 resources that feed a create_resources function call.
 #
@@ -41,9 +45,9 @@
 # @param options_hash              Default: { },
 #   Generic hash of configuration parameters specific for the app
 #
-# @param settings_hash             Default: { } 
-#   An hash that can override the application settings tp returns, according to the
-#   underlying Operating System and the default behaviour
+# @param settings_hash             Default: { }
+#   An hash that can override the application settings tp returns, according
+#   to the underlying Operating System and the default behaviour
 #
 # @param auto_repo                 Default: true
 #   Boolean to enable automatic package repo management for the specified
@@ -64,13 +68,13 @@
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
-#   
+#
 # @param test_enable               Default: false
 #   If true, it is called the define tp::test3, which creates a script that
 #   should test the functionality of the app
 #
 # @param test_template  Default: undef
-#   Custom template to use to for the content of test script, used 
+#   Custom template to use to for the content of test script, used
 #   by the tp::test3 define. It requires test_enable = true
 #
 # @param debug                     Default: false,
@@ -84,6 +88,8 @@
 #   Name of the module where tp data is looked for
 #
 define tp::install3 (
+
+  $ensure                    = present,
 
   $conf_hash                 = { } ,
   $dir_hash                  = { } ,
@@ -126,8 +132,16 @@ define tp::install3 (
     undef   => undef,
     default => Package[$settings[package_name]],
   }
-  $service_ensure = $settings[service_ensure]
-  $service_enable = $settings[service_enable]
+  $service_ensure = $ensure ? {
+    'absent' => 'stopped',
+    false    => 'stopped',
+    default  => $settings[service_ensure],
+  }
+  $service_enable = $ensure ? {
+    'absent' => false,
+    false    => false,
+    default  => $settings[service_enable],
+  }
 
   # Dependency class
   if $dependency_class and $dependency_class != '' {
@@ -139,8 +153,13 @@ define tp::install3 (
   if $auto_repo == true
   and $settings[repo_url]
   or $settings[yum_mirrorlist] {
+    $repo_enabled = $ensure ? {
+      'absent'  => false,
+      false     => false,
+      default   => true,
+    }
     tp::repo3 { $title:
-      enabled => true,
+      enabled => $repo_enabled,
       before  => Package[$settings[package_name]],
     }
   }
@@ -149,7 +168,7 @@ define tp::install3 (
   # Resources
   if $settings[package_name] {
     ensure_resource( 'package', $settings[package_name], {
-      'ensure' => 'present',
+      'ensure' => $ensure,
     } )
   }
 
@@ -169,7 +188,7 @@ define tp::install3 (
   }
 
 
-  # Optional puppi integration 
+  # Optional puppi integration
   if $puppi_enable == true {
     tp::puppi3 { $title:
       settings_hash => $settings,

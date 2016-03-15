@@ -30,6 +30,10 @@
 #      }
 #   }
 #
+# @param ensure                    Default: present
+#   Manage application status. Valid values are present, absent or the
+#   package version number.
+#
 # @param conf_hash                 Default: { }
 #   An hash of tp::conf resources that feed a create_resources function call.
 #
@@ -120,10 +124,9 @@ define tp::install (
   if $auto_repo == true
   and $settings[repo_url] {
     $repo_enabled = $ensure ? {
-      'present' => true,
-      true      => true,
       'absent'  => false,
       false     => false,
+      default   => true,
     }
     tp::repo { $title:
       enabled => $repo_enabled,
