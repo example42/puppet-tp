@@ -103,7 +103,7 @@ define tp::install (
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
-  if $settings[package_name] =~ Variant[Undef,String[0]] {
+  if $settings[package_name] == Variant[Undef,String[0]] {
     $service_require = undef
   } else {
     $service_require = Package[$settings[package_name]]
