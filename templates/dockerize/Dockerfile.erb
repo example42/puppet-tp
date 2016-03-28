@@ -23,10 +23,13 @@ RUN yum install -y <%= @settings['package_name'] %> && yum clean all
 <% if @settings['tcp_port'] -%>
 EXPOSE <%= @settings['tcp_port'] %>
 <% end -%>
-<% if @settings['data_dir'] and @mount_data_dir -%>
-VOLUME <%= @settings['data_dir'] %>
+<% if @settings['data_dir_path'] and @mount_data_dir -%>
+VOLUME <%= @settings['data_dir_path'] %>
 <% end -%>
-<% if @settings['log_dir'] and @mount_log_dir -%>
-VOLUME <%= @settings['log_dir'] %>
+<% if @settings['log_dir_path'] and @mount_log_dir -%>
+VOLUME <%= @settings['log_dir_path'] %>
 <% end -%>
-
+ENTRYPOINT [ "<%= @settings['process_name'] %>"<% if @settings['process_extra_name'] -%> , "<%= @settings['process_extra_name'] -%>"<% end -%> ]
+<% if @settings['process_args'] -%>
+CMD [ <% @settings['process_args'].each do |ar| %>"<%= ar %>",<% end -%> ]
+<% end -%>

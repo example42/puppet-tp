@@ -24,7 +24,7 @@ define tp::dockerize (
   Variant[Undef,String]   $from                = undef,
 
   Variant[Undef,String]   $repository          = undef,
-  Variant[String]         $repository_tag      = 'latest',
+  Variant[Undef,String]   $repository_tag      = undef,
 
   Boolean                 $run                 = true,
   Boolean                 $create              = false,
@@ -48,11 +48,15 @@ define tp::dockerize (
   $settings = $tp_settings + $settings_hash
 
   $real_repository = $repository ? {
-    undef   => "${app}-${os}${osversion}",
+    undef   => $app,
     default => $repository,
   }
+  $real_repository_tag = $repository_tag ? {
+    undef   => "${os}-${osversion}",
+    default => $repository_tag,
+  }
   $real_from = $from ? {
-    undef   => $os,
+    undef   => "${os}:${osversion}",
     default => $from,
   }
   $real_path = "${workdir}/${os}/${osversion}/${app}/Dockerfile"
@@ -79,7 +83,7 @@ define tp::dockerize (
         ensure => directory,
       }
     }
-  
+
     file { "${workdir}/${os}/${osversion}/${app}/Dockerfile":
       ensure  => $ensure,
       content => template($template),
@@ -88,21 +92,23 @@ define tp::dockerize (
 
   # Image build
   if $build and $ensure == 'present' {
-    exec { "docker build ${build_options} -t ${username}/${real_repository}:${repository_tag} .":
+    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} .":
       cwd         => "${workdir}/${os}/${osversion}/${app}",
-      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
       subscribe   => File["${workdir}/${os}/${osversion}/${app}/Dockerfile"],
       refreshonly => true,
+      timeout     => 0,
     }
   }
 
   # Image upload to Docker Hub
   if $push and $ensure == 'present' {
-    exec { "docker push ${username}/${real_repository}:${repository_tag}":
+    exec { "docker push ${username}/${real_repository}:${real_repository_tag}":
       cwd         => "${workdir}/${os}/${osversion}/${app}",
-      path        => '/bin:/usr/bin:/sbin:/usr/sbin',
+      path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
       subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${repository_tag} ."],
       refreshonly => true,
+      timeout     => 0,
     }
   }
 
