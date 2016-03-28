@@ -122,7 +122,8 @@ define tp::install (
 
   # Automatic repo management
   if $auto_repo == true
-  and $settings[repo_url] {
+  and $settings[repo_url]
+  or $settings[yum_mirrorlist] {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
