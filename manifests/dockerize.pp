@@ -59,32 +59,19 @@ define tp::dockerize (
     undef   => "${os}:${osversion}",
     default => $from,
   }
-  $real_path = "${workdir}/${os}/${osversion}/${app}/Dockerfile"
+  $basedir_path = "${workdir}/${username}/${os}/${osversion}/${app}"
 
+  Exec {
+    path    => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
+    timeout => 3000,
+  }
+  
   # Dockerfile creation
   if $create {
-    if ! defined(File[$workdir]) {
-      file { $workdir:
-        ensure => directory,
-      }
-    }
-    if ! defined(File["${workdir}/${os}"]) {
-      file { "${workdir}/${os}":
-        ensure => directory,
-      }
-    }
-    if ! defined(File["${workdir}/${os}/${osversion}"]) {
-      file { "${workdir}/${os}/${osversion}":
-        ensure => directory,
-      }
-    }
-    if ! defined(File["${workdir}/${os}/${osversion}/${app}"]) {
-      file { "${workdir}/${os}/${osversion}/${app}":
-        ensure => directory,
-      }
-    }
-
-    file { "${workdir}/${os}/${osversion}/${app}/Dockerfile":
+    exec { "mkdir -p ${basedir_path}":
+      creates => $basedir_path,
+    } ->
+    file { "${basedir_path}/Dockerfile":
       ensure  => $ensure,
       content => template($template),
     }
@@ -93,22 +80,16 @@ define tp::dockerize (
   # Image build
   if $build and $ensure == 'present' {
     exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} .":
-      cwd         => "${workdir}/${os}/${osversion}/${app}",
-      path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
-      subscribe   => File["${workdir}/${os}/${osversion}/${app}/Dockerfile"],
-      refreshonly => true,
-      timeout     => 0,
+      cwd         => $basedir_path,
+      subscribe   => File["${basedir_path}/Dockerfile"],
     }
   }
 
   # Image upload to Docker Hub
   if $push and $ensure == 'present' {
     exec { "docker push ${username}/${real_repository}:${real_repository_tag}":
-      cwd         => "${workdir}/${os}/${osversion}/${app}",
-      path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
+      cwd         => $basedir_path,
       subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${repository_tag} ."],
-      refreshonly => true,
-      timeout     => 0,
     }
   }
 

@@ -18,6 +18,7 @@ RUN apt-get update && \
 <% if @settings['repo_url'] -%>
 RUN echo "[<%= @app %>]\nname=<%= @app %> repository\nbaseurl=<%= @settings['repo_url'] -%> > /etc/yum.repos.d/<%= @app %>.repo
 <% end -%>
+RUN yum install -y epel-release
 RUN yum install -y <%= @settings['package_name'] %> && yum clean all
 <% end -%>
 <% if @settings['tcp_port'] -%>
@@ -31,5 +32,5 @@ VOLUME <%= @settings['log_dir_path'] %>
 <% end -%>
 ENTRYPOINT [ "<%= @settings['process_name'] %>"<% if @settings['process_extra_name'] -%> , "<%= @settings['process_extra_name'] -%>"<% end -%> ]
 <% if @settings['process_args'] -%>
-CMD [ <% @settings['process_args'].each do |ar| %>"<%= ar %>",<% end -%> ]
+CMD [ <% comma = '' %><% @settings['process_args'].split.each do |ar| %><%= comma %>"<%= ar %>"<% comma = ',' %><% end -%> ]
 <% end -%>
