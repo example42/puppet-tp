@@ -31,6 +31,8 @@ define tp::dockerize (
   Boolean                 $build               = false,
   Boolean                 $push                = false,
 
+  Variant[Undef,Array]    $exec_environment    = undef,
+
   String                  $build_options       = '',
 
   Boolean                 $mount_data_dir      = true,
@@ -65,7 +67,7 @@ define tp::dockerize (
     path    => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin',
     timeout => 3000,
   }
-  
+
   # Dockerfile creation
   if $create {
     exec { "mkdir -p ${basedir_path}":
@@ -82,14 +84,15 @@ define tp::dockerize (
     exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} .":
       cwd         => $basedir_path,
       subscribe   => File["${basedir_path}/Dockerfile"],
+      environment => $exec_environment,
     }
   }
 
   # Image upload to Docker Hub
   if $push and $ensure == 'present' {
     exec { "docker push ${username}/${real_repository}:${real_repository_tag}":
-      cwd         => $basedir_path,
-      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${repository_tag} ."],
+      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ."],
+      environment => $exec_environment,
     }
   }
 
@@ -104,6 +107,10 @@ define tp::dockerize (
       'absent' => false,
       false    => false,
       default  => $settings[service_enable],
+    }
+    exec { "docker pull ${username}/${real_repository}:${real_repository_tag}":
+      unless      => "docker images | grep ${username}/${real_repository} | grep ${real_repository_tag}",
+      environment => $exec_environment,
     }
     file { "/etc/init/docker-${app}":
       ensure  => $ensure,
