@@ -34,6 +34,7 @@ define tp::dockerize (
   Variant[Undef,Array]    $exec_environment    = undef,
 
   String                  $build_options       = '',
+  Pattern[/command|supervisor/] $command_mode  = 'supervisor',
 
   Boolean                 $mount_data_dir      = true,
   Boolean                 $mount_log_dir       = true,
@@ -47,6 +48,7 @@ define tp::dockerize (
   # Settings evaluation
   $app = $title
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+  $settings_supervisor = tp_lookup('supervisor','settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
   $real_repository = $repository ? {
