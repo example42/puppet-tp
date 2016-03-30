@@ -10,7 +10,7 @@ describe "the tp_lookup function" do
   end
 
   it "should raise a ParseError if there is less than 3 arguments" do
-    expect { scope.function_tp_lookup(["1","2"]) }.to( raise_error(Puppet::ParseError))
+    expect { scope.function_tp_lookup(["1","2"]) }.to( raise_error(Puppet::DevError))
   end
 
   context "with test params" do
