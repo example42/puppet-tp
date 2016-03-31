@@ -6,7 +6,7 @@ MAINTAINER <%= @maintainer %>
 
 <% if @os == 'debian' or @os == 'ubuntu' -%>
 <% if @settings['repo_url'] -%>
-RUN echo "deb <%= @settings['repo_url'] -%> <%= @settings['apt_repos'] %> <%= @settings['apt_release'] %>" > /etc/apt/sources.list.d/<%= @app %>.list 
+RUN echo "deb <%= @settings['repo_url'] -%> <%= @settings['apt_repos'] %> <%= @settings['apt_release'] %>" > /etc/apt/sources.list.d/<%= @app %>.list
 <% if @settings['apt_key_server'] -%>
 RUN apt-key add --keyserver <%= @settings['apt_key_server'] %> --recv-key <%= @settings['key'] %>
 <% end -%>
@@ -25,11 +25,15 @@ RUN echo "[<%= @app %>]\nname=<%= @app %> repository\nbaseurl=<%= @settings['rep
 RUN yum install -y epel-release
 RUN yum install -y <%= @settings['package_name'] %> <% if @command_mode == 'supervisor' -%><%= @settings_supervisor['package_name'] %><% end -%> && yum clean all
 <% end -%>
+<% if @os == 'alpine' -%>
+RUN echo "http://dl-3.alpinelinux.org/alpine/edge/testing\nhttp://dl-3.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN apk --no-cache add <%= @settings['package_name'] %> <% if @command_mode == 'supervisor' -%><%= @settings_supervisor['package_name'] %><% end %>
+<% end -%>
 <% if @command_mode == 'supervisor' -%>
-<% if @settings_supervisor['conf_dir_path'].to_s.empty? 
-destfile = @settings_supervisor['conf_dir_path'] + "/" + @app + ".conf"
-else 
+<% if @settings_supervisor['conf_dir_path'].to_s.empty?
 destfile = @settings_supervisor['config_file_path']
+else
+destfile = @settings_supervisor['conf_dir_path'] + "/" + @app + ".conf"
 end -%>
 RUN echo "[supervisord]\nnodaemon=true\n\n[program:<%= @settings['process_name'] %>]\ncommand=<%= @settings['process_name'] %> <% if @settings['process_extra_name'] -%><%= @settings['process_extra_name'] -%><% end -%> <% if @settings['process_args'] -%><%= @settings['process_args'] %><% end -%> <% if @settings['nodaemon_args'] -%><%= @settings['nodaemon_args'] %><% end -%>" >> <%= destfile %>
 <% end -%>
