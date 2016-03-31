@@ -83,7 +83,7 @@ define tp::dockerize (
 
   # Image build
   if $build and $ensure == 'present' {
-    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} .":
+    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}/Dockerfile":
       cwd         => $basedir_path,
       subscribe   => File["${basedir_path}/Dockerfile"],
       environment => $exec_environment,
