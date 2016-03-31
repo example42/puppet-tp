@@ -83,7 +83,7 @@ define tp::dockerize (
 
   # Image build
   if $build and $ensure == 'present' {
-    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}/Dockerfile":
+    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}":
       cwd         => $basedir_path,
       subscribe   => File["${basedir_path}/Dockerfile"],
       environment => $exec_environment,
@@ -93,7 +93,7 @@ define tp::dockerize (
   # Image upload to Docker Hub
   if $push and $ensure == 'present' {
     exec { "docker push ${username}/${real_repository}:${real_repository_tag}":
-      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ."],
+      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}"],
       environment => $exec_environment,
     }
   }
