@@ -34,6 +34,7 @@ define tp::dockerize (
   Variant[Undef,Array]    $exec_environment    = undef,
 
   String                  $build_options       = '',
+  Pattern[/command|supervisor/] $command_mode  = 'supervisor',
 
   Boolean                 $mount_data_dir      = true,
   Boolean                 $mount_log_dir       = true,
@@ -47,6 +48,7 @@ define tp::dockerize (
   # Settings evaluation
   $app = $title
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+  $settings_supervisor = tp_lookup('supervisor','settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
   $real_repository = $repository ? {
@@ -81,7 +83,7 @@ define tp::dockerize (
 
   # Image build
   if $build and $ensure == 'present' {
-    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} .":
+    exec { "docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}":
       cwd         => $basedir_path,
       subscribe   => File["${basedir_path}/Dockerfile"],
       environment => $exec_environment,
@@ -91,7 +93,7 @@ define tp::dockerize (
   # Image upload to Docker Hub
   if $push and $ensure == 'present' {
     exec { "docker push ${username}/${real_repository}:${real_repository_tag}":
-      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ."],
+      subscribe   => Exec["docker build ${build_options} -t ${username}/${real_repository}:${real_repository_tag} ${basedir_path}"],
       environment => $exec_environment,
     }
   }
