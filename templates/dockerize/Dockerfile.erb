@@ -41,11 +41,8 @@ RUN echo "[supervisord]\nnodaemon=true\n\n[program:<%= @settings['process_name']
 <% if @settings['tcp_port'] -%>
 EXPOSE <%= @settings['tcp_port'] %>
 <% end -%>
-<% if @settings['data_dir_path'] and @mount_data_dir -%>
-VOLUME <%= @settings['data_dir_path'] %>
-<% end -%>
-<% if @settings['log_dir_path'] and @mount_log_dir -%>
-VOLUME <%= @settings['log_dir_path'] %>
+<% if (@settings['data_dir_path'] and @mount_data_dir) or (@settings['log_dir_path'] and @mount_log_dir) -%>
+VOLUME <% if @settings['data_dir_path'] and @mount_data_dir -%><%= @settings['data_dir_path'] %><% end -%> <% if @settings['log_dir_path'] and @mount_log_dir -%><%= @settings['log_dir_path'] %> <% end -%>
 <% end -%>
 
 <% if @command_mode == 'command' %>
