@@ -18,7 +18,6 @@ define tp::concat3 (
   $warn                 = undef,
   $force                = undef,
   $replace              = undef,
-  $order                = undef,
   $ensure_newline       = undef,
 
   $config_file_notify   = true, # If Package[$title] exists, require it
