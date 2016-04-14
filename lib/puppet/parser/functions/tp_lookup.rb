@@ -32,7 +32,7 @@ module Puppet::Parser::Functions
         :operatingsystem        => lookupvar("::operatingsystem"),
         :operatingsystemmajrelease => lookupvar("::operatingsystemmajrelease"),
         :operatingsystemrelease => lookupvar("::operatingsystemrelease"),
-        :dependency_class       => lookupvar("dependency_class")
+#        :dependency_class       => lookupvar("dependency_class")
       }
        
       hiera[:hierarchy].reverse!.each { | p |

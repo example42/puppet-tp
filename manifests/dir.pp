@@ -46,6 +46,7 @@ define tp::dir (
     $title_path = $title
   } else {
     $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+    $title_path = undef
   }
   $settings = $tp_settings + $settings_hash
   $base_dir_path = $settings["${base_dir}_dir_path"]
