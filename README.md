@@ -304,7 +304,7 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
           ensure: present
         apache:
           ensure: present
-        mysql
+        mysql:
           ensure: present
 
       tp::conf_hash:
