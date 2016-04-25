@@ -42,7 +42,7 @@ define tp::conf (
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
-  $tp_options = tp_lookup($app,'options',$data_module,'merge')
+  $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
   $options = $tp_options + $options_hash
 
   if $file {

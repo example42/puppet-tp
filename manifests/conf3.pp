@@ -232,7 +232,7 @@ define tp::conf3 (
   $file = $title_elements[1]
   $tp_settings=tp_lookup($app,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
-  $tp_options = tp_lookup($app,'options',$data_module,'merge')
+  $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
   $options = merge($tp_options,$options_hash)
 
   if $file {
