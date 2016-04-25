@@ -210,6 +210,13 @@ If you specify a file name after the application name in the title, separated by
       [...]
     }
 
+If you specify the parameter ```base_file``` then the path is the only of the specified base_file:
+
+    # This manages /etc/default/puppetserver on Debian or /etc/sysconfig/puppetserver on RedHat
+    tp::conf { 'puppetserver::init':
+      base_file => 'init',
+      [...]
+    }
 If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog): 
 
     # This manages /usr/local/bin/openssh_check
