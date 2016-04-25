@@ -232,10 +232,8 @@ define tp::conf3 (
   $file = $title_elements[1]
   $tp_settings=tp_lookup($app,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
-  if $options_hash {
-    $tp_options = tp_lookup($app,'options',$data_module,'merge')
-    $options = merge($tp_options,$options_hash)
-  }
+  $tp_options = tp_lookup($app,'options',$data_module,'merge')
+  $options = merge($tp_options,$options_hash)
 
   if $file {
     $real_dir = $settings["${base_dir}_dir_path"]
