@@ -401,7 +401,70 @@ if ENV['PARSER'] == 'future'
         })
       end 
     end
-  
+
+    context 'with base_file set as init the init file path should be returned' do
+      let(:title) { 'puppetserver' }
+      let(:params) {
+        {
+          :base_file => 'init',
+        }
+      }
+      let(:facts) {
+        {
+          :osfamily => 'RedHat',
+        }
+      }
+      it do
+        should contain_file('/etc/sysconfig/puppetserver').with({
+          'ensure'  => 'present',
+          'path'    => '/etc/sysconfig/puppetserver',
+        })
+      end
+    end
+
+    context 'with base_file set as init and a specific path the specified path should be returned' do
+      let(:title) { 'puppetserver' }
+      let(:params) {
+        {
+          :base_file => 'init',
+          :path => '/tmp/init',
+        }
+      }
+      let(:facts) {
+        {
+          :osfamily => 'RedHat',
+        }
+      }
+      it do
+        should contain_file('/tmp/init').with({
+          'ensure'  => 'present',
+          'path'    => '/tmp/init',
+        })
+      end
+    end
+
+    context 'with base_file set as init and base_dir set the init file path should be returned' do
+      let(:title) { 'puppetserver::anything' }
+      let(:params) {
+        {
+          :base_file => 'init',
+          :base_dir => 'install',
+        }
+      }
+      let(:facts) {
+        {
+          :osfamily => 'RedHat',
+        }
+      }
+      it do
+        should contain_file('/etc/sysconfig/puppetserver').with({
+          'ensure'  => 'present',
+          'path'    => '/etc/sysconfig/puppetserver',
+        })
+      end
+    end
+
+
     skip 'with custom epp template and options_hash' do
       let(:title) { 'redis' }
       let(:params) { {

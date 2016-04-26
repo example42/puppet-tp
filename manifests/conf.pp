@@ -15,6 +15,7 @@ define tp::conf (
   Variant[Undef,String]   $content             = undef,
 
   String[1]               $base_dir            = 'config',
+  String[1]               $base_file           = 'config',
 
   Variant[Undef,String]   $path                = undef,
   Variant[Undef,String]   $mode                = undef,
@@ -34,11 +35,6 @@ define tp::conf (
 
   ) {
 
-  # Sample code for tp lookup for app specific default options 
-  # $tp_options = tp_lookup($app,'options',$data_module,'merge')
-  # $options = merge($tp_options,$options_hash)
-  $options = $options_hash
-
   # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
@@ -46,11 +42,17 @@ define tp::conf (
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
+  $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
+  $options = $tp_options + $options_hash
+
   if $file {
     $real_dir = $settings["${base_dir}_dir_path"]
-    $auto_path = "${real_dir}/${file}"
+    $auto_path = $base_file ? {
+      'config' => "${real_dir}/${file}",
+      default  => $settings["${base_file}_file_path"],
+    }
   } else {
-    $auto_path = $settings['config_file_path']
+    $auto_path = $settings["${base_file}_file_path"]
   }
   $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
@@ -58,7 +60,7 @@ define tp::conf (
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
   $manage_group   = tp_pick($group, $settings[config_file_group])
 
-  # Set require if package_name is present 
+  # Set require if package_name is present
   if $settings[package_name] and $settings[package_name] != '' {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
@@ -71,7 +73,7 @@ define tp::conf (
     default   => $config_file_require,
   }
 
-  # Set notify if service_name is present 
+  # Set notify if service_name is present
   if $settings[service_name] and $settings[service_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {

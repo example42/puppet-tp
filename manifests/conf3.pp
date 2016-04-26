@@ -24,6 +24,13 @@
 #     template => 'site/openssh/sshd_config.erb', 
 #   }
 #
+# - When the base_file parameter is specified the path of the managed file is #
+#   looked in the value of the key ${base_file}_file_path in the tp/data/$app directory 
+#   tp::conf3 { 'openssh':  # Path is defined by tp $settings['init_file_path']
+#     template  => 'site/openssh/init.erb', 
+#     base_file => 'init', 
+#   }
+#
 # - When the title has a format like: app::file and no base_dir is set the path
 #   is composed using the app's *main configuration directory* and the file name
 #   used in the second part of the title (after the ::)
@@ -137,6 +144,12 @@
 #   in TP data with a key named ${base_dir}_dir_path.
 #   The default 'config' value maps to the key config_dir_path
 #
+# @param base_file                  Default: 'config',
+#   Type of the file managed, when a path is
+#   not explicitly set. This name must have a corresponding entry
+#   in TP data with a key named ${base_file}_file_path.
+#   The default 'config' value maps to the key config_file_path
+#
 # @param options_hash              Default: { },
 #   Generic hash of configuration parameters specific for the app that can be
 #   used in the provided erb or epp templates respectively as @options_hash['key'] or
@@ -189,6 +202,7 @@ define tp::conf3 (
   $content              = undef,
 
   $base_dir             = 'config',
+  $base_file            = 'config',
 
   $path                 = undef,
   $mode                 = undef,
@@ -212,23 +226,23 @@ define tp::conf3 (
   validate_bool($debug)
   validate_re($ensure, ['present','absent'], 'Valid values are: present, absent. WARNING: If set to absent the conf file is removed.')
 
-  # Sample code for tp lookup for app specific default options 
-  # $tp_options = tp_lookup($app,'options',$data_module,'merge')
-  # $options = merge($tp_options,$options_hash)
-  $options = $options_hash
-
   # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
   $tp_settings=tp_lookup($app,'settings',$data_module,'merge')
   $settings=merge($tp_settings,$settings_hash)
+  $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
+  $options = merge($tp_options,$options_hash)
 
   if $file {
     $real_dir = $settings["${base_dir}_dir_path"]
-    $auto_path = "${real_dir}/${file}"
+    $auto_path = $base_file ? {
+      'config' => "${real_dir}/${file}",
+      default  => $settings["${base_file}_file_path"],
+    }
   } else {
-    $auto_path = $settings['config_file_path']
+    $auto_path = $settings["${base_file}_file_path"]
   }
   $manage_path    = tp_pick($path, $auto_path)
   $manage_content = tp_content($content, $template, $epp)
