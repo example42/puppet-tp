@@ -109,6 +109,12 @@ define tp::install (
     $service_require = Package[$settings[package_name]]
   }
 
+  if $settings[package_provider] == Variant[Undef,String[0]] {
+    $package_provider = undef
+  } else {
+    $package_provider = $settings[package_provider]
+  }
+
   $service_ensure = $ensure ? {
     'absent' => 'stopped',
     false    => 'stopped',
@@ -141,7 +147,8 @@ define tp::install (
     $packages_array=any2array($settings[package_name])
     $packages_array.each |$pkg| {
       package { $pkg:
-        ensure => $ensure,
+        ensure   => $ensure,
+        provider => $package_provider,
       }
     }
   }
