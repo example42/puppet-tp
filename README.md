@@ -289,6 +289,19 @@ If, for whatever reason, you don't want to automatically manage a repository for
     }
 
 
+### Custom Dependencies
+
+In rare cases it might be necessary to have a relationship in between the parts of a `tp::install`. To allow this, the main package and service resource are available under the name of the application:
+
+```
+tp::install { exim: }
+
+Package[exim] -> Exec['extra setup script'] ~> Service[exim]
+```
+
+This works even if, like in this case, the package and service names vary widely across distributions.
+
+
 ## Usage with Hiera
 
 You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.

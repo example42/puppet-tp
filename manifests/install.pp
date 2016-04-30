@@ -106,7 +106,7 @@ define tp::install (
   if $settings[package_name] == Variant[Undef,String[0]] {
     $service_require = undef
   } else {
-    $service_require = Package[$settings[package_name]]
+    $service_require = Package[$name]
   }
 
   $service_ensure = $ensure ? {
@@ -140,8 +140,16 @@ define tp::install (
   if $settings[package_name] {
     $packages_array=any2array($settings[package_name])
     $packages_array.each |$pkg| {
-      package { $pkg:
-        ensure => $ensure,
+      # Setup a stable alias to the application's name for the "main" package
+      if $pkg != $name and (size($packages_array) == 1 or $svc == $settings[main_package])  {
+        package { $name:
+          name   => $pkg,
+          ensure => $ensure,
+        }
+      } else {
+        package { $pkg:
+          ensure => $ensure,
+        }
       }
     }
   }
@@ -149,10 +157,20 @@ define tp::install (
   if $settings[service_name] {
     $services_array=any2array($settings[service_name])
     $services_array.each |$svc| {
-      service { $svc:
-        ensure  => $service_ensure,
-        enable  => $service_enable,
-        require => $service_require,
+      # Setup a stable alias to the application's name for the "main" service
+      if $svc != $name and (size($services_array) == 1 or $svc == $settings[main_service])  {
+        service { $name:
+          name    => $svc,
+          ensure  => $service_ensure,
+          enable  => $service_enable,
+          require => $service_require,
+        }
+      } else {
+        service { $svc:
+          ensure  => $service_ensure,
+          enable  => $service_enable,
+          require => $service_require,
+        }
       }
     }
   }
