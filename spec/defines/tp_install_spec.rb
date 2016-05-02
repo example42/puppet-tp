@@ -79,6 +79,46 @@ if ENV['PARSER'] == 'future'
       it { should contain_service('apache2').with_ensure('running') }
       it { should contain_service('apache2').with_enable('true') }
     end
-  
+
+    context 'with title redis and auto_conf set to true' do
+      let(:facts) {
+        {
+          :osfamily => 'test',
+        }
+      }
+      let(:params) {
+        {
+          'auto_conf' => true,
+        }
+      }
+      it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+    end  
+
+    context 'with title redis and auto_conf set to false' do
+      let(:facts) {
+        {
+          :osfamily => 'test',
+        }
+      }
+      let(:params) {
+        {
+          'auto_conf' => false,
+        }
+      }
+      it { should_not contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+      it { should_not contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+    end  
+
+    context 'with title redis and auto_conf not set (default)' do
+      let(:facts) {
+        {
+          :osfamily => 'test',
+        }
+      }
+      it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+    end  
+
   end
 end

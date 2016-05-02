@@ -1,6 +1,6 @@
 {
   "name": "example42-tp",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi",
@@ -58,7 +58,8 @@
       "operatingsystemrelease": [
         "10.04",
         "12.04",
-        "14.04"
+        "14.04",
+        "16.04"
       ]
     }
   ],

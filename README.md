@@ -27,26 +27,6 @@ It is intended to be used in modules that operate at an higher abstraction layer
 The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
 
 
-## Important upgrade note for Version 1.x
-
-Previous versions of tp (0.9.x) have this layout for defines::
-
-    tp::install  # Works on Puppet 3 and 4 
-    tp::install3 # Works on Puppet 3 and 4, clone of tp::install
-    tp::install4 # Optimised for Puppet 4 (doesn't work on earlier versions)
-
-Starting from version 1.x the naming is as follows:
-
-    tp::install  # Optimised for Puppet 4 (doesn't work on earlier versions)
-    tp::install3  # Works on Puppet 3 and 4 clone of tp::install from 0.x
-
-If you use Puppet 4 you can use the default functions (without any suffix).
-
-If you have a Puppet 3 or 2 environment you have to use defines with the 3 suffix (they work also on Puppet 4 but don't use any of the new language features).
-
-We are sorry for the confusion, but we think that it's better to make this choice now, rather than mess more later or being forced to use an outdated Puppet version.
-
-
 ## Provided Resources
 
 Tiny Puppet provides the following defines:
@@ -80,7 +60,14 @@ Your clients may run on different Operating Systems and are actually supported i
   - Debian 6
   - CentOS 6
 
-Tiny Puppet is expected to work on Puppet 3.x and Puppet 4.x.
+Main Tiny Puppet defines **work only on Puppet 4.x**.
+
+Puppet 3.x compatible defines have the ```3``` suffix.
+
+So, for example:
+
+    tp::install   # Is optimised for Puppet 4 (doesn't work on earlier versions)
+    tp::install3  # Works on Puppet 3 and 4
 
 **IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
 
@@ -203,20 +190,21 @@ By default, if you just specify the application name, the file managed is the "m
       [...]
     }
 
-If you specify a file name after the application name in the title, separated by ```::```, that file is placed in the "base" configuration dir:
+If you specify a file name after the application name in the title, separated by ```::```, and you don't specify any alternative ```base_file```, then that file is placed in the "base" configuration dir:
 
     # This manages /etc/ssh/ssh_config
     tp::conf { 'openssh::ssh_config':
       [...]
     }
 
-If you specify the parameter ```base_file``` then the path is the only of the specified base_file:
+If you specify the parameter ```base_file``` then the path is the one of the specified base_file and the title does not provide any information about the managed file path (it still needs the relevant app in the first part, before ::, and it needs to be unique across the catalog).
 
     # This manages /etc/default/puppetserver on Debian or /etc/sysconfig/puppetserver on RedHat
     tp::conf { 'puppetserver::init':
       base_file => 'init',
       [...]
     }
+
 If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog): 
 
     # This manages /usr/local/bin/openssh_check
@@ -363,6 +351,7 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
           ensure: stopped
           enable: false
 
+Check the [Example42 Puppet modules](https://github.com/example42/puppet-modules) control repo for sample data and code organisation in a tp based setup.
 
 ## Testing and playing with Tiny Puppet
 
@@ -373,30 +362,7 @@ Acceptance tests are regularly done to verify tp support for different applicati
 Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
 
 
-## Usage on the Command Line (TODO)
+## Puppi integration
 
-The following actions are going to be implemented as Puppet faces.
-
-Their functionality is going to be similar to the one currently provided, via ```puppi``` by the ```tp::puppi``` define.
-
-
-Install a specific application (TODO)
-
-    puppet tp install redis
-
-
-Retrieve contextual info about an application (TODO). For example the relevant network sockets, the output of diagnostic commands, 
-
-    puppet tp info redis
-
-
-Check if an application is running correctly (TODO)
-
-    puppet tp check redis
-
-
-Tail the log(s) of the specified application (TODO)
-
-    puppet tp log redis
-
+This is completely optional. If you pass the parameter (```puppi_enable => true```, default is ```false```) to ```tp::install``` then puppi is installed, the relevant configurations are added to the system and you will be able to run, from the system's bash, the ```puppi log [$app]```, ```puppi check [$app]``` and ```puppi info [$app]``` commands showing info on the managed application.
 

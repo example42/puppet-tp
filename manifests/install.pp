@@ -14,10 +14,28 @@
 # @example installation of postfix
 #   tp::install { 'postfix': }
 #
+# @example installation of a specific version of a package
+# Note: the version MUST be a valid for the underlying package provider.
+# This setting is not used if there's an array of packages to install
+#   tp::install { 'elasticsearch':
+#     ensure => '4.0.1',
+#   }
+#
+# @example installation and configuration via an options_hash
+# Note: this works when auto_conf is true (as default) AND when
+# is defined $settings['config_file_template'] with a valid template
+# in the used data module (default: tinydata)
+#   tp::install { 'puppetserver':
+#     options_hash => hiera('puppetserver::options'),
+#   }
+#
 # @example installation and configuration via a custom hash of tp::conf
-# resources used to manage configuration files
+# resources used to manage configuration files.
+# Here eventual auto configuration is explicitly disabled
+#
 #   tp::install { 'puppet':
 #     conf_hash => hiera('tp::puppet::confs'),
+#     auto_conf => false,
 #   }
 #
 # @example installation with custom settings
@@ -51,6 +69,12 @@
 # @param auto_repo                 Default: true
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
+#
+# @param auto_conf                 Default: true
+#   Boolean to enable automatic configuration of the application.
+#   If true and there's a valid value for $settings['config_file_template']
+#   then the relevant template is added via tp::conf based on the default
+#   $options (they can be overriden by the options_hash parameter).
 #
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
@@ -86,21 +110,23 @@ define tp::install (
   Hash                    $settings_hash    = { },
 
   Boolean                 $auto_repo        = true,
+  Boolean                 $auto_conf        = true,
 
   Boolean                 $puppi_enable     = false,
 
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
-  Boolean                 $debug_enable     = false,
+  Boolean                 $debug            = false,
   String[1]               $debug_dir        = '/tmp',
 
   String[1]               $data_module      = 'tinydata',
 
   ) {
 
+  $app = $title
   # Settings evaluation
-  $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
   if $settings[package_name] == Variant[Undef,String[0]] {
@@ -109,6 +135,17 @@ define tp::install (
     $service_require = Package[$settings[package_name]]
   }
 
+  if $settings[package_provider] == Variant[Undef,String[0]] {
+    $package_provider = undef
+  } else {
+    $package_provider = $settings[package_provider]
+  }
+
+  $packages_ensure = $ensure ? {
+    'absent' => 'absent',
+    false    => 'absent',
+    default  => 'present',
+  }
   $service_ensure = $ensure ? {
     'absent' => 'stopped',
     false    => 'stopped',
@@ -129,7 +166,7 @@ define tp::install (
       false     => false,
       default   => true,
     }
-    tp::repo { $title:
+    tp::repo { $app:
       enabled => $repo_enabled,
       before  => Package[$settings[package_name]],
     }
@@ -137,12 +174,19 @@ define tp::install (
 
 
   # Resources
-  if $settings[package_name] {
-    $packages_array=any2array($settings[package_name])
-    $packages_array.each |$pkg| {
+  if $settings[package_name] =~ Array {
+    $settings[package_name].each |$pkg| {
       package { $pkg:
-        ensure => $ensure,
+        ensure   => $packages_ensure,
+        provider => $package_provider,
       }
+    }
+  }
+  if $settings[package_name] =~ String[1] {
+    package { $settings[package_name]:
+      ensure   => $ensure,
+      provider => $package_provider,
+      # tag      => $app,
     }
   }
 
@@ -168,10 +212,23 @@ define tp::install (
     create_resources('tp::dir', $dir_hash, $resources_defaults )
   }
 
+  if $auto_conf and $settings['config_file_template'] {
+    ::tp::conf { $app:
+      template     => $settings['config_file_template'],
+      options_hash => $options_hash,
+    }
+  }
+  if $auto_conf and $settings['init_file_template'] {
+    ::tp::conf { "${app}::init":
+      template     => $settings['init_file_template'],
+      options_hash => $options_hash,
+      base_file    => 'init',
+    }
+  }
 
   # Optional test automation integration
   if $test_enable == true {
-    tp::test { $title:
+    tp::test { $app:
       settings_hash => $settings,
       options_hash  => $options_hash,
       template      => $test_template,
@@ -180,7 +237,7 @@ define tp::install (
 
   # Optional puppi integration
   if $puppi_enable == true {
-    tp::puppi { $title:
+    tp::puppi { $app:
       settings_hash => $settings,
     }
   }
