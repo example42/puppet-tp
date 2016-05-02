@@ -299,7 +299,7 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
           ensure: present
         apache:
           ensure: present
-        mysql
+        mysql:
           ensure: present
 
       tp::conf_hash:
@@ -351,6 +351,7 @@ Not necessarily recommended, but useful to understand the usage basic patterns.
           ensure: stopped
           enable: false
 
+Check the [Example42 Puppet modules](https://github.com/example42/puppet-modules) control repo for sample data and code organisation in a tp based setup.
 
 ## Testing and playing with Tiny Puppet
 
