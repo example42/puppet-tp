@@ -92,7 +92,7 @@ if ENV['PARSER'] == 'future'
         }
       }
       it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
-      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
     end  
 
     context 'with title redis and auto_conf set to false' do
@@ -107,7 +107,7 @@ if ENV['PARSER'] == 'future'
         }
       }
       it { should_not contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
-      it { should_not contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+      it { should_not contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
     end  
 
     context 'with title redis and auto_conf not set (default)' do
@@ -117,7 +117,7 @@ if ENV['PARSER'] == 'future'
         }
       }
       it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
-      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('presnet') }
+      it { should contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
     end  
 
   end
