@@ -167,8 +167,9 @@ define tp::install (
       default   => true,
     }
     tp::repo { $app:
-      enabled => $repo_enabled,
-      before  => Package[$settings[package_name]],
+      enabled     => $repo_enabled,
+      before      => Package[$settings[package_name]],
+      data_module => $data_module,
     }
   }
 
@@ -232,6 +233,7 @@ define tp::install (
       settings_hash => $settings,
       options_hash  => $options_hash,
       template      => $test_template,
+      data_module   => $data_module,
     }
   }
 
