@@ -16,10 +16,20 @@
 # @example installation of postfix
 #   tp::install3 { 'postfix': }
 #
+# @example installation and configuration via an options_hash
+# Note: this works when auto_conf is true (as default) AND when
+# is defined $settings['config_file_template'] with a valid template
+# in the used data module (default: tinydata)
+#   tp::install { 'puppetserver':
+#     options_hash => hiera('puppetserver::options'),
+#   }
+#
 # @example installation and configuration via a custom hash of tp::conf3
 # resources used to manage configuration files
+# Here eventual auto configuration is explicitly disabled
 #   tp::install3 { 'puppet':
 #     conf_hash => hiera('tp::puppet::confs'),
+#     auto_conf => false,
 #   }
 #
 # @example installation with custom settings
