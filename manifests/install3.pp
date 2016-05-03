@@ -98,6 +98,7 @@ define tp::install3 (
   $settings_hash             = { } ,
 
   $auto_repo                 = true,
+  $auto_conf                 = true,
 
   $dependency_class          = undef,
   $monitor_class             = undef,
@@ -117,6 +118,7 @@ define tp::install3 (
 
   # Parameters validation
   validate_bool($auto_repo)
+  validate_bool($auto_conf)
   validate_bool($puppi_enable)
   validate_bool($debug)
   validate_hash($conf_hash)
@@ -201,6 +203,20 @@ define tp::install3 (
       settings_hash => $settings,
       options_hash  => $options_hash,
       template      => $test_template,
+    }
+  }
+
+  if $auto_conf and $settings['config_file_template'] {
+    ::tp::conf3 { $title:
+      template     => $settings['config_file_template'],
+      options_hash => $options_hash,
+    }
+  }
+  if $auto_conf and $settings['init_file_template'] {
+    ::tp::conf3 { "${title}::init":
+      template     => $settings['init_file_template'],
+      options_hash => $options_hash,
+      base_file    => 'init',
     }
   }
 

@@ -93,4 +93,44 @@ describe 'tp::install3', :type => :define do
     it { should contain_class('tp::spec::firewall') }
   end
 
+
+  context 'with title redis and auto_conf set to true' do
+    let(:facts) {
+      {
+        :osfamily => 'test',
+      }
+    }
+    let(:params) {
+      {
+        'auto_conf' => true,
+      }
+    }
+    it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+    it { should contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
+  end
+
+  context 'with title redis and auto_conf set to false' do
+    let(:facts) {
+      {
+        :osfamily => 'test',
+      }
+    }
+    let(:params) {
+      {
+        'auto_conf' => false,
+      }
+    }
+    it { should_not contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+    it { should_not contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
+  end
+
+  context 'with title redis and auto_conf not set (default)' do
+    let(:facts) {
+      {
+        :osfamily => 'test',
+      }
+    }
+    it { should contain_file('/etc/redis-test/redis.conf').with_ensure('present') }
+    it { should contain_file('/etc/sysconfig/redis-test').with_ensure('present') }
+  end
 end
