@@ -22,6 +22,9 @@ define tp::conf (
   Variant[Undef,String]   $owner               = undef,
   Variant[Undef,String]   $group               = undef,
 
+  String                  $path_prefix         = '',
+  Boolean                 $path_parent_create  = false,
+
   Variant[Boolean,String] $config_file_notify  = true,
   Variant[Boolean,String] $config_file_require = true,
 
@@ -54,7 +57,8 @@ define tp::conf (
   } else {
     $auto_path = $settings["${base_file}_file_path"]
   }
-  $manage_path    = tp_pick($path, $auto_path)
+  $real_path      = tp_pick($path, $auto_path)
+  $manage_path    = "${path_prefix}${real_path}"
   $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = tp_pick($mode, $settings[config_file_mode])
   $manage_owner   = tp_pick($owner, $settings[config_file_owner])
@@ -88,6 +92,13 @@ define tp::conf (
 
 
   # Resources
+  if $path_parent_create {
+    $path_parent = dirname($manage_path)
+    exec { "mkdir -p ${path_parent}":
+      creates => $path_parent,
+      before  => File[$manage_path],
+    }
+  }
   file { $manage_path:
     ensure  => $ensure,
     source  => $source,

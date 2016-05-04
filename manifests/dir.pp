@@ -19,6 +19,9 @@ define tp::dir (
   Variant[Undef,String]  $owner              = undef,
   Variant[Undef,String]  $group              = undef,
 
+  String                 $path_prefix         = '',
+  Boolean                $path_parent_create  = false,
+
   Boolean                $config_dir_notify  = true,
   Boolean                $config_dir_require = true,
 
@@ -50,7 +53,8 @@ define tp::dir (
   }
   $settings = $tp_settings + $settings_hash
   $base_dir_path = $settings["${base_dir}_dir_path"]
-  $manage_path    = tp_pick($path, $title_path, $base_dir_path)
+  $real_path      = tp_pick($path, $title_path, $base_dir_path)
+  $manage_path    = "${path_prefix}${real_path}"
   $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
@@ -90,6 +94,18 @@ define tp::dir (
   }
 
   # Finally, the resources managed
+  if $path_parent_create {
+    $path_parent = dirname($manage_path)
+    $exec_before = $vscrepo ? {
+      undef   => Vcsrepo[$manage_path],
+      default => File[$manage_path],
+    }
+    exec { "mkdir -p ${path_parent}":
+      creates => $path_parent,
+      before  => $exec_before,
+    }
+  }
+
   if $vcsrepo {
     vcsrepo { $manage_path:
       ensure   => $manage_ensure,
