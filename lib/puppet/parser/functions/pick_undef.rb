@@ -18,18 +18,20 @@ Enterprise Console are brought into Puppet as top-scope variables), and,
 failing that, will use a default value of 1.449.
 
 Note that, contrary to the pick() function, the pick_default does not fail if
-all arguments are empty. This allows pick_default to use an empty value as
+all arguments are empty.
 default.
 
 EOS
 ) do |args|
    fail "Must receive at least one argument." if args.empty?
-   default = :undef
-   args = args[0..-2].compact
+   args = args.compact
    args.delete(:undef)
    args.delete(:undefined)
    args.delete("")
-   args << default
-   return args[0]
+   if args[0].to_s.empty? then
+     return :undef
+   else
+     return args[0]
+   end
  end
 end
