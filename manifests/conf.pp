@@ -94,7 +94,8 @@ define tp::conf (
   # Resources
   if $path_parent_create {
     $path_parent = dirname($manage_path)
-    exec { "mkdir -p ${path_parent}":
+    exec { "mkdir for tp::conf ${title}":
+      command => "/bin/mkdir -p ${path_parent}",
       creates => $path_parent,
       before  => File[$manage_path],
     }

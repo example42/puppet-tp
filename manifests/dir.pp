@@ -100,7 +100,8 @@ define tp::dir (
       undef   => Vcsrepo[$manage_path],
       default => File[$manage_path],
     }
-    exec { "mkdir -p ${path_parent}":
+    exec { "mkdir for tp::dir ${title}":
+      command => "/bin/mkdir -p ${path_parent}",
       creates => $path_parent,
       before  => $exec_before,
     }
