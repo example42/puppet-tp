@@ -59,7 +59,7 @@ define tp::dir (
   $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
   $manage_group   = tp_pick($group, $settings[config_dir_group])
 
-  # Set require if package_name is present 
+  # Set require if package_name is present
   if $settings[package_name] and $settings[package_name] != '' {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
@@ -72,7 +72,7 @@ define tp::dir (
     default   => $config_dir_require,
   }
 
-  # Set notify if service_name is present 
+  # Set notify if service_name is present
   if $settings[service_name] and $settings[package_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
@@ -96,7 +96,7 @@ define tp::dir (
   # Finally, the resources managed
   if $path_parent_create {
     $path_parent = dirname($manage_path)
-    $exec_before = $vscrepo ? {
+    $exec_before = $vcsrepo ? {
       undef   => File[$manage_path],
       default => Vcsrepo[$manage_path],
     }
