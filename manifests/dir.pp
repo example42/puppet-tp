@@ -97,8 +97,8 @@ define tp::dir (
   if $path_parent_create {
     $path_parent = dirname($manage_path)
     $exec_before = $vscrepo ? {
-      undef   => Vcsrepo[$manage_path],
-      default => File[$manage_path],
+      undef   => File[$manage_path],
+      default => Vcsrepo[$manage_path],
     }
     exec { "mkdir for tp::dir ${title}":
       command => "/bin/mkdir -p ${path_parent}",
