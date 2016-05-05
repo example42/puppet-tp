@@ -241,6 +241,7 @@ define tp::install (
   if $puppi_enable == true {
     tp::puppi { $app:
       settings_hash => $settings,
+      data_module   => $data_module,
     }
   }
 
