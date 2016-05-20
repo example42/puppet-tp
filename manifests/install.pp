@@ -217,6 +217,7 @@ define tp::install (
     ::tp::conf { $app:
       template     => $settings['config_file_template'],
       options_hash => $options_hash,
+      data_module  => $data_module,
     }
   }
   if $auto_conf and $settings['init_file_template'] {
