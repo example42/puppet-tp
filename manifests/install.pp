@@ -141,7 +141,7 @@ define tp::install (
     $package_provider = $settings[package_provider]
   }
 
-  $packages_ensure = $ensure ? {
+  $package_ensure = $ensure ? {
     'absent' => 'absent',
     false    => 'absent',
     default  => 'present',
@@ -178,7 +178,7 @@ define tp::install (
   if $settings[package_name] =~ Array {
     $settings[package_name].each |$pkg| {
       package { $pkg:
-        ensure   => $packages_ensure,
+        ensure   => $package_ensure,
         provider => $package_provider,
       }
     }
