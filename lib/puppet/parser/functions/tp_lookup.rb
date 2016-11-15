@@ -32,7 +32,7 @@ module Puppet::Parser::Functions
         :operatingsystem           => lookupvar("::operatingsystem"),
         :operatingsystemmajrelease => lookupvar("::operatingsystemmajrelease"),
         :operatingsystemrelease    => lookupvar("::operatingsystemrelease"),
-        :repo                      => lookupvar("repo"),
+        :repo                      => exist?("repo") && lookupvar("repo"),
       }
        
       hiera[:hierarchy].reverse!.each { | p |
@@ -48,7 +48,6 @@ module Puppet::Parser::Functions
             value.merge!(got_value) if look=='merge'
             value=got_value if look=='direct'
           end
-          #puts "value: #{key} - #{conf_file_path} - #{value.inspect}"
         end
       }
 
