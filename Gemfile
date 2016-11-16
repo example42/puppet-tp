@@ -13,6 +13,7 @@ else
 end
 
 gem 'rake',                   :require => false
+gem 'json', "< 2.0.0"
 gem 'puppetlabs_spec_helper', :require => false
 gem 'puppet-lint',            :require => false
 gem 'puppet-syntax',          :require => false
