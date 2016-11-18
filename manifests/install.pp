@@ -70,6 +70,10 @@
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
 #
+# @param repo                      Default: undef
+#   Name of the repository to use. Multiple different repositories may
+#   be used, if they are defined in Tiny Puppet data.
+#
 # @param auto_conf                 Default: true
 #   Boolean to enable automatic configuration of the application.
 #   If true and there's a valid value for $settings['config_file_template']
@@ -111,6 +115,8 @@ define tp::install (
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
+
+  Variant[Undef,String]   $repo             = undef,
 
   Boolean                 $puppi_enable     = false,
 
@@ -170,6 +176,7 @@ define tp::install (
       enabled     => $repo_enabled,
       before      => Package[$settings[package_name]],
       data_module => $data_module,
+      repo        => $repo,
     }
   }
 

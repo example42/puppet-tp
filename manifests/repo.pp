@@ -7,6 +7,8 @@ define tp::repo (
 
   Boolean                   $enabled             = true,
 
+  Variant[Undef,String]     $repo                = undef,
+
   String[1]                 $description         = "${title} repository",
 
   Variant[Undef,String[1]]  $repo_url            = undef,

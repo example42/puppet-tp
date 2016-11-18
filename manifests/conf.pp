@@ -42,6 +42,10 @@ define tp::conf (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $file = $title_elements[1]
+
+  if defined_with_params(Tp::Install[$app]) {
+    $repo = getparam(Tp::Install[$app],'repo')
+  }
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
