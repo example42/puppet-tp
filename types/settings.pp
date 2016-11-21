@@ -1,9 +1,9 @@
 type Tp::Settings = Struct[{
 
-  Optional[package_name] => Enum[String,Array],
+  Optional[package_name] => Variant[String,Array],
   Optional[package_ensure] => String,
 
-  Optional[service_name] => Enum[String,Array],
+  Optional[service_name] => Variant[String,Array],
   Optional[service_enable] => Boolean,
   Optional[service_ensure] => Enum["running", "stopped"],
 
@@ -33,8 +33,8 @@ type Tp::Settings = Struct[{
   Optional[plugins_dir_path] => Stdlib::Absolutepath,
   Optional[modules_dir_path] => Stdlib::Absolutepath,
 
-  Optional[tcp_port] => Enum[String,Integer]
-  Optional[udp_port] => Enum[String,Integer]
+  Optional[tcp_port] => Variant[String,Integer],
+  Optional[udp_port] => Variant[String,Integer],
 
   Optional[nodaemon_args] => String,
 }]
