@@ -50,7 +50,6 @@ define tp::repo3 (
     yum_priority        => $yum_priority,
     yum_mirrorlist      => $yum_mirrorlist,
     apt_repos           => $apt_repos,
-    apt_release         => $apt_release,
     apt_include_src     => $apt_include_src,
     apt_pin             => $apt_pin,
   }
