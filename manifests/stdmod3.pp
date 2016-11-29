@@ -49,7 +49,7 @@ define tp::stdmod3 (
 
   # Parameters validation
   validate_bool($debug)
-  
+
 
   # Settings evaluation
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
@@ -173,7 +173,7 @@ define tp::stdmod3 (
     service { ${settings[service_name]}:
       ensure => ${settings[service_ensure]},
       enable => ${settings[service_enable]},
-    } 
+    }
 
     file { ${settings[config_file_path]}:
       ensure  => ${config_file_ensure},

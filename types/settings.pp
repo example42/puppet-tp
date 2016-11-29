@@ -5,7 +5,7 @@ type Tp::Settings = Struct[{
 
   Optional[service_name] => Variant[String,Array],
   Optional[service_enable] => Boolean,
-  Optional[service_ensure] => Enum["running", "stopped"],
+  Optional[service_ensure] => Enum['running', 'stopped'],
 
   Optional[process_name] => String,
   Optional[process_extra_name] => String,

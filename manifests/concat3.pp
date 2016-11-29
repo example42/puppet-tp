@@ -19,6 +19,7 @@ define tp::concat3 (
   $force                = undef,
   $replace              = undef,
   $ensure_newline       = undef,
+  $order                = undef,
 
   $config_file_notify   = true, # If Package[$title] exists, require it
   $config_file_require  = true, # If Service[$title] exists, notify it
@@ -48,7 +49,7 @@ define tp::concat3 (
   $manage_owner = tp_pick($owner, $settings[config_file_owner])
   $manage_group = tp_pick($group, $settings[config_file_group])
 
-  # Set require if package resource is present 
+  # Set require if package resource is present
   if defined("Package[${settings[package_name]}]") {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
@@ -61,7 +62,7 @@ define tp::concat3 (
     default   => $config_file_require,
   }
 
-  # Set notify if service resource is present 
+  # Set notify if service resource is present
   if defined("Service[${settings[service_name]}]") {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
@@ -76,8 +77,8 @@ define tp::concat3 (
 
 
   # Concat resources
-  include concat
-  
+  include ::concat
+
   if !defined(Concat[$manage_path]) {
     ::concat { $manage_path:
       ensure         => present,

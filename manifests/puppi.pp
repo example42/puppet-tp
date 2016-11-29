@@ -4,7 +4,7 @@
 # Manages Puppi integration
 # Usage of this define is optional.
 # When used, it requires Puppi.
-# 
+#
 # == Parameters
 #
 define tp::puppi (
@@ -30,7 +30,7 @@ define tp::puppi (
   ) {
 
   # If we use tp::puppi we need puppi
-  include puppi
+  include ::puppi
 
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')

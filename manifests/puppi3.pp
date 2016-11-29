@@ -5,7 +5,7 @@
 # Manages Puppi integration
 # Usage of this define is optional.
 # When used, it requires Puppi.
-# 
+#
 # == Parameters
 #
 define tp::puppi3 (
@@ -31,7 +31,7 @@ define tp::puppi3 (
   ) {
 
   # If we use tp::puppi3 we need puppi
-  include puppi
+  include ::puppi
 
   # Parameters validation
   validate_bool($check_enable)
