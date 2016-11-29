@@ -37,4 +37,8 @@ type Tp::Settings = Struct[{
   Optional[udp_port] => Variant[String,Integer],
 
   Optional[nodaemon_args] => String,
+  Optional[dockerfile_prerequisites] => String,
+
+  Optional[package_prerequisites] => Array,
+  Optional[tp_prerequisites] => Array,
 }]

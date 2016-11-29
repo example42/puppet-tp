@@ -70,6 +70,11 @@
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
 #
+# @param auto_prerequisites        Default: false
+#   Boolean to enable automatic management of prerequisite dependencies
+#   required for the installation of the application. If they are defined in
+#   tp data.
+#
 # @param repo                      Default: undef
 #   Name of the repository to use. Multiple different repositories may
 #   be used, if they are defined in Tiny Puppet data.
@@ -115,6 +120,7 @@ define tp::install (
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
+  Boolean                 $auto_prerequisites = false,
 
   Variant[Undef,String]   $repo             = undef,
 
@@ -177,6 +183,21 @@ define tp::install (
       before      => Package[$settings[package_name]],
       data_module => $data_module,
       repo        => $repo,
+    }
+  }
+
+
+  # Automatic tp dependencies management, if data defined
+  if $auto_prerequisites == true
+  and $settings[package_prerequisites] {
+    $settings[package_prerequisites].each | $p | {
+      ensure_packages($p)
+    }
+  }
+  if $auto_prerequisites == true
+  and $settings[tp_prerequisites] {
+    $settings[tp_prerequisites].each | $p | {
+      tp_install($p, { auto_prerequisites => true })
     }
   }
 
