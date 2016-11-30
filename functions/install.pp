@@ -5,7 +5,7 @@
 #
 function tp::install (
   String $app,
-  Hash   $params = { },
+  Hash   $params = { },
 ) {
 
   if ! defined_with_params(Tp::Install[$app], $params ) {
