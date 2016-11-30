@@ -47,7 +47,9 @@ group :development do
   gem 'rubocop-rspec', '~> 1.6',            :require => false if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.3.0')
   gem 'pry',                                :require => false
   gem 'json_pure', '<= 2.0.1',              :require => false if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0')
-  gem 'coveralls',                          :require => false
+  if RUBY_VERSION >= '2.0.0'
+    gem 'coveralls',                          :require => false
+  end
 end
 
 group :system_tests do
