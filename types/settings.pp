@@ -2,6 +2,7 @@ type Tp::Settings = Struct[{
 
   Optional[package_name] => Variant[String,Array],
   Optional[package_ensure] => String,
+  Optional[package_provider] => String,
 
   Optional[service_name] => Variant[String,Array],
   Optional[service_enable] => Boolean,
