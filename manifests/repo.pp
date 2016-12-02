@@ -33,11 +33,6 @@ define tp::repo (
 
 ) {
 
-  # Parameters validation
-  validate_bool($enabled)
-  validate_bool($debug)
-
-
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
