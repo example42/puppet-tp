@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
 
-## Yet Another Puppet Abstraction Layer
+## The Universal Installer
 
 [Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application.
 
@@ -21,6 +21,8 @@ It features:
   - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
 
   - Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+
+  - A Puppet face to install any app with a single command
 
 It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
 
@@ -43,6 +45,15 @@ Tiny Puppet provides the following defines:
 - ```tp::instance```. (TODO) Manages an application instance
 - ```tp::line```. (TODO?) Manages single lines in a configuration file
 - ```tp::github```. (TODO?) Installs (anything?;) directly from GitHub source
+
+
+## Provided commands
+
+Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath to be able to run:
+
+    puppet tp install <application>
+
+To install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
 
 
 ## Prerequisites and limitations
