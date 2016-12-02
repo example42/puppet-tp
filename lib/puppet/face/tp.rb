@@ -9,6 +9,8 @@ Puppet::Face.define(:tp, '0.0.1') do
   description <<-TEXT
     Run tp commands to interact with tp managed applications
 
+    install - Install any application with tp (relevant tinydata must exist)
+
     Not yet Available tp commands:
     check - Check the status of the managed resources
     info - Show info, whatever info, related to managed applications
@@ -47,6 +49,15 @@ Puppet::Face.define(:tp, '0.0.1') do
     when_invoked do |app, options|
 
       exec ( "tp log " + app )
+
+    end
+  end
+
+  action :install do
+    summary "Install any application on any OS (if tinydata available)."
+    when_invoked do |app, options|
+
+      exec ( "puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true }'")
 
     end
   end
