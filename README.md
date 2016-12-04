@@ -30,7 +30,7 @@ It is intended to be used in profiles, as replacement for dedicated componenent 
 
 The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
 
-## Usage in Puppet code
+## Provided Puppet defines
 
 Tiny Puppet provides the following Puppet user defines:
 
@@ -114,7 +114,7 @@ If you use the relevant defines, other dependencies are needed:
   - Define ```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
 
 
-## Essential usage patterns
+## Usage in Puppet code
 
 Install an application with default settings (package installed, service started)
 
@@ -144,12 +144,6 @@ Install custom packages (with the ```settings_hash``` argument you can override 
         'package_name'     => 'my_redis',
         'config_file_path' => '/opt/etc/redis',
       },
-    }
-
-Install the application using the provided repository (repository name and data must be present in tinydata)
-
-    tp::install { 'mongodb':
-      repo => 'mongodb-org-3.2',
     }
 
 Some options are available to manage tp::install automation:
@@ -316,9 +310,17 @@ Currently Tiny Puppet supports applications' installation only via the OS native
 
 The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
-Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
+Generally you don't have to use directly the ```tp::repo``` define, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
-In some cases, where for the given application name has no packages, the following commands exactly have the same effect:
+When it's present the relevant data for an application, it's possible to install it using different alternative repos. For example you can use:
+
+    tp::install { 'mongodb':
+      repo => 'mongodb-org-3.2',
+    }
+
+to install MongoDB using packages from the 3.2 upstream repo, instead of the default OS ones.
+
+In some cases, where for the given application name there are no packages, the following commands have exactly the same effect:
 
     tp::install { 'epel': }  # Installs Epel repository on RedHat derivatives. Does nothing on other OS.
     tp::repo { 'epel': }     # Same effect of tp::install since no package is actually installed
@@ -328,6 +330,9 @@ If, for whatever reason, you don't want to automatically manage a repository for
     tp::install { 'elasticsearch':
       auto_repo        => false,
     }
+
+
+
 
 ## Using alternative data sources
 

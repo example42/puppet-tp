@@ -7,7 +7,7 @@
 # this class 
 #
 class tp (
-  Hash                    $options_hash        = { },  
+  $options_hash        = { },  
 ) {
 
   $options_defaults = {
