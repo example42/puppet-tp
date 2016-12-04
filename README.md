@@ -359,14 +359,9 @@ If you want to use your own data module for all your applications, you might pre
 
 ## Testing and playing with Tiny Puppet
 
-You can experiment and play with Tiny Puppet using the [Tiny Puppet Playground](https://github.com/example42/tp-playground).
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42 Puppet control-repo](https://github.com/example42/control-repo).
 
 Acceptance tests are regularly done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
 
 Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
-
-
-## Puppi integration
-
-This is completely optional. If you pass the parameter (```puppi_enable => true```, default is ```false```) to ```tp::install``` then puppi is installed, the relevant configurations are added to the system and you will be able to run, from the system's bash, the ```puppi log [$app]```, ```puppi check [$app]``` and ```puppi info [$app]``` commands showing info on the managed application.
 
