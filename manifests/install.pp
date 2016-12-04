@@ -157,6 +157,18 @@ define tp::install (
     $package_provider = $settings[package_provider]
   }
 
+  if $settings[package_source] == Variant[Undef,String[0]] {
+    $package_source = undef
+  } else {
+    $package_source = $settings[package_source]
+  }
+
+  if $settings[package_install_options] == Variant[Undef,String[0]] {
+    $package_install_options = undef
+  } else {
+    $package_install_options = $settings[package_install_options]
+  }
+
   $plain_ensure = $ensure ? {
     'absent' => 'absent',
     false    => 'absent',
@@ -217,9 +229,10 @@ define tp::install (
   }
   if $settings[package_name] =~ String[1] {
     package { $settings[package_name]:
-      ensure   => $ensure,
-      provider => $package_provider,
-      # tag      => $app,
+      ensure          => $ensure,
+      provider        => $package_provider,
+      source          => $package_source,
+      install_options => $package_install_options,
     }
   }
 
