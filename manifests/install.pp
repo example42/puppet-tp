@@ -295,7 +295,7 @@ define tp::install (
   if $cli_enable {
     file { "/etc/tp/app/${app}":
       ensure  => $plain_ensure,
-      content => inline_template('<%= @settings.to_yaml %>')
+      content => inline_template('<%= @settings.to_yaml %>'),
     }
     include ::tp
   }
