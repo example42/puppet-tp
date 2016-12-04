@@ -54,25 +54,6 @@ define tp::test3 (
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
-  # TODO: Refine
-  if ! defined('/etc/tp') {
-    file { '/etc/tp/':
-      ensure => directory,
-      mode   => '0755',
-      owner  => root,
-      group  => root,
-    }
-  }
-
-  if ! defined(File[$base_dir]) {
-    file { $base_dir:
-      ensure => directory,
-      mode   => '0755',
-      owner  => root,
-      group  => root,
-    }
-  }
-
   file { "${base_dir}/${title}":
     ensure  => $ensure,
     mode    => '0755',

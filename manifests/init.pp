@@ -21,10 +21,13 @@ class tp (
       default  => 'puppet resource package ',
     },
   }
-  $options = $options_defaults + $options_hash
+  $options = merge($options_defaults,$options_hash)
 
-  file { '/etc/tp/app':
+  file { [ '/etc/tp' , '/etc/tp/app' , '/etc/tp/test' ]:
     ensure => directory,
+    mode   => '0755',
+    owner  => root,
+    group  => root,
   }
 
   file { '/usr/local/bin/tp':
