@@ -5,14 +5,16 @@
 
 ## The Universal Installer
 
-[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application.
+[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application on any Operating System:
 
-It can replace or integrate existing component application modules.
+    puppet module install example42-tp
+    puppet tp install <any_app>
 
+It can be used inside Puppet manifests or directly from the command line.
 
-It features:
+Features:
 
-  - Quick, easy to use, standard, coherent, powerful interface to the managed resources
+  - Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
 
   - Out of the box and easily expandable support for most common Operating Systems
 
@@ -22,16 +24,15 @@ It features:
 
   - Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
 
-  - A Puppet face to install any app with a single command
+  - A Puppet face and command line to install any app or query the installed ones
 
-It is intended to be used in modules that operate at an higher abstraction layer (local site modules, profiles and so on) where we assemble and use different application modules to achieve the setup we need.
+It is intended to be used in profiles, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
 
-The expected user is a SysAdmin who knows how to configure his|her applications and wants a quick way to manage then without the need to "study" and include in the local modulepath a dedicated public module, or, even worse, write a new one from scratch.
+The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
 
+## Usage in Puppet code
 
-## Provided Resources
-
-Tiny Puppet provides the following defines:
+Tiny Puppet provides the following Puppet user defines:
 
 - ```tp::install```. It installs an application and starts its service, by default
 - ```tp::conf```. It allows to manage configuration files
@@ -43,17 +44,27 @@ Tiny Puppet provides the following defines:
 - ```tp::concat```. (WIP) Manages file fragments of a configuration file
 - ```tp::netinstall```. (WIP) Installs from a remote url
 - ```tp::instance```. (TODO) Manages an application instance
-- ```tp::line```. (TODO?) Manages single lines in a configuration file
 - ```tp::github```. (TODO?) Installs (anything?;) directly from GitHub source
 
 
-## Provided commands
+## Usage on the command line
 
 Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath to be able to run:
 
     puppet tp install <application>
 
 To install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
+
+In a system, managed by Puppet, where some resources are provided by tp, it's also possible to have the ```tp``` command, with more actions:
+
+    tp install <application>
+    tp uninstall <application>
+
+    tp test # Test all the applications installed by tp
+    tp test <application> # Test the specified application
+
+    tp log # Tail all the logs of all the applications installed by tp
+    tp log <application> # Tail the log of the specified application
 
 
 ## Prerequisites and limitations
@@ -82,6 +93,12 @@ So, for example:
 
 **IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
 
+If tp doesn't correctly install a specific application on the OS you want, please **TELL US**. It's very easy and quick to add new apps or support for new OS, we will do that.
+
+Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions.
+
+Support for Solaris, Windows, MacOS, *BSD and others is currently limited, mostly for lack of tinydata.
+
 Tiny Puppet requires these Puppet modules:
 
  - The [tinydata](https://github.com/example42/tinydata) module
@@ -97,19 +114,11 @@ If you use the relevant defines, other dependencies are needed:
   - Define ```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
 
 
-## Usage in manifests
-
-### Essential usage patterns
+## Essential usage patterns
 
 Install an application with default settings (package installed, service started)
 
     tp::install { 'redis': }
-
-Install an application specifying a custom dependency class (where, for example, you can add a custom package repository. Note however that for some applications and Operating System TP provides and manages automatically the upstream repository)
-
-    tp::install { 'lighttpd':
-      dependency_class => 'site::lighttpd::repo',
-    }
 
 Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
 
@@ -126,7 +135,7 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
     }
 
 
-### Installation alternatives
+### Installation options
 
 Install custom packages (with the ```settings_hash``` argument you can override any application specific setting)
 
@@ -137,7 +146,38 @@ Install custom packages (with the ```settings_hash``` argument you can override 
       },
     }
 
-Use the ```tp::stdmod``` define to manage an application using stdmod compliant parameters.
+Install the application using the provided repository (repository name and data must be present in tinydata)
+
+    tp::install { 'mongodb':
+      repo => 'mongodb-org-3.2',
+    }
+
+Some options are available to manage tp::install automation:
+
+    tp::install { 'virtualbox':
+      auto_repo          => true,  # This is the default, settings, if defined in tinydata, it installs the relevant package repository
+      auto_conf          => true,  # True by default. If defined in tinydata a default configuration is provided
+      auto_prerequisites => false, # False by default. If true eventual package or tp::install dependencies are installed
+    }
+
+Other options are available to manage integrations:
+
+    tp::install { 'rabbitmq':
+      cli_enable    => true,  # Default value. Installs the tp command on the system and provides the data about the defined application.
+      puppi_enable  => false, # Default value. Installs puppi and enables puppet integration
+      test_template => undef, # Default value. If provided, the provided erb template is used as script to test the application (instead of default tests)
+      options_hash  => {}     # An optional hash where to set variable to use in the test_template.
+    }
+
+To uninstall an application, there are two alternatives:
+
+    tp::uninstall { 'redis': }
+    tp::install { 'redis': ensure => absent }
+
+
+### Installation alternatives
+
+To manage packages installations and configuration files there's also the ```tp::stdmod``` define to manage an application using stdmod compliant parameters.
 
 Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them manage packages and services) and may be complementary to ```tp::conf``` (you can configure files with both).
 
@@ -145,9 +185,7 @@ Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them man
       config_file_template => 'site/redis/redis.conf',
     }
 
-To uninstall an application:
-
-    tp::uninstall { 'redis': }
+If you wonder what's better, use ```tp::install``` + ```tp::conf``` rather than ```tp::stdmod```.
 
 
 ### Managing configurations
@@ -280,89 +318,39 @@ The data about a repository is managed as all the other data of Tiny Puppet. Fin
 
 Generally you don't have to use directly the ```tp::repo``` defined, as, when the repository data is present, it's automatically added from the ```tp::install``` one.
 
+In some cases, where for the given application name has no packages, the following commands exactly have the same effect:
+
+    tp::install { 'epel': }  # Installs Epel repository on RedHat derivatives. Does nothing on other OS.
+    tp::repo { 'epel': }     # Same effect of tp::install since no package is actually installed
+
 If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
 
     tp::install { 'elasticsearch':
       auto_repo        => false,
-      dependency_class => '::site::elasticseach::repo', # Possible alternative class to manage the repo
     }
 
+## Using alternative data sources
 
-## Usage with Hiera
+By default Tiny Puppet uses the tinydata module to retrieve data for different applications, but it's possible to use a custom one:
 
-You may find useful the ```create_resources``` defines that are feed, in the main ```tp``` class by special ```hiera_hash``` lookups that map all the available ```tp``` defines to hiera keys in this format ```tp::<define>_hash```.
+    tp::install { 'apache':
+      data_module => 'my_data', # Default: tinydata
+    }
 
-Although such approach is very powerful (and totally optional) we recommend not to abuse of it.
+Reproduce the structure of tinydata in your data module to make it work with tp.
 
-Tiny Puppet is intended to be used in modules like profiles, your data should map to parameters of such classes, but if you want to manage directly via Hiera some tp resources you have to include the main class:
+If you want to use your own data module for all your applications, you might prefer to set the following resource defaults in your main manifest (```manifest/site.pp```, typically):
 
-    include tp
+    Tp::Install {
+      data_module  => 'my_data',
+    }
+    Tp::Conf {
+      data_module  => 'my_data',
+    }
+    Tp::Dir {
+      data_module  => 'my_data',
+    }
 
-In the class are defined Hiera lookups (using hiera_hash so thy are recursive (and this may hurt a log when abusing) that expects parameters like the ones in the following sample in Yaml.
-
-As an handy add-on, a ```create_resources``` is run also on the variables ```tp::packages```, ```tp::services```, ```tp::files``` to eventually manage the relevant Puppet resource types.
-
-Not necessarily recommended, but useful to understand the usage basic patterns.
-
-    ---
-      tp::install_hash:
-        memcache:
-          ensure: present
-        apache:
-          ensure: present
-        mysql:
-          ensure: present
-
-      tp::conf_hash:
-        apache:
-          template: "site/apache/httpd.conf.erb"
-        apache::mime.types:
-          template: "site/apache/mime.types.erb"
-        mysql:
-          template: "site/mysql/my.cnf.erb"
-          options_hash:
-            
-
-      tp::dir_hash:
-        apache::certs:
-          ensure: present
-          path: "/etc/pki/ssl/"
-          source: "puppet:///modules/site/certs/"
-          recurse: true
-          purge: true
-        apache::courtesy_site:
-          ensure: present
-          path: "/var/www/courtesy_site"
-          source: "https://git.site.com/www/courtesy_site"
-          vcsrepo: git
-
-      tp::puppi_hash:
-        apache:
-          ensure: present
-        memcache:
-          ensure: present
-        php:
-          ensure: present
-        mysql:
-          ensure: present
-
-      tp::packages:
-        wget:
-          ensure: present
-        zip:
-          ensure: present
-        curl:
-          ensure: present
-
-      tp::services:
-        tuned:
-          ensure: stopped
-          enable: false
-        NetworkManager:
-          ensure: stopped
-          enable: false
-
-Check the [Example42 Puppet modules](https://github.com/example42/puppet-modules) control repo for sample data and code organisation in a tp based setup.
 
 ## Testing and playing with Tiny Puppet
 

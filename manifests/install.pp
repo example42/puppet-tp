@@ -85,6 +85,10 @@
 #   then the relevant template is added via tp::conf based on the default
 #   $options (they can be overriden by the options_hash parameter).
 #
+# @param cli_enable                Default: true
+#   Enable cli integration.
+#   If true, tp commands to query apps instlled via tp are added to the system.
+#
 # @param puppi_enable              Default: false
 #   Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
@@ -93,7 +97,7 @@
 #   If true, it is called the define tp::test, which creates a script that
 #   should test the functionality of the app
 #
-# @param test_template  Default: undef
+# @param test_template             Default: undef
 #   Custom template to use to for the content of test script, used
 #   by the tp::test define. It requires test_enable = true
 #
@@ -124,8 +128,8 @@ define tp::install (
 
   Variant[Undef,String]   $repo             = undef,
 
+  Boolean                 $cli_enable       = true,
   Boolean                 $puppi_enable     = false,
-
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
@@ -153,7 +157,7 @@ define tp::install (
     $package_provider = $settings[package_provider]
   }
 
-  $package_ensure = $ensure ? {
+  $plain_ensure = $ensure ? {
     'absent' => 'absent',
     false    => 'absent',
     default  => 'present',
@@ -206,7 +210,7 @@ define tp::install (
   if $settings[package_name] =~ Array {
     $settings[package_name].each |$pkg| {
       package { $pkg:
-        ensure   => $package_ensure,
+        ensure   => $plain_ensure,
         provider => $package_provider,
       }
     }
@@ -257,7 +261,7 @@ define tp::install (
   }
 
   # Optional test automation integration
-  if $test_enable == true {
+  if $test_enable and $test_template {
     tp::test { $app:
       settings_hash => $settings,
       options_hash  => $options_hash,
@@ -267,11 +271,19 @@ define tp::install (
   }
 
   # Optional puppi integration
-  if $puppi_enable == true {
+  if $puppi_enable {
     tp::puppi { $app:
       settings_hash => $settings,
       data_module   => $data_module,
     }
   }
 
+  # Options cli integration
+  if $cli_enable {
+    file { "/etc/tp/app/${app}":
+      ensure  => $plain_ensure,
+      content => inline_template('<%= @settings.to_yaml %>')
+    }
+    include ::tp
+  }
 }
