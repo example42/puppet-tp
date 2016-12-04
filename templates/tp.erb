@@ -1,4 +1,5 @@
-#!/usr/bin/env ruby
+#!/opt/puppetlabs/puppet/bin/ruby
+
 require 'yaml'
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
@@ -13,7 +14,7 @@ trap("INT") { puts 'Exiting...'; exit }
 
 def usage
   print <<EOF
-  
+
 Usage: tp <action> [app]
 
 Available actions:
@@ -23,7 +24,7 @@ test: Test if the given (or all) application is correctly working
 log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List ALL the applications installable with tp
 
-Applications installed via tp (available for tp test and log actions):  
+Applications installed via tp (available for tp test and log actions):
 EOF
 puts TP_APPS
 end
@@ -39,12 +40,12 @@ end
 def tp_test(app)
   begin
     settings = check_yaml app
-    puts 
+    puts
     puts "### #{app} status"
     if File.exists?(TP_TEST_DIR + "/#{app}")
       system(TP_TEST_DIR + "/#{app}")
       puts "Exit: " + $?.inspect
-      $error_exit = 1 if $? != 0       
+      $error_exit = 1 if $? != 0
     else
       if settings['package_name'] and settings['package_name'] != ""
         system("<%= @options['check_package_command'] %> " + settings['package_name'] + " 2> /dev/null")
@@ -87,16 +88,15 @@ when 'log'
   system("tail -f " + logs.uniq.join(' '))
 
 when 'list'
-  # TODO: Find it
   tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
   puts tinydata_app
 
 when 'install'
   exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true }'")
-   
+
 when 'uninstall'
   exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
-   
+ 
 else
   usage
 
