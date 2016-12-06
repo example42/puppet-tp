@@ -213,7 +213,7 @@ define tp::install (
   if $auto_prerequisites == true
   and $settings[tp_prerequisites] {
     $settings[tp_prerequisites].each | $p | {
-      tp_install($p, { auto_prerequisites => true })
+      tp_install($p, { auto_prerequisites => true , before => Package[$settings[package_name]] })
     }
   }
 
