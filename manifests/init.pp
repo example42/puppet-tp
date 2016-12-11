@@ -2,7 +2,7 @@
 # Class: tp
 #
 # This class provides hiera data entry points to create tp resources
-# and tp commands to interact with applications installed via tp.
+# and tp commands to interact with applications installed via tp.
 # If you don't use them, you don't need to include
 # this class 
 #

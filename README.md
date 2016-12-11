@@ -49,22 +49,24 @@ Tiny Puppet provides the following Puppet user defines:
 
 ## Usage on the command line
 
-Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath to be able to run:
+Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath and install the tp command with:
 
-    puppet tp install <application>
+    puppet tp setup
 
-To install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
-
-In a system, managed by Puppet, where some resources are provided by tp, it's also possible to have the ```tp``` command, with more actions:
+With the tp command you can install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
 
     tp install <application>
     tp uninstall <application>
 
     tp test # Test all the applications installed by tp
-    tp test <application> # Test the specified application
+    tp test <application> # Test the specified application
 
     tp log # Tail all the logs of all the applications installed by tp
-    tp log <application> # Tail the log of the specified application
+    tp log <application> # Tail the log of the specified application
+
+Each of these commands can be inkoed also via the tp puppet face:
+
+    puppet tp <command> <arguments>
 
 
 ## Prerequisites and limitations
@@ -149,9 +151,9 @@ Install custom packages (with the ```settings_hash``` argument you can override 
 Some options are available to manage tp::install automation:
 
     tp::install { 'virtualbox':
-      auto_repo          => true,  # This is the default, settings, if defined in tinydata, it installs the relevant package repository
+      auto_repo          => true,  # This is the default, settings, if defined in tinydata, it installs the relevant package repository
       auto_conf          => true,  # True by default. If defined in tinydata a default configuration is provided
-      auto_prerequisites => false, # False by default. If true eventual package or tp::install dependencies are installed
+      auto_prerequisites => false, # False by default. If true eventual package or tp::install dependencies are installed
     }
 
 Other options are available to manage integrations:
@@ -159,7 +161,7 @@ Other options are available to manage integrations:
     tp::install { 'rabbitmq':
       cli_enable    => true,  # Default value. Installs the tp command on the system and provides the data about the defined application.
       puppi_enable  => false, # Default value. Installs puppi and enables puppet integration
-      test_template => undef, # Default value. If provided, the provided erb template is used as script to test the application (instead of default tests)
+      test_template => undef, # Default value. If provided, the provided erb template is used as script to test the application (instead of default tests)
       options_hash  => {}     # An optional hash where to set variable to use in the test_template.
     }
 
@@ -322,7 +324,7 @@ to install MongoDB using packages from the 3.2 upstream repo, instead of the def
 
 In some cases, where for the given application name there are no packages, the following commands have exactly the same effect:
 
-    tp::install { 'epel': }  # Installs Epel repository on RedHat derivatives. Does nothing on other OS.
+    tp::install { 'epel': }  # Installs Epel repository on RedHat derivatives. Does nothing on other OS.
     tp::repo { 'epel': }     # Same effect of tp::install since no package is actually installed
 
 If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
