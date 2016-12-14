@@ -9,7 +9,7 @@ define tp::dir (
 
   String[1]              $ensure             = 'present',
 
-  Variant[Undef,String]  $source             = undef,
+  Variant[Undef,String,Array] $source        = undef,
   Variant[Undef,String]  $vcsrepo            = undef,
 
   String[1]              $base_dir           = 'config',

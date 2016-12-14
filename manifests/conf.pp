@@ -9,8 +9,8 @@ define tp::conf (
 
   String[1]               $ensure              = present,
 
-  Variant[Undef,String]   $source              = undef,
-  Variant[Undef,String]   $template            = undef,
+  Variant[Undef,String,Array] $source          = undef,
+  Variant[Undef,String,Array] $template        = undef,
   Variant[Undef,String]   $epp                 = undef,
   Variant[Undef,String]   $content             = undef,
 
