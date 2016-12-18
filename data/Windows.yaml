@@ -4,5 +4,5 @@
   tp::tp_owner: 'Administrator'
   tp::tp_group: 'Administrators'
   tp::dir: 'C:/ProgramData/PuppetLabs/puppet/etc/tp'
-  tp::tinydata_dir: 'C:/ProgramData/PuppetLabs/code/environments/production/modules/tinydata/data
+  tp::tinydata_dir: 'C:/ProgramData/PuppetLabs/code/environments/production/modules/tinydata/data'
 

@@ -1,0 +1,4 @@
+---
+  tp::check_package_command: 'rpm -q'
+  tp::check_service_command: 'service'
+  tp::check_service_command_post: 'status'

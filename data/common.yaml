@@ -3,7 +3,7 @@
   tp::ruby_path: '/opt/puppetlabs/puppet/bin/ruby'
   tp::tp_owner: 'root'
   tp::tp_group: 'root'
-  tp::check_service_command: 'puppet resource package'
-  tp::check_package_command: 'puppet resource service'
+  tp::check_service_command: 'puppet resource service'
+  tp::check_package_command: 'puppet resource package'
   tp::tp_dir: /etc/tp
   tp::tinydata_dir: /etc/puppetlabs/code/environments/production/modules/tinydata/data

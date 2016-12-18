@@ -52,7 +52,7 @@ def tp_test(app)
       end
 
       if settings['service_name'] and settings['service_name'] != ""
-        system("<%= @options['check_service_command'] %> " + settings['service_name'])
+        system("<%= @options['check_service_command'] %> " + settings['service_name'] + " <%= @options['check_service_command_post'] %>")
         puts "Exit: " + $?.inspect
         $error_exit = 1 if $? != 0
       end

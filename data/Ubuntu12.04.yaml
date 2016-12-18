@@ -1,0 +1,5 @@
+---
+  tp::check_package_command: 'dpkg -l'
+  tp::check_service_command: 'service'
+  tp::check_service_command_post: 'status'
+
