@@ -7,32 +7,34 @@
 # this class 
 #
 class tp (
+  $tp_path,
+  $tp_owner,
+  $tp_group,
+  $check_service_command,
+  $check_package_command,
+  $tp_dir,
+  $tinydata_dir,
+  $ruby_path,
   $options_hash        = { },
 ) {
 
   $options_defaults = {
     check_timeout          => '10',
-    check_service_command  => $::osfamily ? {
-      default => 'systemctl status',
-    },
-    check_package_command  => $::osfamily ? {
-      'RedHat' => 'rpm -q ',
-      'Debian' => 'dpkg -l ',
-      default  => 'puppet resource package ',
-    },
+    check_service_command  => $check_service_command,
+    check_package_command  => $check_package_command,
   }
   $options = merge($options_defaults,$options_hash)
 
-  file { [ '/etc/tp' , '/etc/tp/app' , '/etc/tp/test' ]:
+  file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
     ensure => directory,
     mode   => '0755',
-    owner  => root,
-    group  => root,
+    owner  => $tp_owner,
+    group  => $tp_group,
   }
 
-  file { '/usr/local/bin/tp':
-    owner   => 'root',
-    group   => 'root',
+  file { $tp_path:
+    owner   => $tp_owner,
+    group   => $tp_group,
     mode    => '0755',
     content => template('tp/tp.erb'),
   }
