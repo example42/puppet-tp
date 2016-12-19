@@ -8,7 +8,8 @@
 [Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application on any Operating System:
 
     puppet module install example42-tp
-    puppet tp install <any_app>
+    puppet tp setup
+    tp install <any_app>
 
 It can be used inside Puppet manifests or directly from the command line.
 
@@ -71,22 +72,7 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 ## Prerequisites and limitations
 
-Tiny Puppet is currently developed and mostly tested on Ruby 1.9.3, it's expected to work on more recent versions and **does not** work on Ruby 1.8.7.
-
-This means that your Puppet Master should run on stock setups on these OS:
-  - Ubuntu 14.04
-  - Debian 7
-  - RedHat 7
-  - CentOS 7
-
-Your clients may run on different Operating Systems and are actually supported in TP data, in fact, to run acceptance tests on other OS a compatible Ruby version is pre-installed in the provisioning of the relevant Vagrant boxes:
-  - Ubuntu 12.04
-  - Debian 6
-  - CentOS 6
-
-Main Tiny Puppet defines **work only on Puppet 4.x**.
-
-Puppet 3.x compatible defines have the ```3``` suffix.
+Main Tiny Puppet defines **work only on Puppet 4.x** but the module provides also Puppet 3.x compatible defines with the ```3``` suffix.
 
 So, for example:
 
