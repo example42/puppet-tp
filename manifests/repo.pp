@@ -14,6 +14,7 @@ define tp::repo (
   Variant[Undef,String[1]]  $repo_url            = undef,
   Variant[Undef,String[1]]  $key_url             = undef,
   Variant[Undef,String[1]]  $key                 = undef,
+  Boolean                   $include_src         = false,
 
   Variant[Undef,Integer]    $yum_priority        = undef,
   Variant[Undef,String[1],Boolean] $yum_gpgcheck        = undef,
@@ -24,7 +25,8 @@ define tp::repo (
   Variant[Undef,String[1]] $apt_release         = undef,
   Variant[Undef,String[1]] $apt_repos           = undef,
   Variant[Undef,String[1]] $apt_pin             = undef,
-  Boolean                  $apt_include_src     = false,
+
+  Variant[Undef,String[1]] $zypper_repofile_url = undef,
 
   Boolean                  $debug               = false,
   String[1]                $debug_dir           = '/tmp',
@@ -41,14 +43,15 @@ define tp::repo (
     repo_url            => $repo_url,
     key_url             => $key_url,
     key                 => $key,
+    include_src         => $include_src,
     apt_key_server      => $apt_key_server,
     apt_key_fingerprint => $apt_key_fingerprint,
     apt_release         => $apt_release,
+    apt_repos           => $apt_repos,
+    apt_pin             => $apt_pin,
     yum_priority        => $yum_priority,
     yum_mirrorlist      => $yum_mirrorlist,
-    apt_repos           => $apt_repos,
-    apt_include_src     => $apt_include_src,
-    apt_pin             => $apt_pin,
+    zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
   $settings = $tp_settings + $user_settings_clean
@@ -65,8 +68,8 @@ define tp::repo (
   # Resources
   case $::osfamily {
     'Suse': {
-      if !empty($settings[repo_file]) {
-        $zypper_command = "zypper -n addrepo ${settings[repo_file]}"
+      if !empty($settings[zypper_repofile_url]) {
+        $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
         $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
       } else {
         $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
