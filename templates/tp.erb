@@ -1,0 +1,108 @@
+#!/opt/puppetlabs/puppet/bin/ruby
+
+require 'yaml'
+$action = ARGV[0] ? ARGV[0] : 'none'
+app = ARGV[1] ? ARGV[1] : 'all'
+
+TP_APP_DIR = '/etc/tp/app'
+TP_TEST_DIR = '/etc/tp/test'
+TINYDATA_DIR = '/etc/puppetlabs/code/environments/production/modules/tinydata/data' # TODO
+TP_APPS = Dir.entries('/etc/tp/app/').reject { |f| File.directory?(f) }
+
+# Trap CTRL+C cleanly (in tp log)
+trap("INT") { puts 'Exiting...'; exit }
+
+def usage
+  print <<EOF
+
+Usage: tp <action> [app]
+
+Available actions:
+install: Install the given app with tp (relevant tinydata must be available)
+uninstall: Uninstall the given application with tp
+test: Test if the given (or all) application is correctly working
+log: Tail the logs of the given (or all) application (CTRL+C to exit)
+list: List ALL the applications installable with tp
+
+Applications installed via tp (available for tp test and log actions):
+EOF
+puts TP_APPS
+end
+
+def check_yaml(app)
+  begin
+    result = YAML.load_file(TP_APP_DIR + "/#{app}")
+  rescue
+    raise ArgumentError.new(TP_APP_DIR + "/#{app} not found")
+  end
+end
+
+def tp_test(app)
+  begin
+    settings = check_yaml app
+    puts
+    puts "### #{app} status"
+    if File.exists?(TP_TEST_DIR + "/#{app}")
+      system(TP_TEST_DIR + "/#{app}")
+      puts "Exit: " + $?.inspect
+      $error_exit = 1 if $? != 0
+    else
+      if settings['package_name'] and settings['package_name'] != ""
+        system("<%= @options['check_package_command'] %> " + settings['package_name'] + " 2> /dev/null")
+      end
+
+      if settings['service_name'] and settings['service_name'] != ""
+        system("<%= @options['check_service_command'] %> " + settings['service_name'])
+        puts "Exit: " + $?.inspect
+        $error_exit = 1 if $? != 0
+      end
+    end
+  rescue
+    raise ArgumentError.new("#{app} not found in " + TP_APP_DIR)
+  end
+end
+
+case $action
+when 'test'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_test", a)
+    end
+  else
+    app.send("tp_test", app)
+  end
+  if $error_exit == 0
+    puts "\n\e[32m# TEST PASSED #\e[0m\n"
+  else
+    puts "\n\e[41m# TEST ERROR #\e[0m\n"
+  end
+  exit($error_exit)
+
+when 'log'
+  logs = []
+  if app == 'all'
+    TP_APPS.each do |f|
+      settings = check_yaml f
+      logs << settings['log_file_path']
+    end
+  else
+    settings = check_yaml app
+    logs << settings['log_file_path']
+  end
+  system("tail -f " + logs.uniq.join(' '))
+
+when 'list'
+  tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
+  puts tinydata_app
+
+when 'install'
+  exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true }'")
+
+when 'uninstall'
+  exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
+ 
+else
+  usage
+
+end
