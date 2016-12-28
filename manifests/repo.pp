@@ -7,6 +7,8 @@ define tp::repo (
 
   Boolean                   $enabled             = true,
 
+  Variant[Undef,String]     $repo                = undef,
+
   String[1]                 $description         = "${title} repository",
 
   Variant[Undef,String[1]]  $repo_url            = undef,
@@ -31,11 +33,6 @@ define tp::repo (
 
 ) {
 
-  # Parameters validation
-  validate_bool($enabled)
-  validate_bool($debug)
-
-
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
@@ -50,7 +47,6 @@ define tp::repo (
     yum_priority        => $yum_priority,
     yum_mirrorlist      => $yum_mirrorlist,
     apt_repos           => $apt_repos,
-    apt_release         => $apt_release,
     apt_include_src     => $apt_include_src,
     apt_pin             => $apt_pin,
   }
@@ -68,6 +64,24 @@ define tp::repo (
 
   # Resources
   case $::osfamily {
+    'Suse': {
+      if !defined(Exec["zypper_addrepo_$title"]) {
+        exec { "zypper_addrepo_$title":
+          command => "zypper -n addrepo ${settings['repo_url']} ${settings['repo_name']}",
+          unless  => "zypper repos  | grep ${settings['repo_name']}",
+          notify  => Exec['zypper refresh '],
+          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+        }
+      }
+      if !defined(Exec['zypper refresh']) {
+        exec { 'zypper refresh':
+          command     => 'zypper refresh',
+          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+          logoutput   => false,
+          refreshonly => true,
+        }
+      }
+    }
     'RedHat': {
       if !defined(Yumrepo[$title]) {
         yumrepo { $title:
