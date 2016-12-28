@@ -64,6 +64,24 @@ define tp::repo (
 
   # Resources
   case $::osfamily {
+    'Suse': {
+      if !defined(Exec["zypper_addrepo_$title"]) {
+        exec { "zypper_addrepo_$title":
+          command => "zypper -n addrepo ${settings['repo_url']} ${settings['repo_name']}",
+          unless  => "zypper repos  | grep ${settings['repo_name']}",
+          notify  => Exec['zypper refresh '],
+          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+        }
+      }
+      if !defined(Exec['zypper refresh']) {
+        exec { 'zypper refresh':
+          command     => 'zypper refresh',
+          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+          logoutput   => false,
+          refreshonly => true,
+        }
+      }
+    }
     'RedHat': {
       if !defined(Yumrepo[$title]) {
         yumrepo { $title:
