@@ -65,11 +65,18 @@ define tp::repo (
   # Resources
   case $::osfamily {
     'Suse': {
-      if !defined(Exec["zypper_addrepo_$title"]) {
-        exec { "zypper_addrepo_$title":
-          command => "zypper -n addrepo ${settings['repo_url']} ${settings['repo_name']}",
-          unless  => "zypper repos  | grep ${settings['repo_name']}",
-          notify  => Exec['zypper refresh '],
+      if !empty($settings[repo_file]) {
+        $zypper_command = "zypper -n addrepo ${settings[repo_file]}"
+        $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
+      } else {
+        $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
+        $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
+      }
+      if !defined(Exec["zypper_addrepo_${title}"]) {
+        exec { "zypper_addrepo_${title}":
+          command => $zypper_command,
+          unless  => $zypper_unless,
+          notify  => Exec['zypper refresh'],
           path    => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
       }
@@ -163,35 +170,10 @@ define tp::repo (
 
   # Debugging
   if $debug == true {
-
-    $debug_file_params = "
-      yumrepo { ${title}:
-        enabled        => ${enabled_num},
-        descr          => ${description},
-        baseurl        => ${settings[repo_url]},
-        gpgcheck       => ${manage_yum_gpgcheck},
-        gpgkey         => ${settings[key_url]},
-        priority       => ${settings[yum_priority]},
-      }
-
-      apt::source { ${title}:
-        ensure     => ${ensure},
-        comment    => ${description},
-        location   => ${settings[repo_url]},
-        key        => ${settings[key]},
-        key_source => ${settings[key_url]},
-        key_server => ${settings[apt_key_server]},
-        repos      => ${settings[apt_repos]},
-        release    => ${settings[apt_release]},
-        pin        => ${settings[apt_pin]},
-      }
-    "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}"
-
     file { "tp_repo_debug_${title}":
       ensure  => present,
-      content => $manage_debug_content,
+      content => $debug_scope,
       path    => "${debug_dir}/tp_repo_debug_${title}",
     }
   }
