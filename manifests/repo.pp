@@ -14,6 +14,7 @@ define tp::repo (
   Variant[Undef,String[1]]  $repo_url            = undef,
   Variant[Undef,String[1]]  $key_url             = undef,
   Variant[Undef,String[1]]  $key                 = undef,
+  Boolean                   $include_src         = false,
 
   Variant[Undef,Integer]    $yum_priority        = undef,
   Variant[Undef,String[1],Boolean] $yum_gpgcheck        = undef,
@@ -24,7 +25,8 @@ define tp::repo (
   Variant[Undef,String[1]] $apt_release         = undef,
   Variant[Undef,String[1]] $apt_repos           = undef,
   Variant[Undef,String[1]] $apt_pin             = undef,
-  Boolean                  $apt_include_src     = false,
+
+  Variant[Undef,String[1]] $zypper_repofile_url = undef,
 
   Boolean                  $debug               = false,
   String[1]                $debug_dir           = '/tmp',
@@ -41,14 +43,15 @@ define tp::repo (
     repo_url            => $repo_url,
     key_url             => $key_url,
     key                 => $key,
+    include_src         => $include_src,
     apt_key_server      => $apt_key_server,
     apt_key_fingerprint => $apt_key_fingerprint,
     apt_release         => $apt_release,
+    apt_repos           => $apt_repos,
+    apt_pin             => $apt_pin,
     yum_priority        => $yum_priority,
     yum_mirrorlist      => $yum_mirrorlist,
-    apt_repos           => $apt_repos,
-    apt_include_src     => $apt_include_src,
-    apt_pin             => $apt_pin,
+    zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
   $settings = $tp_settings + $user_settings_clean
@@ -64,6 +67,31 @@ define tp::repo (
 
   # Resources
   case $::osfamily {
+    'Suse': {
+      if !empty($settings[zypper_repofile_url]) {
+        $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
+        $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
+      } else {
+        $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
+        $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
+      }
+      if !defined(Exec["zypper_addrepo_${title}"]) {
+        exec { "zypper_addrepo_${title}":
+          command => $zypper_command,
+          unless  => $zypper_unless,
+          notify  => Exec['zypper refresh'],
+          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+        }
+      }
+      if !defined(Exec['zypper refresh']) {
+        exec { 'zypper refresh':
+          command     => 'zypper refresh',
+          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+          logoutput   => false,
+          refreshonly => true,
+        }
+      }
+    }
     'RedHat': {
       if !defined(Yumrepo[$title]) {
         yumrepo { $title:
@@ -145,35 +173,10 @@ define tp::repo (
 
   # Debugging
   if $debug == true {
-
-    $debug_file_params = "
-      yumrepo { ${title}:
-        enabled        => ${enabled_num},
-        descr          => ${description},
-        baseurl        => ${settings[repo_url]},
-        gpgcheck       => ${manage_yum_gpgcheck},
-        gpgkey         => ${settings[key_url]},
-        priority       => ${settings[yum_priority]},
-      }
-
-      apt::source { ${title}:
-        ensure     => ${ensure},
-        comment    => ${description},
-        location   => ${settings[repo_url]},
-        key        => ${settings[key]},
-        key_source => ${settings[key_url]},
-        key_server => ${settings[apt_key_server]},
-        repos      => ${settings[apt_repos]},
-        release    => ${settings[apt_release]},
-        pin        => ${settings[apt_pin]},
-      }
-    "
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}"
-
     file { "tp_repo_debug_${title}":
       ensure  => present,
-      content => $manage_debug_content,
+      content => $debug_scope,
       path    => "${debug_dir}/tp_repo_debug_${title}",
     }
   }

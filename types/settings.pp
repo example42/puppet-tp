@@ -42,4 +42,20 @@ type Tp::Settings = Struct[{
 
   Optional[package_prerequisites] => Array,
   Optional[tp_prerequisites] => Array,
+
+  Optional[repo_url] => String,
+  Optional[repo_namel] => String,
+  Optional[key] => String,
+  Optional[key_url]=> String,
+  Optional[include_src] => String,
+
+  Optional[apt_repos] => String,
+  Optional[apt_key_server] => String,
+  Optional[apt_key_fingerprint] => String,
+  Optional[apt_release] => String,
+  Optional[apt_pin] => String,
+  Optional[yum_priority] => String,
+  Optional[yum_mirrorlist] => String,
+  Optional[zypper_repofile_url] => String,
+
 }]
