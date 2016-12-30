@@ -19,6 +19,7 @@ define tp::test (
   String[1]               $base_dir            = '/etc/tp/test',
 
   Boolean                 $verbose             = false,
+  Boolean                 $cli_enable          = false,
 
   ) {
 
@@ -51,13 +52,23 @@ define tp::test (
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
-  file { "${base_dir}/${title}":
-    ensure  => $ensure,
-    mode    => '0755',
-    owner   => root,
-    group   => root,
-    content => template($template),
-    tag     => 'tp_test',
+  if $template != '' {
+    file { "${base_dir}/${title}":
+      ensure  => $ensure,
+      mode    => '0755',
+      owner   => root,
+      group   => root,
+      content => template($template),
+      tag     => 'tp_test',
+    }
   }
 
+  # Options cli integration
+  if $cli_enable {
+    file { "/etc/tp/app/${title}":
+      ensure  => $plain_ensure,
+      content => inline_template('<%= @settings.to_yaml %>'),
+    }
+    include ::tp
+  }
 }

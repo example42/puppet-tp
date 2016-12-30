@@ -44,8 +44,13 @@ def tp_test(app)
     puts "### #{app} status"
     if File.exists?(TP_TEST_DIR + "/#{app}")
       system(TP_TEST_DIR + "/#{app}")
-      puts "Exit: " + $?.inspect
-      $error_exit = 1 if $? != 0
+      result = $?
+      if result == 0
+        puts "\e[32m# Test #{app}: OK \e[0m\n"
+      else
+        puts "\e[41m# Test #{app}: ERROR #\e[0m\n"
+      end
+      $error_exit = 1 if result != 0
     else
       if settings['package_name'] and settings['package_name'] != ""
         system("<%= @options['check_package_command'] %> " + settings['package_name'] + " 2> /dev/null")
@@ -53,8 +58,13 @@ def tp_test(app)
 
       if settings['service_name'] and settings['service_name'] != ""
         system("<%= @options['check_service_command'] %> " + settings['service_name'] + " <%= @options['check_service_command_post'] %>")
-        puts "Exit: " + $?.inspect
-        $error_exit = 1 if $? != 0
+        result = $?
+        if result == 0
+          puts "\e[32m# Test #{app}: OK \e[0m\n"
+        else
+          puts "\e[41m# Test #{app}: ERROR #\e[0m\n"
+        end
+        $error_exit = 1 if result != 0
       end
     end
   rescue
@@ -73,9 +83,9 @@ when 'test'
     app.send("tp_test", app)
   end
   if $error_exit == 0
-    puts "\n\e[32m# TEST PASSED #\e[0m\n"
+    puts "\n\e[32m### ALL TESTS PASSED ###\e[0m\n"
   else
-    puts "\n\e[41m# TEST ERROR #\e[0m\n"
+    puts "\n\e[41m### SOME TESTS FAILED ###\e[0m\n"
   end
   exit($error_exit)
 
