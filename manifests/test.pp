@@ -66,7 +66,7 @@ define tp::test (
   # Options cli integration
   if $cli_enable {
     file { "/etc/tp/app/${title}":
-      ensure  => $plain_ensure,
+      ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
     include ::tp
