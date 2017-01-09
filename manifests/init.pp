@@ -53,7 +53,9 @@ class tp (
   $files        = hiera_hash('tp::files' , {} )
 
   if $install_hash != {} {
-    create_resources('tp::install', $install_hash )
+    $install_hash.each |$k,$v| {
+      tp_install($k,$v)
+    }
   }
   if $conf_hash != {} {
     create_resources('tp::conf', $conf_hash )

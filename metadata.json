@@ -1,6 +1,6 @@
 {
   "name": "example42-tp",
-  "version": "1.3.9",
+  "version": "1.3.11",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi",
@@ -44,6 +44,14 @@
       "operatingsystemrelease": [
         "11 SP1",
         "12"
+      ]
+    },
+    {
+      "operatingsystem": "CumulusLinux",
+      "operatingsystemrelease": [
+        "3.0.0",
+        "3.1.0",
+        "3.2.0"
       ]
     },
     {
