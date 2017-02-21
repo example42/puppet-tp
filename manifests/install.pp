@@ -203,22 +203,34 @@ define tp::install (
   }
 
 
-  # Automatic tp dependencies management, if data defined
-  if $auto_prerequisites == true
-  and $settings[package_prerequisites] {
+  # Automatic dependencies management, if data defined
+  if $auto_prerequisites == true and $settings[package_prerequisites] {
     $settings[package_prerequisites].each | $p | {
       Package[$p] -> Package[$settings[package_name]]
       ensure_packages($p)
     }
   }
-  if $auto_prerequisites == true
-  and $settings[tp_prerequisites] {
+  if $auto_prerequisites == true and $settings[tp_prerequisites] {
     $settings[tp_prerequisites].each | $p | {
       Tp::Install[$p] -> Package[$settings[package_name]]
       tp_install($p, { auto_prerequisites => true })
     }
   }
-
+  if $auto_prerequisites == true and $settings[exec_prerequisites] {
+    $settings[exec_prerequisites].each | $k , $v | {
+      Exec[$k] -> Package[$settings[package_name]]
+      exec { $k:
+        * => $v,
+      }
+    }
+  }
+  if $auto_prerequisites == true and $settings[repo_package_url] {
+    package { "${settings[package_name]}-release":
+      source   => $settings[repo_package_url],
+      provider => $settings[repo_package_provider],
+      before   => Package[$settings[package_name]],
+    }
+  }
 
   # Resources
   if $settings[package_name] =~ Array {
