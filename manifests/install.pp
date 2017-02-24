@@ -224,11 +224,13 @@ define tp::install (
       }
     }
   }
-  if $auto_prerequisites == true and $settings[repo_package_url] {
-    package { "${settings[package_name]}-release":
-      source   => $settings[repo_package_url],
-      provider => $settings[repo_package_provider],
-      before   => Package[$settings[package_name]],
+  if $auto_prerequisites == true and $settings[repo_package_url] and $settings[repo_package_name] {
+    if ! defined(Package[$settings[repo_package_name]]) {
+      package { $settings[repo_package_name]:
+        source   => $settings[repo_package_url],
+        provider => $settings[repo_package_provider],
+        before   => Package[$settings[package_name]],
+      }
     }
   }
 
