@@ -43,6 +43,7 @@ type Tp::Settings = Struct[{
   Optional[package_prerequisites] => Array,
   Optional[tp_prerequisites] => Array,
   Optional[exec_prerequisites] => Hash,
+  Optional[exec_postinstall] => Hash,
 
   Optional[repo_package_url] => String,
   Optional[repo_package_provider] => String,

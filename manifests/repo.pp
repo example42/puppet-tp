@@ -93,7 +93,8 @@ define tp::repo (
       }
     }
     'RedHat': {
-      if !defined(Yumrepo[$title]) {
+      if !defined(Yumrepo[$title])
+      and ( $settings[repo_url] or $settings[yum_mirrorlist] ){
         yumrepo { $title:
           enabled    => $enabled_num,
           descr      => $description,
@@ -170,8 +171,17 @@ define tp::repo (
     }
   }
 
+  # Install repo via release package, if tinydata present
+  if $settings[repo_package_url] and $settings[repo_package_name] {
+    if ! defined(Package[$settings[repo_package_name]]) {
+      package { $settings[repo_package_name]:
+        source   => $settings[repo_package_url],
+        provider => $settings[repo_package_provider],
+        before   => Package[$settings[package_name]],
+      }
+    }
+  }
 
-  # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_repo_debug_${title}":

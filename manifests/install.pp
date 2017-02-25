@@ -128,6 +128,9 @@ define tp::install (
 
   Variant[Undef,String]   $repo             = undef,
 
+  Boolean                 $manage_package   = true,
+  Boolean                 $manage_service   = true,
+
   Boolean                 $cli_enable       = true,
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
@@ -145,7 +148,8 @@ define tp::install (
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
-  if $settings[package_name] == Variant[Undef,String[0]] {
+  if $settings[package_name] == Variant[Undef,String[0]]
+  or $manage_package == false {
     $service_require = undef
   } else {
     $service_require = Package[$settings[package_name]]
@@ -187,8 +191,7 @@ define tp::install (
 
   # Automatic repo management
   if $auto_repo == true
-  and $settings[repo_url]
-  or $settings[yum_mirrorlist] {
+  and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
@@ -204,19 +207,19 @@ define tp::install (
 
 
   # Automatic dependencies management, if data defined
-  if $auto_prerequisites == true and $settings[package_prerequisites] {
+  if $auto_prerequisites and $settings[package_prerequisites] {
     $settings[package_prerequisites].each | $p | {
       Package[$p] -> Package[$settings[package_name]]
       ensure_packages($p)
     }
   }
-  if $auto_prerequisites == true and $settings[tp_prerequisites] {
+  if $auto_prerequisites and $settings[tp_prerequisites] {
     $settings[tp_prerequisites].each | $p | {
       Tp::Install[$p] -> Package[$settings[package_name]]
       tp_install($p, { auto_prerequisites => true })
     }
   }
-  if $auto_prerequisites == true and $settings[exec_prerequisites] {
+  if $auto_prerequisites and $settings[exec_prerequisites] {
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
@@ -224,18 +227,18 @@ define tp::install (
       }
     }
   }
-  if $auto_prerequisites == true and $settings[repo_package_url] and $settings[repo_package_name] {
-    if ! defined(Package[$settings[repo_package_name]]) {
-      package { $settings[repo_package_name]:
-        source   => $settings[repo_package_url],
-        provider => $settings[repo_package_provider],
-        before   => Package[$settings[package_name]],
+  if $auto_prerequisites and $settings[exec_postinstall] {
+    $settings[exec_postinstall].each | $k , $v | {
+      Package[$settings[package_name]] -> Exec[$k]
+      exec { $k:
+        * => $v,
       }
     }
   }
 
+
   # Resources
-  if $settings[package_name] =~ Array {
+  if $settings[package_name] =~ Array and $manage_package {
     $settings[package_name].each |$pkg| {
       package { $pkg:
         ensure   => $plain_ensure,
@@ -243,7 +246,7 @@ define tp::install (
       }
     }
   }
-  if $settings[package_name] =~ String[1] {
+  if $settings[package_name] =~ String[1] and $manage_package {
     package { $settings[package_name]:
       ensure          => $ensure,
       provider        => $package_provider,
@@ -252,7 +255,7 @@ define tp::install (
     }
   }
 
-  if $settings[service_name] {
+  if $settings[service_name] and $manage_service {
     $services_array=any2array($settings[service_name])
     $services_array.each |$svc| {
       service { $svc:
