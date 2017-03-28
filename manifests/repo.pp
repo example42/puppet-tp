@@ -110,7 +110,7 @@ define tp::repo (
     'Debian': {
       if !defined(Exec['tp_apt_update'])
       and $settings[package_name] =~ String[0]
-      and is_string($settings[key]) {
+      and !empty($settings[key]) {
         exec { 'tp_apt_update':
           command     => '/usr/bin/apt-get -qq update',
           path        => '/bin:/sbin:/usr/bin:/usr/sbin',
@@ -119,10 +119,10 @@ define tp::repo (
         }
       }
 
-      if is_string($settings[package_name])
+      if !empty($settings[package_name])
       and $settings[package_name] != ''
       and $settings[package_name] != undef
-      and is_string($settings[key]) {
+      and !empty($settings[key]) {
         Exec['tp_apt_update'] -> Package[$settings[package_name]]
       }
 
