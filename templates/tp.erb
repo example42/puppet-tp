@@ -6,7 +6,12 @@ app = ARGV[1] ? ARGV[1] : 'all'
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
-TINYDATA_DIR = '<%= @tinydata_dir %>'
+if Dir.exist?('/etc/puppetlabs/code/environments/production/modules/tinydata/data')
+  TINYDATA_DIR = '/etc/puppetlabs/code/environments/production/modules/tinydata/data'
+else
+  TINYDATA_DIR = '/etc/puppetlabs/code/modules/tinydata/data'
+end
+
 TP_APPS = Dir.entries(TP_APP_DIR).reject { |f| File.directory?(f) }
 
 # Trap CTRL+C cleanly (in tp log)

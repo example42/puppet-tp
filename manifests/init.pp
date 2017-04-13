@@ -13,7 +13,6 @@ class tp (
   $check_service_command,
   $check_package_command,
   $tp_dir,
-  $tinydata_dir,
   $ruby_path,
   $options_hash        = { },
 ) {
