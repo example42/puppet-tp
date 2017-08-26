@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'tp::conf', :type => :define do
-
   context 'with redis defaults' do
     let(:title) { 'redis' }
 #    it { should compile }

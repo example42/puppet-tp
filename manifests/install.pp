@@ -272,9 +272,11 @@ define tp::install (
     'settings_hash' => $settings,
     'options_hash'  => $options_hash,
   }
-  $conf_hash.each |$k,$v| {
-    tp::conf { $k:
-      * => $conf_defaults + $v,
+  if $conf_hash != {} {
+    $conf_hash.each |$k,$v| {
+      tp::conf { $k:
+        * => $conf_defaults + $v,
+      }
     }
   }
 
@@ -283,9 +285,11 @@ define tp::install (
     'ensure'        => $ensure,
     'settings_hash' => $settings,
   }
-  $dir_hash.each |$k,$v| {
-    tp::dir { $k:
-      * => $dir_defaults + $v,
+  if $dir_hash != {} {
+    $dir_hash.each |$k,$v| {
+      tp::dir { $k:
+        * => $dir_defaults + $v,
+      }
     }
   }
 

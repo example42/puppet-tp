@@ -47,12 +47,13 @@ define tp::conf (
     $repo = getparam(Tp::Install[$app],'repo')
   }
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
-  $settings = $tp_settings + $settings_hash
+  # $settings = $tp_settings + $settings_hash
+  $settings = $tp_settings 
 
   $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
   $options = $tp_options + $options_hash
 
-  if $file {
+  if $file and $file != '' {
     $real_dir = $settings["${base_dir}_dir_path"]
     $auto_path = $base_file ? {
       'config' => "${real_dir}/${file}",
@@ -61,12 +62,12 @@ define tp::conf (
   } else {
     $auto_path = $settings["${base_file}_file_path"]
   }
-  $real_path      = tp_pick($path, $auto_path)
+  $real_path      = pick($path, $auto_path)
   $manage_path    = "${path_prefix}${real_path}"
   $manage_content = tp_content($content, $template, $epp)
-  $manage_mode    = tp_pick($mode, $settings[config_file_mode])
-  $manage_owner   = tp_pick($owner, $settings[config_file_owner])
-  $manage_group   = tp_pick($group, $settings[config_file_group])
+  $manage_mode    = pick($mode, $settings[config_file_mode])
+  $manage_owner   = pick($owner, $settings[config_file_owner])
+  $manage_group   = pick($group, $settings[config_file_group])
 
   # Set require if package_name is present
   if $settings[package_name] and $settings[package_name] != '' {
@@ -114,32 +115,6 @@ define tp::conf (
     group   => $manage_group,
     require => $manage_require,
     notify  => $manage_notify,
-  }
-
-
-  # Debugging
-  if $debug == true {
-    $debug_file_params = "
-    file { 'tp_conf_${manage_path}':
-      ensure  => ${ensure},
-      source  => ${source},
-      content => ${manage_content},
-      path    => ${manage_path},
-      mode    => ${manage_mode},
-      owner   => ${manage_owner},
-      group   => ${manage_group},
-      require => ${manage_require},
-      notify  => ${manage_notify},
-    }
-    "
-    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    $manage_debug_content = "RESOURCE:\n${debug_file_params} \n\nSCOPE:\n${debug_scope}"
-
-    file { "tp_conf_debug_${title}":
-      ensure  => present,
-      content => $manage_debug_content,
-      path    => "${debug_dir}/tp_conf_debug_${title}",
-    }
   }
 
 }
