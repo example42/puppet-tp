@@ -1,8 +1,20 @@
 ---
-  tp::tp_path: '/usr/local/bin/tp'
-  tp::ruby_path: '/opt/puppetlabs/puppet/bin/ruby'
-  tp::tp_owner: 'root'
-  tp::tp_group: 'root'
-  tp::check_service_command: 'puppet resource service'
-  tp::check_package_command: 'puppet resource package'
-  tp::tp_dir: /etc/tp
+tp::tp_path: '/usr/local/bin/tp'
+tp::ruby_path: '/opt/puppetlabs/puppet/bin/ruby'
+tp::tp_owner: 'root'
+tp::tp_group: 'root'
+tp::check_service_command: 'puppet resource service'
+tp::check_package_command: 'puppet resource package'
+tp::tp_dir: /etc/tp
+
+# Special lookup options
+lookup_options:
+  "^tp::(.*)_hash$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+  "^tp::(.*)::(.*)_hash$":
+    merge:
+      strategy: deep
+      knockout_prefix: "--"
+

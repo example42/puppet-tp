@@ -15,6 +15,15 @@ class tp (
   $tp_dir,
   $ruby_path,
   $options_hash        = { },
+
+  $install_hash = {},
+  $conf_hash    = {},
+  $dir_hash     = {},
+  $concat_hash  = {},
+  $stdmod_hash  = {},
+  $puppi_hash   = {},
+  $repo_hash    = {},
+
 ) {
 
   $options_defaults = {
@@ -22,7 +31,7 @@ class tp (
     check_service_command  => $check_service_command,
     check_package_command  => $check_package_command,
   }
-  $options = merge($options_defaults,$options_hash)
+  $options = $options_defaults + $options_hash
 
   file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
     ensure => directory,
@@ -38,50 +47,34 @@ class tp (
     content => template('tp/tp.erb'),
   }
 
-  # Hiera lookup to tp parameters
-  $install_hash = hiera_hash('tp::install_hash' , {} )
-  $conf_hash    = hiera_hash('tp::conf_hash' , {} )
-  $dir_hash     = hiera_hash('tp::dir_hash' , {} )
-  $concat_hash  = hiera_hash('tp::concat_hash' , {} )
-  $stdmod_hash  = hiera_hash('tp::stdmod_hash' , {} )
-  $puppi_hash   = hiera_hash('tp::puppi_hash' , {} )
-  $repo_hash    = hiera_hash('tp::repo_hash' , {} )
-
-  $packages     = hiera_hash('tp::packages' , {} )
-  $services     = hiera_hash('tp::services' , {} )
-  $files        = hiera_hash('tp::files' , {} )
-
-  if $install_hash != {} {
-    $install_hash.each |$k,$v| {
-      tp_install($k,$v)
+  $install_hash.each |$k,$v| {
+    tp_install($k,$v)
+  }
+  
+  $conf_hash.each |$k,$v| {
+    tp::conf { $k,
+      * => $v,
     }
   }
-  if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash )
+  $dir_hash.each |$k,$v| {
+    tp::dir { $k,
+      * => $v,
+    }
   }
-  if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash )
+  $concat_hash.each |$k,$v| {
+    tp::concat { $k,
+      * => $v,
+    }
   }
-  if $concat_hash != {} {
-    create_resources('tp::concat', $concat_hash )
+  $stdmod_hash.each |$k,$v| {
+    tp::stdmod { $k,
+      * => $v,
+    }
   }
-  if $stdmod_hash != {} {
-    create_resources('tp::stdmod', $stdmod_hash )
-  }
-  if $puppi_hash != {} {
-    create_resources('tp::puppi', $puppi_hash )
-  }
-  if $repo_hash != {} {
-    create_resources('tp::repo', $repo_hash )
-  }
-  if $packages != {} {
-    create_resources('package', $packages )
-  }
-  if $services != {} {
-    create_resources('service', $services )
-  }
-  if $files != {} {
-    create_resources('file', $files )
+  $repo_hash.each |$k,$v| {
+    tp::repo { $k,
+      * => $v,
+    }
   }
 
 }
