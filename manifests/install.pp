@@ -70,7 +70,7 @@
 #   Boolean to enable automatic package repo management for the specified
 #   application. Repo data is not always provided.
 #
-# @param auto_prerequisites        Default: false
+# @param auto_prereq               Default: false
 #   Boolean to enable automatic management of prerequisite dependencies
 #   required for the installation of the application. If they are defined in
 #   tp data.
@@ -102,11 +102,8 @@
 #   by the tp::test define. It requires test_enable = true
 #
 # @param debug                     Default: false,
-#   If set to true it prints debug information for tp into the directory set in
-#   debug_dir
-#
-# @param debug_dir                 Default: '/tmp',
-#   The directory where tp stoes dbug info, when enabled
+#   If set to true it calls the debug() function
+#   Needs nwops/puppet-debug module
 #
 # @param data_module               Default: 'tinydata'
 #   Name of the module where tp data is looked for
@@ -124,7 +121,8 @@ define tp::install (
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
-  Boolean                 $auto_prerequisites = false,
+  Optional[Boolean]       $auto_prerequisites = undef,
+  Boolean                 $auto_prereq      = false,
 
   Variant[Undef,String]   $repo             = undef,
 
@@ -137,7 +135,6 @@ define tp::install (
   Variant[Undef,String]   $test_template    = undef,
 
   Boolean                 $debug            = false,
-  String[1]               $debug_dir        = '/tmp',
 
   String[1]               $data_module      = 'tinydata',
 
@@ -205,21 +202,24 @@ define tp::install (
     }
   }
 
+  if $auto_prerequisites {
+    deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
+  }
 
   # Automatic dependencies management, if data defined
-  if $auto_prerequisites and $settings[package_prerequisites] {
+  if $auto_prereq and $settings[package_prerequisites] {
     $settings[package_prerequisites].each | $p | {
       Package[$p] -> Package[$settings[package_name]]
       ensure_packages($p)
     }
   }
-  if $auto_prerequisites and $settings[tp_prerequisites] {
+  if $auto_prereq and $settings[tp_prerequisites] {
     $settings[tp_prerequisites].each | $p | {
       Tp::Install[$p] -> Package[$settings[package_name]]
-      tp_install($p, { auto_prerequisites => true })
+      tp_install($p, { auto_prereq => true })
     }
   }
-  if $auto_prerequisites and $settings[exec_prerequisites] {
+  if $auto_prereq and $settings[exec_prerequisites] {
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
@@ -227,7 +227,7 @@ define tp::install (
       }
     }
   }
-  if $auto_prerequisites and $settings[exec_postinstall] {
+  if $auto_prereq and $settings[exec_postinstall] {
     $settings[exec_postinstall].each | $k , $v | {
       Package[$settings[package_name]] -> Exec[$k]
       exec { $k:
@@ -266,17 +266,30 @@ define tp::install (
     }
   }
 
-  $resources_defaults = {
+  # Manage additional tp::conf as in conf_hash
+  $conf_defaults = {
+    'ensure'        => $ensure,
     'settings_hash' => $settings,
     'options_hash'  => $options_hash,
   }
-  if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash, $resources_defaults )
-  }
-  if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash, $resources_defaults )
+  $conf_hash.each |$k,$v| {
+    tp::conf { $k:
+      * => $conf_defaults + $v,
+    }
   }
 
+  # Manage additional tp::dir as in dir_hash
+  $dir_defaults = {
+    'ensure'        => $ensure,
+    'settings_hash' => $settings,
+  }
+  $dir_hash.each |$k,$v| {
+    tp::dir { $k:
+      * => $dir_defaults + $v,
+    }
+  }
+
+  # Auto manage config files if present
   if $auto_conf and $settings['config_file_template'] {
     ::tp::conf { $app:
       template     => $settings['config_file_template'],

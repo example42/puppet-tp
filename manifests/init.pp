@@ -7,22 +7,22 @@
 # this class 
 #
 class tp (
-  $tp_path,
-  $tp_owner,
-  $tp_group,
-  $check_service_command,
-  $check_package_command,
-  $tp_dir,
-  $ruby_path,
-  $options_hash        = { },
+  String $tp_path,
+  String $tp_owner,
+  String $tp_group,
+  String $check_service_command,
+  String $check_package_command,
+  String $tp_dir,
+  String $ruby_path,
+  Hash $options_hash = { },
 
-  $install_hash = {},
-  $conf_hash    = {},
-  $dir_hash     = {},
-  $concat_hash  = {},
-  $stdmod_hash  = {},
-  $puppi_hash   = {},
-  $repo_hash    = {},
+  Hash $install_hash = {},
+  Hash $conf_hash    = {},
+  Hash $dir_hash     = {},
+  Hash $concat_hash  = {},
+  Hash $stdmod_hash  = {},
+  Hash $puppi_hash   = {},
+  Hash $repo_hash    = {},
 
 ) {
 
@@ -47,34 +47,44 @@ class tp (
     content => template('tp/tp.erb'),
   }
 
-  $install_hash.each |$k,$v| {
-    tp_install($k,$v)
-  }
-  
-  $conf_hash.each |$k,$v| {
-    tp::conf { $k,
-      * => $v,
+  if $install_hash != {} {
+    $install_hash.each |$k,$v| {
+      tp_install($k,$v)
     }
   }
-  $dir_hash.each |$k,$v| {
-    tp::dir { $k,
-      * => $v,
+  if $conf_hash != {} {
+    $conf_hash.each |$k,$v| {
+      tp::conf { $k:
+        * => $v,
+      }
     }
   }
-  $concat_hash.each |$k,$v| {
-    tp::concat { $k,
-      * => $v,
+  if $dir_hash != {} {
+    $dir_hash.each |$k,$v| {
+      tp::dir { $k:
+        * => $v,
+      }
     }
   }
-  $stdmod_hash.each |$k,$v| {
-    tp::stdmod { $k,
-      * => $v,
+  if $concat_hash != {} {
+    $concat_hash.each |$k,$v| {
+      tp::concat { $k:
+        * => $v,
+      }
     }
   }
-  $repo_hash.each |$k,$v| {
-    tp::repo { $k,
-      * => $v,
+  if $stdmod_hash != {} {
+    $stdmod_hash.each |$k,$v| {
+      tp::stdmod { $k:
+        * => $v,
+      }
     }
   }
-
+  if $repo_hash != {} {
+    $repo_hash.each |$k,$v| {
+      tp::repo { $k:
+        * => $v,
+      }
+    }
+  }
 }
