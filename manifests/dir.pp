@@ -238,5 +238,5 @@ define tp::dir (
       content => $debug_scope,
       path    => "${debug_dir}/tp_dir_debug_${title}",
     }
-  }  
+  }
 }

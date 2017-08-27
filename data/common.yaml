@@ -6,7 +6,15 @@
   tp::check_service_command: 'puppet resource service'
   tp::check_package_command: 'puppet resource package'
   tp::tp_dir: /etc/tp
-  
+  tp::options_hash: {}
+  tp::install_hash: {}
+  tp::conf_hash: {}
+  tp::dir_hash: {}
+  tp::concat_hash: {}
+  tp::stdmod_hash: {}
+  tp::puppi_hash: {}
+  tp::repo_hash: {}
+ 
   # Special lookup options
   lookup_options:
     "^tp::(.*)_hash$":

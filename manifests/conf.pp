@@ -306,5 +306,5 @@ define tp::conf (
       path    => "${debug_dir}/tp_conf_debug_${title}",
     }
   }
-  
+
 }

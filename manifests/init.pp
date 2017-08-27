@@ -14,15 +14,15 @@ class tp (
   String $check_package_command,
   String $tp_dir,
   String $ruby_path,
-  Hash $options_hash = { },
+  Hash $options_hash,
 
-  Hash $install_hash = {},
-  Hash $conf_hash    = {},
-  Hash $dir_hash     = {},
-  Hash $concat_hash  = {},
-  Hash $stdmod_hash  = {},
-  Hash $puppi_hash   = {},
-  Hash $repo_hash    = {},
+  Hash $install_hash,
+  Hash $conf_hash,
+  Hash $dir_hash,
+  Hash $concat_hash,
+  Hash $stdmod_hash,
+  Hash $puppi_hash,
+  Hash $repo_hash,
 
 ) {
 
