@@ -68,14 +68,9 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 ## Prerequisites and limitations
 
-Main Tiny Puppet defines **work only on Puppet 4.x** but the module provides also Puppet 3.x compatible defines with the ```3``` suffix.
+Current version of Tiny Puppet is compatible only with Puppet 4 or later.
 
-So, for example:
-
-    tp::install   # Is optimised for Puppet 4 (doesn't work on earlier versions)
-    tp::install3  # Works on Puppet 3 and 4
-
-**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
+To use it Puppet 3 you have to use tp vrsio 1.x with the 3.x compatible defines (with the ```3``` suffix).
 
 If tp doesn't correctly install a specific application on the OS you want, please **TELL US**. It's very easy and quick to add new apps or support for new OS, we will do that.
 
@@ -315,12 +310,9 @@ If, for whatever reason, you don't want to automatically manage a repository for
       auto_repo        => false,
     }
 
-
-
-
 ## Using alternative data sources
 
-By default Tiny Puppet uses the tinydata module to retrieve data for different applications, but it's possible to use a custom one:
+By default Tiny Puppet uses the [tinydata](https://github.com/example42/tinydata) module to retrieve data for different applications, but it's possible to use a custom one:
 
     tp::install { 'apache':
       data_module => 'my_data', # Default: tinydata
@@ -343,9 +335,9 @@ If you want to use your own data module for all your applications, you might pre
 
 ## Testing and playing with Tiny Puppet
 
-You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42 Puppet control-repo](https://github.com/example42/control-repo).
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick).
 
-Acceptance tests are regularly done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
 
 Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
 
