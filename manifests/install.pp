@@ -26,7 +26,7 @@
 # is defined $settings['config_file_template'] with a valid template
 # in the used data module (default: tinydata)
 #   tp::install { 'puppetserver':
-#     options_hash => hiera('puppetserver::options'),
+#     options_hash => lookup('puppetserver::options', {merge => deep}), 
 #   }
 #
 # @example installation and configuration via a custom hash of tp::conf
@@ -34,13 +34,13 @@
 # Here eventual auto configuration is explicitly disabled
 #
 #   tp::install { 'puppet':
-#     conf_hash => hiera('tp::puppet::confs'),
+#     conf_hash => lookup('puppet::tp_confs', {merge => deep}),,
 #     auto_conf => false,
 #   }
 #
 # @example installation with custom settings
 #   tp::install { 'apache':
-#     settings_hash => {
+#     settings_hash       => {
 #        package_name     => 'opt_apache',
 #        service_enable   => false,
 #        config_file_path => '/opt/apache/conf/httpd.conf',

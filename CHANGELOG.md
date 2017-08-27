@@ -7,4 +7,6 @@
 * Define tp::install: Removed param: debug_dir
 * Define tp::install: Params auto_prerequisites renamed to auto_prereq
 * More Puppet 4 language constructs
-* Removed pick_undef function. Use pick(...,undef) instead.
+* Removed pick_undef and tp_pick functions. Use stdlib pick_default
+* Removed tp::concat define
+

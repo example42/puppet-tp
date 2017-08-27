@@ -56,7 +56,7 @@ define tp::uninstall (
   }
 
 
-  # Resources
+  # Resources removed
   if $settings[package_name] {
     ensure_resource( 'package', $settings[package_name], {
       'ensure' => 'absent',
@@ -71,10 +71,18 @@ define tp::uninstall (
   }
 
   if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash , { ensure => absent })
+    $conf_hash.each |$k,$v| {
+      tp::conf { $k:
+        ensure => absent,
+      }
+    }
   }
   if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash , { ensure => absent })
+    $dir_hash.each |$k,$v| {
+      tp::dir { $k:
+        ensure => absent,
+      }
+    }
   }
 
 }

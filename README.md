@@ -42,10 +42,6 @@ Tiny Puppet provides the following Puppet user defines:
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application 
 - ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
-- ```tp::concat```. (WIP) Manages file fragments of a configuration file
-- ```tp::netinstall```. (WIP) Installs from a remote url
-- ```tp::instance```. (TODO) Manages an application instance
-- ```tp::github```. (TODO?) Installs (anything?;) directly from GitHub source
 
 
 ## Usage on the command line
