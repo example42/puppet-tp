@@ -1,6 +1,7 @@
 # @define tp::uninstall
 #
-# This define uninstalls an application (app) set in the given title.
+# This define uninstalls the application (app) defined in title.
+# It may also remove the relevant repository and configuration files.
 #
 # @example removal (of any any supported app and OS):
 #   tp::uninstall { $app: }
@@ -11,23 +12,19 @@
 #     dir_hash  => $postfix_dirs,
 #   }
 #
-# @param conf_hash                 Default: { } 
-#   An hash of tp::conf resources to remove.
-#   with ensure absent.
+# @param conf_hash An hash of tp::conf resources to remove.
 #
-# @param dir_hash                  Default: { } 
-#   An hash of tp::dir resources to remove.
+# @param dir_hash An hash of tp::dir resources to remove.
 #
-# @param settings_hash             Default: { } 
-#   An hash that can override the application settings tp returns, according to the
-#   underlying Operating System and the default behaviour
+# @param settings_hash An hash that can override the application settings
+#   returned by tp according to the underlying OS defaults.
 #
-# @param auto_repo                 Default: true
-#   Boolean to enable automatic package repo management for the specified
-#   application. Repo data is not always provided.
+# @param auto_repo Boolean to enable automatic package repo management
+#   for the specified application. If true, also the relevant app repo is
+#   removed.
 #
-# @param data_module               Default: 'tinydata'
-#   Name of the module where tp data is looked for
+# @param data_module Name of the module where tp data is looked for
+#  Default is tinydata: https://github.com/example42/tinydata
 #
 define tp::uninstall (
 

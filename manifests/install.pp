@@ -48,66 +48,50 @@
 #      }
 #   }
 #
-# @param ensure                    Default: present
-#   Manage application status. Valid values are present, absent or the
-#   package version number.
+# @param ensure Manage application status.
+#   Valid values are present, absent or the package version number.
 #
-# @param conf_hash                 Default: { }
-#   An hash of tp::conf resources that feed a create_resources function call.
+# @param conf_hash An hash of tp::conf resources to create.
+#   These resources will refer to the same application specified in the $title.
 #
-# @param dir_hash                  Default: { }
-#   An hash of tp::dir resources that feed a create_resources function call.
+# @param dir_hash  An hash of tp::dir resources to create.
+#   These resources will refer to the same application specified in the $title.
 #
-# @param options_hash              Default: { },
-#   Generic hash of configuration parameters specific for the app, they are
-#   passed to tp::test if test_enable parameter is true
+# @param options_hash Generic hash of configuration parameters specific for the
+#   app, they are passed to tp::test if test_enable parameter is true
 #
-# @param settings_hash             Default: { }
-#   An hash that can override the application settings tp returns, according to the
-#   underlying Operating System and the default behaviour
+# @param settings_hash An hash that can override the application settings tp
+#   returns, according to the underlying OS and the default behaviour
 #
-# @param auto_repo                 Default: true
-#   Boolean to enable automatic package repo management for the specified
-#   application. Repo data is not always provided.
+# @param auto_repo Boolean to enable automatic package repo management for the
+#   specified application. Repo data is not always provided.
 #
-# @param auto_prereq               Default: false
-#   Boolean to enable automatic management of prerequisite dependencies
+# @param auto_prereq Boolean to enable automatic management of prerequisite dependencies
 #   required for the installation of the application. If they are defined in
 #   tp data.
 #
-# @param repo                      Default: undef
-#   Name of the repository to use. Multiple different repositories may
+# @param repo Name of the repository to use. Multiple different repositories may
 #   be used, if they are defined in Tiny Puppet data.
 #
-# @param auto_conf                 Default: true
-#   Boolean to enable automatic configuration of the application.
+# @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's a valid value for $settings['config_file_template']
 #   then the relevant template is added via tp::conf based on the default
 #   $options (they can be overriden by the options_hash parameter).
 #
-# @param cli_enable                Default: true
-#   Enable cli integration.
-#   If true, tp commands to query apps instlled via tp are added to the system.
+# @param cli_enable Enable cli integration.
+#   If true, tp commands to query apps installed via tp are added to the system.
 #
-# @param puppi_enable              Default: false
-#   Enable puppi integration. Default disabled.
+# @param puppi_enable Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
 #
-# @param test_enable               Default: false
-#   If true, it is called the define tp::test, which creates a script that
-#   should test the functionality of the app
+# @param test_enable If true, it is called the define tp::test, which allows
+#   to test the status of the application from the command line.
 #
-# @param test_template             Default: undef
-#   Custom template to use to for the content of test script, used
-#   by the tp::test define. It requires test_enable = true
+# @param test_template Custom template to use to for the content of test script,
+#   used by the tp::test define. It requires test_enable = true
 #
-# @param debug                     Default: false,
-#   If set to true it calls the debug() function
-#   Needs nwops/puppet-debug module
-#
-# @param data_module               Default: 'tinydata'
-#   Name of the module where tp data is looked for
-#
+# @param data_module Name of the module where tp data is looked for
+#  Default is tinydata: https://github.com/example42/tinydata
 #
 define tp::install (
 

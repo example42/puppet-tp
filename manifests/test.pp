@@ -1,10 +1,7 @@
+# tp::test
 #
-#
-# = Define: tp::test
-#
-# Creates test scripts to be executed in whatever way
-#
-# == Parameters
+# Creates test scripts to check if the application managed
+# by Tiny Puppet is runnign correctly.
 #
 define tp::test (
 

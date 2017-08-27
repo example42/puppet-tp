@@ -1,9 +1,186 @@
 # @define tp::conf
 #
-# This define is equivalent to tp::conf3 but is compatible
-# only with Puppet 4 or Puppet > 3.7 with future parser enabled
+# This define manages configuration files for the application named
+# in the used title..
+# It can manage the content of the managed files using different
+# methods (source, template, epp, content)
+# The actual path of the managed configuration files is determined by
+# various elements:
+# - If the path parameter is explicitly set, that's always the path used
 #
-# Check documentation of tp::conf3 for usage and reference.
+#   tp::conf { 'openssh::root_config':
+#     path    => '/root/.ssh/config', # This is the path of the managed file
+#     content => template('site/openssh/root_config.erb'),
+#   }
+#
+# - If path parameter is not set and the title contains only the app
+#   name, which is the basic and most direct usage, then it's managed the
+#   *main configuration file* of the application, as defined by the variable
+#   config_file_path in the tp/data/$app directory according to the underlying OS.
+#
+#   tp::conf { 'openssh':  # Path is defined by tp $settings['config_file_path']
+#     template => 'site/openssh/sshd_config.erb', 
+#   }
+#
+# - When the base_file parameter is specified the path of the managed file is #
+#   looked in the value of the key ${base_file}_file_path in the tp/data/$app directory 
+#   tp::conf { 'openssh':  # Path is defined by tp $settings['init_file_path']
+#     template  => 'site/openssh/init.erb', 
+#     base_file => 'init', 
+#   }
+#
+# - When the title has a format like: app::file and no base_dir is set the path
+#   is composed using the app's *main configuration directory* and the file name
+#   used in the second part of the title (after the ::)
+#
+#   tp::conf { 'openssh::ssh_config': # Path is $settings['config_dir_path']/ssh_config
+#     template => 'site/openssh/ssh_config.erb',
+#   }
+#
+# - When the title has a format like: app::file it's also possible to specify,
+#   with the bas_dir parameter, the directory where to place the file:
+#
+#   tp::conf { 'apache::example42.com.conf':
+#     template => 'site/apache/example42.com.conf.erb',
+#     base_dir => 'conf',
+#   }
+#   Path is: $settings['conf_dir_path']/example42.com.conf
+#
+# See below for more examples.
+#
+# @example management of openssh main configuration file
+# (/etc/ssh/sshd_config) using a template
+#
+#   tp::conf { 'openssh':
+#     template     => 'site/openssh/sshd_config',
+#     options_hash => hiera('openssh::options_hash'), 
+#   }
+#
+#
+# @example management of openssh client file (/etc/ssh/ssh_config) using
+# a static source
+#
+#   tp::conf { 'openssh::ssh_config':
+#     source => 'puppet:///modules/site/openssh/ssh_config',
+#   }
+#
+# @example direct management of the content of a file
+#
+#   tp::conf { 'motd':
+#     content => "Welcome to ${::fqdn}\n",
+#   }
+#
+# @example management of a .conf file (configuration files placed typically
+# in directory called conf.d or *.d ). Note that here is used as $base_dir
+# 'conf' instead of the default 'config'.
+# For example with Apache on RedHat:
+# 'config' dir is '/etc/httpd'
+# 'conf' dir is '/etc/httpd/conf.d'
+# Other "common" base_dir values are 'log', 'data' but actually any value
+# can be used as long as there's a corresponding key in the TP settings data.
+#
+#   tp::conf { 'rsyslog::logserver':
+#     content  => "*.* @@syslog.example42.com\n",
+#     base_dir => 'conf',
+#   }
+#
+# @example management of a file related to openssh with an
+# explicit path given and the content populated via a Puppet epp template.
+# In this case the title is not used for any specific purpose, but it should
+# have a unique name and refer to the relevat app in the first part of the title (before ::) 
+#
+#   tp::conf { 'openssh::root_config': # Title must be unique
+#     path   => '/root/.ssh/config',
+#     epp    => 'site/openssh/root/config.epp',
+#     mode   => '0640',
+#   }
+#
+# @example when no automatic service restart is triggered by configuration file
+# changes
+#
+#   tp::conf { 'nginx':
+#     config_file_notify => false,
+#   }
+#
+# @example to customise notify and require dependencies
+#
+#   tp::conf { 'nginx::nginx_fe.conf':
+#     config_file_notify  => "Service['fe_nginx']",
+#     config_file_require => "Class['site::fe::nginx']",
+#   }
+#
+# @param ensure Defines the status of the file: present or absent.
+#
+# @param path The actual path of the file to manage. When this is set, it takes
+#   precedence over any other automatic paths definition.
+#
+# @param source Source of the file to use. Used in the managed file as follows:
+#   source => $source,
+#   This parameter is alternative to content, template and epp.
+#
+# @param template Erb Template to use for the content of the file. Used as follows:
+#   content => template($template),
+#   This parameter is alternative to content, source and epp.
+#
+# @param epp Epp Template to use for the content of the file. Used as follows:
+#   content => epp($epp),
+#   This parameter is alternative to content, source and template.
+#
+# @param content Content of the file. Used as follows:
+#   content => $content,
+#   This parameter is alternative to source, template and epp.
+#
+# @param base_dir Type of the directory where to place the file, when a path is
+#   not explicitly set. This name must have a corresponding entry
+#   in TP data with a key named ${base_dir}_dir_path.
+#   The default 'config' value maps to the key config_dir_path
+#   Common names are:
+#     'config' (default) - The app main configuration dir path
+#     'conf' - The app conf.d dir where config files can be added
+#     'log' - The app logs' directory
+#   Each app may have additional names accoring to eventual specific settings.
+#
+# @param base_file Type of the file managed, when a path is
+#   not explicitly set. This name must have a corresponding entry
+#   in TP data with a key named ${base_file}_file_path.
+#   The default 'config' value maps to the key config_file_path
+#   Common names are:
+#     'config' (default) - The app main configuration file path
+#     'init' - The path of the script that configures init, for that app
+#     'log' - The path of the app's log (can be an array)
+#     'pid' - The path of the app's pid file
+#   Each app may have additional names accoring to eventual specific settings.
+#
+# @param options_hash Generic hash of configuration parameters specific for the
+#   app that can be used in the provided erb or epp templates respectively as
+#   @options_hash['key'] or $options_hash['key'],
+#
+# @param settings_hash An hash that can override the application settings tp
+#   returns, according to the underlying Operating System and the default
+#   behaviour.
+#
+# @param mode Parameter mode for the managed file resource.
+#   By default is defined according to app and OS, the same applies for the
+#   following params.
+#
+# @param owner Parameter owner for the managed file resource.
+#   The default value for the underlying OS is automatically found by tp.
+#
+# @param group Parameter group for the managed file resource.
+#   The default value for the underlying OS is automatically found by tp.
+#
+# @param config_file_notify By default changes in the managed file trigger
+#   a service restart of the app in the title. Set to false to avoid any
+#   restart of set the name of a Puppet resource to notify. (Ex: Service[nginx]).
+#
+# @param config_file_require By default the file managed requires the app
+#   package, if tp::install has not been used to install the app, you may
+#   have references to an unknown resource.
+#   Set this to false to not set any dependency, or define a resource
+#   to require before managing the file (Ex: Package[apache2]).
+#
+# @param data_module Name of the module where tp data is looked for
+#  Default is tinydata: https://github.com/example42/tinydata
 #
 define tp::conf (
 
@@ -31,9 +208,6 @@ define tp::conf (
   Hash                    $options_hash        = { },
   Hash                    $settings_hash       = { } ,
 
-  Boolean                 $debug               = false,
-  String[1]               $debug_dir           = '/tmp',
-
   String[1]               $data_module         = 'tinydata',
 
   ) {
@@ -47,8 +221,7 @@ define tp::conf (
     $repo = getparam(Tp::Install[$app],'repo')
   }
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
-  # $settings = $tp_settings + $settings_hash
-  $settings = $tp_settings
+  $settings = $tp_settings + $settings_hash
 
   $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
   $options = $tp_options + $options_hash
