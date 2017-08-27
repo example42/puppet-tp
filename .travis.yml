@@ -10,24 +10,16 @@ before_install:
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.4.1
-    bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 5" STDLIB_LOG_DEPRECATIONS="false"
   - rvm: 2.1.9
-    bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 4" STDLIB_LOG_DEPRECATIONS="false"
-  - rvm: 2.1.5
-    bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
-  - rvm: 2.1.9
-    bundler_args: --without system_tests
     env: PUPPET_GEM_VERSION="~> 4.4.0"
   - rvm: 2.1.9
-    bundler_args: --without system_tests
     env: PUPPET_GEM_VERSION="~> 4.8.0"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5.0.0" STDLIB_LOG_DEPRECATIONS="false"
   - rvm: 2.1.9
-    bundler_args: --without system_tests
-    env: PUPPET_GEM_VERSION="~> 4.9.0"
+    env: PUPPET_GEM_VERSION="~> 4"
+  - rvm: 2.4.1
+    env: PUPPET_GEM_VERSION="~> 5" STDLIB_LOG_DEPRECATIONS="false"
 notifications:
   email:
     - al@example42.com
