@@ -96,6 +96,11 @@
 # @param settings_hash An hash that can override the application specific
 #   settings returned by tp according to the underlying Operating System
 #
+# @param debug If set to true it prints debug information for tp into the
+#   directory set in debug_dir
+#
+# @param debug_dir The directory where tp stores debug info, if enabled.
+#
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
 #
@@ -124,6 +129,9 @@ define tp::dir (
   Variant[Undef,Boolean] $force              = undef,
 
   Hash                   $settings_hash      = { } ,
+
+  Boolean                $debug               = false,
+  String[1]              $debug_dir           = '/tmp',
 
   String[1]              $data_module        = 'tinydata',
 
@@ -222,4 +230,13 @@ define tp::dir (
     }
   }
 
+  # Debugging
+  if $debug == true {
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    file { "tp_dir_debug_${title}":
+      ensure  => present,
+      content => $debug_scope,
+      path    => "${debug_dir}/tp_dir_debug_${title}",
+    }
+  }  
 }

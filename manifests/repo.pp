@@ -182,6 +182,7 @@ define tp::repo (
     }
   }
 
+  # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_repo_debug_${title}":

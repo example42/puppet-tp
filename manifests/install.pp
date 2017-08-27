@@ -90,6 +90,11 @@
 # @param test_template Custom template to use to for the content of test script,
 #   used by the tp::test define. It requires test_enable = true
 #
+# @param debug If set to true it prints debug information for tp into the
+#   directory set in debug_dir
+#
+# @param debug_dir The directory where tp stores debug info, if enabled.
+#
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
 #
@@ -119,6 +124,7 @@ define tp::install (
   Variant[Undef,String]   $test_template    = undef,
 
   Boolean                 $debug            = false,
+  String[1]               $debug_dir           = '/tmp',
 
   String[1]               $data_module      = 'tinydata',
 
@@ -317,6 +323,16 @@ define tp::install (
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
-    include ::tp
+    # include ::tp
+  }
+
+  # Debugging
+  if $debug == true {
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    file { "tp_install_debug_${title}":
+      ensure  => present,
+      content => $debug_scope,
+      path    => "${debug_dir}/tp_install_debug_${title}",
+    }
   }
 }

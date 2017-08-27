@@ -179,6 +179,11 @@
 #   Set this to false to not set any dependency, or define a resource
 #   to require before managing the file (Ex: Package[apache2]).
 #
+# @param debug If set to true it prints debug information for tp into the
+#   directory set in debug_dir
+#
+# @param debug_dir The directory where tp stores debug info, if enabled.
+#
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
 #
@@ -207,6 +212,9 @@ define tp::conf (
 
   Hash                    $options_hash        = { },
   Hash                    $settings_hash       = { } ,
+
+  Boolean                 $debug               = false,
+  String[1]               $debug_dir           = '/tmp',
 
   String[1]               $data_module         = 'tinydata',
 
@@ -268,7 +276,6 @@ define tp::conf (
     default   => $config_file_notify,
   }
 
-
   # Resources
   if $path_parent_create {
     $path_parent = dirname($manage_path)
@@ -290,4 +297,14 @@ define tp::conf (
     notify  => $manage_notify,
   }
 
+  # Debugging
+  if $debug == true {
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    file { "tp_conf_debug_${title}":
+      ensure  => present,
+      content => $debug_scope,
+      path    => "${debug_dir}/tp_conf_debug_${title}",
+    }
+  }
+  
 }
