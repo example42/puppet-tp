@@ -1,0 +1,25 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: pe-activemq
+service_name: pe-activemq
+config_file_path: "/etc/activemq/activemq.xml"
+config_dir_path: "/etc/activemq"
+tpp_port: '8161'
+pid_file_path: "/var/run/activemq/activemq.pid"
+log_file_path: "/var/log/puppetlabs/activemq/activemq.log"
+process_name: java
+process_extra_name: activemq
+process_user: activemq
+process_group: activemq
+init_file_path: "/etc/sysconfig/activemq"
+log_dir_path: "/var/log/puppetlabs/activemq"

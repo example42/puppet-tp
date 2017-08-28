@@ -1,0 +1,28 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: puppetdb
+config_dir_group: puppetdb
+config_dir_mode: '0640'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: pe-puppetdb
+service_name: pe-puppetdb
+config_file_path: "/etc/puppetdb/puppetdb.ini"
+config_dir_path: "/etc/puppetdb"
+conf_dir_path: "/etc/puppetdb/conf.d"
+pid_file_path: "/var/run/puppetdb.pid"
+log_dir_path: "/var/log/puppetdb"
+process_name: java
+process_extra_name: puppetdb
+process_user: puppetdb
+process_group: puppetdb
+tcp_port: '8080'
+log_file_path:
+- "/var/log/puppetlabs/puppetdb/puppetdb.log"
+- "/var/log/puppetlabs/puppetdb/puppetdb-accesss.log"
+init_file_path: "/etc/sysconfig/puppetdb"

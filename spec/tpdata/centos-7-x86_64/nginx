@@ -1,0 +1,29 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: pe-nginx
+service_name: pe-nginx
+config_file_path: "/etc/nginx/nginx.conf"
+init_file_path: "/etc/sysconfig/nginx"
+pid_file_path: "/var/run/nginx.pid"
+log_file_path:
+- "/var/log/nginx/access.log"
+- "/var/log/nginx/error.log"
+config_dir_path: "/etc/nginx"
+conf_dir_path: "/etc/nginx/conf.d"
+log_dir_path: "/var/log/nginx"
+data_dir_path: "/usr/share/nginx/html"
+tcp_port: '80'
+process_name: nginx
+process_user: nginx
+process_group: nginx
+nodaemon_args: "-g 'daemon off;'"

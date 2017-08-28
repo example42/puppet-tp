@@ -118,7 +118,7 @@ define tp::install (
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
 
-  Boolean                 $cli_enable       = true,
+  Boolean                 $cli_enable       = false,
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,

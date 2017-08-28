@@ -1,0 +1,25 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: rsyslog
+service_name: rsyslog
+config_file_path: "/etc/rsyslog.conf"
+config_dir_path: "/etc/rsyslog.d"
+conf_dir_path: "/etc/rsyslog.d"
+data_dir_path: "/var/log"
+init_file_path: "/etc/default/rsyslog"
+udp_port: '69'
+pid_file_path: "/var/run/rsyslogd.pid"
+log_file_path: "/var/log/syslog"
+process_name: rsyslogd
+process_user: root
+process_group: root
