@@ -121,8 +121,8 @@ define tp::dir (
   String                 $path_prefix         = '',
   Boolean                $path_parent_create  = false,
 
-  Boolean                $config_dir_notify  = true,
-  Boolean                $config_dir_require = true,
+  Variant[Boolean,String] $config_dir_notify  = true,
+  Variant[Boolean,String] $config_dir_require = true,
 
   Variant[Undef,Boolean] $purge              = undef,
   Variant[Undef,Boolean] $recurse            = undef,
@@ -158,8 +158,9 @@ define tp::dir (
   $manage_owner   = pick($owner, $settings[config_dir_owner])
   $manage_group   = pick($group, $settings[config_dir_group])
 
-  # Set require if package_name is present
-  if $settings[package_name] and $settings[package_name] != '' {
+  # Set require if package_name is present and title is not a abs path
+  if $settings[package_name] and $settings[package_name] != ''
+  and $title !~ /^\/.*$/ {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
@@ -171,8 +172,9 @@ define tp::dir (
     default   => $config_dir_require,
   }
 
-  # Set notify if service_name is present
-  if $settings[service_name] and $settings[package_name] != '' {
+  # Set notify if service_name is present and title is not a abs path
+  if $settings[service_name] and $settings[package_name] != ''
+  and $title !~ /^\/.*$/ {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef
