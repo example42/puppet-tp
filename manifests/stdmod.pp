@@ -80,19 +80,19 @@ define tp::stdmod (
   }
 
   if $package_ensure == 'absent' {
-    $manage_service_enable = undef
+    $manage_service_enable = false
     $manage_service_ensure = stopped
     $config_dir_ensure = absent
     $config_file_ensure = absent
   } else {
     $manage_service_enable = $service_enable ? {
       ''      => undef,
-      'undef' => undef,
+      undef   => true,
       default => $service_enable,
     }
     $manage_service_ensure = $service_ensure ? {
       ''      => undef,
-      'undef' => undef,
+      undef   => 'running',
       default => $service_ensure,
     }
     $config_dir_ensure = directory
@@ -107,22 +107,23 @@ define tp::stdmod (
 
 
   # Resources
-  if $settings[package_name] {
-    package { $settings[package_name]:
-      ensure => $settings[package_ensure],
+  if $settings['package_name'] {
+    package { $settings['package_name']:
+      ensure => $settings['package_ensure'],
     }
   }
 
-  if $settings[service_name] {
-    service { $settings[service_name]:
-      ensure => $settings[service_ensure],
-      enable => $settings[service_enable],
+  if $settings['service_name'] {
+    service { $settings['service_name']:
+      ensure => $manage_service_ensure,
+      enable => $manage_service_enable,
     }
   }
 
-  if $config_file_source
+  if $settings['config_file_path'] and
+  ( $config_file_source
   or $manage_config_file_content
-  or $config_file_ensure == 'absent' {
+  or $config_file_ensure == 'absent' ) {
     file { $settings[config_file_path]:
       ensure  => $config_file_ensure,
       path    => $settings[config_file_path],

@@ -53,8 +53,8 @@ define tp::test (
     file { "${base_dir}/${title}":
       ensure  => $ensure,
       mode    => '0755',
-      owner   => root,
-      group   => root,
+      owner   => 'root',
+      group   => 'root',
       content => template($template),
       tag     => 'tp_test',
     }

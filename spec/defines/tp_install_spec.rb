@@ -21,11 +21,11 @@ describe 'tp::install', :type => :define do
         }
 
         # Resource counts with normal tp::install + package + service
-        total_count = '3'
-        package_count = '1'
-        service_count = '1'
-        exec_count = '0'
-        file_count = '0'
+        total_count = 3
+        package_count = 1
+        service_count = 1
+        exec_count = 0
+        file_count = 0
         has_repo = false
 
         # Define if there's a service to check
