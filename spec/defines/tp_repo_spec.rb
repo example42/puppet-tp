@@ -1,0 +1,95 @@
+require 'spec_helper'
+
+# Apps to test against. Data is in spec/tpdata/
+apps = ['rsyslog','openssh','elasticsearch','sysdig','puppet-agent']
+
+describe 'tp::repo', :type => :define do
+  on_supported_os(facterversion: '2.4').select { |k, _v| k == 'centos-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+      apps.each do | app |
+        appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
+
+        # Default params
+        default_package_params = {
+          'ensure'  => 'present',
+        }
+
+        # Resource counts with normal tp::repo
+        total_count = 1
+        package_count = 0
+        service_count = 0
+        exec_count = 0
+        file_count = 0
+        has_repo = false
+        has_service = false
+
+        # Added resources when repos are managed
+        if appdata['repo_url'] or appdata['yum_mirrorlist'] or appdata['repo_package_url']
+          has_repo = true
+          repo_params = {
+            'enabled'       => true,
+            'before'        => "Package[#{appdata['package_name']}]",
+            'data_module'   => 'tinydata',
+            'settings_hash' => {},
+            'description'   => "#{app} repository",
+            'include_src'   => false,
+            'debug'         => false,
+            'debug_dir'     => '/tmp',
+          }
+        end
+
+        # Increment package count if repo_package_url and repo_package_name are present
+        if appdata['repo_package_url'] and appdata['repo_package_name']
+          package_count = package_count.to_i + 1
+          total_count = total_count.to_i + 1
+        end
+        # Increment counters for resources in tp::repo
+        if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'
+          total_count = total_count.to_i + 1 # yumrepo
+        end
+        if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
+        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+          total_count = total_count.to_i + 1 # file $app.list
+          file_count = file_count.to_i + 1   # file $app.list
+        end
+        if appdata['repo_url'] and ( appdata['package_name'] and appdata['package_name'] !=0 ) and os == 'ubuntu-16.04-x86_64'
+          exec_count = exec_count.to_i + 1   # exec apt-get update
+          total_count = total_count.to_i + 1 # exec apt-get update
+        end 
+        if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
+          exec_count = exec_count.to_i + 1   # exec apt-key add
+          total_count = total_count.to_i + 1
+        end 
+        if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and os == 'ubuntu-16.04-x86_64'
+          exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
+          total_count = total_count.to_i + 1
+        end 
+
+        # Interate contexts over os and over app
+        context "with app #{app}" do
+          let(:title) { app }
+          # Add tp::install resources
+          let(:pre_condition) { "tp::install { #{app}: auto_repo => false }" }
+          total_count = total_count.to_i + 1 # tp::install
+          if appdata['package_name']
+            package_count = package_count.to_i + 1   # package
+            total_count = total_count.to_i + 1
+          end
+          if appdata['service_name']
+            service_count = service_count.to_i + 1   # servicee
+            total_count = total_count.to_i + 1
+          end
+          context 'without any param' do
+            it { is_expected.to compile }
+            it { should have_tp__repo_resource_count(1) }
+            it { should have_package_resource_count(package_count) }
+            it { should have_exec_resource_count(exec_count) }
+            it { should have_file_resource_count(file_count) }
+            it { should have_resource_count(total_count) }
+          end
+        end
+      end
+    end
+  end
+end

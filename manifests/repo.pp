@@ -121,9 +121,8 @@ define tp::repo (
       }
 
       if !empty($settings[package_name])
-      and $settings[package_name] != ''
-      and $settings[package_name] != undef
-      and !empty($settings[key]) {
+      and !empty($settings[key])
+      and defined(Package[$settings[package_name]]) {
         Exec['tp_apt_update'] -> Package[$settings[package_name]]
       }
 
@@ -177,10 +176,15 @@ define tp::repo (
   # Install repo via release package, if tinydata present
   if $settings[repo_package_url] and $settings[repo_package_name] {
     if ! defined(Package[$settings[repo_package_name]]) {
+      $repo_package_before = $settings[package_name] ? {
+        ''      => undef,
+        undef   => undef,
+        default => Package[$settings[package_name]],
+      }
       package { $settings[repo_package_name]:
         source   => $settings[repo_package_url],
         provider => $settings[repo_package_provider],
-        before   => Package[$settings[package_name]],
+        before   => $repo_package_before,
       }
     }
   }

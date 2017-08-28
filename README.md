@@ -69,7 +69,7 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 ## Prerequisites and limitations
 
-Current version of Tiny Puppet is compatible only with Puppet 4.4 or later.
+Current version of Tiny Puppet is compatible only with Puppet 4.4 or later and PE 2016.1.1 or later.
 
 To use it Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
 
