@@ -17,6 +17,10 @@
  
   # Special lookup options
   lookup_options:
+    "tp::install_hash":
+      merge:
+        strategy: deep
+        knockout_prefix: "--"
     "^tp::(.*)_hash$":
       merge:
         strategy: deep

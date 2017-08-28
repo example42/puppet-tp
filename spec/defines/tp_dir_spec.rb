@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'tp::dir', :type => :define do
 
+  let(:pre_condition) { 'tp::install { redis: }' }
   let (:title) { 'redis' }
 
   context 'with title redis' do

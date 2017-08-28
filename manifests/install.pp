@@ -323,7 +323,7 @@ define tp::install (
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
-    ## include ::tp
+    include ::tp
   }
 
   # Debugging

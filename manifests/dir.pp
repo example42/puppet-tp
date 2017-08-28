@@ -152,11 +152,11 @@ define tp::dir (
   }
   $settings = $tp_settings + $settings_hash
   $base_dir_path = $settings["${base_dir}_dir_path"]
-  $real_path      = tp_pick($path, $title_path, $base_dir_path)
+  $real_path      = pick($path, $title_path, $base_dir_path)
   $manage_path    = "${path_prefix}${real_path}"
-  $manage_mode    = tp_pick($mode, $settings[config_dir_mode])
-  $manage_owner   = tp_pick($owner, $settings[config_dir_owner])
-  $manage_group   = tp_pick($group, $settings[config_dir_group])
+  $manage_mode    = pick($mode, $settings[config_dir_mode])
+  $manage_owner   = pick($owner, $settings[config_dir_owner])
+  $manage_group   = pick($group, $settings[config_dir_group])
 
   # Set require if package_name is present
   if $settings[package_name] and $settings[package_name] != '' {
