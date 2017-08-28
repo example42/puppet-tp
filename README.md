@@ -69,11 +69,12 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 ## Prerequisites and limitations
 
-Current version of Tiny Puppet is compatible only with Puppet 4 or later.
+Current version of Tiny Puppet is compatible only with Puppet 4.4 or later.
 
-To use it Puppet 3 you have to use tp vrsio 1.x with the 3.x compatible defines (with the ```3``` suffix).
+To use it Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
 
-If tp doesn't correctly install a specific application on the OS you want, please **TELL US**. It's very easy and quick to add new apps or support for new OS, we will do that.
+If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
+It's very easy and quick to add new apps or support for new OS in tinydata.
 
 Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions.
 
