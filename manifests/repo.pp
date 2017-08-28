@@ -6,6 +6,7 @@
 define tp::repo (
 
   Boolean                   $enabled             = true,
+  Hash                      $settings_hash       = { },
 
   Variant[Undef,String]     $repo                = undef,
 
@@ -17,21 +18,21 @@ define tp::repo (
   Boolean                   $include_src         = false,
 
   Variant[Undef,Integer]    $yum_priority        = undef,
-  Variant[Undef,String[1],Boolean] $yum_gpgcheck        = undef,
-  Variant[Undef,String[1]] $yum_mirrorlist      = undef,
+  Variant[Undef,String[1],Boolean] $yum_gpgcheck = undef,
+  Variant[Undef,String[1]] $yum_mirrorlist       = undef,
 
-  Variant[Undef,String[1]] $apt_key_server      = undef,
-  Variant[Undef,String[1]] $apt_key_fingerprint = undef,
-  Variant[Undef,String[1]] $apt_release         = undef,
-  Variant[Undef,String[1]] $apt_repos           = undef,
-  Variant[Undef,String[1]] $apt_pin             = undef,
+  Variant[Undef,String[1]] $apt_key_server       = undef,
+  Variant[Undef,String[1]] $apt_key_fingerprint  = undef,
+  Variant[Undef,String[1]] $apt_release          = undef,
+  Variant[Undef,String[1]] $apt_repos            = undef,
+  Variant[Undef,String[1]] $apt_pin              = undef,
 
-  Variant[Undef,String[1]] $zypper_repofile_url = undef,
+  Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
-  Boolean                  $debug               = false,
-  String[1]                $debug_dir           = '/tmp',
+  Boolean                  $debug                = false,
+  String[1]                $debug_dir            = '/tmp',
 
-  String[1]                $data_module         = 'tinydata',
+  String[1]                $data_module          = 'tinydata',
 
 ) {
 
@@ -54,7 +55,7 @@ define tp::repo (
     zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
-  $settings = $tp_settings + $user_settings_clean
+  $settings = $tp_settings + $settings_hash + $user_settings_clean
 
   $manage_yum_gpgcheck = $yum_gpgcheck ? {
     undef   => $settings[key_url] ? {
@@ -127,7 +128,9 @@ define tp::repo (
       }
 
       if !defined(File["${title}.list"])
-      and !empty($settings[key]) {
+      and !empty($settings[key])
+      and !empty($settings[key_url])
+      and !empty($settings[repo_url]) {
         file { "${title}.list":
           ensure  => $ensure,
           path    => "/etc/apt/sources.list.d/${title}.list",

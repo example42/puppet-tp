@@ -10,4 +10,10 @@ config_dir_group: root
 config_dir_mode: '0755'
 config_dir_purge: false
 config_dir_recurse: true
-package_name: make
+package_name: sysdig
+tp_prerequisites:
+- dkms
+repo_url: http://download.draios.com/stable/rpm/$basearch
+key: F1C3BD80
+key_url: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+

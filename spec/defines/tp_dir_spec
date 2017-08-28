@@ -9,7 +9,7 @@ describe 'tp::dir', :type => :define do
       let(:facts) { os_facts }
       apps.each do | app |
         appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
-        context "application #{app}" do
+        context "with app #{app}" do
           let(:title) { app }
           let(:pre_condition) { "tp::install { #{app}: }" }
           default_file_params = {
@@ -107,6 +107,34 @@ describe 'tp::dir', :type => :define do
             }
             let(:params) { { 'settings_hash' => custom_settings } }
             it { is_expected.to contain_file('/tmp/custom').only_with(default_file_params.merge('path' => '/tmp/custom', 'mode' => '700')) }
+          end
+          context 'with force => true' do
+            let(:params) { { 'force' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('force' => true)) }
+          end
+          context 'with recurse => true' do
+            let(:params) { { 'recurse' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('recurse' => true)) }
+          end
+          context 'with purge => true' do
+            let(:params) { { 'purge' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('purge' => true)) }
+          end
+          context 'with source => puppet:///modules/tp/spec' do
+            let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
+          end          
+          context 'with source => https://github.com/example42/puppet-tp and vcsrepo => git' do
+            let(:params) do {
+              'source'  => 'https://github.com/example42/puppet-tp',
+              'vcsrepo' => 'git'
+            } end
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('ensure' => 'present') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('source' => 'https://github.com/example42/puppet-tp') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('provider' => 'git') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('owner' => appdata['config_dir_owner']) }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('group' => appdata['config_dir_group']) }
+            it { should have_file_resource_count(0) }
           end
         end
       end

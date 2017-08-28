@@ -26,7 +26,7 @@
 # is defined $settings['config_file_template'] with a valid template
 # in the used data module (default: tinydata)
 #   tp::install { 'puppetserver':
-#     options_hash => lookup('puppetserver::options', {merge => deep}), 
+#     options_hash => lookup('puppetserver::options', {merge => deep}),
 #   }
 #
 # @example installation and configuration via a custom hash of tp::conf
@@ -185,10 +185,11 @@ define tp::install (
       default   => true,
     }
     tp::repo { $app:
-      enabled     => $repo_enabled,
-      before      => Package[$settings[package_name]],
-      data_module => $data_module,
-      repo        => $repo,
+      enabled       => $repo_enabled,
+      before        => Package[$settings[package_name]],
+      data_module   => $data_module,
+      repo          => $repo,
+      settings_hash => $settings_hash,
     }
   }
 
@@ -213,7 +214,7 @@ define tp::install (
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
-        * => $v,
+        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
     }
   }
@@ -221,7 +222,7 @@ define tp::install (
     $settings[exec_postinstall].each | $k , $v | {
       Package[$settings[package_name]] -> Exec[$k]
       exec { $k:
-        * => $v,
+        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
     }
   }
