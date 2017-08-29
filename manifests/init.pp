@@ -7,29 +7,31 @@
 # this class 
 #
 class tp (
-  String $tp_path,
-  String $tp_owner,
-  String $tp_group,
-  String $check_service_command,
-  String $check_package_command,
-  String $tp_dir,
-  String $ruby_path,
-  Hash $options_hash,
+  String $tp_path    = $::tp::params::tp_path,
+  String $tp_owner   = $::tp::params::tp_owner,
+  String $tp_group   = $::tp::params::tp_group,
+  String $check_service_command = $::tp::params::check_service_command,
+  String $check_service_command_post = $::tp::params::check_service_command_post,
+  String $check_package_command = $::tp::params::check_package_command,
+  String $tp_dir     = $::tp::params::tp_dir,
+  String $ruby_path  = $::tp::params::ruby_path,
+  Hash $options_hash = {},
 
-  Hash $install_hash,
-  Hash $conf_hash,
-  Hash $dir_hash,
-  Hash $concat_hash,
-  Hash $stdmod_hash,
-  Hash $puppi_hash,
-  Hash $repo_hash,
+  Hash $install_hash = {},
+  Hash $conf_hash    = {},
+  Hash $dir_hash     = {},
+  Hash $concat_hash  = {},
+  Hash $stdmod_hash  = {},
+  Hash $puppi_hash   = {},
+  Hash $repo_hash    = {},
 
-) {
+) inherits ::tp::params {
 
   $options_defaults = {
-    check_timeout          => '10',
-    check_service_command  => $check_service_command,
-    check_package_command  => $check_package_command,
+    check_timeout              => '10',
+    check_service_command      => $check_service_command,
+    check_service_command_post => $check_service_command_post,
+    check_package_command      => $check_package_command,
   }
   $options = $options_defaults + $options_hash
 
