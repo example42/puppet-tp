@@ -142,4 +142,7 @@ gem 'danger-mention'
 # Coveralls
 gem 'coveralls'
 
+# Semantic Puppet
+gem 'semantic_puppet'
+
 # vim: syntax=ruby
