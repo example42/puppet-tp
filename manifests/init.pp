@@ -41,6 +41,8 @@ class tp (
   }
 
   file { $tp_path:
+    ensure  => present,
+    path    => $tp_path,
     owner   => $tp_owner,
     group   => $tp_group,
     mode    => '0755',

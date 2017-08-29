@@ -10,34 +10,12 @@ describe 'tp::repo', :type => :define do
       apps.each do | app |
         appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
 
-        # Default params
-        default_package_params = {
-          'ensure'  => 'present',
-        }
-
         # Resource counts with normal tp::repo
         total_count = 1
         package_count = 0
         service_count = 0
         exec_count = 0
         file_count = 0
-        has_repo = false
-        has_service = false
-
-        # Added resources when repos are managed
-        if appdata['repo_url'] or appdata['yum_mirrorlist'] or appdata['repo_package_url']
-          has_repo = true
-          repo_params = {
-            'enabled'       => true,
-            'before'        => "Package[#{appdata['package_name']}]",
-            'data_module'   => 'tinydata',
-            'settings_hash' => {},
-            'description'   => "#{app} repository",
-            'include_src'   => false,
-            'debug'         => false,
-            'debug_dir'     => '/tmp',
-          }
-        end
 
         # Increment package count if repo_package_url and repo_package_name are present
         if appdata['repo_package_url'] and appdata['repo_package_name']
