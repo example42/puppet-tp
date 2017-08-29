@@ -7,22 +7,34 @@
 # this class 
 #
 class tp (
-  $tp_path,
-  $tp_owner,
-  $tp_group,
-  $check_service_command,
-  $check_package_command,
-  $tp_dir,
-  $ruby_path,
-  $options_hash        = { },
-) {
+  String $tp_path                    = $::tp::params::tp_path,
+  String $tp_owner                   = $::tp::params::tp_owner,
+  String $tp_group                   = $::tp::params::tp_group,
+  String $check_service_command      = $::tp::params::check_service_command,
+  String $check_service_command_post = $::tp::params::check_service_command_post,
+  String $check_package_command      = $::tp::params::check_package_command,
+  String $tp_dir                     = $::tp::params::tp_dir,
+  String $ruby_path                  = $::tp::params::ruby_path,
+
+  Hash $options_hash                 = {},
+
+  Hash $install_hash                 = {},
+  Hash $conf_hash                    = {},
+  Hash $dir_hash                     = {},
+  Hash $concat_hash                  = {},
+  Hash $stdmod_hash                  = {},
+  Hash $puppi_hash                   = {},
+  Hash $repo_hash                    = {},
+
+) inherits ::tp::params {
 
   $options_defaults = {
-    check_timeout          => '10',
-    check_service_command  => $check_service_command,
-    check_package_command  => $check_package_command,
+    'check_timeout'              => '10',
+    'check_service_command'      => $check_service_command,
+    'check_service_command_post' => $check_service_command_post,
+    'check_package_command'      => $check_package_command,
   }
-  $options = merge($options_defaults,$options_hash)
+  $options = $options_defaults + $options_hash
 
   file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
     ensure => directory,
@@ -32,24 +44,13 @@ class tp (
   }
 
   file { $tp_path:
+    ensure  => present,
+    path    => $tp_path,
     owner   => $tp_owner,
     group   => $tp_group,
     mode    => '0755',
     content => template('tp/tp.erb'),
   }
-
-  # Hiera lookup to tp parameters
-  $install_hash = hiera_hash('tp::install_hash' , {} )
-  $conf_hash    = hiera_hash('tp::conf_hash' , {} )
-  $dir_hash     = hiera_hash('tp::dir_hash' , {} )
-  $concat_hash  = hiera_hash('tp::concat_hash' , {} )
-  $stdmod_hash  = hiera_hash('tp::stdmod_hash' , {} )
-  $puppi_hash   = hiera_hash('tp::puppi_hash' , {} )
-  $repo_hash    = hiera_hash('tp::repo_hash' , {} )
-
-  $packages     = hiera_hash('tp::packages' , {} )
-  $services     = hiera_hash('tp::services' , {} )
-  $files        = hiera_hash('tp::files' , {} )
 
   if $install_hash != {} {
     $install_hash.each |$k,$v| {
@@ -57,31 +58,38 @@ class tp (
     }
   }
   if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash )
+    $conf_hash.each |$k,$v| {
+      tp::conf { $k:
+        * => $v,
+      }
+    }
   }
   if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash )
+    $dir_hash.each |$k,$v| {
+      tp::dir { $k:
+        * => $v,
+      }
+    }
   }
   if $concat_hash != {} {
-    create_resources('tp::concat', $concat_hash )
+    $concat_hash.each |$k,$v| {
+      tp::concat { $k:
+        * => $v,
+      }
+    }
   }
   if $stdmod_hash != {} {
-    create_resources('tp::stdmod', $stdmod_hash )
-  }
-  if $puppi_hash != {} {
-    create_resources('tp::puppi', $puppi_hash )
+    $stdmod_hash.each |$k,$v| {
+      tp::stdmod { $k:
+        * => $v,
+      }
+    }
   }
   if $repo_hash != {} {
-    create_resources('tp::repo', $repo_hash )
+    $repo_hash.each |$k,$v| {
+      tp::repo { $k:
+        * => $v,
+      }
+    }
   }
-  if $packages != {} {
-    create_resources('package', $packages )
-  }
-  if $services != {} {
-    create_resources('service', $services )
-  }
-  if $files != {} {
-    create_resources('file', $files )
-  }
-
 }

@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
 
 ## The Universal Installer
 
@@ -42,10 +43,6 @@ Tiny Puppet provides the following Puppet user defines:
 - ```tp::test```. Allows quick and easy (acceptance) testing of an application 
 - ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
-- ```tp::concat```. (WIP) Manages file fragments of a configuration file
-- ```tp::netinstall```. (WIP) Installs from a remote url
-- ```tp::instance```. (TODO) Manages an application instance
-- ```tp::github```. (TODO?) Installs (anything?;) directly from GitHub source
 
 
 ## Usage on the command line
@@ -72,16 +69,12 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 ## Prerequisites and limitations
 
-Main Tiny Puppet defines **work only on Puppet 4.x** but the module provides also Puppet 3.x compatible defines with the ```3``` suffix.
+Current version of Tiny Puppet is compatible only with Puppet 4.4 or later and PE 2016.1.1 or later.
 
-So, for example:
+To use it Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
 
-    tp::install   # Is optimised for Puppet 4 (doesn't work on earlier versions)
-    tp::install3  # Works on Puppet 3 and 4
-
-**IMPORTANT NOTE**: Do not expect all the applications to flawlessly work out of the box for all the Operating Systems. Tiny Puppet manages applications that can be installed and configured using the underlying OS native packages and services, this might not be possible for all the cases.
-
-If tp doesn't correctly install a specific application on the OS you want, please **TELL US**. It's very easy and quick to add new apps or support for new OS, we will do that.
+If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
+It's very easy and quick to add new apps or support for new OS in tinydata.
 
 Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions.
 
@@ -319,12 +312,9 @@ If, for whatever reason, you don't want to automatically manage a repository for
       auto_repo        => false,
     }
 
-
-
-
 ## Using alternative data sources
 
-By default Tiny Puppet uses the tinydata module to retrieve data for different applications, but it's possible to use a custom one:
+By default Tiny Puppet uses the [tinydata](https://github.com/example42/tinydata) module to retrieve data for different applications, but it's possible to use a custom one:
 
     tp::install { 'apache':
       data_module => 'my_data', # Default: tinydata
@@ -347,9 +337,9 @@ If you want to use your own data module for all your applications, you might pre
 
 ## Testing and playing with Tiny Puppet
 
-You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42 Puppet control-repo](https://github.com/example42/control-repo).
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick).
 
-Acceptance tests are regularly done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
 
 Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
 

@@ -1,11 +1,11 @@
-#
-# = Define: tp::puppi
+# Define: tp::puppi
 #
 # Manages Puppi integration
-# Usage of this define is optional.
-# When used, it requires Puppi.
-#
-# == Parameters
+# Usage of this define is optional. It's automatically invoked in
+# tp::install if theparameter puppi_enable is set to true.
+# When used, puppi check and puppi info files for the application
+# are created.
+# If used, it requires the example42/puppi module.
 #
 define tp::puppi (
 
@@ -29,7 +29,7 @@ define tp::puppi (
 
   ) {
 
-  # If we use tp::puppi we need puppi
+  # If we use tp::puppi we need example42/puppi
   include ::puppi
 
   # Settings evaluation
@@ -53,7 +53,7 @@ define tp::puppi (
     check_port_host        => '127.0.0.1',
   }
 
-  $puppi_options = merge($puppi_defaults, $options_hash)
+  $puppi_options = $puppi_defaults + $options_hash
 
   $real_check_base_dir = pick($puppi_options[check_command_base_dir],$::puppi::checkpluginsdir)
 

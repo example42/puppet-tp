@@ -1,0 +1,32 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: puppet
+config_dir_group: puppet
+config_dir_mode: '0750'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: pe-puppetserver
+service_name: pe-puppetserver
+config_file_path: "/etc/puppetlabs/puppetserver/puppetserver.conf"
+config_dir_path: "/etc/puppetlabs/puppetserver"
+conf_dir_path: "/etc/puppetlabs/puppetserver/conf.d"
+code_dir_path: "/etc/puppetlabs/code"
+environment_dir_path: "/etc/puppetlabs/code/environments"
+install_dir_path: "/opt/puppetlabs/server/apps/puppetserver"
+pid_file_path: "/var/run/puppetlabs/puppetserver/puppetserver.pid"
+log_dir_path: "/var/log/puppetlabs/puppetserver"
+process_name: puppet
+process_user: puppet
+process_group: puppet
+nodaemon_args: foreground
+log_file_path:
+- "/var/log/puppetlabs/puppetserver/puppetserver.log"
+- "/var/log/puppetlabs/puppetserver/masterhttp.log"
+- "/var/log/puppetlabs/puppetserver/puppetserver-access.log"
+- "/var/log/puppetlabs/puppetserver/file-sync-access.log"
+repo_package_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm

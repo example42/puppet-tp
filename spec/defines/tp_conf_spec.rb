@@ -1,486 +1,203 @@
-if ENV['PARSER'] == 'future'
-  require 'spec_helper'
-  
-  describe 'tp::conf', :type => :define do
-  
-    context 'with redis defaults' do
-      let(:title) { 'redis' }
-  #    it { should compile }
-      it { should have_file_resource_count(1) }
-      it { should contain_file("/etc/redis/redis.conf") } 
-      it do
-        should contain_file('/etc/redis/redis.conf').with({
-          'ensure'    => 'present',
-          'path'      => '/etc/redis/redis.conf',
-          'mode'      => '0644',
-          'owner'     => 'root',
-          'group'     => 'root',
-        })
-      end
-    end
-  
-    context 'with redis defaults on test osfamily' do
-      let(:title) { 'redis' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-        } 
-      }
-      it { should contain_file("/etc/redis-test/redis.conf") } 
-      it do
-        should contain_file('/etc/redis-test/redis.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-test/redis.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-    context 'with redis defaults on testos operatingsystem' do
-      let(:title) { 'redis' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-        } 
-      }
-      it { should contain_file("/etc/redis-testos/redis.conf") } 
-      it do
-        should contain_file('/etc/redis-testos/redis.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos/redis.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-    context 'with redis defaults on testos 0.0.1 operatingsystemrelease' do
-      let(:title) { 'redis' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-  
-      it { should contain_file("/etc/redis-testos001/redis.conf") } 
-      it do
-        should contain_file('/etc/redis-testos001/redis.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos001/redis.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-  
-    context 'with title redis and custom source, path and permissions' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'source' => 'puppet:///modules/site/redis/redis.conf',
-          'path'   => '/opt/etc/redis/redis.conf',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/opt/etc/redis/redis.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/opt/etc/redis/redis.conf',             
-          'source'  => 'puppet:///modules/site/redis/redis.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    context 'with title redis and custom parameters on testos 0.0.1 operatingsystem' do
-      let(:title) { 'redis' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-      let(:params) {
-        { 
-          'source' => 'puppet:///modules/site/redis/redis.conf',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/etc/redis-testos001/redis.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos001/redis.conf',
-          'source'  => 'puppet:///modules/site/redis/redis.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-        })
-      end
-    end
-  
-  
-    context 'with title redis and custom content (and *ignored* template, source and epp params)' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'content'      => "custom content",
-          'epp'          => 'tp/spec/spec.epp',
-          'template'     => 'tp/spec/spec.erb',
-          'source'       => 'puppet:///modules/site/redis/redis.conf',
-        }
-      }
-      it do 
-        should contain_file('/etc/redis/redis.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/redis/redis.conf',             
-          'content' => 'custom content',
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    context 'with title redis and custom erb template and options_hash' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'template'     => 'tp/spec/spec.erb',
-          'options_hash' => { 
-            'key_a'  => 'value_a',
-            'key_b'  => 'value_b',
-          },
-        }
-      }
-      it do 
-        should contain_file('/etc/redis/redis.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/redis/redis.conf',             
-          'content' => "key_a = value_a ; key_b = value_b\n",
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    skip 'with custom epp template and options_hash' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'epp'          => 'tp/spec/spec.epp',
-          'options_hash' => { 
-            'key_a'  => 'value_a',
-            'key_b'  => 'value_b',
-          },
-        }
-      }
-      it do 
-        should contain_file('/etc/redis/redis.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/redis/redis.conf',             
-          'content' => "key_a = value_a ; key_b = value_b\n",
-        })                                                  
-      end                                                   
-    end 
-  
-    context 'with title redis::redis2.conf' do
-      let(:title) { 'redis::redis2.conf' }
-      it do
-        should contain_file('/etc/redis/redis2.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis/redis2.conf',
-          'mode'    => '0644',
-          'owner'   => 'root',
-          'group'   => 'root',
-        })
-      end
-    end
-  
-  
-    context 'with title redis::redis2.conf on test osfamily' do
-      let(:title) { 'redis::redis2.conf' }
-      let :title do
-        'redis::redis2.conf'
-      end
-  
-      let(:facts) {
-        {
-          :osfamily => 'test',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-test/redis2.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-test/redis2.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-  
-    context 'with title redis and file specified in title on testos operatingsystem' do
-      let(:title) { 'redis::redis2.conf' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-testos/redis2.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos/redis2.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-  
-    context 'with title redis::redis2.conf on testos 0.0.1 operatingsystem' do
-      let(:title) { 'redis::redis2.conf' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-testos001/redis2.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos001/redis2.conf',
-          'mode'    => '0644',
-          'owner'   => 'test',
-          'group'   => 'test',
-        })
-      end
-    end
-  
-    context 'with title redis and path explicitly set' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'path'   => '/opt/etc/redis/redis.conf',
-        }
-      }
-      it do
-        should contain_file('/opt/etc/redis/redis.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/opt/etc/redis/redis.conf',             
-        })                                                  
-      end                                                   
-    end 
-  
-    context 'with title apache::test.conf on RedHat and default base_dir' do
-      let(:title) { 'apache::test.conf' }
-      let(:facts) {
-        {
-          :osfamily => 'RedHat',
-        }
-      }
-      let(:params) {
-        {
-          'content'   => '# test.conf',
-        }
-      }
-      it do
-        should contain_file('/etc/httpd/test.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/httpd/test.conf',             
-        })                                                  
-      end                                                   
-    end 
-  
-    context 'with title apache::test.conf on RedHat and conf base_dir' do
-      let(:title) { 'apache::test.conf' }
-      let(:facts) {
-        {
-          :osfamily => 'RedHat',
-        }
-      }
-      let(:params) {
-        {
-          'content'   => '# test.conf',
-          'base_dir'  => 'conf',
-        }
-      }
-      it do
-        should contain_file('/etc/httpd/conf.d/test.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/httpd/conf.d/test.conf',             
-        })                                                  
-      end                                                   
-    end 
-  
-    context 'with title redis and custom parameters and forced path' do
-      let(:title) { 'redis' }
-      let(:params) {
-        {
-          'source' => 'puppet:///modules/site/redis/redis2.conf',
-          'path'   => '/opt/etc/redis/redis2.conf',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/opt/etc/redis/redis2.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/opt/etc/redis/redis2.conf',             
-          'source'  => 'puppet:///modules/site/redis/redis2.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    context 'with title redis::redis2.conf and custom parameters on testos 0.0.1 operatingsystem' do
-      let(:title) { 'redis::redis2.conf' }
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-      let(:params) {
-        { 
-          'source' => 'puppet:///modules/site/redis/redis2.conf',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/etc/redis-testos001/redis2.conf').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis-testos001/redis2.conf',
-          'source'  => 'puppet:///modules/site/redis/redis2.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-        })
-      end
-    end
-  
-  
-    context 'with title redis and custom depedencies' do
-      let(:title) { 'redis' }
-      let(:params) { { 
-        'config_file_require'  => 'Class[test]',
-        'config_file_notify'  => 'Service[test]',
-      } }
-      it do
-        should contain_file("/etc/redis/redis.conf").only_with ({
-          'ensure'  => 'present',
-          'path'    => '/etc/redis/redis.conf',
-          'mode'    => '0644',
-          'owner'   => 'root',
-          'group'   => 'root',
-          'notify'  => 'Service[test]',
-          'require' => 'Class[test]',
-        })
-      end 
-    end
+require 'spec_helper'
 
-    context 'with base_file set as init the init file path should be returned' do
-      let(:title) { 'puppetserver' }
-      let(:params) {
-        {
-          :base_file => 'init',
-        }
-      }
-      let(:facts) {
-        {
-          :osfamily => 'RedHat',
-        }
-      }
-      it do
-        should contain_file('/etc/sysconfig/puppetserver').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/sysconfig/puppetserver',
-        })
+# Apps to test against. Data is in spec/tpdata/
+apps = ['rsyslog','postfix']
+
+# Sample options and rendered templates to test upon
+sample_options = {
+  'host' => 'spec.example.com',
+  'port' => '8080',
+}
+sample_erb = File.read(File.join(File.dirname(__FILE__), '../tpdata/sample.erb'))
+sample_epp = File.read(File.join(File.dirname(__FILE__), '../tpdata/sample.epp'))
+
+describe 'tp::conf', :type => :define do
+  on_supported_os(facterversion: '2.4').select { |k, _v| k == 'centos-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+      apps.each do | app |
+        appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
+        context "wiht app #{app}" do
+          let(:title) { app }
+          let(:pre_condition) { "tp::install { #{app}: }" }
+          default_file_params = {
+            'ensure'  => 'present',
+            'path'    => appdata['config_file_path'],
+            'mode'    => appdata['config_file_mode'],
+            'owner'   => appdata['config_file_owner'],
+            'group'   => appdata['config_file_group'],
+            'notify'  => "Service[#{appdata['service_name']}]",
+            'require' => "Package[#{appdata['package_name']}]",
+          }
+          context 'without any param' do
+            it { is_expected.to compile }
+            it { should have_file_resource_count(1) }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params) }
+          end
+          context 'with ensure => absent' do
+            let(:params) { { 'ensure' => 'absent' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('ensure' => 'absent')) }
+          end
+          context 'with source => puppet:///modules/tp/spec' do
+            let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
+          end
+          context 'with template => tp/spec/sample.erb and sample options_hash' do
+            let(:params) do {
+              'template'     => 'tp/spec/sample.erb',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => sample_erb)) }
+          end
+          skip 'with epp => tp/spec/sample.epp and sample options_hash' do
+            let(:params) do {
+              'epp'          => 'tp/spec/sample.epp',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => sample_epp)) }
+          end
+          context 'with content => sampletext' do
+            let(:params) do {
+              'content'      => 'sampletext',
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => 'sampletext')) }
+          end
+          context 'with content => sampletext and template => tp/spec/sample.erb' do
+            let(:params) do {
+              'content'      => 'sampletext',
+              'template'     => 'tp/spec/sample.erb',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => 'sampletext')) }
+          end
+          context 'with content => sampletext and epp => tp/spec/sample.epp' do
+            let(:params) do {
+              'content'      => 'sampletext',
+              'epp'          => 'tp/spec/sample.epp',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => 'sampletext')) }
+          end
+          context 'with content => sampletext, template => tp/spec/sample.erb and epp => tp/spec/sample.epp' do
+            let(:params) do {
+              'content'      => 'sampletext',
+              'template'     => 'tp/spec/sample.erb',
+              'epp'          => 'tp/spec/sample.epp',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => 'sampletext')) }
+          end
+          context 'with template => tp/spec/sample.erb and epp => tp/spec/sample.epp' do
+            let(:params) do {
+              'template'     => 'tp/spec/sample.erb',
+              'epp'          => 'tp/spec/sample.epp',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => sample_erb)) }
+          end
+          context "with title => #{app}::sample.conf" do
+            let(:title) { "#{app}::sample.conf" }
+            expected_path = "#{appdata['config_dir_path']}/sample.conf"
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample.conf and path => /tmp/sample.conf" do
+            let(:title) { "#{app}::sample.conf" }
+            let(:params) do {
+              'path'      => '/tmp/sample.conf',
+            } end
+            expected_path = '/tmp/sample.conf'
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with base_file => init" do
+            let(:params) do {
+              'base_file'     => 'init',
+            } end
+            expected_path = appdata['init_file_path']
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample.conf and base_file => init" do
+            let(:title) { "#{app}::sample.conf" }
+            let(:params) do {
+              'base_file'     => 'init',
+            } end
+            expected_path = appdata['init_file_path']
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample.conf and base_dir => data" do
+            let(:title) { "#{app}::sample.conf" }
+            let(:params) do {
+              'base_dir'      => 'data',
+            } end
+            expected_path = "#{appdata['data_dir_path']}/sample.conf"
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample.conf and base_dir => data and base_file => init" do
+            let(:title) { "#{app}::sample.conf" }
+            let(:params) do {
+              'base_dir'      => 'data',
+              'base_file'     => 'init',
+            } end
+            expected_path = appdata['init_file_path']
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample.conf and base_dir => data and base_file => init and path => /tmp/sample.conf" do
+            let(:title) { "#{app}::sample.conf" }
+            let(:params) do {
+              'base_dir'      => 'data',
+              'base_file'     => 'init',
+              'path'      => '/tmp/sample.conf',
+            } end
+            expected_path = '/tmp/sample.conf'
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context 'with mode => 700' do
+            let(:params) { { 'mode' => '700' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('mode' => '700')) }
+          end
+          context 'with owner => al' do
+            let(:params) { { 'owner' => 'al' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('owner' => 'al')) }
+          end
+          context 'with group => al' do
+            let(:params) { { 'group' => 'al' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('group' => 'al')) }
+          end
+          context 'with config_file_notify => Service[alt]' do
+            let(:pre_condition) { "tp::install { #{app}: }; service { alt: }" }
+            let(:params) { { 'config_file_notify' => 'Service[alt]' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('notify' => 'Service[alt]')) }
+          end
+          context 'with config_file_notify => false' do
+            let(:params) { { 'config_file_notify' => false } }
+            it { is_expected.to contain_file(appdata['config_file_path']).without_notify }
+          end
+          context 'with config_file_require => Package[alt]' do
+            let(:pre_condition) { "tp::install { #{app}: }; package { alt: }" }
+            let(:params) { { 'config_file_require' => 'Package[alt]' } }
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('require' => 'Package[alt]')) }
+          end
+          context 'with config_file_require => false' do
+            let(:params) { { 'config_file_require' => false } }
+            it { is_expected.to contain_file(appdata['config_file_path']).without_require }
+          end
+          context 'with config_file_notify => false and config_file_require => false' do
+            let(:params) do {
+              'config_file_notify'  => false,
+              'config_file_require' => false,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).without_notify }
+            it { is_expected.to contain_file(appdata['config_file_path']).without_require }
+          end
+          context 'with settings_hash => { config_file_path => /tmp/custom.conf, config_file_mode => 700 }' do
+            custom_settings = {
+              'config_file_path' => '/tmp/custom.conf',
+              'config_file_mode' => '700',
+            }
+            let(:params) { { 'settings_hash' => custom_settings } }
+            it { is_expected.to contain_file('/tmp/custom.conf').only_with(default_file_params.merge('path' => '/tmp/custom.conf', 'mode' => '700')) }
+          end
+        end
       end
     end
-
-    context 'with base_file set as init and a specific path the specified path should be returned' do
-      let(:title) { 'puppetserver' }
-      let(:params) {
-        {
-          :base_file => 'init',
-          :path => '/tmp/init',
-        }
-      }
-      let(:facts) {
-        {
-          :osfamily => 'RedHat',
-        }
-      }
-      it do
-        should contain_file('/tmp/init').with({
-          'ensure'  => 'present',
-          'path'    => '/tmp/init',
-        })
-      end
-    end
-
-    context 'with base_file set as init and base_dir set the init file path should be returned' do
-      let(:title) { 'puppetserver::anything' }
-      let(:params) {
-        {
-          :base_file => 'init',
-          :base_dir => 'install',
-        }
-      }
-      let(:facts) {
-        {
-          :osfamily => 'RedHat',
-        }
-      }
-      it do
-        should contain_file('/etc/sysconfig/puppetserver').with({
-          'ensure'  => 'present',
-          'path'    => '/etc/sysconfig/puppetserver',
-        })
-      end
-    end
-
-
-    skip 'with custom epp template and options_hash' do
-      let(:title) { 'redis' }
-      let(:params) { {
-        'epp'          => 'tp/spec/spec.epp',
-        'options_hash' => { 
-          'key_a'  => 'value_a',
-          'key_b'  => 'value_b',
-          },
-        } }
-      it do 
-        should contain_file('/etc/redis/redis2.conf').with({
-          'ensure'  => 'present',                           
-          'path'    => '/etc/redis/redis2.conf',             
-          'content' => "key_a = value_a ; key_b = value_b\n",
-        })                                                  
-      end                                                   
-    end 
   end
 end

@@ -1,0 +1,4 @@
+# Sample template used in spec tests. DO NOT MODIFY!
+# A rendered version used to tests is in spec/tpdata/sample.epp
+host = <%= $options_hash['host'] %>
+port = <%= $options['port'] %>

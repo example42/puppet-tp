@@ -1,0 +1,20 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: sysdig
+tp_prerequisites:
+- dkms
+repo_url: http://download.draios.com/stable/deb
+key: F1C3BD80
+key_url: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+apt_release: stable-$(ARCH)/
+

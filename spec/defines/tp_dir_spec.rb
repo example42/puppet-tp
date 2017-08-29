@@ -1,239 +1,143 @@
-if ENV['PARSER'] == 'future'
-  require 'spec_helper'
-  
-  describe 'tp::dir', :type => :define do
-  
-    let (:title) { 'redis' }
-  
-    context 'with title redis' do
-      it do
-        should contain_file('/etc/redis').only_with({
-          'ensure'  => 'directory',
-          'path'    => '/etc/redis',
-          'mode'    => '0755',
-          'owner'   => 'root',
-          'group'   => 'root',
-          'require' => 'Package[redis]',
-          'notify'  => 'Service[redis]',
-        })
-      end
-    end
-  
-  
-    context 'with title redis on test osfamily' do
-      let(:facts) {
-        {
-          :osfamily => 'test',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-test').only_with({
-          'ensure'  => 'directory',
-          'path'    => '/etc/redis-test',
-          'mode'    => '0755',
-          'owner'   => 'test',
-          'group'   => 'test',
-          'require' => 'Package[redis-test]',
-          'notify'  => 'Service[redis-test]',
-        })
-      end
-    end
-  
-  
-    context 'with title redis on testos operatingsystem' do
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-testos').only_with({
-          'ensure'  => 'directory',
-          'path'    => '/etc/redis-testos',
-          'mode'    => '0755',
-          'owner'   => 'test',
-          'group'   => 'test',
-          'require' => 'Package[redis-testos]',
-          'notify'  => 'Service[redis-testos]',
-        })
-      end
-    end
-  
-  
-    context 'with title redis on testos 0.0.1 operatingsystem' do
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-      it do
-        should contain_file('/etc/redis-testos001').with({
-          'ensure'  => 'directory',
-          'path'    => '/etc/redis-testos001',
-          'mode'    => '0755',
-          'owner'   => 'test',
-          'group'   => 'test',
-          'require' => 'Package[redis-testos001]',
-          'notify'  => 'Service[redis-testos001]',
-        })
-      end
-    end
-  
-    context 'with custom source, path and vcsrepo' do
-      let(:params) {
-        {
-          'source'  => 'https:///github.com/example42/puppet-tp',
-          'path'    => '/opt/tp',
-          'vcsrepo' => 'git',
-        }
-      }
-      it do
-        should contain_vcsrepo('/opt/tp').only_with({
-          'ensure'   => 'present',
-          'path'     => '/opt/tp',             
-          'source'   => 'https:///github.com/example42/puppet-tp',
-          'owner'    => 'root',
-          'group'    => 'root',
-          'provider' => 'git',
-        })
-      end
-      it { should have_file_resource_count(0) }
-    end 
-  
-    context 'with custom source, path and permissions' do
-      let(:params) {
-        {
-          'source' => 'puppet:///modules/site/redis/redis.conf',
-          'path'   => '/opt/etc/redis',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/opt/etc/redis').only_with({
-          'ensure'  => 'directory',
-          'path'    => '/opt/etc/redis',             
-          'source'  => 'puppet:///modules/site/redis/redis.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-          'require' => 'Package[redis]',                    
-          'notify'  => 'Service[redis]',                    
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    context 'with title redis and custom parameters on testos 0.0.1 operatingsystem' do
-      let(:facts) {
-        {
-          :osfamily => 'test',
-          :operatingsystem => 'testos',
-          :operatingsystemrelease => '0.0.1',
-        } 
-      }
-      let(:params) {
-        { 
-          'source' => 'puppet:///modules/site/redis/redis.conf',
-          'mode'   => '0777',
-          'owner'  => 'mytest',
-          'group'  => 'mytest',
-        }
-      }
-      it do
-        should contain_file('/etc/redis-testos001').with({
-          'ensure'  => 'directory',
-          'path'    => '/etc/redis-testos001',
-          'source'  => 'puppet:///modules/site/redis/redis.conf',
-          'mode'    => '0777',                              
-          'owner'   => 'mytest',
-          'group'   => 'mytest',                              
-          'require' => 'Package[redis-testos001]',
-          'notify'  => 'Service[redis-testos001]',
-        })
-      end
-    end
-  
-  
-    context 'with title redis and recursive dir purging' do
-      let(:params) {
-        {
-          'purge'        => true,
-          'force'        => true,
-          'recurse'      => true,
-          'source'       => 'puppet:///modules/site/redis/redis.conf',
-        }
-      }
-      it do 
-        should contain_file('/etc/redis').with({
-          'ensure'  => 'directory',                           
-          'path'    => '/etc/redis',             
-          'source'  => 'puppet:///modules/site/redis/redis.conf',
-          'purge'   => true,
-          'force'   => true,
-          'recurse' => true,
-        })                                                  
-      end                                                   
-    end 
-  
-  
-    context 'with title apache on RedHat with base_dir = data' do
-      let(:title) { 'apache' }
-      let(:params) { {
-          'base_dir'  => 'data',
-          'source'    => 'puppet:///modules/site/apache/default_site',
-      } }
-      let(:facts) { {
-          'osfamily'     => 'RedHat',
-      } }
-  
-      it do 
-        should contain_file('/var/www/html').with({
-          'ensure'  => 'directory',                           
-          'path'    => '/var/www/html',             
-          'source'  => 'puppet:///modules/site/apache/default_site',
-        })                                                  
+require 'spec_helper'
+
+# Apps to test against. Data is in spec/tpdata/
+apps = ['rsyslog','postfix']
+
+describe 'tp::dir', :type => :define do
+  on_supported_os(facterversion: '2.4').select { |k, _v| k == 'centos-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+      apps.each do | app |
+        appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
+        context "with app #{app}" do
+          let(:title) { app }
+          let(:pre_condition) { "tp::install { #{app}: }" }
+          default_file_params = {
+            'ensure'  => 'directory',
+            'path'    => appdata['config_dir_path'],
+            'mode'    => appdata['config_dir_mode'],
+            'owner'   => appdata['config_dir_owner'],
+            'group'   => appdata['config_dir_group'],
+            'notify'  => "Service[#{appdata['service_name']}]",
+            'require' => "Package[#{appdata['package_name']}]",
+          }
+          context 'without any param' do
+            it { is_expected.to compile }
+            it { should have_file_resource_count(1) }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params) }
+          end
+          context 'with ensure => absent' do
+            let(:params) { { 'ensure' => 'absent' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('ensure' => 'absent')) }
+          end
+          context 'with title => /tmp/sample' do
+            let(:title) { '/tmp/sample' }
+            expected_path = '/tmp/sample'
+            it { is_expected.to contain_file(expected_path).with('path' => expected_path) }
+            it { is_expected.to contain_file(expected_path).without_notify }
+            it { is_expected.to contain_file(expected_path).without_require }
+          end
+          context "with title => #{app}::sample and path => /tmp/sample" do
+            let(:title) { "#{app}::sample" }
+            let(:params) do {
+              'path'      => '/tmp/sample',
+            } end
+            expected_path = '/tmp/sample'
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample and base_dir => data" do
+            let(:title) { "#{app}::sample" }
+            let(:params) do {
+              'base_dir'      => 'data',
+            } end
+            expected_path = appdata['data_dir_path']
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context "with title => #{app}::sample and base_dir => data and path => /tmp/sample" do
+            let(:title) { "#{app}::sample" }
+            let(:params) do {
+              'base_dir'      => 'data',
+              'path'      => '/tmp/sample.conf',
+            } end
+            expected_path = '/tmp/sample.conf'
+            it { is_expected.to contain_file(expected_path).only_with(default_file_params.merge('path' => expected_path)) }
+          end
+          context 'with mode => 700' do
+            let(:params) { { 'mode' => '700' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('mode' => '700')) }
+          end
+          context 'with owner => al' do
+            let(:params) { { 'owner' => 'al' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('owner' => 'al')) }
+          end
+          context 'with group => al' do
+            let(:params) { { 'group' => 'al' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('group' => 'al')) }
+          end
+          context 'with config_dir_notify => Service[alt]' do
+            let(:pre_condition) { "tp::install { #{app}: }; service { alt: }" }
+            let(:params) { { 'config_dir_notify' => 'Service[alt]' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('notify' => 'Service[alt]')) }
+          end
+          context 'with config_dir_notify => false' do
+            let(:params) { { 'config_dir_notify' => false } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).without_notify }
+          end
+          context 'with config_dir_require => Package[alt]' do
+            let(:pre_condition) { "tp::install { #{app}: }; package { alt: }" }
+            let(:params) { { 'config_dir_require' => 'Package[alt]' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('require' => 'Package[alt]')) }
+          end
+          context 'with config_dir_require => false' do
+            let(:params) { { 'config_dir_require' => false } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).without_require }
+          end
+          context 'with config_dir_notify => false and config_dir_require => false' do
+            let(:params) do {
+              'config_dir_notify'  => false,
+              'config_dir_require' => false,
+            } end
+            it { is_expected.to contain_file(appdata['config_dir_path']).without_notify }
+            it { is_expected.to contain_file(appdata['config_dir_path']).without_require }
+          end
+          context 'with settings_hash => { config_dir_path => /tmp/custom, config_dir_mode => 700 }' do
+            custom_settings = {
+              'config_dir_path' => '/tmp/custom',
+              'config_dir_mode' => '700',
+            }
+            let(:params) { { 'settings_hash' => custom_settings } }
+            it { is_expected.to contain_file('/tmp/custom').only_with(default_file_params.merge('path' => '/tmp/custom', 'mode' => '700')) }
+          end
+          context 'with force => true' do
+            let(:params) { { 'force' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('force' => true)) }
+          end
+          context 'with recurse => true' do
+            let(:params) { { 'recurse' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('recurse' => true)) }
+          end
+          context 'with purge => true' do
+            let(:params) { { 'purge' => true } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('purge' => true)) }
+          end
+          context 'with source => puppet:///modules/tp/spec' do
+            let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
+            it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
+          end          
+          context 'with source => https://github.com/example42/puppet-tp and vcsrepo => git' do
+            let(:params) do {
+              'source'  => 'https://github.com/example42/puppet-tp',
+              'vcsrepo' => 'git'
+            } end
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('ensure' => 'present') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('source' => 'https://github.com/example42/puppet-tp') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('provider' => 'git') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('owner' => appdata['config_dir_owner']) }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('group' => appdata['config_dir_group']) }
+            it { should have_file_resource_count(0) }
+          end
         end
-    end 
-  
-  
-    context 'with an absolute path as title and vcsrepo' do
-      let (:title) { '/opt/tp' }
-      let(:params) {
-        {
-          'vcsrepo' => 'git',
-          'source'  => 'https://github.com/example42/puppet-tp.git',
-          'owner'   => 'mytest',
-        }
-      }
-      it do 
-        should contain_vcsrepo('/opt/tp').with({
-          'ensure'   => 'present',                           
-          'provider' => 'git',             
-          'source'   => 'https://github.com/example42/puppet-tp.git',
-          'owner'    => 'mytest',
-          'group'    => 'root',
-        })
       end
     end
-  
-    context 'with an absolute path as title and source' do
-      let (:title) { '/opt/tools' }
-      let(:params) { {
-          'source'  => 'puppet:///modules/site/tools',
-      } }
-      it do 
-        should contain_file('/opt/tools').with({
-          'ensure'  => 'directory',                          
-          'path'    => '/opt/tools',             
-          'source'  => 'puppet:///modules/site/tools',
-        })                                                  
-      end                                                   
-    end 
-  
   end
 end

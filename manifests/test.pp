@@ -1,10 +1,7 @@
+# tp::test
 #
-#
-# = Define: tp::test
-#
-# Creates test scripts to be executed in whatever way
-#
-# == Parameters
+# Creates test scripts to check if the application managed
+# by Tiny Puppet is runnign correctly.
 #
 define tp::test (
 
@@ -27,18 +24,16 @@ define tp::test (
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
+  include ::tp::params
+
   # Default options and computed variables
   $options_defaults = {
     check_timeout          => '10',
-    check_service_command  => "service ${settings[service_name]} status",
+    check_service_command  => "${::tp::params::check_service_command} ${settings[service_name]} ${::tp::params::check_service_command_post}",
     check_package_command  => $settings['package_provider'] ? {
       'gem'   => "gem list -i ${settings[package_name]}",
       'pip'   => "pip show ${settings[package_name]}",
-      default => $::osfamily ? {
-        'RedHat' => "rpm -q ${settings[package_name]}",
-        'Debian' => "dpkg -l ${settings[package_name]}",
-        default  => "puppet resource package ${settings[package_name]}",
-      },
+      default => $::tp::params::check_package_command,
     },
     check_port_command     => 'check_tcp',
     check_port_critical    => '10',
@@ -56,8 +51,8 @@ define tp::test (
     file { "${base_dir}/${title}":
       ensure  => $ensure,
       mode    => '0755',
-      owner   => root,
-      group   => root,
+      owner   => 'root',
+      group   => 'root',
       content => template($template),
       tag     => 'tp_test',
     }

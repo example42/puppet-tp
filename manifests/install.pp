@@ -26,7 +26,7 @@
 # is defined $settings['config_file_template'] with a valid template
 # in the used data module (default: tinydata)
 #   tp::install { 'puppetserver':
-#     options_hash => hiera('puppetserver::options'),
+#     options_hash => lookup('puppetserver::options', {merge => deep}),
 #   }
 #
 # @example installation and configuration via a custom hash of tp::conf
@@ -34,13 +34,13 @@
 # Here eventual auto configuration is explicitly disabled
 #
 #   tp::install { 'puppet':
-#     conf_hash => hiera('tp::puppet::confs'),
+#     conf_hash => lookup('puppet::tp_confs', {merge => deep}),,
 #     auto_conf => false,
 #   }
 #
 # @example installation with custom settings
 #   tp::install { 'apache':
-#     settings_hash => {
+#     settings_hash       => {
 #        package_name     => 'opt_apache',
 #        service_enable   => false,
 #        config_file_path => '/opt/apache/conf/httpd.conf',
@@ -48,69 +48,55 @@
 #      }
 #   }
 #
-# @param ensure                    Default: present
-#   Manage application status. Valid values are present, absent or the
-#   package version number.
+# @param ensure Manage application status.
+#   Valid values are present, absent or the package version number.
 #
-# @param conf_hash                 Default: { }
-#   An hash of tp::conf resources that feed a create_resources function call.
+# @param conf_hash An hash of tp::conf resources to create.
+#   These resources will refer to the same application specified in the $title.
 #
-# @param dir_hash                  Default: { }
-#   An hash of tp::dir resources that feed a create_resources function call.
+# @param dir_hash  An hash of tp::dir resources to create.
+#   These resources will refer to the same application specified in the $title.
 #
-# @param options_hash              Default: { },
-#   Generic hash of configuration parameters specific for the app, they are
-#   passed to tp::test if test_enable parameter is true
+# @param options_hash Generic hash of configuration parameters specific for the
+#   app, they are passed to tp::test if test_enable parameter is true
 #
-# @param settings_hash             Default: { }
-#   An hash that can override the application settings tp returns, according to the
-#   underlying Operating System and the default behaviour
+# @param settings_hash An hash that can override the application settings tp
+#   returns, according to the underlying OS and the default behaviour
 #
-# @param auto_repo                 Default: true
-#   Boolean to enable automatic package repo management for the specified
-#   application. Repo data is not always provided.
+# @param auto_repo Boolean to enable automatic package repo management for the
+#   specified application. Repo data is not always provided.
 #
-# @param auto_prerequisites        Default: false
-#   Boolean to enable automatic management of prerequisite dependencies
+# @param auto_prereq Boolean to enable automatic management of prerequisite dependencies
 #   required for the installation of the application. If they are defined in
 #   tp data.
 #
-# @param repo                      Default: undef
-#   Name of the repository to use. Multiple different repositories may
+# @param repo Name of the repository to use. Multiple different repositories may
 #   be used, if they are defined in Tiny Puppet data.
 #
-# @param auto_conf                 Default: true
-#   Boolean to enable automatic configuration of the application.
+# @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's a valid value for $settings['config_file_template']
 #   then the relevant template is added via tp::conf based on the default
 #   $options (they can be overriden by the options_hash parameter).
 #
-# @param cli_enable                Default: true
-#   Enable cli integration.
-#   If true, tp commands to query apps instlled via tp are added to the system.
+# @param cli_enable Enable cli integration.
+#   If true, tp commands to query apps installed via tp are added to the system.
 #
-# @param puppi_enable              Default: false
-#   Enable puppi integration. Default disabled.
+# @param puppi_enable Enable puppi integration. Default disabled.
 #   If set true, the puppi module is needed.
 #
-# @param test_enable               Default: false
-#   If true, it is called the define tp::test, which creates a script that
-#   should test the functionality of the app
+# @param test_enable If true, it is called the define tp::test, which allows
+#   to test the status of the application from the command line.
 #
-# @param test_template             Default: undef
-#   Custom template to use to for the content of test script, used
-#   by the tp::test define. It requires test_enable = true
+# @param test_template Custom template to use to for the content of test script,
+#   used by the tp::test define. It requires test_enable = true
 #
-# @param debug                     Default: false,
-#   If set to true it prints debug information for tp into the directory set in
-#   debug_dir
+# @param debug If set to true it prints debug information for tp into the
+#   directory set in debug_dir
 #
-# @param debug_dir                 Default: '/tmp',
-#   The directory where tp stoes dbug info, when enabled
+# @param debug_dir The directory where tp stores debug info, if enabled.
 #
-# @param data_module               Default: 'tinydata'
-#   Name of the module where tp data is looked for
-#
+# @param data_module Name of the module where tp data is looked for
+#  Default is tinydata: https://github.com/example42/tinydata
 #
 define tp::install (
 
@@ -124,20 +110,21 @@ define tp::install (
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
-  Boolean                 $auto_prerequisites = false,
+  Optional[Boolean]       $auto_prerequisites = undef,
+  Boolean                 $auto_prereq      = false,
 
   Variant[Undef,String]   $repo             = undef,
 
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
 
-  Boolean                 $cli_enable       = true,
+  Boolean                 $cli_enable       = false,
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
   Boolean                 $debug            = false,
-  String[1]               $debug_dir        = '/tmp',
+  String[1]               $debug_dir           = '/tmp',
 
   String[1]               $data_module      = 'tinydata',
 
@@ -198,40 +185,44 @@ define tp::install (
       default   => true,
     }
     tp::repo { $app:
-      enabled     => $repo_enabled,
-      before      => Package[$settings[package_name]],
-      data_module => $data_module,
-      repo        => $repo,
+      enabled       => $repo_enabled,
+      before        => Package[$settings[package_name]],
+      data_module   => $data_module,
+      repo          => $repo,
+      settings_hash => $settings_hash,
     }
   }
 
+  if $auto_prerequisites {
+    deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
+  }
 
   # Automatic dependencies management, if data defined
-  if $auto_prerequisites and $settings[package_prerequisites] {
+  if $auto_prereq and $settings[package_prerequisites] {
     $settings[package_prerequisites].each | $p | {
       Package[$p] -> Package[$settings[package_name]]
       ensure_packages($p)
     }
   }
-  if $auto_prerequisites and $settings[tp_prerequisites] {
+  if $auto_prereq and $settings[tp_prerequisites] {
     $settings[tp_prerequisites].each | $p | {
       Tp::Install[$p] -> Package[$settings[package_name]]
-      tp_install($p, { auto_prerequisites => true })
+      tp_install($p, { auto_prereq => true })
     }
   }
-  if $auto_prerequisites and $settings[exec_prerequisites] {
+  if $auto_prereq and $settings[exec_prerequisites] {
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
-        * => $v,
+        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
     }
   }
-  if $auto_prerequisites and $settings[exec_postinstall] {
+  if $auto_prereq and $settings[exec_postinstall] {
     $settings[exec_postinstall].each | $k , $v | {
       Package[$settings[package_name]] -> Exec[$k]
       exec { $k:
-        * => $v,
+        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
     }
   }
@@ -266,17 +257,34 @@ define tp::install (
     }
   }
 
-  $resources_defaults = {
+  # Manage additional tp::conf as in conf_hash
+  $conf_defaults = {
+    'ensure'        => $ensure,
     'settings_hash' => $settings,
     'options_hash'  => $options_hash,
   }
   if $conf_hash != {} {
-    create_resources('tp::conf', $conf_hash, $resources_defaults )
-  }
-  if $dir_hash != {} {
-    create_resources('tp::dir', $dir_hash, $resources_defaults )
+    $conf_hash.each |$k,$v| {
+      tp::conf { $k:
+        * => $conf_defaults + $v,
+      }
+    }
   }
 
+  # Manage additional tp::dir as in dir_hash
+  $dir_defaults = {
+    'ensure'        => $ensure,
+    'settings_hash' => $settings,
+  }
+  if $dir_hash != {} {
+    $dir_hash.each |$k,$v| {
+      tp::dir { $k:
+        * => $dir_defaults + $v,
+      }
+    }
+  }
+
+  # Auto manage config files if present
   if $auto_conf and $settings['config_file_template'] {
     ::tp::conf { $app:
       template     => $settings['config_file_template'],
@@ -317,5 +325,15 @@ define tp::install (
       content => inline_template('<%= @settings.to_yaml %>'),
     }
     include ::tp
+  }
+
+  # Debugging
+  if $debug == true {
+    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+    file { "tp_install_debug_${title}":
+      ensure  => present,
+      content => $debug_scope,
+      path    => "${debug_dir}/tp_install_debug_${title}",
+    }
   }
 }

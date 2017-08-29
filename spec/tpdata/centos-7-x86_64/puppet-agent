@@ -1,0 +1,35 @@
+---
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+package_name: puppet-agent
+service_name: puppet
+config_file_path: "/etc/puppetlabs/puppet/puppet.conf"
+fileserver_file_path: "/etc/puppetlabs/puppet/fileserver.conf"
+routes_file_path: "/etc/puppetlabs/puppet/routes.yaml"
+autosign_file_path: "/etc/puppetlabs/puppet/autosign.conf"
+auth_file_path: "/etc/puppetlabs/puppet/auth.conf"
+config_dir_path: "/etc/puppetlabs/puppet/"
+code_dir_path: "/etc/puppetlabs/code"
+environment_dir_path: "/etc/puppetlabs/code/environments"
+pid_file_path: "/var/run/puppetlabs/agent.pid"
+log_file_path:
+- "/var/log/puppetlabs/puppet/puppet.log"
+- "/var/log/puppetlabs/pxp-agent/pxp-agent.log"
+- "/var/log/puppetlabs/mcollective-log"
+log_dir_path: "/var/log/puppetlabs/puppet"
+process_name: puppet
+process_user: root
+process_group: root
+repo_package_name: puppetlabs-release-pc1
+repo_package_provider: rpm
+dockerfile_prerequisites: RUN yum install -y wget which
+repo_package_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm

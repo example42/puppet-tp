@@ -1,6 +1,6 @@
 {
   "name": "example42-tp",
-  "version": "1.4.3",
+  "version": "2.0.0",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi",
@@ -75,7 +75,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.0.0 < 6.0.0"
+      "version_requirement": ">= 4.4.0 < 6.0.0"
     }
   ],
   "dependencies": [

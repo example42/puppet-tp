@@ -6,6 +6,7 @@
 define tp::repo (
 
   Boolean                   $enabled             = true,
+  Hash                      $settings_hash       = { },
 
   Variant[Undef,String]     $repo                = undef,
 
@@ -17,21 +18,21 @@ define tp::repo (
   Boolean                   $include_src         = false,
 
   Variant[Undef,Integer]    $yum_priority        = undef,
-  Variant[Undef,String[1],Boolean] $yum_gpgcheck        = undef,
-  Variant[Undef,String[1]] $yum_mirrorlist      = undef,
+  Variant[Undef,String[1],Boolean] $yum_gpgcheck = undef,
+  Variant[Undef,String[1]] $yum_mirrorlist       = undef,
 
-  Variant[Undef,String[1]] $apt_key_server      = undef,
-  Variant[Undef,String[1]] $apt_key_fingerprint = undef,
-  Variant[Undef,String[1]] $apt_release         = undef,
-  Variant[Undef,String[1]] $apt_repos           = undef,
-  Variant[Undef,String[1]] $apt_pin             = undef,
+  Variant[Undef,String[1]] $apt_key_server       = undef,
+  Variant[Undef,String[1]] $apt_key_fingerprint  = undef,
+  Variant[Undef,String[1]] $apt_release          = undef,
+  Variant[Undef,String[1]] $apt_repos            = undef,
+  Variant[Undef,String[1]] $apt_pin              = undef,
 
-  Variant[Undef,String[1]] $zypper_repofile_url = undef,
+  Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
-  Boolean                  $debug               = false,
-  String[1]                $debug_dir           = '/tmp',
+  Boolean                  $debug                = false,
+  String[1]                $debug_dir            = '/tmp',
 
-  String[1]                $data_module         = 'tinydata',
+  String[1]                $data_module          = 'tinydata',
 
 ) {
 
@@ -54,7 +55,7 @@ define tp::repo (
     zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
-  $settings = $tp_settings + $user_settings_clean
+  $settings = $tp_settings + $settings_hash + $user_settings_clean
 
   $manage_yum_gpgcheck = $yum_gpgcheck ? {
     undef   => $settings[key_url] ? {
@@ -120,14 +121,15 @@ define tp::repo (
       }
 
       if !empty($settings[package_name])
-      and $settings[package_name] != ''
-      and $settings[package_name] != undef
-      and !empty($settings[key]) {
+      and !empty($settings[key])
+      and defined(Package[$settings[package_name]]) {
         Exec['tp_apt_update'] -> Package[$settings[package_name]]
       }
 
       if !defined(File["${title}.list"])
-      and !empty($settings[key]) {
+      and !empty($settings[key])
+      and !empty($settings[key_url])
+      and !empty($settings[repo_url]) {
         file { "${title}.list":
           ensure  => $ensure,
           path    => "/etc/apt/sources.list.d/${title}.list",
@@ -174,14 +176,20 @@ define tp::repo (
   # Install repo via release package, if tinydata present
   if $settings[repo_package_url] and $settings[repo_package_name] {
     if ! defined(Package[$settings[repo_package_name]]) {
+      $repo_package_before = $settings[package_name] ? {
+        ''      => undef,
+        undef   => undef,
+        default => Package[$settings[package_name]],
+      }
       package { $settings[repo_package_name]:
         source   => $settings[repo_package_url],
         provider => $settings[repo_package_provider],
-        before   => Package[$settings[package_name]],
+        before   => $repo_package_before,
       }
     }
   }
 
+  # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_repo_debug_${title}":
