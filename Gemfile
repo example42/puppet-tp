@@ -140,9 +140,9 @@ gem 'danger-changelog'
 gem 'danger-mention'
 
 # Coveralls
-gem 'coveralls'
+gem 'coveralls', require: false
 
 # Semantic Puppet
-gem 'semantic_puppet'
-
+gem 'semantic_puppet', require: false
+gem 'puppet-blacksmith', require: false
 # vim: syntax=ruby
