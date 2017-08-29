@@ -136,6 +136,13 @@ describe 'tp::dir', :type => :define do
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('group' => appdata['config_dir_group']) }
             it { should have_file_resource_count(0) }
           end
+          context 'with debug => true and debug_dir => /var/tmp' do
+            let(:params) do {
+              'debug'     => true,
+              'debug_dir' => '/var/tmp',
+            } end
+            it { is_expected.to contain_file("tp_dir_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_dir_debug_#{app}") }
+          end
         end
       end
     end

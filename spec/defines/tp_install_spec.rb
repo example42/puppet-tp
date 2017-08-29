@@ -140,6 +140,13 @@ describe 'tp::install', :type => :define do
               it { is_expected.to contain_exec(appdata['exec_postinstall']) }
             end
           end
+          context 'with debug => true and debug_dir => /var/tmp' do
+            let(:params) do {
+              'debug'     => true,
+              'debug_dir' => '/var/tmp',
+            } end
+            it { is_expected.to contain_file("tp_install_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_install_debug_#{app}") }
+          end
         end
       end
     end

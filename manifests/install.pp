@@ -331,7 +331,7 @@ define tp::install (
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_install_debug_${title}":
-      ensure  => present,
+      ensure  => $plain_ensure,
       content => $debug_scope,
       path    => "${debug_dir}/tp_install_debug_${title}",
     }

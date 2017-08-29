@@ -196,6 +196,13 @@ describe 'tp::conf', :type => :define do
             let(:params) { { 'settings_hash' => custom_settings } }
             it { is_expected.to contain_file('/tmp/custom.conf').only_with(default_file_params.merge('path' => '/tmp/custom.conf', 'mode' => '700')) }
           end
+          context 'with debug => true and debug_dir => /var/tmp' do
+            let(:params) do {
+              'debug'     => true,
+              'debug_dir' => '/var/tmp',
+            } end
+            it { is_expected.to contain_file("tp_conf_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_conf_debug_#{app}") }
+          end
         end
       end
     end

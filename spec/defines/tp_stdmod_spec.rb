@@ -71,6 +71,13 @@ describe 'tp::stdmod', :type => :define do
               it { is_expected.to contain_service(appdata['service_name']).only_with(default_service_params.merge('ensure' => 'stopped', 'enable' => false)) }
             end
           end
+          context 'with debug => true and debug_dir => /var/tmp' do
+            let(:params) do {
+              'debug'     => true,
+              'debug_dir' => '/var/tmp',
+            } end
+            it { is_expected.to contain_file("tp_stdmod_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_stdmod_debug_#{app}") }
+          end          
         end
       end
     end
