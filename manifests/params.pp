@@ -1,34 +1,34 @@
 # Params class for tp
 #
 class tp::params {
-  $tp_path = $::osfamily ? {
+  $tp_path = $facts['os']['family'] ? {
     'windows' => 'C:/ProgramData/PuppetLabs/puppet/bin/tp',
     'Darwin'  => '/usr/bin/tp',
     default   => '/usr/local/bin/tp',
   }
-  $tp_dir = $::osfamily ? {
+  $tp_dir = $facts['os']['family'] ? {
     'windows' => 'C:/ProgramData/PuppetLabs/puppet/etc/tp',
     default   => '/etc/tp',
   }
-  $tp_owner = $::osfamily ? {
+  $tp_owner = $facts['os']['family'] ? {
     'windows' => 'Administrator',
     default   => 'root',
   }
-  $tp_group = $::osfamily ? {
+  $tp_group = $facts['os']['family'] ? {
     'windows' => 'Administrators',
     'Darwin'  => 'wheel',
     default   => 'root',
   }
-  $check_service_command = $::osfamily ? {
-    'RedHat' => $::operatingsystemmajrelease ? {
+  $check_service_command = $facts['os']['family'] ? {
+    'RedHat' => $facts['os']['release']['major'] ? {
       '6'     => 'service',
       default => 'systemctl status',
     },
-    'Suse'   => $::operatingsystemmajrelease ? {
+    'Suse'   => $facts['os']['release']['major'] ? {
       '11'     => 'service',
       default => 'systemctl status',
     },
-    'Debian' =>  $::operatingsystemmajrelease ? {
+    'Debian' =>  $facts['os']['release']['major'] ? {
       '7'     => 'service',
       '10.04' => 'service',
       '12.04' => 'service',
@@ -37,16 +37,16 @@ class tp::params {
     },
     default  => 'puppet resource service',
   }
-  $check_service_command_post = $::osfamily ? {
-    'RedHat' => $::operatingsystemmajrelease ? {
+  $check_service_command_post = $facts['os']['family'] ? {
+    'RedHat' => $facts['os']['release']['major'] ? {
       '6'     => 'status',
       default => '',
     },
-    'Suse'   => $::operatingsystemmajrelease ? {
+    'Suse'   => $facts['os']['release']['major'] ? {
       '11'     => 'status',
       default => '',
     },
-    'Debian' =>  $::operatingsystemmajrelease ? {
+    'Debian' =>  $facts['os']['release']['major'] ? {
       '7'     => 'status',
       '10.04' => 'status',
       '12.04' => 'status',
@@ -55,13 +55,13 @@ class tp::params {
     },
     default  => '',
   }
-  $check_package_command = $::osfamily ? {
+  $check_package_command = $facts['os']['family'] ? {
     'RedHat' => 'rpm -q',
     'Suse'   => 'rpm -q',
     'Debian' => 'dpkg -l',
     default  => 'puppet resource package',
   }
-  $ruby_path = $::osfamily ? {
+  $ruby_path = $facts['os']['family'] ? {
     'windows' => 'C:/ProgramData/PuppetLabs/puppet/bin/ruby',
     default   => '/opt/puppetlabs/puppet/bin/ruby',
   }
