@@ -27,7 +27,7 @@ describe 'tp::repo', :type => :define do
           total_count = total_count.to_i + 1 # yumrepo
         end
         if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
-        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
           total_count = total_count.to_i + 1 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
         end
@@ -49,7 +49,7 @@ describe 'tp::repo', :type => :define do
           let(:title) { app }
           # Add tp::install resources
           let(:pre_condition) { "tp::install { #{app}: auto_repo => false }" }
-          total_count = total_count.to_i + 1 # tp::install
+          total_count = total_count.to_i + 1 # tp::install
           if appdata['package_name']
             package_count = package_count.to_i + 1   # package
             total_count = total_count.to_i + 1

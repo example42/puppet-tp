@@ -58,11 +58,15 @@ def tp_test(app)
       $error_exit = 1 if result != 0
     else
       if settings['package_name'] and settings['package_name'] != ""
-        system("<%= @options['check_package_command'] %> " + settings['package_name'] + " 2> /dev/null")
+        Array(settings['package_name']).each do |s|
+          system("<%= @options['check_package_command'] %> " + s + " 2> /dev/null")
+        end
       end
 
       if settings['service_name'] and settings['service_name'] != ""
-        system("<%= @options['check_service_command'] %> " + settings['service_name'] + " <%= @options['check_service_command_post'] %>")
+        Array(settings['service_name']).each do |s|
+          system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>")
+        end
         result = $?
         if result == 0
           puts "\e[32m# Test #{app}: OK \e[0m\n"

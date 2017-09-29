@@ -62,7 +62,7 @@ describe 'tp::install', :type => :define do
           total_count = total_count.to_i + 1 # yumrepo
         end
         if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
-        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
           total_count = total_count.to_i + 1 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
         end
@@ -85,7 +85,7 @@ describe 'tp::install', :type => :define do
 
           context 'without any param' do
             it { is_expected.to compile }
-            # it { should have_tp__install_resource_count(1) }
+            # it { should have_tp__install_resource_count(1) }
             it { should have_package_resource_count(package_count) }
             it { is_expected.to contain_package(appdata['package_name']).only_with(default_package_params) }
             if has_service
