@@ -39,7 +39,7 @@ describe 'tp::puppi', :type => :define do
 
           context 'without any param' do
             it { is_expected.to compile }
-            # it { should have_tp__install_resource_count(1) }
+            # it { should have_tp__install_resource_count(1) }
             it { should have_file_resource_count(file_count) }
             it { should have_resource_count(total_count) }
             it { is_expected.to contain_file("/etc/puppi/checks/#{app}").with(default_file_params) }

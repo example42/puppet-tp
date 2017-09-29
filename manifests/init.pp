@@ -28,6 +28,8 @@ class tp (
 
 ) inherits ::tp::params {
 
+  contain ::tp::params
+
   $options_defaults = {
     'check_timeout'              => '10',
     'check_service_command'      => $check_service_command,
