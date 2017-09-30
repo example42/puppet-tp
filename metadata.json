@@ -9,7 +9,6 @@
   "source": "https://github.com/example42/puppet-tp",
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
-  "data_provider": "hiera",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
