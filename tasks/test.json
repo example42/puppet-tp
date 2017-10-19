@@ -3,7 +3,7 @@
   "supports_noop": false,
   "parameters": {
     "app": {
-      "description: "The application to test",
+      "description": "The application to test",
       "type": "Optional[String[1]]"
     }
   }
