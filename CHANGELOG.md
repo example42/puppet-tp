@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.0.4
+* Added task tp::test
+
 ## 2.0.1
 * Added more spec tests
 * Minor fixes
