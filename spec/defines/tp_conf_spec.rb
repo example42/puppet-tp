@@ -203,6 +203,12 @@ describe 'tp::conf', :type => :define do
             } end
             it { is_expected.to contain_file("tp_conf_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_conf_debug_#{app}") }
           end
+          context 'with validate_syntax => false' do
+            let(:params) do {
+              'validate_syntax' => false,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).without_validate_cmd }
+          end
         end
       end
     end
