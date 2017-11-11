@@ -9,8 +9,8 @@
 # - If the path parameter is explicitly set, that's always the path used
 #
 #   tp::conf { 'openssh::root_config':
-#     path    => '/root/.ssh/config', # This is the path of the managed file
-#     content => template('site/openssh/root_config.erb'),
+#     path                => '/root/.ssh/config', # This is the path of the managed file
+#     content             => template('site/openssh/root_config.erb'),
 #   }
 #
 # - If path parameter is not set and the title contains only the app
@@ -19,14 +19,14 @@
 #   config_file_path in the tp/data/$app directory according to the underlying OS.
 #
 #   tp::conf { 'openssh':  # Path is defined by tp $settings['config_file_path']
-#     template => 'site/openssh/sshd_config.erb', 
+#     template            => 'site/openssh/sshd_config.erb', 
 #   }
 #
 # - When the base_file parameter is specified the path of the managed file is #
 #   looked in the value of the key ${base_file}_file_path in the tp/data/$app directory 
 #   tp::conf { 'openssh':  # Path is defined by tp $settings['init_file_path']
-#     template  => 'site/openssh/init.erb', 
-#     base_file => 'init', 
+#     template            => 'site/openssh/init.erb', 
+#     base_file           => 'init', 
 #   }
 #
 # - When the title has a format like: app::file and no base_dir is set the path
@@ -34,15 +34,15 @@
 #   used in the second part of the title (after the ::)
 #
 #   tp::conf { 'openssh::ssh_config': # Path is $settings['config_dir_path']/ssh_config
-#     template => 'site/openssh/ssh_config.erb',
+#     template            => 'site/openssh/ssh_config.erb',
 #   }
 #
 # - When the title has a format like: app::file it's also possible to specify,
 #   with the bas_dir parameter, the directory where to place the file:
 #
 #   tp::conf { 'apache::example42.com.conf':
-#     template => 'site/apache/example42.com.conf.erb',
-#     base_dir => 'conf',
+#     template            => 'site/apache/example42.com.conf.erb',
+#     base_dir            => 'conf',
 #   }
 #   Path is: $settings['conf_dir_path']/example42.com.conf
 #
@@ -52,8 +52,8 @@
 # (/etc/ssh/sshd_config) using a template
 #
 #   tp::conf { 'openssh':
-#     template     => 'site/openssh/sshd_config',
-#     options_hash => hiera('openssh::options_hash'), 
+#     template            => 'site/openssh/sshd_config',
+#     options_hash        => hiera('openssh::options_hash'), 
 #   }
 #
 #
@@ -61,13 +61,13 @@
 # a static source
 #
 #   tp::conf { 'openssh::ssh_config':
-#     source => 'puppet:///modules/site/openssh/ssh_config',
+#     source              => 'puppet:///modules/site/openssh/ssh_config',
 #   }
 #
 # @example direct management of the content of a file
 #
 #   tp::conf { 'motd':
-#     content => "Welcome to ${::fqdn}\n",
+#     content             => "Welcome to ${::fqdn}\n",
 #   }
 #
 # @example management of a .conf file (configuration files placed typically
@@ -80,8 +80,8 @@
 # can be used as long as there's a corresponding key in the TP settings data.
 #
 #   tp::conf { 'rsyslog::logserver':
-#     content  => "*.* @@syslog.example42.com\n",
-#     base_dir => 'conf',
+#     content             => "*.* @@syslog.example42.com\n",
+#     base_dir            => 'conf',
 #   }
 #
 # @example management of a file related to openssh with an
@@ -90,16 +90,16 @@
 # have a unique name and refer to the relevat app in the first part of the title (before ::) 
 #
 #   tp::conf { 'openssh::root_config': # Title must be unique
-#     path   => '/root/.ssh/config',
-#     epp    => 'site/openssh/root/config.epp',
-#     mode   => '0640',
+#     path                => '/root/.ssh/config',
+#     epp                 => 'site/openssh/root/config.epp',
+#     mode                => '0640',
 #   }
 #
 # @example when no automatic service restart is triggered by configuration file
 # changes
 #
 #   tp::conf { 'nginx':
-#     config_file_notify => false,
+#     config_file_notify  => false,
 #   }
 #
 # @example to customise notify and require dependencies
@@ -109,25 +109,43 @@
 #     config_file_require => "Class['site::fe::nginx']",
 #   }
 #
+# @example to disable validation for a configuration file
+# By default, if relevant tinydata is present, config files are
+# checked. Use this to disable unwanted validation commands
+#
+#   tp::conf { 'apache::my_vhost.conf':
+#     validate_syntax => false,
+#     base_dir        = 'vhost,
+#     source          => puppet:///modules/profile/apache/my_vhost.conf', 
+#   }
+#
+# @example to validate a configuration with a custom command
+#
+#   tp::conf { 'apache::my_vhost':
+#     settings            => {
+#       validate_cmd      => '/usr/local/bin/check_apache_vhost',
+#     },
+#   }
+#
 # @param ensure Defines the status of the file: present or absent.
 #
 # @param path The actual path of the file to manage. When this is set, it takes
 #   precedence over any other automatic paths definition.
 #
 # @param source Source of the file to use. Used in the managed file as follows:
-#   source => $source,
+#   source                => $source,
 #   This parameter is alternative to content, template and epp.
 #
 # @param template Erb Template to use for the content of the file. Used as follows:
-#   content => template($template),
+#   content               => template($template),
 #   This parameter is alternative to content, source and epp.
 #
 # @param epp Epp Template to use for the content of the file. Used as follows:
-#   content => epp($epp),
+#   content               => epp($epp),
 #   This parameter is alternative to content, source and template.
 #
 # @param content Content of the file. Used as follows:
-#   content => $content,
+#   content               => $content,
 #   This parameter is alternative to source, template and epp.
 #
 # @param base_dir Type of the directory where to place the file, when a path is
@@ -150,6 +168,11 @@
 #     'log' - The path of the app's log (can be an array)
 #     'pid' - The path of the app's pid file
 #   Each app may have additional names accoring to eventual specific settings.
+#
+# @param validate_syntax If to validate the syntax of the file before applying
+#   it. By default this is done if there's the relevant $settings[validate_cmd]
+#   tinydata. Set to false if you have errors in validation of a (good) provided
+#   configuration file.
 #
 # @param options_hash Generic hash of configuration parameters specific for the
 #   app that can be used in the provided erb or epp templates respectively as
@@ -209,6 +232,8 @@ define tp::conf (
 
   Variant[Boolean,String] $config_file_notify  = true,
   Variant[Boolean,String] $config_file_require = true,
+
+  Variant[Undef,Boolean]  $validate_syntax     = undef,
 
   Hash                    $options_hash        = { },
   Hash                    $settings_hash       = { } ,
@@ -276,6 +301,17 @@ define tp::conf (
     default   => $config_file_notify,
   }
 
+  $default_validate_cmd = $settings['validate_cmd'] ? {
+    String => $settings['validate_cmd'],
+    Hash   => $settings['validate_cmd'][$base_dir],
+    Undef  => undef,
+  }
+  $manage_validate_cmd = $validate_syntax ? {
+    undef => $default_validate_cmd,
+    true  => $default_validate_cmd,
+    false => undef,
+  }
+
   # Resources
   if $path_parent_create {
     $path_parent = dirname($manage_path)
@@ -286,15 +322,16 @@ define tp::conf (
     }
   }
   file { $manage_path:
-    ensure  => $ensure,
-    source  => $source,
-    content => $manage_content,
-    path    => $manage_path,
-    mode    => $manage_mode,
-    owner   => $manage_owner,
-    group   => $manage_group,
-    require => $manage_require,
-    notify  => $manage_notify,
+    ensure       => $ensure,
+    source       => $source,
+    content      => $manage_content,
+    path         => $manage_path,
+    mode         => $manage_mode,
+    owner        => $manage_owner,
+    group        => $manage_group,
+    require      => $manage_require,
+    notify       => $manage_notify,
+    validate_cmd => $manage_validate_cmd,
   }
 
   # Debugging
