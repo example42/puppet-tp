@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0
+
+* Added validate_syntax option to tp::conf
+
 ## 2.0.4
 * Added task tp::test
 
