@@ -1,17 +1,24 @@
 # CHANGELOG
 
+## Unreleased
+
+* Fixes #44 - install_hash should support arrays [@logicminds]
+
 ## 2.1.0
 
 * Added validate_syntax option to tp::conf
 
 ## 2.0.4
+
 * Added task tp::test
 
 ## 2.0.1
+
 * Added more spec tests
 * Minor fixes
 
 ## 2.0.0
+
 * Removed Puppet3 defines
 * Class tp: Removed params: packages, services, files
 * Define tp::install: Params auto_prerequisites renamed to auto_prereq

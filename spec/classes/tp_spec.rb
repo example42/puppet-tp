@@ -11,26 +11,57 @@ describe 'tp' do
         it { should have_resource_count(4) }
       end
 
+      context 'when install_hash is an array' do
+        let(:params) do
+          {
+            tp_dir: '/opt/tp',
+            tp_owner: 'al',
+            tp_group: 'al',
+            tp_path: '/usr/bin/tp',
+            install_hash: %w[openssh sysdig]
+          }
+        end
+
+        it { is_expected.to contain_tp__install('openssh') }
+        it { is_expected.to contain_tp__install('sysdig') }
+      end
+
+      context 'when install_hash is a hash' do
+        let(:params) do
+          {
+            tp_dir: '/opt/tp',
+            tp_owner: 'al',
+            tp_group: 'al',
+            tp_path: '/usr/bin/tp',
+            install_hash: { 'openssh' => { 'ensure' => 'present' }, 'sysdig' => { 'ensure' => 'present' } }
+          }
+        end
+        it { is_expected.to contain_tp__install('openssh') }
+        it { is_expected.to contain_tp__install('sysdig') }
+      end
+
       context 'with custom tp_dir => /opt/tp, tp_owner =al, tp_group => al, tp_path => /usr/bin/tp' do
-        let(:params) do {
-          'tp_dir'   => '/opt/tp',
-          'tp_owner' => 'al',
-          'tp_group' => 'al',
-          'tp_path'  => '/usr/bin/tp',
-        } end
+        let(:params) do
+          {
+            'tp_dir' => '/opt/tp',
+            'tp_owner' => 'al',
+            'tp_group' => 'al',
+            'tp_path'  => '/usr/bin/tp'
+          }
+        end
 
         dir_params = {
           'ensure' => 'directory',
           'mode'   => '0755',
           'owner'  => 'al',
-          'group'  => 'al',
+          'group'  => 'al'
         }
         file_params = {
           'ensure' => 'present',
           'mode'   => '0755',
           'owner'  => 'al',
           'group'  => 'al',
-          'path'   => '/usr/bin/tp',
+          'path'   => '/usr/bin/tp'
         }
         it { is_expected.to contain_file('/opt/tp').only_with(dir_params) }
         it { is_expected.to contain_file('/usr/bin/tp').with(file_params) }

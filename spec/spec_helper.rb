@@ -18,6 +18,9 @@ if File.exist?(default_module_facts_path) && File.readable?(default_module_facts
   default_facts.merge!(YAML.safe_load(File.read(default_module_facts_path)))
 end
 
+at_exit { RSpec::Puppet::Coverage.report! }
+
+
 RSpec.configure do |c|
   c.default_facts = default_facts
 end
