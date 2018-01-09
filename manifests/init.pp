@@ -15,10 +15,8 @@ class tp (
   String $check_package_command      = $::tp::params::check_package_command,
   String $tp_dir                     = $::tp::params::tp_dir,
   String $ruby_path                  = $::tp::params::ruby_path,
-
   Hash $options_hash                 = {},
-
-  Hash $install_hash                 = {},
+  Variant[Hash,Array[String]] $install_hash = {},
   Hash $conf_hash                    = {},
   Hash $dir_hash                     = {},
   Hash $concat_hash                  = {},
@@ -54,10 +52,10 @@ class tp (
     content => template('tp/tp.erb'),
   }
 
-  if $install_hash != {} {
-    $install_hash.each |$k,$v| {
-      tp_install($k,$v)
-    }
+  if $install_hash =~ Array {
+    $install_hash.each | $name| { tp_install($name, {ensure => present}) }
+  } else {
+    $install_hash.each | $name, $options| { tp_install($name, $options) }
   }
   if $conf_hash != {} {
     $conf_hash.each |$k,$v| {
