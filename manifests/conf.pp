@@ -38,7 +38,7 @@
 #   }
 #
 # - When the title has a format like: app::file it's also possible to specify,
-#   with the bas_dir parameter, the directory where to place the file:
+#   with the base_dir parameter, the directory where to place the file:
 #
 #   tp::conf { 'apache::example42.com.conf':
 #     template            => 'site/apache/example42.com.conf.erb',
@@ -115,8 +115,8 @@
 #
 #   tp::conf { 'apache::my_vhost.conf':
 #     validate_syntax => false,
-#     base_dir        = 'vhost,
-#     source          => puppet:///modules/profile/apache/my_vhost.conf', 
+#     base_dir        => 'vhost,
+#     source          => puppet:///modules/profile/apache/my_vhost.conf',
 #   }
 #
 # @example to validate a configuration with a custom command
