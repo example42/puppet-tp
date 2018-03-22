@@ -12,6 +12,8 @@ else
   TINYDATA_DIR = '/etc/puppetlabs/code/modules/tinydata/data'
 end
 
+command_redir = ' > /dev/null 2>&1'
+
 TP_APPS = Dir.entries(TP_APP_DIR).reject { |f| File.directory?(f) }
 
 # Trap CTRL+C cleanly (in tp log)
@@ -48,7 +50,7 @@ def tp_test(app)
     puts
     puts "### #{app} status"
     if File.exists?(TP_TEST_DIR + "/#{app}")
-      system(TP_TEST_DIR + "/#{app}")
+      system(TP_TEST_DIR + "/#{app}" + command_redir)
       result = $?
       if result == 0
         puts "\e[32m# Test #{app}: OK \e[0m\n"
@@ -59,13 +61,13 @@ def tp_test(app)
     else
       if settings['package_name'] and settings['package_name'] != ""
         Array(settings['package_name']).each do |s|
-          system("<%= @options['check_package_command'] %> " + s + " 2> /dev/null")
+          system("<%= @options['check_package_command'] %> " + s + " " + command_redir)
         end
       end
 
       if settings['service_name'] and settings['service_name'] != ""
         Array(settings['service_name']).each do |s|
-          system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>")
+          system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>" + command_redir)
         end
         result = $?
         if result == 0
