@@ -47,48 +47,50 @@ end
 def tp_test(app)
   begin
     settings = check_yaml app
-#    puts
-#    puts "### #{app} status"
+
+    # Run custom test script if exists
     if File.exists?(TP_TEST_DIR + "/#{app}")
       system(TP_TEST_DIR + "/#{app}" + COMMAND_REDIR)
       result = $?
       if result == 0
-        puts "\e[32m- #{app}: test OK \e[0m\n"
+        puts "- #{app}: \e[32mtest #{TP_TEST_DIR}/#{app} OK \e[0m\n"
       else
-        puts "\e[31m- #{app}: test ERROR \e[0m\n"
+        puts "- #{app}: \e[31mtest ERROR \e[0m\n"
       end
       $error_exit = 1 if result != 0
-    else
-      if settings['package_name'] and settings['package_name'] != ""
-        Array(settings['package_name']).each do |s|
-          if settings['package_provider'] == 'gem'
-            system("gem list | grep  " + s + " " + COMMAND_REDIR)
-          elsif settings['package_provider'] == 'pip'
-            system("pip list | grep  " + s + " " + COMMAND_REDIR)
-          else
-            system("<%= @options['check_package_command'] %> " + s + " " + COMMAND_REDIR)
-          end
-          result = $?
-          if result == 0
-          puts "\e[32m- #{app}: package #{s} OK \e[0m\n"
-          else
-            puts "\e[31m- #{app}: package #{s} FAILURE \e[0m\n"
-          end
-          $error_exit = 1 if result != 0
-        end
-      end
+    end
 
-      if settings['service_name'] and settings['service_name'] != ""
-        Array(settings['service_name']).each do |s|
-          system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>" + COMMAND_REDIR)
-          result = $?
-          if result == 0
-            puts "\e[32m- #{app}: service #{s} OK \e[0m\n"
-          else
-            puts "\e[31m- #{app}: service #{s} FAILURE \e[0m\n"
-          end
-          $error_exit = 1 if result != 0
+    # Check package if defined
+    if settings['package_name'] and settings['package_name'] != ""
+      Array(settings['package_name']).each do |s|
+        if settings['package_provider'] == 'gem'
+          system("gem list | grep  " + s + " " + COMMAND_REDIR)
+        elsif settings['package_provider'] == 'pip'
+          system("pip list | grep  " + s + " " + COMMAND_REDIR)
+        else
+          system("<%= @options['check_package_command'] %> " + s + " " + COMMAND_REDIR)
         end
+        result = $?
+        if result == 0
+        puts "- #{app}: \e[32mpackage #{s} OK \e[0m\n"
+        else
+          puts "- #{app}: \e[31mpackage #{s} FAILURE \e[0m\n"
+        end
+        $error_exit = 1 if result != 0
+      end
+    end
+
+    # Check service if defined
+    if settings['service_name'] and settings['service_name'] != ""
+      Array(settings['service_name']).each do |s|
+        system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>" + COMMAND_REDIR)
+        result = $?
+        if result == 0
+          puts "- #{app}: \e[32mservice #{s} OK \e[0m\n"
+        else
+          puts "- #{app}: \e[31mservice #{s} FAILURE \e[0m\n"
+        end
+        $error_exit = 1 if result != 0
       end
     end
   rescue
