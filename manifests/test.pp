@@ -7,7 +7,10 @@ define tp::test (
 
   Variant[Boolean,String] $ensure              = present,
 
-  String                  $template            = 'tp/test/acceptance.erb',
+  Variant[Undef,String,Array] $source          = undef,
+  Variant[Undef,String,Array] $template        = undef,
+  Variant[Undef,String]   $epp                 = undef,
+  Variant[Undef,String]   $content             = undef,
 
   Hash                    $options_hash        = { },
   Hash                    $settings_hash       = { },
@@ -47,13 +50,15 @@ define tp::test (
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
-  if $template != '' {
+  $file_content = tp_content($content, $template, $epp)
+  if $file_content != '' {
     file { "${base_dir}/${title}":
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',
       group   => 'root',
-      content => template($template),
+      content => $file_content,
+      source  => $source,
       tag     => 'tp_test',
     }
   }
