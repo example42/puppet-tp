@@ -124,16 +124,30 @@ describe 'tp::dir', :type => :define do
             let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
             it { is_expected.to contain_file(appdata['config_dir_path']).only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
           end          
-          context 'with source => https://github.com/example42/puppet-tp and vcsrepo => git' do
+          context 'with source => https://github.com/example42/puppet-tp and vcsrepo => svn' do
             let(:params) do {
               'source'  => 'https://github.com/example42/puppet-tp',
-              'vcsrepo' => 'git'
+              'vcsrepo' => 'svn'
+            } end
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('ensure' => 'present') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('source' => 'https://github.com/example42/puppet-tp') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('provider' => 'svn') }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('owner' => appdata['config_dir_owner']) }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('group' => appdata['config_dir_group']) }
+            it { should have_file_resource_count(0) }
+          end
+          context 'with source => https://github.com/example42/puppet-tp, vcsrepo => git and vcsrepo_options' do
+            let(:params) do {
+              'source'          => 'https://github.com/example42/puppet-tp',
+              'vcsrepo'         => 'git',
+              'vcsrepo_options' => { 'trust_server_cert' => true }
             } end
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('ensure' => 'present') }
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('source' => 'https://github.com/example42/puppet-tp') }
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('provider' => 'git') }
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('owner' => appdata['config_dir_owner']) }
             it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('group' => appdata['config_dir_group']) }
+            it { is_expected.to contain_vcsrepo(appdata['config_dir_path']).with('trust_server_cert' => true) }
             it { should have_file_resource_count(0) }
           end
           context 'with debug => true and debug_dir => /var/tmp' do
