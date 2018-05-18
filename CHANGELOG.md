@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## 2.1.1
 
-* Fixes #44 - install_hash should support arrays [@logicminds]
+* [#52] Add support for trust_server_cert and any extra option on tp::dir
+* [#44] Install_hash should support arrays [@logicminds]
 
 ## 2.1.0
 

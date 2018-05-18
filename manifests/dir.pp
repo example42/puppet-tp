@@ -42,6 +42,24 @@
 #     force  => true,
 #   }
 #
+# @example Create the content of a directory based on a source
+#   from a vcs repo (git, hg, bzr, cvs, svn, p4)
+#
+#   tp::dir { '/etc/puppetlabs/code/environments/production':
+#     source  => 'https://github.com/example42/psick',
+#     vcsrepo => git,
+#   }
+#
+# @example Create the content of a directory based on a vcs repo with
+# with extra options (must be valid options for the chosen vcsrepo)
+#
+#   tp::dir { '/etc/puppetlabs/code/environments/production':
+#     source          => 'https://git.internal/puppet/control-repo',
+#     vcsrepo         => git,
+#     vcsrepo_options => {
+#       trust_server_cert => true,
+#     }
+#   }
 #
 # @param ensure Define the status of the directory: present or absent.
 #
@@ -56,6 +74,10 @@
 # @param vcsrepo If set the directory is managed via the vcsrepo resource.
 #   vcsrepo options are bzr, cvs, git, hg, p4, svn
 #   It requires a valid source parameter.
+#
+# @param vcsrepo_options An hash of parameters to pass to the vcsrepo define,
+#   when used. This hash is merged with an internall built one based on 
+#   the parameters: ensure, source, vcsrepo, owner and group
 #
 # @param base_dir Type of the directory to manage, when a path is not defined.
 #   This name must have a corresponding entry in TP data with
@@ -110,7 +132,7 @@ define tp::dir (
 
   Variant[Undef,String,Array] $source        = undef,
   Variant[Undef,String]  $vcsrepo            = undef,
-
+  Hash                   $vcsrepo_options    = {},
   String[1]              $base_dir           = 'config',
 
   Variant[Undef,String]  $path               = undef,
@@ -209,12 +231,15 @@ define tp::dir (
   }
 
   if $vcsrepo {
-    vcsrepo { $manage_path:
+    $vcsrepo_defaults = {
       ensure   => $manage_ensure,
       source   => $source,
       provider => $vcsrepo,
       owner    => $manage_owner,
       group    => $manage_group,
+    }
+    vcsrepo { $manage_path:
+      * => $vcsrepo_defaults + $vcsrepo_options,
     }
   } else {
     file { $manage_path:
