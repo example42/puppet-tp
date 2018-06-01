@@ -65,114 +65,6 @@ define tp::repo (
     default => $yum_gpgcheck,
   }
 
-
-  # Resources
-  case $::osfamily {
-    'Suse': {
-      if !empty($settings[zypper_repofile_url]) {
-        $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
-        $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
-      } else {
-        $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
-        $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
-      }
-      if !defined(Exec["zypper_addrepo_${title}"]) {
-        exec { "zypper_addrepo_${title}":
-          command => $zypper_command,
-          unless  => $zypper_unless,
-          notify  => Exec['zypper refresh'],
-          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-        }
-      }
-      if !defined(Exec['zypper refresh']) {
-        exec { 'zypper refresh':
-          command     => 'zypper refresh',
-          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-          logoutput   => false,
-          refreshonly => true,
-        }
-      }
-    }
-    'RedHat': {
-      if !defined(Yumrepo[$title])
-      and ( $settings[repo_url] or $settings[yum_mirrorlist] ){
-        yumrepo { $title:
-          enabled    => $enabled_num,
-          descr      => $description,
-          baseurl    => $settings[repo_url],
-          gpgcheck   => $manage_yum_gpgcheck,
-          gpgkey     => $settings[key_url],
-          priority   => $settings[yum_priority],
-          mirrorlist => $settings[yum_mirrorlist],
-        }
-      }
-    }
-    # To avoid to introduce another dependency we manage apt repos directly
-    'Debian': {
-      if !defined(Exec['tp_apt_update'])
-      and $settings[package_name] =~ String[0]
-      and !empty($settings[key]) {
-        exec { 'tp_apt_update':
-          command     => '/usr/bin/apt-get -qq update',
-          path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-          logoutput   => false,
-          refreshonly => true,
-        }
-      }
-
-      if !empty($settings[package_name])
-      and !empty($settings[key])
-      and defined(Package[$settings[package_name]]) {
-        Exec['tp_apt_update'] -> Package[$settings[package_name]]
-      }
-
-      if !defined(File["${title}.list"])
-      and !empty($settings[key])
-      and !empty($settings[key_url])
-      and !empty($settings[repo_url]) {
-        file { "${title}.list":
-          ensure  => $ensure,
-          path    => "/etc/apt/sources.list.d/${title}.list",
-          owner   => root,
-          group   => root,
-          mode    => '0644',
-          content => template('tp/apt/source.list.erb'),
-          notify  => Exec['tp_apt_update'],
-        }
-      }
-
-      if !defined(Exec["tp_aptkey_add_${settings[key]}"])
-      and !empty($settings[key])
-      and !empty($settings[key_url]) {
-        exec { "tp_aptkey_add_${settings[key]}":
-          command => "wget -O - ${settings[key_url]} | apt-key add -",
-          unless  => "apt-key list | grep -q ${settings[key]}",
-          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-          before  => File["${title}.list"],
-          user    => 'root',
-        }
-      }
-
-      if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
-      and !empty($settings[key])
-      and !empty($settings[apt_key_server]) {
-        exec { "tp_aptkey_adv_${settings[key]}":
-          command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
-          unless  => "apt-key list | grep -q ${settings[key]}",
-          path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-          before  => File["${title}.list"],
-          user    => 'root',
-        }
-      }
-
-    }
-    default: {
-      notify { "No repo for ${title}":
-        message =>"No dedicated repo available for ${::osfamily}",
-      }
-    }
-  }
-
   # Install repo via release package, if tinydata present
   if $settings[repo_package_url] and $settings[repo_package_name] {
     if ! defined(Package[$settings[repo_package_name]]) {
@@ -181,14 +73,124 @@ define tp::repo (
         undef   => undef,
         default => Package[$settings[package_name]],
       }
-      package { $settings[repo_package_name]:
+      $package_params = {
         source   => $settings[repo_package_url],
         provider => $settings[repo_package_provider],
         before   => $repo_package_before,
       }
+      package { $settings[repo_package_name]:
+        * => $package_params + $settings[repo_package_params]
+      }
+    }
+  } else {
+
+    # If not release package is available, repos are managed with OS dependent resources
+    case $::osfamily {
+      'Suse': {
+        if !empty($settings[zypper_repofile_url]) {
+          $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
+          $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
+        } else {
+          $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
+          $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
+        }
+        if !defined(Exec["zypper_addrepo_${title}"]) {
+          exec { "zypper_addrepo_${title}":
+            command => $zypper_command,
+            unless  => $zypper_unless,
+            notify  => Exec['zypper refresh'],
+            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+          }
+        }
+        if !defined(Exec['zypper refresh']) {
+          exec { 'zypper refresh':
+            command     => 'zypper refresh',
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            logoutput   => false,
+            refreshonly => true,
+          }
+        }
+      }
+      'RedHat': {
+        if !defined(Yumrepo[$title])
+        and ( $settings[repo_url] or $settings[yum_mirrorlist] ){
+          yumrepo { $title:
+            enabled    => $enabled_num,
+            descr      => $description,
+            baseurl    => $settings[repo_url],
+            gpgcheck   => $manage_yum_gpgcheck,
+            gpgkey     => $settings[key_url],
+            priority   => $settings[yum_priority],
+            mirrorlist => $settings[yum_mirrorlist],
+          }
+        }
+      }
+      # To avoid to introduce another dependency we manage apt repos directly
+      'Debian': {
+        if !defined(Exec['tp_apt_update'])
+        and $settings[package_name] =~ String[0]
+        and !empty($settings[key]) {
+          exec { 'tp_apt_update':
+            command     => '/usr/bin/apt-get -qq update',
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            logoutput   => false,
+            refreshonly => true,
+          }
+        }
+  
+        if !empty($settings[package_name])
+        and !empty($settings[key])
+        and defined(Package[$settings[package_name]]) {
+          Exec['tp_apt_update'] -> Package[$settings[package_name]]
+        }
+  
+        if !defined(File["${title}.list"])
+        and !empty($settings[key])
+        and !empty($settings[key_url])
+        and !empty($settings[repo_url]) {
+          file { "${title}.list":
+            ensure  => $ensure,
+            path    => "/etc/apt/sources.list.d/${title}.list",
+            owner   => root,
+            group   => root,
+            mode    => '0644',
+            content => template('tp/apt/source.list.erb'),
+            notify  => Exec['tp_apt_update'],
+          }
+        }
+  
+        if !defined(Exec["tp_aptkey_add_${settings[key]}"])
+        and !empty($settings[key])
+        and !empty($settings[key_url]) {
+          exec { "tp_aptkey_add_${settings[key]}":
+            command => "wget -O - ${settings[key_url]} | apt-key add -",
+            unless  => "apt-key list | grep -q ${settings[key]}",
+            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+            before  => File["${title}.list"],
+            user    => 'root',
+          }
+        }
+  
+        if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
+        and !empty($settings[key])
+        and !empty($settings[apt_key_server]) {
+          exec { "tp_aptkey_adv_${settings[key]}":
+            command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
+            unless  => "apt-key list | grep -q ${settings[key]}",
+            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+            before  => File["${title}.list"],
+            user    => 'root',
+          }
+        }
+  
+      }
+      default: {
+        notify { "No repo for ${title}":
+          message =>"No dedicated repo available for ${::osfamily}",
+        }
+      }
     }
   }
-
   # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
@@ -198,5 +200,4 @@ define tp::repo (
       path    => "${debug_dir}/tp_repo_debug_${title}",
     }
   }
-
 }

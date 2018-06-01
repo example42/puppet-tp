@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* Added support for tinydata setting [repo_package_params] in tp::repo 
+* tp::repo just installs the release package if tinydata exists
+
 ## 2.1.1
 
 * [#52] Add support for trust_server_cert and any extra option on tp::dir
