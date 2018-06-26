@@ -30,7 +30,8 @@ define tp::repo (
   Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
   Boolean                  $debug                = false,
-  String[1]                $debug_dir            = '/tmp',
+  Stdlib::Absolutepath     $debug_dir            = '/tmp',
+  Stdlib::Absolutepath     $download_dir         = '/var/tmp',
 
   String[1]                $data_module          = 'tinydata',
 
@@ -73,13 +74,30 @@ define tp::repo (
         undef   => undef,
         default => Package[$settings[package_name]],
       }
-      $package_params = {
-        source   => $settings[repo_package_url],
-        provider => $settings[repo_package_provider],
-        before   => $repo_package_before,
+      case $::osfamily {
+        'Debian': {
+          $repo_package_path = "${download_dir}/${settings[repo_package_name]}"
+          exec { "Download ${title} release package":
+            command => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
+            before  => Package[$settings[repo_package_name]],
+            creates => $repo_package_path,
+          }
+          $package_params = {
+            source   => $repo_package_path,
+            provider => pick($settings[repo_package_provider],'dpkg'),
+            before   => $repo_package_before,
+          }
+        }
+        default: {
+          $package_params = {
+            source   => $settings[repo_package_url],
+            provider => $settings[repo_package_provider],
+            before   => $repo_package_before,
+          }
+        }
       }
       package { $settings[repo_package_name]:
-        * => $package_params + $settings[repo_package_params]
+        * => $package_params + pick($settings[repo_package_params],{})
       }
     }
   } else {
@@ -137,13 +155,13 @@ define tp::repo (
             refreshonly => true,
           }
         }
-  
+
         if !empty($settings[package_name])
         and !empty($settings[key])
         and defined(Package[$settings[package_name]]) {
           Exec['tp_apt_update'] -> Package[$settings[package_name]]
         }
-  
+
         if !defined(File["${title}.list"])
         and !empty($settings[key])
         and !empty($settings[key_url])
@@ -158,7 +176,7 @@ define tp::repo (
             notify  => Exec['tp_apt_update'],
           }
         }
-  
+
         if !defined(Exec["tp_aptkey_add_${settings[key]}"])
         and !empty($settings[key])
         and !empty($settings[key_url]) {
@@ -170,7 +188,7 @@ define tp::repo (
             user    => 'root',
           }
         }
-  
+
         if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
         and !empty($settings[key])
         and !empty($settings[apt_key_server]) {
@@ -182,7 +200,7 @@ define tp::repo (
             user    => 'root',
           }
         }
-  
+
       }
       default: {
         notify { "No repo for ${title}":

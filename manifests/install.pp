@@ -227,32 +227,40 @@ define tp::install (
     }
   }
 
-
   # Resources
   if $settings[package_name] =~ Array and $manage_package {
+    $package_defaults = {
+      ensure   => $plain_ensure,
+      provider => $package_provider,
+    }
     $settings[package_name].each |$pkg| {
       package { $pkg:
-        ensure   => $plain_ensure,
-        provider => $package_provider,
+        * => $package_defaults + pick($settings[package_params],{})        
       }
     }
   }
   if $settings[package_name] =~ String[1] and $manage_package {
-    package { $settings[package_name]:
+    $package_defaults = {
       ensure          => $ensure,
       provider        => $package_provider,
       source          => $package_source,
       install_options => $package_install_options,
+    }
+    package { $settings[package_name]:
+      * => $package_defaults + pick($settings[package_params],{})        
     }
   }
 
   if $settings[service_name] and $manage_service {
     $services_array=any2array($settings[service_name])
     $services_array.each |$svc| {
-      service { $svc:
+      $service_defaults = {
         ensure  => $service_ensure,
         enable  => $service_enable,
         require => $service_require,
+      }
+      service { $svc:
+        * => $service_defaults + pick($settings[service_params],{})        
       }
     }
   }
