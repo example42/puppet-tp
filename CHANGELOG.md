@@ -1,7 +1,10 @@
 # CHANGELOG
 
+# 2.2.0
 * Added support for tinydata setting [repo_package_params] in tp::repo 
 * tp::repo just installs the release package if tinydata exists
+* Install via wget and dkpg release package from repo_package_url On Debian in tp::repo
+* Added support for package_params and service_params in tp::install
 
 ## 2.1.1
 

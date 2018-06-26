@@ -3,10 +3,12 @@ type Tp::Settings = Struct[{
   Optional[package_name] => Variant[String,Array],
   Optional[package_ensure] => String,
   Optional[package_provider] => String,
+  Optional[package_params] => Hash,
 
   Optional[service_name] => Variant[String,Array],
   Optional[service_enable] => Boolean,
   Optional[service_ensure] => Enum['running', 'stopped'],
+  Optional[service_params] => Hash,
 
   Optional[process_name] => String,
   Optional[process_extra_name] => String,
@@ -47,6 +49,7 @@ type Tp::Settings = Struct[{
 
   Optional[repo_package_url] => String,
   Optional[repo_package_provider] => String,
+  Optional[repo_package_params] => Hash,
   Optional[repo_url] => String,
   Optional[repo_namel] => String,
   Optional[key] => String,
