@@ -6,13 +6,30 @@
 
 ## The Universal Installer
 
-[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that manages virtually any application on any Operating System:
+[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that can manage virtually any application on any Operating System.
+
+It can be used inside Puppet manifests:
+
+    class profile::openssh (
+      String $template = 'profile/openssh/sshd_config.erb',
+      Hash $options    = {},
+    ) {
+
+      tp::install { 'openssh': }
+      tp::conf { 'openssh':
+        template     => $template,
+        options_hash => $options,
+      }
+    }
+
+or directly from the command line:
 
     puppet module install example42-tp
     puppet tp setup
-    tp install <any_app>
+    tp install <app>
+    tp log [app]
+    tp test
 
-It can be used inside Puppet manifests or directly from the command line.
 
 Features:
 
@@ -31,6 +48,8 @@ Features:
 It is intended to be used in profiles, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
 
 The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
+
+To see real world usage of tp defines give a look to the [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module. 
 
 ## Provided Puppet defines
 
@@ -205,23 +224,25 @@ also it's possible to provide the source to use, instead of managing it with the
                        'puppet:///modules/site/redis/redis.conf' ] ,
     }
 
+#### File paths conventions
+
 Tp:conf has some conventions on the actual configuration file manages.
 
-By default, if you just specify the application name, the file managed is the "main" configuration file of that application (in case this is not evident or may be questionable, check the data files for the actual value used).
+By default, if you just specify the application name, the file managed is the "main" configuration file of that application (in case this is not evident or may be questionable, check the ```config_file_path``` value in the tinydata files for the used application).
 
     # This manages /etc/ssh/sshd_config
     tp::conf { 'openssh':
       [...]
     }
 
-If you specify a file name after the application name in the title, separated by ```::```, and you don't specify any alternative ```base_file```, then that file is placed in the "base" configuration dir:
+If you specify a file name after the application name in the title, separated by ```::```, and you don't specify any alternative ```base_file```, then that file is placed in the "base" configuration dir (```config_dir_path``` in tinydata):
 
     # This manages /etc/ssh/ssh_config
     tp::conf { 'openssh::ssh_config':
       [...]
     }
 
-If you specify the parameter ```base_file``` then the path is the one of the specified base_file and the title does not provide any information about the managed file path (it still needs the relevant app in the first part, before ::, and it needs to be unique across the catalog).
+If you specify the parameter ```base_file``` then the path is the one of the specified base_file and the title does not provide any information about the managed file path (it still needs the relevant app in the first part, before ::, and it needs to be unique across the catalog). For example if  ```base_file => 'init'``` the path used is the value of the ```init_file_path``` key in the relevant tinydata.
 
     # This manages /etc/default/puppetserver on Debian or /etc/sysconfig/puppetserver on RedHat
     tp::conf { 'puppetserver::init':
@@ -229,7 +250,7 @@ If you specify the parameter ```base_file``` then the path is the one of the spe
       [...]
     }
 
-If you explicitly set a path, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog): 
+If you explicitly set a ```path```, that path is used and the title is ignored (be sure, anyway, to refer to a supported application and is not duplicated in your catalog):
 
     # This manages /usr/local/bin/openssh_check
     tp::conf { 'openssh::ssh_check':
