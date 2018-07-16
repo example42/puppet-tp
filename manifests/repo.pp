@@ -81,6 +81,7 @@ define tp::repo (
             command => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
             before  => Package[$settings[repo_package_name]],
             creates => $repo_package_path,
+            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
           }
           $package_params = {
             source   => $repo_package_path,
@@ -132,7 +133,8 @@ define tp::repo (
       'RedHat': {
         if !defined(Yumrepo[$title])
         and ( $settings[repo_url] or $settings[yum_mirrorlist] ){
-          yumrepo { $title:
+          $yumrepo_title = pick($settings[repo_filename],$title)
+          yumrepo { $yumrepo_title:
             enabled    => $enabled_num,
             descr      => $description,
             baseurl    => $settings[repo_url],
@@ -166,7 +168,8 @@ define tp::repo (
         and !empty($settings[key])
         and !empty($settings[key_url])
         and !empty($settings[repo_url]) {
-          file { "${title}.list":
+          $aptrepo_title = pick($settings[repo_filename],$title)
+          file { "${aptrepo_title}.list":
             ensure  => $ensure,
             path    => "/etc/apt/sources.list.d/${title}.list",
             owner   => root,
