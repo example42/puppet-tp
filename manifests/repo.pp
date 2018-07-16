@@ -164,11 +164,11 @@ define tp::repo (
           Exec['tp_apt_update'] -> Package[$settings[package_name]]
         }
 
-        if !defined(File["${title}.list"])
+        $aptrepo_title = pick($settings[repo_filename],$title)
+        if !defined(File["${aptrepo_title}.list"])
         and !empty($settings[key])
         and !empty($settings[key_url])
         and !empty($settings[repo_url]) {
-          $aptrepo_title = pick($settings[repo_filename],$title)
           file { "${aptrepo_title}.list":
             ensure  => $ensure,
             path    => "/etc/apt/sources.list.d/${title}.list",
@@ -187,19 +187,20 @@ define tp::repo (
             command => "wget -O - ${settings[key_url]} | apt-key add -",
             unless  => "apt-key list | grep -q ${settings[key]}",
             path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before  => File["${title}.list"],
+            before  => File["${aptrepo_title}.list"],
             user    => 'root',
           }
         }
 
         if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
         and !empty($settings[key])
-        and !empty($settings[apt_key_server]) {
+        and !empty($settings[apt_key_server])
+        and !empty($settings[apt_key_fingerprint]) {
           exec { "tp_aptkey_adv_${settings[key]}":
             command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
             unless  => "apt-key list | grep -q ${settings[key]}",
             path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before  => File["${title}.list"],
+            before  => File["${aptrepo_title}.list"],
             user    => 'root',
           }
         }

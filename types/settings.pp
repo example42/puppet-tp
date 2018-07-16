@@ -19,12 +19,14 @@ type Tp::Settings = Struct[{
   Optional[config_file_owner] => String,
   Optional[config_file_group] => String,
   Optional[config_file_mode] => String,
+  Optional[config_file_params] => Hash,
 
   Optional[config_dir_path] => Stdlib::Absolutepath,
   Optional[config_dir_owner] => String,
   Optional[config_dir_group] => String,
   Optional[config_dir_mode] => String,
   Optional[config_dir_recurse] => Boolean,
+  Optional[config_dir_params] => Hash,
 
   Optional[log_file_path] => Stdlib::Absolutepath,
   Optional[pid_file_path] => Stdlib::Absolutepath,
