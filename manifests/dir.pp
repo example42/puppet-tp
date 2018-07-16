@@ -242,7 +242,7 @@ define tp::dir (
       * => $vcsrepo_defaults + $vcsrepo_options,
     }
   } else {
-    file { $manage_path:
+    $file_params = {
       ensure  => $manage_ensure,
       source  => $source,
       path    => $manage_path,
@@ -254,6 +254,9 @@ define tp::dir (
       recurse => $recurse,
       purge   => $purge,
       force   => $force,
+    }
+    file { $manage_path:
+      * => $file_params + pick($settings[config_dir_params],{})
     }
   }
 

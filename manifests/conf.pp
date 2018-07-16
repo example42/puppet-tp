@@ -321,7 +321,7 @@ define tp::conf (
       before  => File[$manage_path],
     }
   }
-  file { $manage_path:
+  $file_params = {
     ensure       => $ensure,
     source       => $source,
     content      => $manage_content,
@@ -332,6 +332,10 @@ define tp::conf (
     require      => $manage_require,
     notify       => $manage_notify,
     validate_cmd => $manage_validate_cmd,
+  }
+
+  file { $manage_path:
+    * => $file_params + pick($settings[config_file_params],{})
   }
 
   # Debugging
