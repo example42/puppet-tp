@@ -133,7 +133,7 @@ when 'list'
   puts tinydata_app
 
 when 'install'
-  exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true }'")
+  exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true , cli_enable => true }'")
 
 when 'uninstall'
   exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
