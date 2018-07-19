@@ -194,8 +194,8 @@ define tp::repo (
 
         if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
         and !empty($settings[key])
-        and !empty($settings[apt_key_server])
-        and !empty($settings[apt_key_fingerprint]) {
+        and !empty($settings[apt_key_fingerprint])
+        and !empty($settings[apt_key_server]) {
           exec { "tp_aptkey_adv_${settings[key]}":
             command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
             unless  => "apt-key list | grep -q ${settings[key]}",
