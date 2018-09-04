@@ -95,15 +95,19 @@ To use it Puppet 3 you have to use tp version 1.x with the 3.x compatible define
 If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
 It's very easy and quick to add new apps or support for new OS in tinydata.
 
-Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions.
-
-Support for Solaris, Windows, MacOS, *BSD and others is currently limited, mostly for lack of tinydata.
+Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions, but as long as you provide a valid installable package name, tp can install **any** application given in the title, even if there's no specific Tinydata for it..
 
 Tiny Puppet requires these Puppet modules:
 
- - The [tinydata](https://github.com/example42/tinydata) module
+  - The [tinydata](https://github.com/example42/tinydata) module
 
- - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
+  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
+
+In order to work on some OS you need some additional modules and software:
+
+  - On **Windows** you need [Chocolatey](https://chocolatey.org/) and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey) module with chocolaty package provider.
+  
+  - On **Mac OS** you need [Home Brew](https://brew.io/) and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew) or equivalent module with homebrew package provider.
 
 If you use the relevant defines, other dependencies are needed:
 
@@ -224,7 +228,7 @@ also it's possible to provide the source to use, instead of managing it with the
                        'puppet:///modules/site/redis/redis.conf' ] ,
     }
 
-#### File paths conventions
+#### tp::conf file paths conventions
 
 Tp:conf has some conventions on the actual configuration file manages.
 
@@ -308,7 +312,7 @@ Provide a data directory (the default DocumentRoot, for apache) from a Git repos
 
 ### Managing repositories
 
-Currently Tiny Puppet supports applications' installation only via the OS native packaging system. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
+Currently Tiny Puppet supports applications' installation only via the OS native packaging system or Chocolatey on Windows and HomeBrew on MacOS. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
 
 The data about a repository is managed as all the other data of Tiny Puppet. Find [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/Debian.yaml) an example for managing Apt repositories and [here](https://github.com/example42/tinydata/blob/master/data/elasticsearch/osfamily/RedHat.yaml) one for Yum ones.
 
@@ -354,6 +358,8 @@ If you want to use your own data module for all your applications, you might pre
     Tp::Dir {
       data_module  => 'my_data',
     }
+
+Starting from version 2.3.0 (with tinydata version > 0.3.0) tp can even install applications for which there's no tinydata defined. In this case just the omonimous package is (tried to be) installed and a warning about missing tinydata is shown.
 
 
 ## Testing and playing with Tiny Puppet
