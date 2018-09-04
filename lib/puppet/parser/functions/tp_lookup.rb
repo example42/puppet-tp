@@ -22,7 +22,6 @@ module Puppet::Parser::Functions
       hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
 
       unless File.exist?(hiera_file_path)
-        # raise Puppet::ParseError, ("I can't find data for: #{app}. Looking in file: #{hiera_file_path}. Using this data module: #{datamodule}")
         function_warning(["No tinydata found for: #{app} in #{hiera_file_path}. Trying to install package #{app}"])
         default_fallback = true
         hiera_file_path  = mp.path + '/data/default/hiera.yaml'
