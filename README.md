@@ -105,17 +105,17 @@ Tiny Puppet requires these Puppet modules:
 
 In order to work on some OS you need some additional modules and software:
 
-  - On **Windows** you need [Chocolatey](https://chocolatey.org/) and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey) module with chocolaty package provider.
+  - On **Windows** you need [Chocolatey](https://chocolatey.org/) and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey) module with chocolatey package provider.
   
   - On **Mac OS** you need [Home Brew](https://brew.io/) and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew) or equivalent module with homebrew package provider.
 
 If you use the relevant defines, other dependencies are needed:
 
-  - Define ```tp::concat``` requires Puppet Labs' [concat](https://github.com/puppetlabs/puppetlabs-concat) module.
+  - Define ```tp::concat``` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat) module.
 
-  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires Puppet Labs' [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
+  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
 
-  - Define ```tp::puppi``` requires Example42's [puppi](https://github.com/example42/puppi) module.
+  - Define ```tp::puppi``` requires [example42-puppi](https://github.com/example42/puppi) module.
 
 
 ## Usage in Puppet code
