@@ -3,7 +3,6 @@
 class tp::params {
   $tp_path = $facts['os']['family'] ? {
     'windows' => 'C:/ProgramData/PuppetLabs/puppet/bin/tp',
-    'Darwin'  => '/usr/bin/tp',
     default   => '/usr/local/bin/tp',
   }
   $tp_dir = $facts['os']['family'] ? {

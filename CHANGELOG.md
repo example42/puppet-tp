@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 2.3.0
+* Do not fail on missing tinydata, try to install homonimous package
+
 # 2.2.1
 * Added support for tinydata settings repo_name and repo_filename in tp::repo 
 * Added support for tinydata settings config_file_params and config_dir_params
