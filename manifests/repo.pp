@@ -185,7 +185,7 @@ define tp::repo (
         and !empty($settings[key_url]) {
           exec { "tp_aptkey_add_${settings[key]}":
             command => "wget -O - ${settings[key_url]} | apt-key add -",
-            unless  => "apt-key list | grep -q ${settings[key]}",
+            unless  => "apt-key list | grep -q \"${settings[key]}\"",
             path    => '/bin:/sbin:/usr/bin:/usr/sbin',
             before  => File["${aptrepo_title}.list"],
             user    => 'root',
@@ -198,7 +198,7 @@ define tp::repo (
         and !empty($settings[apt_key_server]) {
           exec { "tp_aptkey_adv_${settings[key]}":
             command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
-            unless  => "apt-key list | grep -q ${settings[key]}",
+            unless  => "apt-key list | grep -q \"${settings[key]}\"",
             path    => '/bin:/sbin:/usr/bin:/usr/sbin',
             before  => File["${aptrepo_title}.list"],
             user    => 'root',
