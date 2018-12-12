@@ -213,7 +213,7 @@ define tp::dir (
       undef   => 'directory',
       default => 'present',
     },
-    'absent' => 'absent',
+    default => $ensure,
   }
 
   # Finally, the resources managed
