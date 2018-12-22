@@ -4,6 +4,21 @@
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
 
+#### Table of Contents
+
+1. [The Universal Installer](#the-universal-installer)
+1. [Provided Puppet defines](#provided-puppet-defined)
+1. [Usage on the command line](#usage-on-the-command-line)
+1. [Prerequisites and limitations](#prerequisites-and-limitations)
+1. [Usage in Puppet code](#usage-in-puppet-code)
+   * [Installation options](#installation-options)
+   * [Installation alternatives](#installation-alternatives)
+   * [Managing configurations](#managing-configurations)
+   * [Managing directories](#managing-directories)
+   * [Managing repositories](#managing-repositories)
+1. [Using alternative data sources](#using-alternative-data-sources)
+1. [Testing and playing with Tiny Puppet](#testing-and-playing-with-tiny-puppet)
+
 ## The Universal Installer
 
 [Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that can manage virtually any application on any Operating System.

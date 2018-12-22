@@ -1,5 +1,13 @@
 # CHANGELOG
 
+# 2.3.2
+* Approved status request [MODULES-5811] - https://tickets.puppetlabs.com/browse/MODULES-5811
+* Skip danger in travis CI
+* any variables can be accepted for ensure of dir (#59)
+
+# 2.3.1
+* Allow spaces in key for apt-key checks in tp::repo (#57)
+
 # 2.3.0
 * Do not fail on missing tinydata, try to install homonimous package
 
