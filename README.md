@@ -1,29 +1,74 @@
 # Tiny Puppet 
 
-[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
-[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp){:target='_blank'}
+[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master){:target="_blank"}
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade){:target="_blank"}
 
 #### Table of Contents
 
-1. [The Universal Installer](#the-universal-installer)
-1. [Provided Puppet defines](#provided-puppet-defined)
-1. [Usage on the command line](#usage-on-the-command-line)
-1. [Prerequisites and limitations](#prerequisites-and-limitations)
-1. [Usage in Puppet code](#usage-in-puppet-code)
-   * [Installation options](#installation-options)
-   * [Installation alternatives](#installation-alternatives)
-   * [Managing configurations](#managing-configurations)
-   * [Managing directories](#managing-directories)
-   * [Managing repositories](#managing-repositories)
-1. [Using alternative data sources](#using-alternative-data-sources)
-1. [Testing and playing with Tiny Puppet](#testing-and-playing-with-tiny-puppet)
+1. [Module description - What Tiny Puppet does?](#module-description)
+    * [Features](#features)
+    * [Use cases](#use-cases)
+2. [Setup](#setup)
+    * [What tp affects](#what-tp-affects)
+    * [Getting started with tp](#getting-started-with-tp)
+3. [Usage - Configuration options and additional functionality](#usage)
+    * [Usage in Puppet code](#usage-in-puppet-code)
+    * [Installation options](#installation-options)
+    * [Installation alternatives](#installation-alternatives)
+    * [Managing configurations](#managing-configurations)
+    * [Managing directories](#managing-directories)
+    * [Managing repositories](#managing-repositories)
+    * [Usage on the command line](#usage-on-the-command-line)
+4. [Reference](#reference)
+    * [Classes](#classes)
+    * [Defined Types](#defined-types)
+    * [Types](#types)
+    * [Functions](#functions)
+    * [Tasks](#tasks)
+5. [Prerequisites and limitations](#prerequisites-and-limitations)
+6. [Tests](#tests)
 
-## The Universal Installer
 
-[Tiny Puppet](http://www.tiny-puppet.com) is single Puppet module that can manage virtually any application on any Operating System.
 
-It can be used inside Puppet manifests:
+## Module description
+
+The tp (short for Tiny Puppet) module allows you to manage any application on any (Linux flavours, Solaris, Darwin, Windows) Operating System.
+
+It provides Puppet defined types to install packages and manage services (`tp::install`), eventually handling relevant repos (`tp::repo`) and then manage their configuration files (`tp::conf`) and directories (`tp::dir`).
+
+### Features
+
+* Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
+* Out of the box and easily expandable support for most common Operating Systems
+* Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
+* Smooth coexistence with any existing Puppet modules setup: you decide what to manage
+* Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+* Optional shell command (`tp`) which can be used to install, test, query for logs any tp managed application.
+
+### Use cases
+
+Tiny Puppet is intended to be used in profiles, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
+
+The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
+
+To see real world usage of tp defines give a look to the [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module. 
+
+
+## Setup
+
+### What tp affects
+
+* any application package which is possible to install with the OS native package manager
+* eventually application specific package repository files or release packages (if relevant tinydata is present)
+* configuration files of any application (for which there's tinydata). Content is up to the user.
+* full directories, whose source can also be a scm repository
+
+### Getting starting with tp
+
+Tiny Puppet is typically used in profiles, custom classes where we place the code we need to manage applications in the way we need.
+
+This is a simple case, where the content of a configuration file is based on a template with custom values.
 
     class profile::openssh (
       String $template = 'profile/openssh/sshd_config.erb',
@@ -37,103 +82,11 @@ It can be used inside Puppet manifests:
       }
     }
 
-or directly from the command line:
 
-    puppet module install example42-tp
-    puppet tp setup
-    tp install <app>
-    tp log [app]
-    tp test
+## Usage
 
 
-Features:
-
-  - Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
-
-  - Out of the box and easily expandable support for most common Operating Systems
-
-  - Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
-
-  - Smooth coexistence with any existing Puppet modules setup: you decide what to manage
-
-  - Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
-
-  - A Puppet face and command line to install any app or query the installed ones
-
-It is intended to be used in profiles, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
-
-The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
-
-To see real world usage of tp defines give a look to the [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module. 
-
-## Provided Puppet defines
-
-Tiny Puppet provides the following Puppet user defines:
-
-- ```tp::install```. It installs an application and starts its service, by default
-- ```tp::conf```. It allows to manage configuration files
-- ```tp::dir```. Manages the content of directories
-- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
-- ```tp::test```. Allows quick and easy (acceptance) testing of an application 
-- ```tp::repo```. Manages extra repositories for the supported applications
-- ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
-
-
-## Usage on the command line
-
-Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath and install the tp command with:
-
-    puppet tp setup
-
-With the tp command you can install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
-
-    tp install <application>
-    tp uninstall <application>
-
-    tp test # Test all the applications installed by tp
-    tp test <application> # Test the specified application
-
-    tp log # Tail all the logs of all the applications installed by tp
-    tp log <application> # Tail the log of the specified application
-
-Each of these commands can be inkoed also via the tp puppet face:
-
-    puppet tp <command> <arguments>
-
-
-## Prerequisites and limitations
-
-Current version of Tiny Puppet is compatible only with Puppet 4.4 or later and PE 2016.1.1 or later.
-
-To use it Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
-
-If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
-It's very easy and quick to add new apps or support for new OS in tinydata.
-
-Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions, but as long as you provide a valid installable package name, tp can install **any** application given in the title, even if there's no specific Tinydata for it..
-
-Tiny Puppet requires these Puppet modules:
-
-  - The [tinydata](https://github.com/example42/tinydata) module
-
-  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
-
-In order to work on some OS you need some additional modules and software:
-
-  - On **Windows** you need [Chocolatey](https://chocolatey.org/) and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey) module with chocolatey package provider.
-  
-  - On **Mac OS** you need [Home Brew](https://brew.io/) and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew) or equivalent module with homebrew package provider.
-
-If you use the relevant defines, other dependencies are needed:
-
-  - Define ```tp::concat``` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat) module.
-
-  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
-
-  - Define ```tp::puppi``` requires [example42-puppi](https://github.com/example42/puppi) module.
-
-
-## Usage in Puppet code
+### Usage in Puppet code
 
 Install an application with default settings (package installed, service started)
 
@@ -352,7 +305,7 @@ If, for whatever reason, you don't want to automatically manage a repository for
       auto_repo        => false,
     }
 
-## Using alternative data sources
+### Using alternative data sources
 
 By default Tiny Puppet uses the [tinydata](https://github.com/example42/tinydata) module to retrieve data for different applications, but it's possible to use a custom one:
 
@@ -377,11 +330,103 @@ If you want to use your own data module for all your applications, you might pre
 Starting from version 2.3.0 (with tinydata version > 0.3.0) tp can even install applications for which there's no tinydata defined. In this case just the omonimous package is (tried to be) installed and a warning about missing tinydata is shown.
 
 
-## Testing and playing with Tiny Puppet
+### Usage on the command line
 
-You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick).
+Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath and install the tp command with:
 
-Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+    puppet tp setup
 
-Check this [**Compatibility Matrix**](https://github.com/example42/tp-acceptance/blob/master/tests/app_summary.md) for a quick overview on how different applications are currently supported on different Operating Systems.
+With the tp command you can install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
+
+    tp install <application>
+    tp uninstall <application>
+
+    tp test # Test all the applications installed by tp
+    tp test <application> # Test the specified application
+
+    tp log # Tail all the logs of all the applications installed by tp
+    tp log <application> # Tail the log of the specified application
+
+Each of these commands can be inkoed also via the tp puppet face:
+
+    puppet tp <command> <arguments>
+
+
+
+## Reference
+
+The tp modules provides the following resources.
+
+** Classes:**
+
+* ```tp``` Offers antry points for data driven management of tp resources, and the possibility to install the tp command
+
+**Defined types: 
+
+- ```tp::install```. It installs an application and starts its service, by default
+- ```tp::conf```. It allows to manage configuration files
+- ```tp::dir```. Manages the content of directories
+- ```tp::stdmod```. Manages the installation of an application using StdMod compliant parameters
+- ```tp::test```. Allows quick and easy (acceptance) testing of an application 
+- ```tp::repo```. Manages extra repositories for the supported applications
+- ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
+
+**Types:**
+
+* [tp-settings], validates all the possible setting for tinydata
+
+**Functions:**
+
+* [tp::content], manages content for files based on supplied (erb) template, epp, and content
+* [tp::ensure2bool], converts ensure values to boolean
+* [tp::ensure2dir], converts ensure values to esnure values to be used for directories
+* [tp::install], wrapper around the tp::install define, it tries to avoid eventual duplicated resources issues
+* [tp::is_something], returna true if input of any type exists and is not empty
+
+**Tasks:**
+
+* [`tp::test`], runs a tp test command on a system to check status of [tp] installed applications
+
+Refer to in code documentation for full reference.
+
+Check [Puppetmodule.info](http://www.puppetmodule.info/modules/example42-tp/){:target="_blank"} for online version.
+
+
+## Prerequisites and limitations
+
+Current version of Tiny Puppet is compatible with Puppet 4.4 or later and PE 2016.1.1 or later.
+
+To use it on Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
+
+If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
+It's very easy and quick to add new apps or support for new OS in tinydata.
+
+Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions, but as long as you provide a valid installable package name, tp can install **any** application given in the title, even if there's no specific Tinydata for it..
+
+Tiny Puppet requires these Puppet modules:
+
+  - The [tinydata](https://github.com/example42/tinydata){:target="_blank"} module
+
+  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib){:target="_blank"} module.
+
+In order to work on some OS you need some additional modules and software:
+
+  - On **Windows** you need [Chocolatey](https://chocolatey.org/){:target="_blank"} and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey){:target="_blank"} module with chocolatey package provider.
+  
+  - On **Mac OS** you need [Home Brew](https://brew.io/){:target="_blank"} and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew){:target="_blank"} or equivalent module with homebrew package provider.
+
+If you use the relevant defines, other dependencies are needed:
+
+  - Define ```tp::concat``` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat){:target="_blank"} module.
+
+  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo){:target="_blank"} module.
+
+  - Define ```tp::puppi``` requires [example42-puppi](https://github.com/example42/puppi){:target="_blank"} module.
+
+
+## Tests
+
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick){:target="_blank"}.
+
+Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance){:target="_blank"} repo.
 
