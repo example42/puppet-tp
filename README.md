@@ -1,8 +1,8 @@
 # Tiny Puppet 
 
-[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp){:target='_blank'}
-[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master){:target="_blank"}
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade){:target="_blank"}
+[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
+[![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
 
 #### Table of Contents
 
@@ -64,7 +64,7 @@ To see real world usage of tp defines give a look to the [profiles](https://gith
 * configuration files of any application (for which there's tinydata). Content is up to the user.
 * full directories, whose source can also be a scm repository
 
-### Getting starting with tp
+### Getting started with tp
 
 Tiny Puppet is typically used in profiles, custom classes where we place the code we need to manage applications in the way we need.
 
@@ -389,7 +389,7 @@ The tp modules provides the following resources.
 
 Refer to in code documentation for full reference.
 
-Check [Puppetmodule.info](http://www.puppetmodule.info/modules/example42-tp/){:target="_blank"} for online version.
+Check [Puppetmodule.info](http://www.puppetmodule.info/modules/example42-tp/) for online version.
 
 
 ## Prerequisites and limitations
@@ -405,28 +405,28 @@ Currently most of the applications are supported on RedHat and Debian derivative
 
 Tiny Puppet requires these Puppet modules:
 
-  - The [tinydata](https://github.com/example42/tinydata){:target="_blank"} module
+  - The [tinydata](https://github.com/example42/tinydata) module
 
-  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib){:target="_blank"} module.
+  - Puppet Labs' [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 
 In order to work on some OS you need some additional modules and software:
 
-  - On **Windows** you need [Chocolatey](https://chocolatey.org/){:target="_blank"} and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey){:target="_blank"} module with chocolatey package provider.
+  - On **Windows** you need [Chocolatey](https://chocolatey.org/) and [puppetlabs-chocolatey](https://forge.puppet.com/puppetlabs/chocolatey) module with chocolatey package provider.
   
-  - On **Mac OS** you need [Home Brew](https://brew.io/){:target="_blank"} and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew){:target="_blank"} or equivalent module with homebrew package provider.
+  - On **Mac OS** you need [Home Brew](https://brew.io/) and [thekevjames-homebrew](https://forge.puppet.com/thekevjames/homebrew) or equivalent module with homebrew package provider.
 
 If you use the relevant defines, other dependencies are needed:
 
-  - Define ```tp::concat``` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat){:target="_blank"} module.
+  - Define ```tp::concat``` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat) module.
 
-  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo){:target="_blank"} module.
+  - Define ```tp::dir``` , when used with the ```vcsrepo``` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
 
-  - Define ```tp::puppi``` requires [example42-puppi](https://github.com/example42/puppi){:target="_blank"} module.
+  - Define ```tp::puppi``` requires [example42-puppi](https://github.com/example42/puppi) module.
 
 
 ## Tests
 
-You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick){:target="_blank"}.
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick).
 
-Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance){:target="_blank"} repo.
+Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
 
