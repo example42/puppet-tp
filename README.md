@@ -357,11 +357,11 @@ Each of these commands can be inkoed also via the tp puppet face:
 
 The tp modules provides the following resources.
 
-** Classes:**
+### Classes
 
 * ```tp``` Offers antry points for data driven management of tp resources, and the possibility to install the tp command
 
-**Defined types: 
+### Defined types
 
 - ```tp::install```. It installs an application and starts its service, by default
 - ```tp::conf```. It allows to manage configuration files
@@ -371,11 +371,11 @@ The tp modules provides the following resources.
 - ```tp::repo```. Manages extra repositories for the supported applications
 - ```tp::puppi```. Puppi integration (Don't worry, fully optional) 
 
-**Types:**
+### Types
 
 * [tp-settings], validates all the possible setting for tinydata
 
-**Functions:**
+### Functions
 
 * [tp::content], manages content for files based on supplied (erb) template, epp, and content
 * [tp::ensure2bool], converts ensure values to boolean
@@ -383,7 +383,7 @@ The tp modules provides the following resources.
 * [tp::install], wrapper around the tp::install define, it tries to avoid eventual duplicated resources issues
 * [tp::is_something], returna true if input of any type exists and is not empty
 
-**Tasks:**
+### Tasks
 
 * [`tp::test`], runs a tp test command on a system to check status of [tp] installed applications
 
