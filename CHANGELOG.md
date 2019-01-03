@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 2.3.3
+* Updated README
+
 # 2.3.2
 * Approved status request [MODULES-5811] - https://tickets.puppetlabs.com/browse/MODULES-5811
 * Skip danger in travis CI

@@ -1,15 +1,28 @@
 {
   "name": "example42-tp",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
-  "author": "Alessandro Franceschi",
+  "author": "Example42 Gmbh",
   "checksums": {
   },
   "source": "https://github.com/example42/puppet-tp",
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
   "operatingsystem_support": [
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemrelease": [
+        "17"
+      ]
+    },
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2008 R2",
+        "Server 2012 R2"
+      ]
+    },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
@@ -88,7 +101,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
+      "version_requirement": ">= 3.2.0 < 7.0.0"
     },
     {
       "name": "example42/tinydata",
@@ -101,7 +114,11 @@
       "version_requirement": ">= 0.0.1 < 5.0.0"
     },
     {
-      "name": "example42/tinydata",
+      "name": "puppetlabs/vcsrepo",
+      "version_requirement": ">= 0.0.1 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
       "version_requirement": ">= 0.0.1 < 5.0.0"
     }
   ]
