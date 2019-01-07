@@ -6,8 +6,8 @@ cache: bundler
 
 before_install:
   - rm Gemfile.lock || true
-#  - gem update --system
-  - gem install bundler
+  - gem update --system
+  - gem update bundler
   - gem --version
   - bundle -v
 
