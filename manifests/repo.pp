@@ -132,7 +132,7 @@ define tp::repo (
       }
       'RedHat': {
         if !defined(Yumrepo[$title])
-        and ( $settings[repo_url] or $settings[yum_mirrorlist] ){
+        and ( $settings[repo_url] or $settings[yum_mirrorlist] ) {
           $yumrepo_title = pick($settings[repo_filename],$title)
           yumrepo { $yumrepo_title:
             enabled    => $enabled_num,

@@ -5,6 +5,7 @@ fixtures:
     "vcsrepo": "git://github.com/puppetlabs/puppetlabs-vcsrepo.git"
     "puppi": "git://github.com/example42/puppi.git"
     "tinydata": "git://github.com/example42/tinydata.git"
+    "yumrepo": "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
   symlinks:
     "tp": "#{source_dir}"
 
