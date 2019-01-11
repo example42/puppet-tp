@@ -105,8 +105,8 @@
 # @example to customise notify and require dependencies
 #
 #   tp::conf { 'nginx::nginx_fe.conf':
-#     config_file_notify  => "Service['fe_nginx']",
-#     config_file_require => "Class['site::fe::nginx']",
+#     config_file_notify  => 'Service[fe_nginx]',
+#     config_file_require => 'Class[site::fe::nginx]',
 #   }
 #
 # @example to disable validation for a configuration file

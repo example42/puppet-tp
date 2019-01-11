@@ -166,8 +166,8 @@ By default, configuration files managed by tp::conf automatically notify the ser
 You can also set custom resource references to point to actual resources you declare in your manifests:
 
     tp::conf { 'bind':
-      config_file_notify  => Service['bind9'],
-      config_file_require => Package['bind9-server'],
+      config_file_notify  => 'Service[bind9]',
+      config_file_require => 'Package[bind9-server]',
     }
 
 It's possible to manage files with different methods, for example directly providing its content:
