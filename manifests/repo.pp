@@ -30,7 +30,7 @@ define tp::repo (
   Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
   Array                    $exec_environment     = [],
-  
+
   Boolean                  $debug                = false,
   Stdlib::Absolutepath     $debug_dir            = '/tmp',
   Stdlib::Absolutepath     $download_dir         = '/var/tmp',
