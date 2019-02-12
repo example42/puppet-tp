@@ -73,6 +73,21 @@ describe 'tp::repo', :type => :define do
             } end
             it { is_expected.to contain_file("tp_repo_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_repo_debug_#{app}") }
           end
+
+          context 'with exec_environment set' do
+            let(:params) do {
+              'exec_environment' => ['http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
+            } end
+            if appdata['repo_package_url'] and appdata['repo_package_name'] and os == 'ubuntu-16.04-x86_64'
+              it { is_expected.to contain_exec("Download #{app} release package").with('environment' => ['http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080']) }
+            end
+            if appdata['key'] or appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
+              it { is_expected.to contain_exec("tp_aptkey_add_#{appdata['key']}").with('environment' => ['http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080']) }
+            end
+            if appdata['key'] and appdata['apt_key_fingerprint'] and appdata['apt_key_server'] and os == 'ubuntu-16.04-x86_64'
+              it { is_expected.to contain_exec("tp_aptkey_adv_#{appdata['key']}").with('environment' => ['http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080']) }
+            end
+          end
         end
       end
     end
