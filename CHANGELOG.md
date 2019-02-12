@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 2.3.4
+* Added repo_exec_environment argument to tp::install
+
 # 2.3.3
 * Updated README
 

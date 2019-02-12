@@ -48,6 +48,11 @@
 #      }
 #   }
 #
+# @example Installation of repo packages via proxy
+#   tp::install { 'puppet':
+#     repo_exec_environment => [ 'http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
+#   } 
+#
 # @param ensure Manage application status.
 #   Valid values are present, absent or the package version number.
 #
@@ -72,6 +77,10 @@
 #
 # @param repo Name of the repository to use. Multiple different repositories may
 #   be used, if they are defined in Tiny Puppet data.
+#
+# @repo_exec_environment Array to use for the environment argument of exec types
+#   used inside tp::repo define. Used if $auto_repo is true. Can be useful when trying
+#   to use tp::repo from behing  a proxy
 #
 # @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's a valid value for $settings['config_file_template']
@@ -114,7 +123,7 @@ define tp::install (
   Boolean                 $auto_prereq      = false,
 
   Variant[Undef,String]   $repo             = undef,
-
+  Array                   $repo_exec_environment = [],
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
 
@@ -185,11 +194,12 @@ define tp::install (
       default   => true,
     }
     tp::repo { $app:
-      enabled       => $repo_enabled,
-      before        => Package[$settings[package_name]],
-      data_module   => $data_module,
-      repo          => $repo,
-      settings_hash => $settings_hash,
+      enabled          => $repo_enabled,
+      before           => Package[$settings[package_name]],
+      data_module      => $data_module,
+      repo             => $repo,
+      settings_hash    => $settings_hash,
+      exec_environment => $repo_exec_environment,
     }
   }
 

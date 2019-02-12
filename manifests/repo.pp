@@ -29,6 +29,8 @@ define tp::repo (
 
   Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
+  Array                    $exec_environment     = [],
+
   Boolean                  $debug                = false,
   Stdlib::Absolutepath     $debug_dir            = '/tmp',
   Stdlib::Absolutepath     $download_dir         = '/var/tmp',
@@ -78,10 +80,11 @@ define tp::repo (
         'Debian': {
           $repo_package_path = "${download_dir}/${settings[repo_package_name]}"
           exec { "Download ${title} release package":
-            command => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
-            before  => Package[$settings[repo_package_name]],
-            creates => $repo_package_path,
-            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+            command     => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
+            before      => Package[$settings[repo_package_name]],
+            creates     => $repo_package_path,
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            environment => $exec_environment,
           }
           $package_params = {
             source   => $repo_package_path,
@@ -115,10 +118,11 @@ define tp::repo (
         }
         if !defined(Exec["zypper_addrepo_${title}"]) {
           exec { "zypper_addrepo_${title}":
-            command => $zypper_command,
-            unless  => $zypper_unless,
-            notify  => Exec['zypper refresh'],
-            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+            command     => $zypper_command,
+            unless      => $zypper_unless,
+            notify      => Exec['zypper refresh'],
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            environment => $exec_environment,
           }
         }
         if !defined(Exec['zypper refresh']) {
@@ -127,6 +131,7 @@ define tp::repo (
             path        => '/bin:/sbin:/usr/bin:/usr/sbin',
             logoutput   => false,
             refreshonly => true,
+            environment => $exec_environment,
           }
         }
       }
@@ -155,6 +160,7 @@ define tp::repo (
             path        => '/bin:/sbin:/usr/bin:/usr/sbin',
             logoutput   => false,
             refreshonly => true,
+            environment => $exec_environment,
           }
         }
 
@@ -184,11 +190,12 @@ define tp::repo (
         and !empty($settings[key])
         and !empty($settings[key_url]) {
           exec { "tp_aptkey_add_${settings[key]}":
-            command => "wget -O - ${settings[key_url]} | apt-key add -",
-            unless  => "apt-key list | grep -q \"${settings[key]}\"",
-            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before  => File["${aptrepo_title}.list"],
-            user    => 'root',
+            command     => "wget -O - ${settings[key_url]} | apt-key add -",
+            unless      => "apt-key list | grep -q \"${settings[key]}\"",
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            before      => File["${aptrepo_title}.list"],
+            user        => 'root',
+            environment => $exec_environment,
           }
         }
 
@@ -197,11 +204,12 @@ define tp::repo (
         and !empty($settings[apt_key_fingerprint])
         and !empty($settings[apt_key_server]) {
           exec { "tp_aptkey_adv_${settings[key]}":
-            command => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
-            unless  => "apt-key list | grep -q \"${settings[key]}\"",
-            path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before  => File["${aptrepo_title}.list"],
-            user    => 'root',
+            command     => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
+            unless      => "apt-key list | grep -q \"${settings[key]}\"",
+            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+            before      => File["${aptrepo_title}.list"],
+            user        => 'root',
+            environment => $exec_environment,
           }
         }
 

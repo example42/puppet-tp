@@ -147,6 +147,15 @@ describe 'tp::install', :type => :define do
             } end
             it { is_expected.to contain_file("tp_install_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_install_debug_#{app}") }
           end
+          context 'with repo_exec_environment set' do
+            let(:params) do {
+              'repo_exec_environment' => ['proxy_http=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
+            } end
+            if has_repo
+              it { is_expected.to contain_tp__repo(app).with(repo_params.merge( { 'exec_environment' => ['proxy_http=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'] } ) ) }
+            # it { is_expected.to contain_tp__repo(app).with('exec_environment' => ['proxy_http=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080']) }
+            end
+          end
         end
       end
     end
