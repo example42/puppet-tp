@@ -23,7 +23,7 @@ class tp (
   Hash $stdmod_hash                  = {},
   Hash $puppi_hash                   = {},
   Hash $repo_hash                    = {},
-
+  Boolean $purge_dirs                = false,
 ) inherits ::tp::params {
 
   contain ::tp::params
@@ -37,10 +37,13 @@ class tp (
   $options = $options_defaults + $options_hash
 
   file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
-    ensure => directory,
-    mode   => '0755',
-    owner  => $tp_owner,
-    group  => $tp_group,
+    ensure  => directory,
+    mode    => '0755',
+    owner   => $tp_owner,
+    group   => $tp_group,
+    purge   => $purge_dirs,
+    force   => $purge_dirs,
+    recurse => $purge_dirs,
   }
 
   file { $tp_path:
