@@ -51,10 +51,13 @@ describe 'tp' do
         end
 
         dir_params = {
-          'ensure' => 'directory',
-          'mode'   => '0755',
-          'owner'  => 'al',
-          'group'  => 'al'
+          'ensure'  => 'directory',
+          'mode'    => '0755',
+          'owner'   => 'al',
+          'group'   => 'al',
+          'purge'   => false,
+          'force'   => false,
+          'recurse' => false,
         }
         file_params = {
           'ensure' => 'present',
@@ -66,6 +69,29 @@ describe 'tp' do
         it { is_expected.to contain_file('/opt/tp').only_with(dir_params) }
         it { is_expected.to contain_file('/usr/bin/tp').with(file_params) }
       end
+
+      context 'with custom tp_dir => /opt/tp, tp_owner =al, tp_group => al, purge_dirs => true' do
+        let(:params) do
+          {
+            'tp_dir'     => '/opt/tp',
+            'tp_owner'   => 'al',
+            'tp_group'   => 'al',
+            'purge_dirs' => true,
+          } 
+        end
+        
+        dir_params = {
+          'ensure'  => 'directory',
+          'mode'    => '0755',
+          'owner'   => 'al',
+          'group'   => 'al',
+          'purge'   => true,
+          'force'   => true,
+          'recurse' => true,
+        } 
+        it { is_expected.to contain_file('/opt/tp').only_with(dir_params) }
+      end
+
     end
   end
 end

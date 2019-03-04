@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 2.3.5
+* Explicitly close opn files in tp_lookup
+* Add purge_dirs argument to tp class
+
 # 2.3.4
 * Added repo_exec_environment argument to tp::install
 
