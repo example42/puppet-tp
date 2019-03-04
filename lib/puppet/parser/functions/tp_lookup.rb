@@ -27,7 +27,8 @@ module Puppet::Parser::Functions
         hiera_file_path  = mp.path + '/data/default/hiera.yaml'
       end
 
-      hiera = YAML::load(File.open(hiera_file_path))
+      hiera_file = File.open(hiera_file_path)
+      hiera = YAML::load(hiera_file)
       model = {
         :title                     => app,
         :osfamily                  => lookupvar("::osfamily"),
@@ -41,7 +42,8 @@ module Puppet::Parser::Functions
         conf_file_path = mp.path + '/data/' + p % model + '.yaml'
 
         if File.exist?(conf_file_path)
-          got_value = YAML::load(File.open(conf_file_path))
+          conf_file = File.open(conf_file_path)
+          got_value = YAML::load(conf_file)
 
           got_value = got_value.include?(key) ? got_value[key] : got_value['default::settings']
 
@@ -50,8 +52,10 @@ module Puppet::Parser::Functions
             value.merge!(got_value) if look=='merge'
             value=got_value if look=='direct'
           end
+          conf_file.close
         end
       }
+      hiera_file.close
 
       value.merge!({'package_name' => app}) if default_fallback
 
