@@ -26,4 +26,4 @@ init_file_path: "/etc/sysconfig/elasticsearch"
 repo_url: http://packages.elastic.co/elasticsearch/2.x/centos
 key: D88E42B4
 key_url: http://packages.elastic.co/GPG-KEY-elasticsearch
-
+repo_package_provider: rpm

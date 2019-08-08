@@ -29,4 +29,4 @@ key_url: https://packages.elastic.co/GPG-KEY-elasticsearch
 apt_repos: main
 apt_release: stable
 apt_key_server: http://pgp.mit.edu
-
+repo_package_provider: dpkg

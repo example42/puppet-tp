@@ -23,3 +23,5 @@ process_group: root
 nodaemon_args: "-D"
 init_file_path: "/var/default/ssh"
 validate_cmd: "sshd -t -f %"
+repo_package_provider: dpkg
+

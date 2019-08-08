@@ -23,3 +23,4 @@ log_file_path: "/var/log/syslog"
 process_name: rsyslogd
 process_user: root
 process_group: root
+repo_package_provider: dpkg
