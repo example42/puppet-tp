@@ -1,14 +1,22 @@
 {
   "name": "example42-tp",
   "version": "2.3.5",
+  "author": "Example42 Gmbh",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
-  "author": "Example42 Gmbh",
-  "checksums": {
-  },
   "source": "https://github.com/example42/puppet-tp",
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0 < 7.0.0"
+    },
+    {
+      "name": "example42/tinydata",
+      "version_requirement": ">= 0.0.1 < 5.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Darwin",
@@ -98,16 +106,8 @@
       "version_requirement": ">= 4.6.0 < 7.0.0"
     }
   ],
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 7.0.0"
-    },
-    {
-      "name": "example42/tinydata",
-      "version_requirement": ">= 0.0.1 < 5.0.0"
-    }
-  ],
+  "checksums": {
+  },
   "optional_dependencies": [
     {
       "name": "puppetlabs/chocolatey",
@@ -121,5 +121,8 @@
       "name": "puppetlabs/concat",
       "version_requirement": ">= 0.0.1 < 5.0.0"
     }
-  ]
+  ],
+  "pdk-version": "1.12.0",
+  "template-url": "pdk-default#1.12.0",
+  "template-ref": "1.12.0-0-g55d9ae2"
 }
