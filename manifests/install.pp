@@ -122,6 +122,7 @@ define tp::install (
   Optional[Boolean]       $auto_prerequisites = undef,
   Boolean                 $auto_prereq      = false,
 
+  Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
   Array                   $repo_exec_environment = [],
   Boolean                 $manage_package   = true,
@@ -186,8 +187,9 @@ define tp::install (
   }
 
   # Automatic repo management
-  if $auto_repo == true
-  and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) {
+  $use_upstream_repo = pick($uptream_repo,$settings[upstream_repo])
+  if $use_upstream_repo or
+  ( $auto_repo == true and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) ) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
