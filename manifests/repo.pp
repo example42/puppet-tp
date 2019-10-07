@@ -9,6 +9,7 @@ define tp::repo (
   Hash                      $settings_hash       = { },
 
   Variant[Undef,String]     $repo                = undef,
+  Variant[Undef,Boolean]    $upstream_repo       = undef,
 
   String[1]                 $description         = "${title} repository",
 
@@ -136,9 +137,9 @@ define tp::repo (
         }
       }
       'RedHat': {
-        if !defined(Yumrepo[$title])
+        $yumrepo_title = pick($settings[repo_filename],$title)
+        if !defined(Yumrepo[$yumrepo_title])
         and ( $settings[repo_url] or $settings[yum_mirrorlist] ) {
-          $yumrepo_title = pick($settings[repo_filename],$title)
           yumrepo { $yumrepo_title:
             enabled    => $enabled_num,
             descr      => $description,
