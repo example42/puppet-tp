@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 2.4.0
+* Added manage_repo option
+
 # 2.3.5
 * Explicitly close opn files in tp_lookup
 * Add purge_dirs argument to tp class
