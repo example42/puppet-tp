@@ -29,13 +29,19 @@ module Puppet::Parser::Functions
 
       hiera_file = File.open(hiera_file_path)
       hiera = YAML::load(hiera_file)
+      if lookupvar("upstream_repo")
+        repo = 'upstream'
+      else
+        repo = ''
+      end
+
       model = {
         :title                     => app,
         :osfamily                  => lookupvar("::osfamily"),
         :operatingsystem           => lookupvar("::operatingsystem"),
         :operatingsystemmajrelease => lookupvar("::operatingsystemmajrelease"),
         :operatingsystemrelease    => lookupvar("::operatingsystemrelease"),
-        :repo                      => exist?("repo") && lookupvar("repo"),
+        :repo                      => repo,
       }
        
       hiera[:hierarchy].reverse!.each { | p |

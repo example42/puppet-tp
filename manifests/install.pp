@@ -21,6 +21,12 @@
 #     ensure => '4.0.1',
 #   }
 #
+# @example installation of a package from its upstream repo, rather
+#  than default OS based one. Relevant tinydata must be present.
+#   tp::install { 'mongodb':
+#     upstream_repo => true,
+#   }
+#
 # @example installation and configuration via an options_hash
 # Note: this works when auto_conf is true (as default) AND when
 # is defined $settings['config_file_template'] with a valid template
@@ -67,6 +73,11 @@
 #
 # @param settings_hash An hash that can override the application settings tp
 #   returns, according to the underlying OS and the default behaviour
+#
+# @param upstream_repo Boolean to enable usage of upstream repo for the app and
+#   install packages from it rather than default local OS one
+#   For working needs relevant tinydata settings, like repo_package_url or
+#   repo_url
 #
 # @param auto_repo Boolean to enable automatic package repo management for the
 #   specified application. Repo data is not always provided.
@@ -122,6 +133,7 @@ define tp::install (
   Optional[Boolean]       $auto_prerequisites = undef,
   Boolean                 $auto_prereq      = false,
 
+  Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
   Array                   $repo_exec_environment = [],
   Boolean                 $manage_package   = true,
@@ -186,8 +198,9 @@ define tp::install (
   }
 
   # Automatic repo management
-  if $auto_repo == true
-  and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) {
+  $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo])
+  if $use_upstream_repo or
+  ( $auto_repo == true and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) ) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
@@ -200,6 +213,7 @@ define tp::install (
       repo             => $repo,
       settings_hash    => $settings_hash,
       exec_environment => $repo_exec_environment,
+      upstream_repo    => $use_upstream_repo,
     }
   }
 

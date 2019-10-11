@@ -60,39 +60,30 @@ class tp (
   } else {
     $install_hash.each | $name, $options| { tp_install($name, $options) }
   }
-  if $conf_hash != {} {
-    $conf_hash.each |$k,$v| {
-      tp::conf { $k:
-        * => $v,
-      }
+
+  $conf_hash.each |$k,$v| {
+    tp::conf { $k:
+      * => $v,
     }
   }
-  if $dir_hash != {} {
-    $dir_hash.each |$k,$v| {
-      tp::dir { $k:
-        * => $v,
-      }
+  $dir_hash.each |$k,$v| {
+    tp::dir { $k:
+      * => $v,
     }
   }
-  if $concat_hash != {} {
-    $concat_hash.each |$k,$v| {
-      tp::concat { $k:
-        * => $v,
-      }
+  $concat_hash.each |$k,$v| {
+    tp::concat { $k:
+      * => $v,
     }
   }
-  if $stdmod_hash != {} {
-    $stdmod_hash.each |$k,$v| {
-      tp::stdmod { $k:
-        * => $v,
-      }
+  $stdmod_hash.each |$k,$v| {
+    tp::stdmod { $k:
+      * => $v,
     }
   }
-  if $repo_hash != {} {
-    $repo_hash.each |$k,$v| {
-      tp::repo { $k:
-        * => $v,
-      }
+  $repo_hash.each |$k,$v| {
+    tp::repo { $k:
+      * => $v,
     }
   }
 }
