@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# 2.4.1
+* Fix for tip::install when manage_repo is missing in tinydata
+
 # 2.4.0
 * Added manage_repo option
 
