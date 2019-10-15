@@ -1,13 +1,13 @@
 # CHANGELOG
 
 # 2.4.1
-* Fix for tip::install when manage_repo is missing in tinydata
+* Fix for tp::install when upstream_repo is missing in tinydata
 
 # 2.4.0
-* Added manage_repo option
+* Added upstream_repo option
 
 # 2.3.5
-* Explicitly close opn files in tp_lookup
+* Explicitly close open files in tp_lookup
 * Add purge_dirs argument to tp class
 
 # 2.3.4
