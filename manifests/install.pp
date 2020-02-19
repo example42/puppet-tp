@@ -291,7 +291,7 @@ define tp::install (
 
   # Manage additional tp::conf as in conf_hash
   $conf_defaults = {
-    'ensure'        => $ensure,
+    'ensure'        => tp::ensure2file($ensure),
     'settings_hash' => $settings,
     'options_hash'  => $options_hash,
   }
@@ -305,7 +305,7 @@ define tp::install (
 
   # Manage additional tp::dir as in dir_hash
   $dir_defaults = {
-    'ensure'        => $ensure,
+    'ensure'        => tp::ensure2dir($ensure),
     'settings_hash' => $settings,
   }
   if $dir_hash != {} {
