@@ -1,4 +1,5 @@
 ---
+upstream_repo: false
 package_ensure: present
 service_ensure: running
 service_enable: true
@@ -10,12 +11,10 @@ config_dir_group: root
 config_dir_mode: '0755'
 config_dir_purge: false
 config_dir_recurse: true
+repo_package_provider: dpkg
 package_name: sysdig
-tp_prerequisites:
-- dkms
 repo_url: http://download.draios.com/stable/deb
-key: F1C3BD80
+key: 'D27A 72F3 2D86 7DF9 300A  2415 7449 0FD6 EC51 E8C4'
 key_url: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
 apt_release: stable-$(ARCH)/
-repo_package_provider: dpkg
 

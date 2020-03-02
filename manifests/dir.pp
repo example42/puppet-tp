@@ -131,7 +131,7 @@ define tp::dir (
   String[1]              $ensure             = 'present',
 
   Variant[Undef,String,Array] $source        = undef,
-  Variant[Undef,String]  $vcsrepo            = undef,
+  Variant[Undef,Boolean,String] $vcsrepo     = false,
   Hash                   $vcsrepo_options    = {},
   String[1]              $base_dir           = 'config',
 
@@ -208,13 +208,11 @@ define tp::dir (
     default   => $config_dir_notify,
   }
 
-  $manage_ensure = $ensure ? {
-    'present' => $vcsrepo ? {
-      undef   => 'directory',
-      default => 'present',
-    },
-    default => $ensure,
+  $ensure_vcsrepo = $ensure ? {
+    'directory' => 'present',
+    default     => $ensure,
   }
+  $ensure_dir = tp::ensure2dir($ensure)
 
   # Finally, the resources managed
   if $path_parent_create {
@@ -232,7 +230,7 @@ define tp::dir (
 
   if $vcsrepo {
     $vcsrepo_defaults = {
-      ensure   => $manage_ensure,
+      ensure   => $ensure_vcsrepo,
       source   => $source,
       provider => $vcsrepo,
       owner    => $manage_owner,
@@ -243,7 +241,7 @@ define tp::dir (
     }
   } else {
     $file_params = {
-      ensure  => $manage_ensure,
+      ensure  => $ensure_dir,
       source  => $source,
       path    => $manage_path,
       mode    => $manage_mode,

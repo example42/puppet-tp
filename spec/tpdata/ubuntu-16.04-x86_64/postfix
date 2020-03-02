@@ -1,4 +1,5 @@
 ---
+upstream_repo: false
 package_ensure: present
 service_ensure: running
 service_enable: true
