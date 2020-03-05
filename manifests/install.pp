@@ -294,6 +294,7 @@ define tp::install (
     'ensure'        => tp::ensure2file($ensure),
     'settings_hash' => $settings,
     'options_hash'  => $options_hash,
+    'data_module'   => $data_module,
   }
   if $conf_hash != {} {
     $conf_hash.each |$k,$v| {
@@ -307,6 +308,7 @@ define tp::install (
   $dir_defaults = {
     'ensure'        => tp::ensure2dir($ensure),
     'settings_hash' => $settings,
+    'data_module'   => $data_module,
   }
   if $dir_hash != {} {
     $dir_hash.each |$k,$v| {
@@ -329,6 +331,7 @@ define tp::install (
       template     => $settings['init_file_template'],
       options_hash => $options_hash,
       base_file    => 'init',
+      data_module  => $data_module,
     }
   }
 
