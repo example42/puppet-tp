@@ -1,38 +1,43 @@
 # CHANGELOG
 
-# 2.4.1
+## 2.4.2
+* Ensure we find tp command in task tp::test 
+* Propagate data_module var to tp defines used in tp::install 
+* pdk convert
+
+## 2.4.1
 * Fix for tp::install when upstream_repo is missing in tinydata
 
-# 2.4.0
+## 2.4.0
 * Added upstream_repo option
 
-# 2.3.5
+## 2.3.5
 * Explicitly close open files in tp_lookup
 * Add purge_dirs argument to tp class
 
-# 2.3.4
+## 2.3.4
 * Added repo_exec_environment argument to tp::install
 
-# 2.3.3
+## 2.3.3
 * Updated README
 
-# 2.3.2
+## 2.3.2
 * Approved status request [MODULES-5811] - https://tickets.puppetlabs.com/browse/MODULES-5811
 * Skip danger in travis CI
 * any variables can be accepted for ensure of dir (#59)
 
-# 2.3.1
+## 2.3.1
 * Allow spaces in key for apt-key checks in tp::repo (#57)
 
-# 2.3.0
+## 2.3.0
 * Do not fail on missing tinydata, try to install homonimous package
 
-# 2.2.1
+## 2.2.1
 * Added support for tinydata settings repo_name and repo_filename in tp::repo 
 * Added support for tinydata settings config_file_params and config_dir_params
 * tp from command line Install cli integration by default
 
-# 2.2.0
+## 2.2.0
 * Added support for tinydata setting [repo_package_params] in tp::repo 
 * tp::repo just installs the release package if tinydata exists
 * Install via wget and dkpg release package from repo_package_url On Debian in tp::repo
