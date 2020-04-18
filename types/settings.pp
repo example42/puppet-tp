@@ -49,11 +49,13 @@ type Tp::Settings = Struct[{
   Optional[exec_prerequisites] => Hash,
   Optional[exec_postinstall] => Hash,
 
+  Optional[repo_package_name] => String,
   Optional[repo_package_url] => String,
   Optional[repo_package_provider] => String,
   Optional[repo_package_params] => Hash,
   Optional[repo_url] => String,
   Optional[repo_name] => String,
+  Optional[repo_description] => String,
   Optional[repo_filename] => String,
   Optional[key] => String,
   Optional[key_url]=> String,
