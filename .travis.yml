@@ -9,7 +9,7 @@ before_install:
   - gem --version
   - bundle -v
 script:
-  - travis_wait 60 'bundle exec rake $CHECK'
+  - 'bundle exec rake $CHECK'
 bundler_args: --without system_tests
 rvm:
   - 2.5.3
