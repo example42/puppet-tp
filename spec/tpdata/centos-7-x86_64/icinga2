@@ -29,3 +29,5 @@ init_file_path: "/etc/sysconfig/icinga2"
 repo_package_provider: rpm
 repo_package_name: icinga-rpm-release
 repo_package_url: https://packages.icinga.com/epel/7/release/noarch/icinga-rpm-release-7-1.el7.centos.noarch.rpm
+tp_prerequisites:
+  - epel
