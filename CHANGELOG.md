@@ -1,11 +1,15 @@
 # CHANGELOG
 
+
+## 2.4.3
+* Added repo_description setting
+
 ## 2.4.2
 * Ensure we find tp command in task tp::test 
 * Propagate data_module var to tp defines used in tp::install 
 * pdk convert
 
-## 2.4.1
+# 2.4.1
 * Fix for tp::install when upstream_repo is missing in tinydata
 
 ## 2.4.0
