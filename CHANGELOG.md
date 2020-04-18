@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# 2.5.0
+* PDK convert module
+* Added repo_description setting
+* [#70] Ensure we find tp command in task tp::test
+
 # 2.4.1
 * Fix for tp::install when upstream_repo is missing in tinydata
 
