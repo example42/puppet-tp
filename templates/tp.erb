@@ -65,6 +65,8 @@ def tp_test(app)
       Array(settings['package_name']).each do |s|
         if settings['package_provider'] == 'gem'
           system("gem list | grep  " + s + " " + COMMAND_REDIR)
+        elsif settings['package_provider'] == 'puppet_gem'
+          system("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR)
         elsif settings['package_provider'] == 'pip'
           system("pip list | grep  " + s + " " + COMMAND_REDIR)
         else
