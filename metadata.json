@@ -28,7 +28,8 @@
       "operatingsystem": "Windows",
       "operatingsystemrelease": [
         "Server 2008 R2",
-        "Server 2012 R2"
+        "Server 2012 R2",
+        "Server 2019"
       ]
     },
     {

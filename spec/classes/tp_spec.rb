@@ -4,11 +4,13 @@ describe 'tp' do
   on_supported_os(facterversion: '2.4').each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
+      file_resource_count = 4
+      file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
 
       context 'with default params' do
         it { is_expected.to compile }
-        it { should have_file_resource_count(4) }
-        it { should have_resource_count(4) }
+        it { should have_file_resource_count(file_resource_count) }
+        it { should have_resource_count(file_resource_count) }
       end
 
       context 'when install_hash is an array' do

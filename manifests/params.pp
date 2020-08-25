@@ -2,7 +2,7 @@
 #
 class tp::params {
   $tp_path = $facts['os']['family'] ? {
-    'windows' => 'C:/ProgramData/PuppetLabs/puppet/bin/tp',
+    'windows' => "${facts['env_windows_installdir']}/bin/tp",
     default   => '/usr/local/bin/tp',
   }
   $tp_dir = $facts['os']['family'] ? {
@@ -17,6 +17,10 @@ class tp::params {
     'windows' => 'Administrators',
     'Darwin'  => 'wheel',
     default   => 'root',
+  }
+  $tp_mode = $facts['os']['family'] ? {
+    'windows' => '0755',
+    default   => '0755',
   }
   $check_service_command = $facts['os']['family'] ? {
     'RedHat' => $facts['os']['release']['major'] ? {
@@ -61,7 +65,7 @@ class tp::params {
     default  => 'puppet resource package',
   }
   $ruby_path = $facts['os']['family'] ? {
-    'windows' => 'C:/ProgramData/PuppetLabs/puppet/bin/ruby',
+    'windows' => "${facts['env_windows_installdir']}/puppet/bin/ruby.exe",
     default   => '/opt/puppetlabs/puppet/bin/ruby',
   }
 

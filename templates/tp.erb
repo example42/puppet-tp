@@ -123,10 +123,16 @@ when 'log'
     TP_APPS.each do |f|
       settings = check_yaml f
       logs << settings['log_file_path']
+      if settings['log_dir_path']
+        logs << settings['log_dir_path'] + "/*.log"
+      end
     end
   else
     settings = check_yaml app
     logs << settings['log_file_path']
+    if settings['log_dir_path']
+      logs << settings['log_dir_path'] + "/*.log"
+    end
   end
   system("tail -f " + logs.uniq.join(' '))
 
