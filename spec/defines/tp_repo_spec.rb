@@ -14,8 +14,14 @@ describe 'tp::repo', :type => :define do
         total_count = 1
         package_count = 0
         service_count = 0
-        exec_count = 1
+        exec_count = 0
         file_count = 0
+
+        # Increment exec counters on Ubuntu
+        if os == 'centos-7-x86_64'
+          exec_count = exec_count.to_i + 1   # exec apt-get update
+          total_count = total_count.to_i + 1 # exec apt-get update
+        end
 
         # Increment package count if repo_package_url and repo_package_name are present
         if appdata['repo_package_url'] and appdata['repo_package_name']
@@ -27,14 +33,10 @@ describe 'tp::repo', :type => :define do
           total_count = total_count.to_i + 1 # yumrepo
         end
         if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
-        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+        if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
           total_count = total_count.to_i + 1 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
         end
-        if appdata['repo_url'] and ( appdata['package_name'] and appdata['package_name'] !=0 ) and os == 'ubuntu-16.04-x86_64'
-          exec_count = exec_count.to_i + 1   # exec apt-get update
-          total_count = total_count.to_i + 1 # exec apt-get update
-        end 
         if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key add
           total_count = total_count.to_i + 1
