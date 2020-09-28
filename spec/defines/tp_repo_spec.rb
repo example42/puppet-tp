@@ -14,7 +14,7 @@ describe 'tp::repo', :type => :define do
         total_count = 1
         package_count = 0
         service_count = 0
-        exec_count = 0
+        exec_count = 1
         file_count = 0
 
         # Increment package count if repo_package_url and repo_package_name are present
