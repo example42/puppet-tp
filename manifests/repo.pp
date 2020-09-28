@@ -18,6 +18,8 @@ define tp::repo (
   Variant[Undef,String[1]]  $key                 = undef,
   Boolean                   $include_src         = false,
 
+  Variant[Undef,String[1]]  $repo_file_url       = undef,
+
   Variant[Undef,Integer]    $yum_priority        = undef,
   Variant[Undef,String[1],Boolean] $yum_gpgcheck = undef,
   Variant[Undef,String[1]] $yum_mirrorlist       = undef,
@@ -67,6 +69,30 @@ define tp::repo (
       default => '1',
     },
     default => $yum_gpgcheck,
+  }
+
+  # Refreshable execs
+  if !defined(Exec['tp_apt_update'])
+  and $settings[package_name] =~ String[0]
+  and ( $::osfamily == 'Debian' ) {
+    exec { 'tp_apt_update':
+      command     => '/usr/bin/apt-get -qq update',
+      path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+      logoutput   => false,
+      refreshonly => true,
+      environment => $exec_environment,
+    }
+  }
+
+  if !defined(Exec['zypper refresh'])
+  and ( $::osfamily == 'Suse' ) {
+    exec { 'zypper refresh':
+      command     => 'zypper refresh',
+      path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+      logoutput   => false,
+      refreshonly => true,
+      environment => $exec_environment,
+    }
   }
 
   # Install repo via release package, if tinydata present
@@ -126,15 +152,6 @@ define tp::repo (
             environment => $exec_environment,
           }
         }
-        if !defined(Exec['zypper refresh']) {
-          exec { 'zypper refresh':
-            command     => 'zypper refresh',
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            logoutput   => false,
-            refreshonly => true,
-            environment => $exec_environment,
-          }
-        }
       }
       'RedHat': {
         $yumrepo_title = pick($settings[repo_filename],$title)
@@ -154,18 +171,6 @@ define tp::repo (
       }
       # To avoid to introduce another dependency we manage apt repos directly
       'Debian': {
-        if !defined(Exec['tp_apt_update'])
-        and $settings[package_name] =~ String[0]
-        and !empty($settings[key]) {
-          exec { 'tp_apt_update':
-            command     => '/usr/bin/apt-get -qq update',
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            logoutput   => false,
-            refreshonly => true,
-            environment => $exec_environment,
-          }
-        }
-
         if !empty($settings[package_name])
         and !empty($settings[key])
         and defined(Package[$settings[package_name]]) {
@@ -179,7 +184,7 @@ define tp::repo (
         and !empty($settings[repo_url]) {
           file { "${aptrepo_title}.list":
             ensure  => $ensure,
-            path    => "/etc/apt/sources.list.d/${title}.list",
+            path    => "/etc/apt/sources.list.d/${aptrepo_title}.list",
             owner   => root,
             group   => root,
             mode    => '0644',
@@ -221,6 +226,29 @@ define tp::repo (
           message =>"No dedicated repo available for ${::osfamily}",
         }
       }
+    }
+  }
+
+  if !empty($settings[repo_file_url]) {
+    $repo_file_name = pick($settings['repo_filename'],$title)
+    $repo_file_path = $::osfamily ? {
+      'Debian' => "/etc/apt/sources.list.d/${repo_file_name}.list",
+      'RedHat' => "/etc/yum.repos.d/${repo_file_name}.repo",
+      'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
+    }
+    $repo_file_notify = $::osfamily ? {
+      'Debian' => 'Exec["tp_apt_update"]',
+      'RedHat' => undef,
+      'Suse'   => 'Exec["zypper refresh"]',
+    }
+    file { $repo_file_path:
+      ensure => $ensure,
+      path   => $repo_file_path,
+      owner  => root,
+      group  => root,
+      mode   => '0644',
+      source => $repo_file_url,
+      notify => $repo_file_notify,
     }
   }
   # Debugging
