@@ -68,5 +68,16 @@ class tp::params {
     'windows' => "${facts['env_windows_installdir']}/puppet/bin/ruby.exe",
     default   => '/opt/puppetlabs/puppet/bin/ruby',
   }
-
+  $check_repo_path = $facts['os']['family'] ? {
+    'RedHat' => '/etc/yum.repos.d/',
+    'Suse'   => '/etc/zypp/repos.d/',
+    'Debian' => '/etc/apt/sources.list.d/',
+    default => 'echo "OS not supported "',
+  }
+  $check_repo_path_post = $facts['os']['family'] ? {
+    'RedHat' => '.repo',
+    'Suse'   => '.repo',
+    'Debian' => '.list',
+    default => 'echo "OS not supported "',
+  }
 }

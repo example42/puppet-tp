@@ -7,6 +7,7 @@
 * Added  repo_description tinydata setting
 * Added support for puppet gem packages in tp test
 * Improved support for Windows
+* tp test now shows also tp managed repos
 
 ## 2.4.3
 * Added repo_description setting
