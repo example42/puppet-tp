@@ -43,7 +43,7 @@ describe 'tp::repo', :type => :define do
         if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
           total_count = total_count.to_i + 1
-        end 
+        end
 
         # Interate contexts over os and over app
         context "with app #{app}" do
