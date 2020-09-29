@@ -18,7 +18,7 @@ describe 'tp::repo', :type => :define do
         file_count = 0
 
         # Increment exec counters on Ubuntu
-        if os == 'centos-7-x86_64'
+        if os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-get update
           total_count = total_count.to_i + 1 # exec apt-get update
         end
@@ -32,7 +32,6 @@ describe 'tp::repo', :type => :define do
         if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'
           total_count = total_count.to_i + 1 # yumrepo
         end
-        if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
         if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
           total_count = total_count.to_i + 1 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
