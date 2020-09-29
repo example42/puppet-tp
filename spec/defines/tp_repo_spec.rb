@@ -22,7 +22,6 @@ describe 'tp::repo', :type => :define do
           exec_count = exec_count.to_i + 1   # exec apt-get update
           total_count = total_count.to_i + 1 # exec apt-get update
         end
-
         # Increment package count if repo_package_url and repo_package_name are present
         if appdata['repo_package_url'] and appdata['repo_package_name']
           package_count = package_count.to_i + 1

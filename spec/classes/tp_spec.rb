@@ -28,7 +28,7 @@ describe 'tp' do
         it { is_expected.to contain_tp__install('sysdig') }
       end
 
-      context 'when install_hash is a hash' do
+      context 'when install_hash is an hash' do
         let(:params) do
           {
             tp_dir: '/opt/tp',
