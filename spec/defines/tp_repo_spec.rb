@@ -37,7 +37,8 @@ describe 'tp::repo', :type => :define do
         end
         if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key add
-          total_count = total_count.to_i + 1
+          file_count = file_count.to_i + 1   # file $app.list
+          total_count = total_count.to_i + 2
         end 
         if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
