@@ -209,7 +209,7 @@ define tp::install (
     and ( $settings[repo_url]
     or $settings[yum_mirrorlist]
     or $settings[repo_package_url]
-    or $settings[repo_file_url]) ) {
+    or $settings[repo_file_url]) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
