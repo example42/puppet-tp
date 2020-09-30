@@ -45,7 +45,8 @@ define tp::uninstall (
 
   # Automatic repo management
   if $auto_repo == true
-  and ( $settings['repo_url'] or $settings['yum_mirrorlist']) {
+  and ( $settings['repo_url'] or $settings['yum_mirrorlist'] or $settings['repo_package_url']) {
+
     tp::repo { $title:
       enabled => false,
       before  => Package[$settings[package_name]],

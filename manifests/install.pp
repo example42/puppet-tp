@@ -205,7 +205,7 @@ define tp::install (
   # Automatic repo management
   $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
   if $use_upstream_repo
-    or ( $auto_repo
+    and $auto_repo != false
     and ( $settings[repo_url]
     or $settings[yum_mirrorlist]
     or $settings[repo_package_url]
