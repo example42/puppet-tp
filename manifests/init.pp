@@ -14,6 +14,8 @@ class tp (
   String $check_service_command      = $::tp::params::check_service_command,
   String $check_service_command_post = $::tp::params::check_service_command_post,
   String $check_package_command      = $::tp::params::check_package_command,
+  String $check_repo_path            = $::tp::params::check_repo_path,
+  String $check_repo_path_post       = $::tp::params::check_repo_path_post,
   String $tp_dir                     = $::tp::params::tp_dir,
   String $ruby_path                  = $::tp::params::ruby_path,
   Hash $options_hash                 = {},
@@ -40,6 +42,8 @@ class tp (
     'check_service_command'      => $check_service_command,
     'check_service_command_post' => $check_service_command_post,
     'check_package_command'      => $check_package_command,
+    'check_repo_path'            => $check_repo_path,
+    'check_repo_path_post'       => $check_repo_path_post,
   }
   $options = $options_defaults + $options_hash
 

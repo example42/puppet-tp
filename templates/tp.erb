@@ -53,11 +53,23 @@ def tp_test(app)
       system(TP_TEST_DIR + "/#{app}" + COMMAND_REDIR)
       result = $?
       if result == 0
-        puts "- #{app}: \e[32m#{TP_TEST_DIR}/#{app} OK \e[0m\n"
+        puts "- \e[34m#{app}\e[0m: Test \e[32m#{TP_TEST_DIR}/#{app} OK \e[0m\n"
       else
-        puts "- #{app}: \e[31m#{TP_TEST_DIR}/#{app} ERROR \e[0m\n"
+        puts "- \e[34m#{app}\e[0m: Test \e[31m#{TP_TEST_DIR}/#{app} ERROR \e[0m\n"
       end
       $error_exit = 1 if result != 0
+    end
+
+    # Check repo if defined
+    if settings['repo_package_url'] or settings['repo_url'] or settings['yum_mirrorlist'] or settings['repo_file_url']
+      repo_path = "<%= @options['check_repo_path'] %>#{app}<%= @options['check_repo_path_post'] %>"
+      system("test -f #{repo_path}")
+      result = $?
+      if result == 0
+        puts "- \e[34m#{app}\e[0m: Repo \e[32m#{repo_path} OK \e[0m\n"
+      else
+        puts "- \e[34m#{app}\e[0m: Repo #{repo_path} available but not installed\n"
+      end
     end
 
     # Check package if defined
@@ -74,9 +86,9 @@ def tp_test(app)
         end
         result = $?
         if result == 0
-        puts "- #{app}: \e[32mpackage #{s} OK \e[0m\n"
+        puts "- \e[34m#{app}\e[0m: Package \e[32m#{s} OK \e[0m\n"
         else
-          puts "- #{app}: \e[31mpackage #{s} ERROR \e[0m\n"
+          puts "- \e[34m#{app}\e[0m: Package \e[31m#{s} ERROR \e[0m\n"
         end
         $error_exit = 1 if result != 0
       end
@@ -88,13 +100,14 @@ def tp_test(app)
         system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>" + COMMAND_REDIR)
         result = $?
         if result == 0
-          puts "- #{app}: \e[32mservice #{s} OK \e[0m\n"
+          puts "- \e[34m#{app}\e[0m: Service \e[32m#{s} OK \e[0m\n"
         else
-          puts "- #{app}: \e[31mservice #{s} ERROR \e[0m\n"
+          puts "- \e[34m#{app}\e[0m: Service \e[32m#{s} ERROR \e[0m\n"
         end
         $error_exit = 1 if result != 0
       end
     end
+
   rescue
     raise ArgumentError.new("#{app} not found in " + TP_APP_DIR)
   end

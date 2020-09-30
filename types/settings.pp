@@ -53,6 +53,7 @@ type Tp::Settings = Struct[{
   Optional[repo_package_url] => String,
   Optional[repo_package_provider] => String,
   Optional[repo_package_params] => Hash,
+  Optional[repo_file_url] => String,
   Optional[repo_url] => String,
   Optional[repo_name] => String,
   Optional[repo_description] => String,
@@ -69,5 +70,8 @@ type Tp::Settings = Struct[{
   Optional[yum_priority] => String,
   Optional[yum_mirrorlist] => String,
   Optional[zypper_repofile_url] => String,
+
+  Optional[git_sourcel] => String,
+  Optional[git_destination] => String,
 
 }]

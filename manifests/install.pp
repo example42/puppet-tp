@@ -77,7 +77,8 @@
 # @param upstream_repo Boolean to enable usage of upstream repo for the app and
 #   install packages from it rather than default local OS one
 #   For working needs relevant tinydata settings, like repo_package_url or
-#   repo_url
+#   repo_url. If auto_repo is false, no repo is managed at all, even if
+#   upstream_repo is true.
 #
 # @param auto_repo Boolean to enable automatic package repo management for the
 #   specified application. Repo data is not always provided.
@@ -92,6 +93,10 @@
 # @repo_exec_environment Array to use for the environment argument of exec types
 #   used inside tp::repo define. Used if $auto_repo is true. Can be useful when trying
 #   to use tp::repo from behing  a proxy
+#
+# @param tp_repo_params An hash of additional parameters to pass to the tp::repo define,
+#   in case it is used. These params are merged with the ones coming from other
+#   repo related parameters and are supposed to be used for special cases.
 #
 # @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's a valid value for $settings['config_file_template']
@@ -136,6 +141,7 @@ define tp::install (
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
   Array                   $repo_exec_environment = [],
+  Hash                    $tp_repo_params   = {},
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
 
@@ -199,14 +205,17 @@ define tp::install (
 
   # Automatic repo management
   $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
-  if $use_upstream_repo or
-  ( $auto_repo == true and ( $settings[repo_url] or $settings[yum_mirrorlist] or $settings[repo_package_url] ) ) {
+  if $auto_repo
+    and ( $settings[repo_url]
+    or $settings[yum_mirrorlist]
+    or $settings[repo_package_url]
+    or $settings[repo_file_url]) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
       default   => true,
     }
-    tp::repo { $app:
+    $tp_repo_params_default = {
       enabled          => $repo_enabled,
       before           => Package[$settings[package_name]],
       data_module      => $data_module,
@@ -214,6 +223,9 @@ define tp::install (
       settings_hash    => $settings_hash,
       exec_environment => $repo_exec_environment,
       upstream_repo    => $use_upstream_repo,
+    }
+    tp::repo { $app:
+      * => $tp_repo_params_default + $tp_repo_params,
     }
   }
 
@@ -286,6 +298,16 @@ define tp::install (
       service { $svc:
         * => $service_defaults + pick($settings[service_params],{})
       }
+    }
+  }
+
+  # Install straight from git source
+  if $settings[git_source] {
+    tp::dir { $app:
+      ensure  => $ensure,
+      path    => pick ($settings[git_destination], "/opt/${app}"),
+      source  => $settings[git_source],
+      vcsrepo => 'git',
     }
   }
 

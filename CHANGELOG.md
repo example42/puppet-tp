@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2.5.0
+* Added tinydata params git_source and git_destination to install apps from git source
+* Added param repo_file_url to install a repo directly from http url (Note: if using https,
+  the repo webserver certificate must be valid and accepted by locally installed CAs certs).
+* Added  repo_description tinydata setting
+* Added support for puppet gem packages in tp test
+* Improved support for Windows
+* tp test now shows also tp managed repos
 
 ## 2.4.3
 * Added repo_description setting
