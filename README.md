@@ -1,5 +1,6 @@
 # Tiny Puppet 
 
+
 [![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
