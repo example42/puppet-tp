@@ -30,7 +30,6 @@ describe 'tp::repo', :type => :define do
             exec_count = package_count.to_i + 1
             total_count = total_count.to_i + 1
           end
-
         end
         # Increment counters for resources in tp::repo
         if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'

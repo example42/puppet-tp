@@ -37,7 +37,7 @@ describe 'tp::install', :type => :define do
           service_count = service_count.to_i - 1
         end
         # Added resources when repos are managed
-        if appdata['repo_url'] or appdata['yum_mirrorlist'] or appdata['repo_package_url']
+        if appdata['repo_url'] or appdata['yum_mirrorlist'] or appdata['repo_package_url'] or appdata['repo_file_url']
           has_repo = true
           total_count = total_count.to_i + 1 # tp::repo
           repo_params = {
@@ -52,32 +52,36 @@ describe 'tp::install', :type => :define do
           }
         end
 
-        # Increment package count if repo_package_url and repo_package_name are present
-        if appdata['repo_package_url'] and appdata['repo_package_name']
-          package_count = package_count.to_i + 1
-          total_count = total_count.to_i + 1
+        # tp repo resources
+        if has_repo
+          # Increment exec counters on Ubuntu
+          if os == 'ubuntu-16.04-x86_64' and appdata['package_name']
+            exec_count = exec_count.to_i + 1   # exec apt-get update
+            total_count = total_count.to_i + 1 # exec apt-get update
+          end
+          # Increment package count if repo_package_url and repo_package_name are present
+          if appdata['repo_package_url'] and appdata['repo_package_name']
+            package_count = package_count.to_i + 1
+            total_count = total_count.to_i + 1
+          end
+          # Increment counters for resources in tp::repo
+          if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'
+            total_count = total_count.to_i + 1 # yumrepo
+          end
+          if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
+          # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+            total_count = total_count.to_i + 1 # file $app.list
+            file_count = file_count.to_i + 1   # file $app.list
+          end
+          if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
+            exec_count = exec_count.to_i + 1   # exec apt-key add
+            total_count = total_count.to_i + 1
+          end 
+          if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
+            exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
+            total_count = total_count.to_i + 1
+          end 
         end
-        # Increment counters for resources in tp::repo
-        if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'
-          total_count = total_count.to_i + 1 # yumrepo
-        end
-        if appdata['repo_url'] and appdata['apt_release'] and os == 'ubuntu-16.04-x86_64'
-        # if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
-          total_count = total_count.to_i + 1 # file $app.list
-          file_count = file_count.to_i + 1   # file $app.list
-        end
-        if appdata['repo_url'] and ( appdata['package_name'] and appdata['package_name'] !=0 ) and os == 'ubuntu-16.04-x86_64'
-          exec_count = exec_count.to_i + 1   # exec apt-get update
-          total_count = total_count.to_i + 1 # exec apt-get update
-        end 
-        if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
-          exec_count = exec_count.to_i + 1   # exec apt-key add
-          total_count = total_count.to_i + 1
-        end 
-        if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
-          exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
-          total_count = total_count.to_i + 1
-        end 
 
         # Interate contexts over os and over app
         context "with app #{app}" do

@@ -77,7 +77,8 @@
 # @param upstream_repo Boolean to enable usage of upstream repo for the app and
 #   install packages from it rather than default local OS one
 #   For working needs relevant tinydata settings, like repo_package_url or
-#   repo_url
+#   repo_url. If auto_repo is false, no repo is managed at all, even if
+#   upstream_repo is true.
 #
 # @param auto_repo Boolean to enable automatic package repo management for the
 #   specified application. Repo data is not always provided.
@@ -204,8 +205,7 @@ define tp::install (
 
   # Automatic repo management
   $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
-  if $use_upstream_repo
-    and $auto_repo != false
+  if $auto_repo
     and ( $settings[repo_url]
     or $settings[yum_mirrorlist]
     or $settings[repo_package_url]
