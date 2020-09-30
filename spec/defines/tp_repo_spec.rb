@@ -18,7 +18,7 @@ describe 'tp::repo', :type => :define do
         file_count = 0
 
         # Increment exec counters on Ubuntu
-        if os == 'ubuntu-16.04-x86_64'
+        if os == 'ubuntu-16.04-x86_64' and appdata['package_name']
           exec_count = exec_count.to_i + 1   # exec apt-get update
           total_count = total_count.to_i + 1 # exec apt-get update
         end
@@ -26,21 +26,25 @@ describe 'tp::repo', :type => :define do
         if appdata['repo_package_url'] and appdata['repo_package_name']
           package_count = package_count.to_i + 1
           total_count = total_count.to_i + 1
+          if os == 'ubuntu-16.04-x86_64'
+            exec_count = package_count.to_i + 1
+            total_count = total_count.to_i + 1
+          end
+
         end
         # Increment counters for resources in tp::repo
         if ( appdata['repo_url'] or appdata['yum_mirrorlist'] ) and os == 'centos-7-x86_64'
           total_count = total_count.to_i + 1 # yumrepo
         end
-        if appdata['repo_url'] and appdata['apt_release'] and appdata['apt_repos'] and os == 'ubuntu-16.04-x86_64'
+        if appdata['key'] and appdata['key_url'] and appdata['repo_url'] and os == 'ubuntu-16.04-x86_64'
           total_count = total_count.to_i + 1 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
         end
-        if appdata['repo_url'] and appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
+        if appdata['key'] and appdata['key_url'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key add
-          file_count = file_count.to_i + 1   # file $app.list
-          total_count = total_count.to_i + 2
+          total_count = total_count.to_i + 1
         end 
-        if appdata['repo_url'] and appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
+        if appdata['key'] and appdata['apt_key_server'] and appdata['apt_key_fingerprint'] and os == 'ubuntu-16.04-x86_64'
           exec_count = exec_count.to_i + 1   # exec apt-key adv --keyserver
           total_count = total_count.to_i + 1
         end
