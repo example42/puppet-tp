@@ -270,10 +270,23 @@ define tp::conf (
   }
   $real_path      = pick($path, $auto_path)
   $manage_path    = "${path_prefix}${real_path}"
-  $manage_content = tp_content($content, $template, $epp)
   $manage_mode    = pick($mode, $settings[config_file_mode])
   $manage_owner   = pick($owner, $settings[config_file_owner])
   $manage_group   = pick($group, $settings[config_file_group])
+  $content_params = tp_content($content, $template, $epp)
+
+  if $settings[config_file_format] and $options_hash != {} {
+    $manage_content = $settings[config_file_format] ? {
+      'yaml' => to_yaml($options_hash),
+      'json' => to_json($options_hash),
+      'inifile' => template('tp::inifile.erb'),
+      'inifile_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
+      'spaced' => template('tp::spaced.erb'),
+      'spaced_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
+    }
+  } else {
+    $manage_content = $content_params
+  }
 
   # Set require if package_name is present
   if $settings[package_name] and $settings[package_name] != '' {

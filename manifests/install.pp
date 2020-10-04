@@ -325,7 +325,11 @@ define tp::install (
       }
     }
   }
-
+  if $options_hash != {} and $settings[config_file_format] {
+    tp::conf { $app:
+      * => $conf_defaults,
+    }
+  }
   # Manage additional tp::dir as in dir_hash
   $dir_defaults = {
     'ensure'        => tp::ensure2dir($ensure),

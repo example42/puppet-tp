@@ -1,0 +1,11 @@
+# File managed by Puppet
+<% @options_hash.each do |k,v| -%>
+<% if v.class == Hash -%>
+<%= k %>
+<% v.each do |kk,vv| -%>
+  <%= kk %> <%= vv %>
+<% end -%>
+<% else -%>
+<%= k %> <%= vv %>
+<% end -%>
+<% end -%>
