@@ -102,7 +102,7 @@ def tp_test(app)
         if result == 0
           puts "- \e[34m#{app}\e[0m: Service \e[32m#{s} OK \e[0m\n"
         else
-          puts "- \e[34m#{app}\e[0m: Service \e[32m#{s} ERROR \e[0m\n"
+          puts "- \e[34m#{app}\e[0m: Service \e[31m#{s} ERROR \e[0m\n"
         end
         $error_exit = 1 if result != 0
       end
