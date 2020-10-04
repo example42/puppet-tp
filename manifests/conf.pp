@@ -275,7 +275,7 @@ define tp::conf (
   $manage_group   = pick($group, $settings[config_file_group])
   $content_params = tp_content($content, $template, $epp)
 
-  if $settings[config_file_format] and $options_hash != {} {
+  if $content_params != Undef and $settings[config_file_format] and $options_hash != {} {
     $manage_content = $settings[config_file_format] ? {
       'yaml' => to_yaml($options_hash),
       'json' => to_json($options_hash),
