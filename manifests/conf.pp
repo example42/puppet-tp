@@ -283,6 +283,7 @@ define tp::conf (
       'inifile_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
       'spaced' => template('tp::spaced.erb'),
       'spaced_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
+      default => undef,
     }
   } else {
     $manage_content = $content_params

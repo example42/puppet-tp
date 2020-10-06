@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* Added tinydaya extra_prerequisites and extra_postinstall params
+* tp_prerequisites can can a String, Array of Hash of tp installs
+
 ## 2.5.0
 * Added tinydata params git_source and git_destination to install apps from git source
 * Added param repo_file_url to install a repo directly from http url (Note: if using https,

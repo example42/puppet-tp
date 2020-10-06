@@ -99,9 +99,9 @@
 #   repo related parameters and are supposed to be used for special cases.
 #
 # @param auto_conf Boolean to enable automatic configuration of the application.
-#   If true and there's a valid value for $settings['config_file_template']
-#   then the relevant template is added via tp::conf based on the default
-#   $options (they can be overriden by the options_hash parameter).
+#   If true and there's are valid values for tinydata $settings['config_file_template']
+#   and $settings['init_file_template'] then the relevant
+#   file is managed according to tinydata defaults and user's $options_hash.
 #
 # @param cli_enable Enable cli integration.
 #   If true, tp commands to query apps installed via tp are added to the system.
@@ -241,12 +241,28 @@ define tp::install (
     }
   }
   if $auto_prereq and $settings[tp_prerequisites] {
-    $settings[tp_prerequisites].each | $p | {
-      Tp::Install[$p] -> Package[$settings[package_name]]
-      tp_install($p, { auto_prereq => true })
+    case $settings[tp_prerequisites] {
+      Array: {
+        $settings[tp_prerequisites].each | $p | {
+          Tp::Install[$p] -> Package[$settings[package_name]]
+          tp_install($p, { auto_prereq => true })
+        }
+      }
+      Hash: {
+        $settings[tp_prerequisites].each | $p,$v | {
+          Tp::Install[$p] -> Package[$settings[package_name]]
+          $tp_install_params =  { auto_prereq => true, manage_service => $manage_service, manage_package => $manage_package } + $v
+          tp_install($p, $tp_install_params)
+        }
+      }
+      String: {
+        Tp::Install[$settings[tp_prerequisites]] -> Package[$settings[package_name]]
+        tp_install($settings[tp_prerequisites], { auto_prereq => true })
+      }
+      default: {}
     }
   }
-  if $auto_prereq and $settings[exec_prerequisites] {
+  if $auto_prereq and $settings['exec_prerequisites'] {
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
@@ -254,7 +270,12 @@ define tp::install (
       }
     }
   }
-  if $auto_prereq and $settings[exec_postinstall] {
+  if $auto_prereq and $settings['extra_prerequisites'] {
+    $settings['extra_prerequisites'].each | $k,$v | {
+      create_resources($k,$v, { before => Package[$settings[package_name]] })
+    }
+  }
+  if $auto_prereq and $settings['exec_postinstall'] {
     $settings[exec_postinstall].each | $k , $v | {
       Package[$settings[package_name]] -> Exec[$k]
       exec { $k:
@@ -262,7 +283,11 @@ define tp::install (
       }
     }
   }
-
+  if $auto_prereq and $settings['extra_postinstall'] {
+    $settings['extra_prerequisites'].each | $k,$v | {
+      create_resources($k,$v, { require => Package[$settings[package_name]] })
+    }
+  }
   # Resources
   if $settings[package_name] =~ Array and $manage_package {
     $package_defaults = {
@@ -344,7 +369,7 @@ define tp::install (
     }
   }
 
-  # Auto manage config files if present
+  # Automatically manage config files and any Puppet resource, if tinydata defined
   if $auto_conf and $settings['config_file_template'] {
     ::tp::conf { $app:
       template     => $settings['config_file_template'],
