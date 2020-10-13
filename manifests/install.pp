@@ -251,7 +251,7 @@ define tp::install (
       Hash: {
         $settings[tp_prerequisites].each | $p,$v | {
           Tp::Install[$p] -> Package[$settings[package_name]]
-          $tp_install_params =  { auto_prereq => true, manage_service => $manage_service, manage_package => $manage_package } + $v
+          $tp_install_params =  { auto_prereq => true } + $v
           tp_install($p, $tp_install_params)
         }
       }
