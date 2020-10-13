@@ -13,7 +13,7 @@ describe 'tp' do
         it { should have_resource_count(file_resource_count) }
       end
 
-      context 'when install_hash is an array' do
+      skip 'when install_hash is an array' do
         let(:params) do
           {
             tp_dir: '/opt/tp',
@@ -28,7 +28,7 @@ describe 'tp' do
         it { is_expected.to contain_tp__install('sysdig') }
       end
 
-      context 'when install_hash is an hash' do
+      skip 'when install_hash is an hash' do
         let(:params) do
           {
             tp_dir: '/opt/tp',
