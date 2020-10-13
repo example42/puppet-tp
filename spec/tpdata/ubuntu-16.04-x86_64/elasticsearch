@@ -13,17 +13,17 @@ config_dir_purge: false
 config_dir_recurse: true
 package_name: elasticsearch
 service_name: elasticsearch
-config_file_path: /etc/elasticsearch/elasticsearch.yml
+config_file_path: "/etc/elasticsearch/elasticsearch.yml"
 config_file_format: yaml
-pid_file_path: /var/run/elasticsearch.pid
-log_file_path: /var/log/elasticsearch/elasticsearch.log
-log_dir_path: /var/log/elasticsearch
-data_dir_path: /var/lib/elasticsearch
+pid_file_path: "/var/run/elasticsearch.pid"
+log_file_path: "/var/log/elasticsearch/elasticsearch.log"
+log_dir_path: "/var/log/elasticsearch"
+data_dir_path: "/var/lib/elasticsearch"
 process_name: java
 process_extra_name: elasticsearch
 process_user: elasticsearch
 process_group: elasticsearch
 tcp_port: '9200'
-init_file_path: /etc/default/elasticsearch
+init_file_path: "/etc/default/elasticsearch"
   tp_prerequisites:
     elastic_repo: {}
