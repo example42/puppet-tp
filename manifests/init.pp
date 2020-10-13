@@ -20,18 +20,32 @@ class tp (
   String $ruby_path                  = $::tp::params::ruby_path,
   Hash $options_hash                 = {},
 
-  Variant[Hash,Array[String]] $install_hash              = {},
-  Hash $install_defaults                                 = {},
+#  Variant[Hash,Array[String]] $install_hash                 = {},
+  Enum['first','hash','deep'] $install_hash_merge_behaviour = 'first',
+  Hash $install_defaults                                    = {},
 
-  Variant[Hash,Array[String]] $osfamily_install_hash     = {},
-  Hash $osfamily_install_defaults                        = {},
+#  Variant[Hash,Array[String]] $osfamily_install_hash                 = {},
+  Enum['first','hash','deep'] $osfamily_install_hash_merge_behaviour = 'first',
+  Hash $osfamily_install_defaults                                    = {},
 
-  Hash $conf_hash                    = {},
-  Hash $dir_hash                     = {},
-  Hash $concat_hash                  = {},
-  Hash $stdmod_hash                  = {},
-  Hash $puppi_hash                   = {},
-  Hash $repo_hash                    = {},
+#  Hash $conf_hash                    = {}, # Looked up in code
+  Enum['first','hash','deep'] $conf_hash_merge_behaviour = 'first',
+
+#  Hash $dir_hash                     = {},
+  Enum['first','hash','deep'] $dir_hash_merge_behaviour = 'first',
+
+#  Hash $concat_hash                  = {},
+  Enum['first','hash','deep'] $concat_hash_merge_behaviour = 'first',
+
+#  Hash $stdmod_hash                  = {},
+  Enum['first','hash','deep'] $stdmod_hash_merge_behaviour = 'first',
+
+#  Hash $puppi_hash                   = {},
+  Enum['first','hash','deep'] $puppi_hash_merge_behaviour = 'first',
+
+#  Hash $repo_hash                    = {},
+  Enum['first','hash','deep'] $repo_hash_merge_behaviour = 'first',
+
   Boolean $purge_dirs                = false,
 ) inherits ::tp::params {
 
@@ -76,12 +90,14 @@ class tp (
     }
   }
 
+  $install_hash = lookup('tp::install_hash',Variant[Hash,Array[String]],$install_hash_merge_behaviour,{})
   if $install_hash =~ Array {
     $install_hash.each | $name | { tp_install($name, {ensure => present}) }
   } else {
     $install_hash.each | $name, $options | { tp_install($name, $options) }
   }
 
+  $osfamily_install_hash = lookup('tp::osfamily_install_hash',Variant[Hash,Array[String]],$osfamily_install_hash_merge_behaviour,{})
   $osfamily_install_hash.each |$k,$v| {
     if $::osfamily == $k {
 
@@ -112,26 +128,35 @@ class tp (
     }
   }
 
+  $conf_hash = lookup('tp::conf_hash',Hash,$conf_hash_merge_behaviour,{})
   $conf_hash.each |$k,$v| {
     tp::conf { $k:
       * => $v,
     }
   }
+
+  $dir_hash = lookup('tp::dir_hash',Hash,$dir_hash_merge_behaviour,{})
   $dir_hash.each |$k,$v| {
     tp::dir { $k:
       * => $v,
     }
   }
+
+  $concat_hash = lookup('tp::concat_hash',Hash,$concat_hash_merge_behaviour,{})
   $concat_hash.each |$k,$v| {
     tp::concat { $k:
       * => $v,
     }
   }
+
+  $stdmod_hash = lookup('tp::stdmod_hash',Hash,$stdmod_hash_merge_behaviour,{})
   $stdmod_hash.each |$k,$v| {
     tp::stdmod { $k:
       * => $v,
     }
   }
+
+  $repo_hash = lookup('tp::repo_hash',Hash,$repo_hash_merge_behaviour,{})
   $repo_hash.each |$k,$v| {
     tp::repo { $k:
       * => $v,

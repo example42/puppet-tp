@@ -279,10 +279,10 @@ define tp::conf (
     $manage_content = $settings[config_file_format] ? {
       'yaml' => to_yaml($options_hash),
       'json' => to_json($options_hash),
-      'inifile' => template('tp::inifile.erb'),
-      'inifile_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
-      'spaced' => template('tp::spaced.erb'),
-      'spaced_with_stanzas' => template('tp::inifile_with_stanzas.erb'),
+      'inifile' => template('tp/inifile.erb'),
+      'inifile_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
+      'spaced' => template('tp/spaced.erb'),
+      'spaced_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
       default => undef,
     }
   } else {
