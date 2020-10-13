@@ -31,6 +31,10 @@ class tp (
 #  Hash $conf_hash                    = {}, # Looked up in code
   Enum['first','hash','deep'] $conf_hash_merge_behaviour = 'first',
 
+#  Variant[Hash,Array[String]] $osfamily_conf_hash                   = {},
+  Enum['first','hash','deep'] $osfamily_conf_hash_merge_behaviour    = 'first',
+  Hash $osfamily_conf_defaults                                       = {},
+
 #  Hash $dir_hash                     = {},
   Enum['first','hash','deep'] $dir_hash_merge_behaviour = 'first',
 
@@ -115,7 +119,7 @@ class tp (
         }
         Hash: {
           $v.each |$kk,$vv| {
-            tp_install ($kk, $os_defaults + $vv)
+            tp::install($kk, $os_defaults + $vv)
           }
         }
         String: {
@@ -134,6 +138,45 @@ class tp (
       * => $v,
     }
   }
+
+  $osfamily_conf_hash = lookup('tp::osfamily_conf_hash',Variant[Hash,Array[String]],$osfamily_conf_hash_merge_behaviour,{})
+  $osfamily_conf_hash.each |$k,$v| {
+    if $::osfamily == $k {
+
+      if has_key($osfamily_conf_defaults, $k) {
+        $os_defaults = $osfamily_conf_defaults[$k]
+      } else {
+        $os_defaults = {}
+      }
+
+      case $v {
+        Array: {
+          $v.each |$kk| {
+            tp::conf { $kk:
+              * => $os_defaults,
+            }
+          }
+        }
+        Hash: {
+          $v.each |$kk,$vv| {
+            tp::conf { $kk:
+              * => $os_defaults + $vv,
+            }
+          }
+        }
+        String: {
+          tp::conf { $kk:
+            * => $os_defaults,
+          }
+        }
+        default: {
+          fail("Unsupported type for ${v}. Valid types are String, Array, Hash")
+        }
+      }
+    }
+  }
+
+
 
   $dir_hash = lookup('tp::dir_hash',Hash,$dir_hash_merge_behaviour,{})
   $dir_hash.each |$k,$v| {

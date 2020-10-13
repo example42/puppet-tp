@@ -73,7 +73,6 @@ define tp::repo (
 
   # Refreshable execs
   if !defined(Exec['tp_apt_update'])
-  and $settings[package_name] =~ String[0]
   and ( $::osfamily == 'Debian' ) {
     exec { 'tp_apt_update':
       command     => '/usr/bin/apt-get -qq update',

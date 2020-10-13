@@ -29,4 +29,3 @@ tcp_port: '9200'
 init_file_path: "/etc/sysconfig/elasticsearch"
 tp_prerequisites:
   elastic_repo: {}
-
