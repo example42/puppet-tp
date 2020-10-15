@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.5.1
+* Added support for tinydata config_file_format setting
+* Added tp::osfamily_install_hash and tp::osfamily_conf_hash parameters
+* Allow to set defaults and lookup method for all _hash parameters in tp class
+* Added tinydaya extra_prerequisites and extra_postinstall params
+* tp_prerequisites can can a String, Array of Hash of tp installs
+
 ## 2.5.0
 * Added tinydata params git_source and git_destination to install apps from git source
 * Added param repo_file_url to install a repo directly from http url (Note: if using https,

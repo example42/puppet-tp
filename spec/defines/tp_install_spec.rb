@@ -133,8 +133,8 @@ describe 'tp::install', :type => :define do
               it { is_expected.to contain_package(appdata['package_prerequisites']).with('ensure' => 'present') }
             end
             if appdata['tp_prerequisites']
-              appdata['tp_prerequisites'].each do |tp_pre|
-                it { is_expected.to contain_tp__install(tp_pre) }
+              appdata['tp_prerequisites'].each do |k,v|
+                it { is_expected.to contain_tp__install(k, v) }
               end
             end
             if appdata['exec_prerequisites']

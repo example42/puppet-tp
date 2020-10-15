@@ -1,5 +1,5 @@
 ---
-upstream_repo: false
+upstream_repo: true
 package_ensure: present
 service_ensure: running
 service_enable: true
@@ -14,20 +14,18 @@ config_dir_recurse: true
 package_name: elasticsearch
 service_name: elasticsearch
 config_file_path: "/etc/elasticsearch/elasticsearch.yml"
+config_file_format: yaml
 config_dir_path: "/etc/elasticsearch"
 pid_file_path: "/var/run/elasticsearch.pid"
 log_file_path: "/var/log/elasticsearch/elasticsearch.log"
 log_dir_path: "/var/log/elasticsearch"
+data_dir_path: "/var/lib/elasticsearch"
 process_name: java
 process_extra_name: elasticsearch
 process_user: elasticsearch
 process_group: elasticsearch
 tcp_port: '9200'
 init_file_path: "/etc/default/elasticsearch"
-repo_url: http://packages.elastic.co/elasticsearch/2.x/debian
-key: D88E42B4
-key_url: https://packages.elastic.co/GPG-KEY-elasticsearch
-apt_repos: main
-apt_release: stable
-apt_key_server: http://pgp.mit.edu
 repo_package_provider: dpkg
+tp_prerequisites:
+  elastic_repo: {}
