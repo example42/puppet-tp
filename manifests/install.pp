@@ -234,13 +234,13 @@ define tp::install (
   }
 
   # Automatic dependencies management, if data defined
-  if $auto_prereq and $settings[package_prerequisites] {
+  if $auto_prereq and $settings[package_prerequisites] and $ensure != 'absent' {
     $settings[package_prerequisites].each | $p | {
       Package[$p] -> Package[$settings[package_name]]
       ensure_packages($p)
     }
   }
-  if $auto_prereq and $settings[tp_prerequisites] {
+  if $auto_prereq and $settings[tp_prerequisites] and $ensure != 'absent' {
     case $settings[tp_prerequisites] {
       Array: {
         $settings[tp_prerequisites].each | $p | {
@@ -262,7 +262,7 @@ define tp::install (
       default: {}
     }
   }
-  if $auto_prereq and $settings['exec_prerequisites'] {
+  if $auto_prereq and $settings['exec_prerequisites'] and $ensure != 'absent' {
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
@@ -270,12 +270,12 @@ define tp::install (
       }
     }
   }
-  if $auto_prereq and $settings['extra_prerequisites'] {
+  if $auto_prereq and $settings['extra_prerequisites'] and $ensure != 'absent' {
     $settings['extra_prerequisites'].each | $k,$v | {
       create_resources($k,$v, { before => Package[$settings[package_name]] })
     }
   }
-  if $auto_prereq and $settings['exec_postinstall'] {
+  if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
     $settings[exec_postinstall].each | $k , $v | {
       Package[$settings[package_name]] -> Exec[$k]
       exec { $k:
@@ -283,7 +283,7 @@ define tp::install (
       }
     }
   }
-  if $auto_prereq and $settings['extra_postinstall'] {
+  if $auto_prereq and $settings['extra_postinstall'] and $ensure != 'absent' {
     $settings['extra_prerequisites'].each | $k,$v | {
       create_resources($k,$v, { require => Package[$settings[package_name]] })
     }
