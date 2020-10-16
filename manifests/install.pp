@@ -284,7 +284,7 @@ define tp::install (
     }
   }
   if $auto_prereq and $settings['extra_postinstall'] and $ensure != 'absent' {
-    $settings['extra_prerequisites'].each | $k,$v | {
+    $settings['extra_postinstall'].each | $k,$v | {
       create_resources($k,$v, { require => Package[$settings[package_name]] })
     }
   }
