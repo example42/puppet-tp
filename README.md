@@ -19,6 +19,7 @@
     * [Managing configurations](#managing-configurations)
     * [Managing directories](#managing-directories)
     * [Managing repositories](#managing-repositories)
+    * [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
     * [Usage on the command line](#usage-on-the-command-line)
 4. [Reference](#reference)
     * [Classes](#classes)
@@ -29,28 +30,35 @@
 5. [Prerequisites and limitations](#prerequisites-and-limitations)
 6. [Tests](#tests)
 
-
-
 ## Module description
 
-The tp (short for Tiny Puppet) module allows you to manage any application on any (Linux flavours, Solaris, Darwin, Windows) Operating System.
+Example42's tp (short for Tiny Puppet) module can manage **any application** on any **Operating System** (Linux flavours, Solaris, Darwin, Windows).
 
-It provides Puppet defined types to install packages and manage services (`tp::install`), eventually handling relevant repos (`tp::repo`) and then manage their configuration files (`tp::conf`) and directories (`tp::dir`).
+It provides Puppet defined types to:
+
+- install packages and manage services (`tp::install`)
+- handle eventual relevant repos, allowing choos from distro or upstream packages (`tp::repo`)
+- manage application configuration files (`tp::conf`)
+- manage whole directories (`tp::dir`), also from a SCM source.
 
 ### Features
 
-* Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
-* Out of the box and easily expandable support for most common Operating Systems
-* Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
-* Smooth coexistence with any existing Puppet modules setup: you decide what to manage
-* Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
-* Optional shell command (`tp`) which can be used to install, test, query for logs any tp managed application.
+The amount of things that this module can do, and its features are as follows:
+
+- Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
+- Out of the box and easily expandable support for most common Operating Systems
+- Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
+- Smooth coexistence with any existing Puppet modules setup: it's up to the user to decide when to use tpo and when to use a dedicated module
+- Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data)
+- Optional shell command (`tp`) which can be used to install, test, query for logs any tp managed application.
 
 ### Use cases
 
-Tiny Puppet is intended to be used in profiles, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
+Tiny Puppet is intended to be used in **profiles**, as replacement for dedicated componenent modules, or in the same modules, to ease the management of the provided files and packages.
 
-The expected users are both experienced sysadmins who know exactly how to configure their applications and absolute beginners who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
+By including it's main tp class it can also manage, entirely via Hiera data, common packages and configurations (see examples below).
+
+The expected users are both **experienced sysadmins** who know exactly how to configure their applications and **absolute beginners** who want to simply install an application, without knowing how it's package is called on the underlying system or how to install its repositories or dependencies.
 
 To see real world usage of tp defines give a look to the [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module. 
 
@@ -66,7 +74,7 @@ To see real world usage of tp defines give a look to the [profiles](https://gith
 
 ### Getting started with tp
 
-Tiny Puppet is typically used in profiles, custom classes where we place the code we need to manage applications in the way we need.
+Tiny Puppet is typically used in profiles, custom classes where we place the code we need to manage applications in the way we need, or directlt via Hiera data.
 
 This is a simple case, where the content of a configuration file is based on a template with custom values.
 
@@ -82,6 +90,7 @@ This is a simple case, where the content of a configuration file is based on a t
       }
     }
 
+In the defined template key-values set in the $options hash can be accessed via <%= @options['key_name']> (example for an erb template)
 
 ## Usage
 
@@ -109,7 +118,36 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
 
 ### Installation options
 
-Install custom packages (with the ```settings_hash``` argument you can override any application specific setting)
+Some options are available to manage tp::install automation:
+
+- **upstream_repo**, when true, uses the repo from the upstream developer, if defined in tinydata
+- **auto_conf**, if true and tinydata relevant is present a default configuration is provided
+- **auto_prereq**, if true eventual package, tp::install or other dependencies dependencies are installed
+
+    tp::install { 'consul':
+      upstream_repo => true,
+      auto_conf     => true,
+      auto_prereq   => false,
+    }
+
+Other options are available to manage integrations:
+
+- **cli_enable** Default: true. Installs the tp command on the system and provides the data about the application used by ```tp log``` and ```tp test``` commands.
+- **puppi_enable** Default: false. Installs [Puppi](https://github.com/example42/puppi) and enables puppi integration
+- **test_enable** Default: false. If to enable automatic testing of the managed application.
+- **test_template** Default: undef. If provided, the provided erb template is used as script to test the application (instead of default tests)
+- **options_hash** Default: {}. An optional hash where to set variable to use in test_template.
+
+An example with a custom test for the rabbitmq service:
+
+    tp::install { 'rabbitmq':
+      cli_enable    => true,
+      test_enable   => true,
+      test_template => 'profile/rabbitmb/tp_test.erb',
+      options_hash  => { 'server' => "rabbitmq.${::domain}" }
+    }
+
+It's possible to override the Tiny Data settings with custom ones using the ```settings_hash``` argument. The names of the available settings are defined in the [tp::settings data type](https://github.com/example42/puppet-tp/blob/master/types/settings.pp.
 
     tp::install { 'redis':
       settings_hash => {
@@ -118,21 +156,10 @@ Install custom packages (with the ```settings_hash``` argument you can override 
       },
     }
 
-Some options are available to manage tp::install automation:
+It's possible to specify the version of the package to install (the provided version must be available in the configured repos):
 
-    tp::install { 'virtualbox':
-      auto_repo          => true,  # This is the default, settings, if defined in tinydata, it installs the relevant package repository
-      auto_conf          => true,  # True by default. If defined in tinydata a default configuration is provided
-      auto_prerequisites => false, # False by default. If true eventual package or tp::install dependencies are installed
-    }
-
-Other options are available to manage integrations:
-
-    tp::install { 'rabbitmq':
-      cli_enable    => true,  # Default value. Installs the tp command on the system and provides the data about the defined application.
-      puppi_enable  => false, # Default value. Installs puppi and enables puppet integration
-      test_template => undef, # Default value. If provided, the provided erb template is used as script to test the application (instead of default tests)
-      options_hash  => {}     # An optional hash where to set variable to use in the test_template.
+    tp::install { 'postfix':
+      ensure => '2.10.1-9',
     }
 
 To uninstall an application, there are two alternatives:
@@ -330,6 +357,55 @@ If you want to use your own data module for all your applications, you might pre
 Starting from version 2.3.0 (with tinydata version > 0.3.0) tp can even install applications for which there's no tinydata defined. In this case just the omonimous package is (tried to be) installed and a warning about missing tinydata is shown.
 
 
+### Configuring tp resources via Hiera
+
+The main and unique class of this module, ```tp```, installs the tp cli command (set **tp::cli_enable** to false to avoid that) and offers parameters which allows to configure via Hiera what tp resources to manage.
+
+For each of these parameters (example: **install_hash**) it's possible to set on hiera:
+
+- The hash or resources to manage (**tp::<define>_hash**)
+- The merge lookup method to use for the lookup. Default: first (**tp::<define>_hash_merge_behaviour**)
+- An hash of deault options for that define's Hash of resources (**tp::<define>_defaults**)
+
+Where **<define>** is any of **install**, **conf**, **dir**, **puppi**, **stdmod**, **concat** and **repo**.
+
+ There are also analogue parameters to handle resources Hashes based on the clients' OS Family for tp::install (**tp::osfamily_install_hash**, **tp::osfamily_install_hash_merge_behaviour**, **tp::osfamily_install_defaults**) and tp::conf (**tp::osfamily_conf_hash**, **tp::osfamily_conf_hash_merge_behaviour**, **tp::osfamily_conf_defaults**) 
+
+Here is an example of OS based install_hash (note the usage of [Yaml merge keys](https://yaml.org/type/merge.html) to avoid data duplication for RedHat and Debian families): 
+
+    linux_tp_install: &linux_tp_install
+      filebeat:
+        auto_prereq: true
+      metricbeat: {}
+      auditbeat: {}
+      heartbeat-elastic:
+        ensure: absent
+
+    tp::osfamily_install_hash:
+      RedHat:
+        <<: *linux_tp_install
+      Debian:
+        <<: *linux_tp_install
+      windows:
+        chocolateygui: {}
+        docker-desktop: {}
+        powertoys: {}
+        MobaXTerm: {}
+        Sysinternals: {}
+
+This is another example of tp::dir hash (note the ensure latest for a git repo: this ensures that whenever Puppet runs the local directory is synced with upstream source):
+
+    tp::dir_hash:
+      apache::openskills.info:
+        vcsrepo: git
+        source: git@git.alvagante.com:web/openskills.info.git
+        path: /var/www/html/openskills.info
+      apache::abnormalia.com:
+        ensure: latest
+        vcsrepo: git
+        source: git@git.alvagante.org:web/abnormalia.com.git
+        path: /var/www/html/abnormalia.com
+
 ### Usage on the command line
 
 Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath and install the tp command with:
@@ -359,7 +435,7 @@ The tp modules provides the following resources.
 
 ### Classes
 
-* ```tp``` Offers antry points for data driven management of tp resources, and the possibility to install the tp command
+* ```tp``` Offers entry points for data driven management of tp resources, and the possibility to install the tp command
 
 ### Defined types
 
@@ -373,7 +449,7 @@ The tp modules provides the following resources.
 
 ### Types
 
-* [tp-settings], validates all the possible setting for tinydata
+* [tp::settings], validates all the possible setting for tinydata
 
 ### Functions
 
@@ -394,11 +470,16 @@ Check [Puppetmodule.info](http://www.puppetmodule.info/modules/example42-tp/) fo
 
 ## Prerequisites and limitations
 
-Current version of Tiny Puppet is compatible with Puppet 4.4 or later and PE 2016.1.1 or later.
+Starting from version 3 Tiny Puppet requires Hiera data in module, available from Puppet 4.9.
 
-To use it on Puppet 3 you have to use tp version 1.x with the 3.x compatible defines (with the ```3``` suffix).
+Version 2.x of Tiny Puppet is compatible with Puppet 4.4 or later and PE 2016.1.1 or later.
+
+Version 1.x is compatible also with Puppet 3, using the 3.x compatible defines (with the ```3``` suffix, like ```tp::install3```).
+
+Version 0.x of Tiny Puppet is compatible by default with Puppet 3 (```tp::install```) and have Puppet 4 / future parser version,with the ```4``` suffix, like ```tp::install4```).
 
 If tp doesn't correctly install a specific application on the OS you want, please **TELL US**.
+
 It's very easy and quick to add new apps or support for new OS in tinydata.
 
 Currently most of the applications are supported on RedHat and Debian derivatives Linux distributions, but as long as you provide a valid installable package name, tp can install **any** application given in the title, even if there's no specific Tinydata for it..
@@ -426,7 +507,5 @@ If you use the relevant defines, other dependencies are needed:
 
 ## Tests
 
-You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick).
-
-Acceptance tests are done to verify tp support for different applications on different Operating Systems. They are in the [TP acceptance](https://github.com/example42/tp-acceptance) repo.
+You can experiment and play with Tiny Puppet and see a lot of use examples on [Example42's PSICK control-repo](https://github.com/example42/psick) and the [psick module](https://github.com/example42/puppet-psick).
 

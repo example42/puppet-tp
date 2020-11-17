@@ -7,6 +7,8 @@
 # this class 
 #
 class tp (
+
+  Boolean $cli_enable                = true,
   Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
   String $tp_owner                   = 'root',
   String $tp_group                   = 'root',
@@ -69,32 +71,32 @@ class tp (
   }
   $options = $options_defaults + $options_hash
 
-  file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
-    ensure  => directory,
-    mode    => $tp_mode,
-    owner   => $tp_owner,
-    group   => $tp_group,
-    purge   => $purge_dirs,
-    force   => $purge_dirs,
-    recurse => $purge_dirs,
-  }
-
-  file { $tp_path:
-    ensure  => present,
-    path    => $tp_path,
-    owner   => $tp_owner,
-    group   => $tp_group,
-    mode    => $tp_mode,
-    content => template('tp/tp.erb'),
-  }
-
-  if $::osfamily == 'windows' {
-    file { "${tp_path}.bat":
+  if $cli_enable {
+    file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
+      ensure  => directory,
+      mode    => $tp_mode,
+      owner   => $tp_owner,
+      group   => $tp_group,
+      purge   => $purge_dirs,
+      force   => $purge_dirs,
+      recurse => $purge_dirs,
+    }
+    file { $tp_path:
       ensure  => present,
+      path    => $tp_path,
       owner   => $tp_owner,
       group   => $tp_group,
       mode    => $tp_mode,
-      content => template('tp/tp.bat.erb'),
+      content => template('tp/tp.erb'),
+    }
+    if $::osfamily == 'windows' {
+      file { "${tp_path}.bat":
+        ensure  => present,
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        content => template('tp/tp.bat.erb'),
+      }
     }
   }
 
