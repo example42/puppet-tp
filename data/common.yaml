@@ -1,0 +1,42 @@
+---
+  tp::tp_path: '/usr/local/bin/tp'
+  tp::tp_owner: 'root'
+  tp::tp_group: 'root'
+  tp::tp_mode: '0755'
+  tp::check_service_command: 'puppet resource service'
+  tp::check_service_command_post: ''
+  tp::check_package_command: 'puppet resource package'
+  tp::check_repo_path: 'echo "Check repo not supported on this OS"'
+  tp::check_repo_path_post: ''
+  tp::tp_dir: '/etc/tp'
+  tp::ruby_path: '/opt/puppetlabs/puppet/bin/ruby'
+  tp::options_hash: {}
+  tp::install_hash: {}
+  tp::install_hash_merge_behaviour: 'first'
+  tp::install_defaults: {}
+  tp::osfamily_install_hash: {}
+  tp::osfamily_install_hash_merge_behaviour: 'first'
+  tp::osfamily_install_defaults: {}
+  tp::conf_hash: {}
+  tp::conf_hash_merge_behaviour: 'first'
+  tp::conf_defaults: {}
+  tp::osfamily_conf_hash: {}
+  tp::osfamily_conf_hash_merge_behaviour: 'first'
+  tp::osfamily_conf_defaults: {}
+  tp::dir_hash: {}
+  tp::dir_hash_merge_behaviour: 'first'
+  tp::dir_defaults: {}
+  tp::concat_hash: {}
+  tp::concat_hash_merge_behaviour: 'first'
+  tp::concat_defaults: {}
+  tp::stdmod_hash: {}
+  tp::stdmod_hash_merge_behaviour: 'first'
+  tp::stdmod_defaults: {}
+  tp::puppi_hash: {}
+  tp::puppi_hash_merge_behaviour: 'first'
+  tp::puppi_defaults: {}
+  tp::repo_hash: {}
+  tp::repo_hash_merge_behaviour: 'first'
+  tp::repo_defaults: {}
+  tp::purge_dirs: false
+

@@ -1,4 +1,0 @@
----
-  tp::check_service_command: 'systemctl status'
-  tp::check_package_command: 'dpkg -l'
-

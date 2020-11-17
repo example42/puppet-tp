@@ -1,4 +1,6 @@
 ---
   tp::check_service_command: 'systemctl status'
   tp::check_package_command: 'dpkg -l'
+  tp::check_repo_path: '/etc/apt/sources.list.d/'
+  tp::check_repo_path_post: '.list'
 

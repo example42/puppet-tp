@@ -27,16 +27,16 @@ define tp::test (
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
-  include ::tp::params
+  include tp
 
   # Default options and computed variables
   $options_defaults = {
     check_timeout          => '10',
-    check_service_command  => "${::tp::params::check_service_command} ${settings[service_name]} ${::tp::params::check_service_command_post}",
+    check_service_command  => "${::tp::check_service_command} ${settings[service_name]} ${::tp::check_service_command_post}",
     check_package_command  => $settings['package_provider'] ? {
       'gem'   => "gem list -i ${settings[package_name]}",
       'pip'   => "pip show ${settings[package_name]}",
-      default => $::tp::params::check_package_command,
+      default => $::tp::check_package_command,
     },
     check_port_command     => 'check_tcp',
     check_port_critical    => '10',
@@ -69,6 +69,5 @@ define tp::test (
       ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
-    include ::tp
   }
 }

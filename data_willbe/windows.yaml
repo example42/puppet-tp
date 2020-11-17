@@ -1,6 +1,0 @@
----
-  tp::tp_path: 'C:/ProgramData/PuppetLabs/puppet/bin/tp'
-  tp::ruby_path: 'C:/ProgramData/PuppetLabs/puppet/bin/ruby'
-  tp::tp_owner: 'Administrator'
-  tp::tp_group: 'Administrators'
-  tp::dir: 'C:/ProgramData/PuppetLabs/puppet/etc/tp'

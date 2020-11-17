@@ -7,17 +7,17 @@
 # this class 
 #
 class tp (
-  String $tp_path                    = $::tp::params::tp_path,
-  String $tp_owner                   = $::tp::params::tp_owner,
-  String $tp_group                   = $::tp::params::tp_group,
-  String $tp_mode                    = $::tp::params::tp_mode,
-  String $check_service_command      = $::tp::params::check_service_command,
-  String $check_service_command_post = $::tp::params::check_service_command_post,
-  String $check_package_command      = $::tp::params::check_package_command,
-  String $check_repo_path            = $::tp::params::check_repo_path,
-  String $check_repo_path_post       = $::tp::params::check_repo_path_post,
-  String $tp_dir                     = $::tp::params::tp_dir,
-  String $ruby_path                  = $::tp::params::ruby_path,
+  Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
+  String $tp_owner                   = 'root',
+  String $tp_group                   = 'root',
+  String $tp_mode                    = '0755',
+  String $check_service_command      = 'puppet resource service',
+  String $check_service_command_post = '',
+  String $check_package_command      = 'puppet resource package',
+  String $check_repo_path            = '',
+  String $check_repo_path_post       = '',
+  Stdlib::Absolutepath $tp_dir       = '/etc/tp',
+  Stdlib::Absolutepath $ruby_path    = 'opt/puppetlabs/puppet/bin/ruby',
   Hash $options_hash                 = {},
 
   Variant[Hash,Array[String],String] $install_hash                   = {},
@@ -56,10 +56,8 @@ class tp (
   Enum['first','hash','deep'] $repo_hash_merge_behaviour             = 'first',
   Hash $repo_defaults                                                = {},
 
-  Boolean $purge_dirs                = false,
-) inherits ::tp::params {
-
-  contain ::tp::params
+  Boolean $purge_dirs                                                = false,
+) {
 
   $options_defaults = {
     'check_timeout'              => '10',
