@@ -25,7 +25,7 @@ describe 'tp::test', :type => :define do
         package_count = 0
         service_count = 0
         exec_count = 0
-        file_count = 1
+        file_count = 5 # Includes files from tp
 
         # Define if there's a service to check
         if appdata['service_name']
