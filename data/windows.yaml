@@ -3,4 +3,4 @@
   tp::ruby_path: 'C:/Program Files/Puppet Labs/Puppet/bin/ruby'
   tp::tp_owner: 'Administrator'
   tp::tp_group: 'Administrators'
-  tp::dir: 'C:/ProgramData/PuppetLabs/puppet/etc/tp'
+  tp::tp_dir: 'C:/ProgramData/PuppetLabs/puppet/etc/tp'

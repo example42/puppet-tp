@@ -21,7 +21,7 @@ describe 'tp::test', :type => :define do
         }
 
         # Resource counts with normal tp::test
-        total_count = 2 # tp::test + file
+        total_count = 6 # tp::test + file + tp
         package_count = 0
         service_count = 0
         exec_count = 0
