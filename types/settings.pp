@@ -25,6 +25,7 @@ type Tp::Settings = Struct[{
   Optional[config_file_params] => Hash,
   Optional[config_file_format] => String,
   Optional[config_file_template] => String,
+  Optional[validate_cmd] => String,
 
   Optional[config_dir_path] => Stdlib::Absolutepath,
   Optional[config_dir_owner] => String,
