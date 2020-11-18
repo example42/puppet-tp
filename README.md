@@ -14,12 +14,12 @@
     * [Getting started with tp](#getting-started-with-tp)
 3. [Usage in Puppet code](#usage-in-puppet-code)
     * [Common uses](#common-uses)
-    * [Installing packages (tp::install)](#Installing-packages-tp::install)
-    * [Installation alternatives (tp::stdmod) [DEPRECATED]](#Installation-alternatives-tp::stdmod-DEPRECATED)
-    * [Managing configurations (tp::conf)](#Managing-configurations-tp::conf)
+    * [Installing packages - tp::install](#Installing-packages-tp::install)
+    * [Installation alternatives - tp::stdmod [DEPRECATED]](#Installation-alternatives-tp::stdmod-DEPRECATED)
+    * [Managing configurations - tp::conf](#Managing-configurations-tp::conf)
       * [tp::conf file paths conventions](#tp::conf-file-paths-conventions)
-    * [Managing directories (tp::dir)](#managing-directories-tp::dir)
-    * [Managing repositories (tp::repo)](#managing-repositories-tp::repo)
+    * [Managing directories - tp::dir](#managing-directories-tp::dir)
+    * [Managing repositories - tp::repo](#managing-repositories-tp::repo)
     * [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
 4. [Updating tiny data and using alternative data sources](#Updating-tiny-data-and-using-alternative-data-sources)
 5. [Usage on the command line](#usage-on-the-command-line)
@@ -183,7 +183,7 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
     }
 
 
-### Installing packages (tp::install)
+### Installing packages - tp::install
 
 Some parameters are available to manage tp::install automation:
 
@@ -245,7 +245,7 @@ To uninstall an application, there are two alternatives:
     tp::install { 'redis': ensure => absent }
 
 
-### Installation alternatives (tp::stdmod)
+### Installation alternatives - tp::stdmod
 
 To manage packages installations and configuration files there's also the ```tp::stdmod``` define to manage an application using [stdmod](https://github.com/stdmod) compliant parameters.
 
@@ -258,7 +258,7 @@ Note that ```tp::stdmod``` is alternative to ```tp::install``` (both of them man
 If you wonder what's better, use ```tp::install``` + ```tp::conf``` rather than ```tp::stdmod```.
 
 
-### Managing configurations (tp::conf)
+### Managing configurations - tp::conf
 
 The tp::conf define is basically a wrapper over a file resource which makes it easy and fast to manage configuration files for an application, handling the correct permissions, paths and owners for the underlying OS. Be aware anyway that the contents of the managed files are entirely up to you: Tiny Puppet does not have any awareness of the configuration options available for the managed applications.
 
@@ -314,16 +314,16 @@ For applications for which it exists the setting 'config_file_format' you can ju
 
 This example makes much more sense if based on Hiera data (see [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera) section for details):
 
-  tp::conf_hash:
-    filebeat:
-      options_hash:
-        filebeat.modules:
-        - module: system
-        syslog:
-          enabled: true
-          var.paths:
-            - "/var/log/syslog*"
-            - "/var/log/messages"
+    tp::conf_hash:
+      filebeat:
+        options_hash:
+          filebeat.modules:
+          - module: system
+          syslog:
+            enabled: true
+            var.paths:
+              - "/var/log/syslog*"
+              - "/var/log/messages"
 
 By default, configuration files managed by tp::conf automatically notify the service(s) and require the package(s) installed via tp::install. If you use tp::conf without a relevant tp::install define and have dependency cycle problems or references to non existing resources, you can disable these automatic relationships:
 
@@ -375,7 +375,7 @@ If you explicitly set a ```path```, that path is used and the title is ignored (
       [...]
     }
 
-### Managing directories (tp::dir)
+### Managing directories - tp::dir
 
 Manage a whole configuration directory:
 
@@ -431,7 +431,7 @@ Continuous deployment the tiny way: automatically deploy the latest version of a
       vcsrepo => 'git',
     }
 
-### Managing repositories (tp::repo)
+### Managing repositories - tp::repo
 
 Currently Tiny Puppet supports applications' installation only via the OS native packaging system or Chocolatey on Windows and HomeBrew on MacOS. In order to cope with software which may not be provided by default on an OS, TP provides the ```tp::repo``` define that manages YUM and APT repositories for RedHat and Debian based Linux distributions.
 
