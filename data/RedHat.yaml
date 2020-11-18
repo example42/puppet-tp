@@ -1,4 +1,6 @@
 ---
   tp::check_service_command: 'systemctl status'
   tp::check_package_command: 'rpm -q'
+  tp::check_repo_path: '/etc/yum.repos.d/'
+  tp::check_repo_path_post: '.repo'
 
