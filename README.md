@@ -14,14 +14,14 @@
     * [Getting started with tp](#getting-started-with-tp)
 3. [Usage in Puppet code](#usage-in-puppet-code)
     * [Common uses](#common-uses)
-    * [Installing packages - tp::install](#Installing-packages---tp::install)
-    * [Installation alternatives - tp::stdmod [DEPRECATED]](#Installation-alternatives---tp::stdmod-DEPRECATED)
-    * [Managing configurations - tp::conf](#Managing-configurations---tp::conf)
+    * [Installing packages - tp::install](#installing-packages---tpinstall)
+    * [Installation alternatives - tp::stdmod [DEPRECATED]](#installation-alternatives---tpstdmod-DEPRECATED)
+    * [Managing configurations - tp::conf](#managing-configurations---tpconf)
       * [tp::conf file paths conventions](#tp::conf-file-paths-conventions)
-    * [Managing directories - tp::dir](#managing-directories---tp::dir)
-    * [Managing repositories - tp::repo](#managing-repositories---tp::repo)
+    * [Managing directories - tp::dir](#managing-directories---tpdir)
+    * [Managing repositories - tp::repo](#managing-repositories---tprepo)
     * [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
-4. [Updating tiny data and using alternative data sources](#Updating-tiny-data-and-using-alternative-data-sources)
+4. [Updating tiny data and using alternative data sources](#updating-tiny-data-and-using-alternative-data-sources)
 5. [Usage on the command line](#usage-on-the-command-line)
 6. [Reference](#reference)
     * [Classes](#classes)
@@ -458,18 +458,18 @@ If, for whatever reason, you don't want to automatically manage a repository for
 
 Tinydata has information about various useful repos, both general or application/vendor specific. They are a tp::install away, all the following ones add repos for RedHat systems and derivatives:
 
-- ```tp::install {'epel': }```. Configures [Epel](https://fedoraproject.org/wiki/EPEL){:target="_blank"} repo on RedHat and derivatives
-- ```tp::install {'rpmfusion-free': }``` - ```tp::install {'rpmfusion-nonfree': }```. Configure [RPM Fusion](https://rpmfusion.org/){:target="_blank"} free and nonfree repo
-- ```tp::install {'ius': }```. Configures [IUS](https://ius.io/){:target="_blank"} repo
-- ```tp::install {'remi': }```. Configures [Remi Repository](https://rpms.remirepo.net/){:target="_blank"}
-- ```tp::install {'elrepo': }```. Configures [ELRepo](http://elrepo.org/tiki/){:target="_blank"}
-- ```tp::install {'nux': }```. Configures [Nux DexTop](http://li.nux.ro/repos.html){:target="_blank"} repo
-- ```tp::install {'ulyaoth': }```. Configures [Ulyaoth](https://community.ulyaoth.com/resources/categories/repository.1/){:target="_blank"} repo
+- ```tp::install {'epel': }```. Configures [Epel](https://fedoraproject.org/wiki/EPEL) repo on RedHat and derivatives
+- ```tp::install {'rpmfusion-free': }``` - ```tp::install {'rpmfusion-nonfree': }```. Configure [RPM Fusion](https://rpmfusion.org/) free and nonfree repo
+- ```tp::install {'ius': }```. Configures [IUS](https://ius.io/) repo
+- ```tp::install {'remi': }```. Configures [Remi Repository](https://rpms.remirepo.net/)
+- ```tp::install {'elrepo': }```. Configures [ELRepo](http://elrepo.org/tiki/)
+- ```tp::install {'nux': }```. Configures [Nux DexTop](http://li.nux.ro/repos.html) repo
+- ```tp::install {'ulyaoth': }```. Configures [Ulyaoth](https://community.ulyaoth.com/resources/categories/repository.1/) repo
 
 There is also Tiny Data for some vendors repos, sometimes they are directly in the relevant application data, somethins in a dedicated name space:
 
-- ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com){:target="_blank"} repo on RedHat and Debian derivatives
-- ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com){:target="_blank"} repo on RedHat, Amazon, Fedora and Debian derivatives
+- ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com) repo on RedHat and Debian derivatives
+- ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com) repo on RedHat, Amazon, Fedora and Debian derivatives
 
 ### Configuring tp resources via Hiera
 
@@ -676,16 +676,16 @@ Tiny Puppet has a [website](https://tiny-puppet.com/).
 
 The following blog posts, newest first, have been written on Tiny Puppet, older ones might contain not updated information:
 
-- [Managing extra repositories with Tiny Puppet](https://blog.example42.com/2020/05/21/managing-extra-repositories-with-tiny-puppet/){:target="_blank"}
-- [Five Years of Tiny Puppet](https://blog.example42.com/2020/04/20/five-years-of-tiny-puppet/){:target="_blank"}
-- [Request for Tiny Data - Part 4 - Defaults and final call](https://blog.example42.com/2019/12/19/request-for-tinydata-part4/){:target="_blank"}
-- [Request for Tiny Data - Part 3 - Tiny. fancy and powerful features](https://blog.example42.com/2019/12/16/request-for-tinydata-part3/){:target="_blank"}
-- [Request for Tiny Data - Part 2 - Tiny data exposed](https://blog.example42.com/2019/12/12/request-for-tinydata-part2/){:target="_blank"}
-- [Request for Tiny Data - Part 1 - Tiny Puppet (tp)](https://blog.example42.com/2019/12/09/request-for-tinydata-part1/){:target="_blank"}
-- [Custom applications management using Tiny Puppet](https://www.example42.com/2018/10/15/application-management-using-tinypuppet/){:target="_blank"}
-- [tp install anything (anywhere),and configure](https://www.example42.com/2018/09/10/tp-install-anything-and-configure/){:target="_blank"}
-- [A few steps to Tiny Puppet on the command line](https://www.example42.com/2018/07/23/a-few-steps-to-tiny-puppet-command-line/){:target="_blank"}
-- [Tiny Puppet 1.0](https://blog.example42.com/2015/11/18/tp-1-release/){:target="_blank"}
-- [Preparing for Tiny Puppet 1.0](https://blog.example42.com/2015/10/26/preparing-for-tp-1/){:target="_blank"}
-- [Introducing Tiny Puppet](https://blog.example42.com/2015/01/02/introducing-tiny-puppet/){:target="_blank"}
+- [Managing extra repositories with Tiny Puppet](https://blog.example42.com/2020/05/21/managing-extra-repositories-with-tiny-puppet/)
+- [Five Years of Tiny Puppet](https://blog.example42.com/2020/04/20/five-years-of-tiny-puppet/)
+- [Request for Tiny Data - Part 4 - Defaults and final call](https://blog.example42.com/2019/12/19/request-for-tinydata-part4/)
+- [Request for Tiny Data - Part 3 - Tiny. fancy and powerful features](https://blog.example42.com/2019/12/16/request-for-tinydata-part3/)
+- [Request for Tiny Data - Part 2 - Tiny data exposed](https://blog.example42.com/2019/12/12/request-for-tinydata-part2/)
+- [Request for Tiny Data - Part 1 - Tiny Puppet (tp)](https://blog.example42.com/2019/12/09/request-for-tinydata-part1/)
+- [Custom applications management using Tiny Puppet](https://www.example42.com/2018/10/15/application-management-using-tinypuppet/)
+- [tp install anything (anywhere),and configure](https://www.example42.com/2018/09/10/tp-install-anything-and-configure/)
+- [A few steps to Tiny Puppet on the command line](https://www.example42.com/2018/07/23/a-few-steps-to-tiny-puppet-command-line/)
+- [Tiny Puppet 1.0](https://blog.example42.com/2015/11/18/tp-1-release/)
+- [Preparing for Tiny Puppet 1.0](https://blog.example42.com/2015/10/26/preparing-for-tp-1/)
+- [Introducing Tiny Puppet](https://blog.example42.com/2015/01/02/introducing-tiny-puppet/)
 
