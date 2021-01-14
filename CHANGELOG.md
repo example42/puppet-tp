@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.1.0
+* Added support for custom tp tests not related to apps
+* Better handling of errors in tp command when tp module is missing
+
 ## 3.0.0
 * Added data in module. Supported only Puppet version 4.9 and later.
 
