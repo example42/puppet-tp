@@ -6,15 +6,15 @@ app = ARGV[1] ? ARGV[1] : 'all'
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
-if Dir.exist?(File.expand_path('~/.puppetlabs/etc/code/modules/tinydata/data'))
-  TINYDATA_DIR = File.expand_path('~/.puppetlabs/etc/code/modules/tinydata/data')
-elsif Dir.exist?('/etc/puppetlabs/code/environments/production/modules/tinydata/data')
-  TINYDATA_DIR = '/etc/puppetlabs/code/environments/production/modules/tinydata/data'
-elsif Dir.exist?('etc/puppetlabs/code/modules/tinydata/data')
-  TINYDATA_DIR = '/etc/puppetlabs/code/modules/tinydata/data'
-else
-  TINYDATA_DIR = ''
-end
+
+TINYDATA_DIRS = [
+  "/home/#{ENV['USER']}/.puppetlabs/etc/code/modules/tinydata/data",
+  '/root/.puppetlabs/etc/code/modules/tinydata/data',
+  '/etc/puppetlabs/code/environments/production/modules/tinydata/data',
+  '/etc/puppetlabs/code/modules/tinydata/data',
+  '/'
+]
+TINYDATA_DIR = TINYDATA_DIRS.find { |d| Dir.exist?(d) }
 
 COMMAND_REDIR = ' > /dev/null 2>&1'
 
@@ -45,7 +45,6 @@ def check_yaml(app)
     result = YAML.load_file(TP_APP_DIR + "/#{app}")
   rescue
     result = {}
-    # raise ArgumentError.new(TP_APP_DIR + "/#{app} not found")
   end
 end
 
@@ -159,7 +158,7 @@ when 'log'
   system("tail -f " + logs.uniq.join(' '))
 
 when 'list'
-  if Dir.exist?(TINYDATA_DIR)
+  if TINYDATA_DIR != '/'
     tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
     puts tinydata_app
   else
@@ -167,14 +166,14 @@ when 'list'
   end
 
 when 'install'
-  if Dir.exist?(TINYDATA_DIR)
+  if TINYDATA_DIR != '/'
     exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true , cli_enable => true }'")
   else
     puts "You can't install apps with tp wihout having the tp module locally installed"
   end
 
 when 'uninstall'
-  if Dir.exist?(TINYDATA_DIR)
+  if TINYDATA_DIR != '/'
     exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
   else
     puts "You can't uninstall apps with tp wihout having the tp module locally installed"
