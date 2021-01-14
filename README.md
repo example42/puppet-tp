@@ -470,6 +470,75 @@ There is also Tiny Data for some vendors repos, and sometimes they are directly 
 - ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com) repo on RedHat and Debian derivatives
 - ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com) repo on RedHat, Amazon, Fedora and Debian derivatives
 
+### Testing everything
+
+The tp module provides the following functionality for writing easy and quick checks:
+
+- The ```tp::test``` define, to add custom scripts with tests related to apps managed by tp or just anything else worth testing
+- The ```test_enable``` argument of the  ```tp::install``` define which automatically creates tests (usually package presence and service status) of the app installed via tp
+- The ```tp test``` command argument which allows, from the CLI, to run all the tests created by the  ```tp::test``` defines and the ones automatically added by ```tp::install``` with ``test_enable``` set to true
+- The ```tp::test``` task, which delivers site-wide, uick and easy tests on different nodes.
+
+To automatically add testing for an application installed via tp use the follwoing parameters:
+
+    tp::install { 'redis':
+      test_enable => true,  # Default: false
+      cli_enable  => true,  # Default: false. This also installs the tp command on the system
+    }
+
+If you want these functionality enabled by default, in your control-repo's main  ```manifests/site.pp``` you can add the following resource defaults:
+
+    Tp::Install {
+      test_enable => true,
+      cli_enable  => true,
+    }
+
+To add a custom test for an application you can either specify the template to use for the test script of that application, in ```tp::install```:
+
+    tp::install { 'rabbitmq':
+      test_enable   => true,
+      cli_enable    => true,
+      test_template => 'profile/rabbimq/tptest.erb',
+    } 
+
+Or you can use a specific ```tp::test``` define:
+
+    tp::test { 'rabbitmq':
+      template => 'profile/rabbimq/tptest.erb',
+      options_hash => {
+        port => '11111',
+        host => 'localhost',
+      },
+    }
+
+All the keys set via the $options_hash parameter can be used in the erb template with sopmething like:
+
+    port_to_check=<$= @options_hash['port'] >
+
+The ```tp::test``` define has the following parameters to manage the content of the test script (placed under ```/etc/tp/test/$title```):
+
+- **template**, to specify an erb template. Example: ```template => 'profile/rabbimq/tptest.erb'``` (erb template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.erb```)
+- **epp**, to specify an epp template. Example: ```template => 'profile/rabbimq/tptest.epp'``` (epp template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.epp```)
+- **template**, to specify the full content . Example: ```content => $my_script_content``` (content of the ```$my_script_content``` variable set somewhere in Puppet code)
+- **source**, to specify the source file an erb template. Example: ```source => 'puppet:///modules/profile/rabbimq/tptest'``` (static source file located in ```$MODULEPATH/profile/files/rabbimq/tptest```).
+
+Starting from tp version 3.1.0 it's also possible to add any custom test script also unrelated to a specific application. You can you these to check general system status of some web application status or whatever it may make sense to test. You can legerage on the tp test command or the tp::test define to automate infrastructure testing on your CI/CD pipelines.
+
+Examples:
+
+    tp::test { 'system_health':
+      source => 'puppet:///modules/profile/base/system_health',
+    }
+
+    tp::test { 'my_web_app':
+      source => 'puppet:///modules/profile/my_web_app/test',
+    }
+
+The scripts can be in any language, they just need to have an **exit code 0** in case of success, and a different exit code in case of failure.
+
+The tp test command and the tp::test task will exit with 0 if all the test have been successfull, and exit with 1 if any of the test have returned an error.
+
+
 ### Configuring tp resources via Hiera
 
 The main and unique class of this module, ```tp```, installs the tp CLI command (set **tp::cli_enable** to false to avoid that) and offers parameters which allow to configure via Hiera what tp resources to manage.
