@@ -514,7 +514,7 @@ Or you can use a specific ```tp::test``` define:
 
 All the keys set via the $options_hash parameter can be used in the erb template with sopmething like:
 
-    port_to_check=<$= @options_hash['port'] >
+    port_to_check=<%= @options_hash['port'] >
 
 The ```tp::test``` define has the following parameters to manage the content of the test script (placed under ```/etc/tp/test/$title```):
 
