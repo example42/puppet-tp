@@ -19,6 +19,7 @@
     * [Managing configurations - tp::conf](#managing-configurations---tpconf)
     * [Managing directories - tp::dir](#managing-directories---tpdir)
     * [Managing repositories - tp::repo](#managing-repositories---tprepo)
+    * [Automated and easy testing - tp::test](#automated-and-easy-testing---tptest)
     * [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
 4. [Updating tiny data and using alternative data sources](#updating-tiny-data-and-using-alternative-data-sources)
 5. [Usage on the command line](#usage-on-the-command-line)
@@ -470,14 +471,14 @@ There is also Tiny Data for some vendors repos, and sometimes they are directly 
 - ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com) repo on RedHat and Debian derivatives
 - ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com) repo on RedHat, Amazon, Fedora and Debian derivatives
 
-### Testing everything
+### Automated and easy testing - tp::test
 
 The tp module provides the following functionality for writing easy and quick checks:
 
-- The ```tp::test``` define, to add custom scripts with tests related to apps managed by tp or just anything else worth testing
-- The ```test_enable``` argument of the  ```tp::install``` define which automatically creates tests (usually package presence and service status) of the app installed via tp
-- The ```tp test``` command argument which allows, from the CLI, to run all the tests created by the  ```tp::test``` defines and the ones automatically added by ```tp::install``` with ``test_enable``` set to true
-- The ```tp::test``` task, which delivers site-wide, uick and easy tests on different nodes.
+- The ```tp::test``` **define**, to add custom scripts with tests related to apps managed by tp or just anything else worth testing
+- The ```test_enable``` **argument** of the  ```tp::install``` define which automatically creates tests (usually package presence and service status) of the app installed via tp
+- The ```tp test``` **command** argument which allows, from the CLI, to run all the tests created by the  ```tp::test``` defines and the ones automatically added by ```tp::install``` with ``test_enable``` set to true
+- The ```tp::test``` **task**, which delivers site-wide, uick and easy tests on different nodes.
 
 To automatically add testing for an application installed via tp use the follwoing parameters:
 
