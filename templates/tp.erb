@@ -6,10 +6,14 @@ app = ARGV[1] ? ARGV[1] : 'all'
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
-if Dir.exist?('/etc/puppetlabs/code/environments/production/modules/tinydata/data')
+if Dir.exist?(File.expand_path('~/.puppetlabs/etc/code/modules/tinydata/data'))
+  TINYDATA_DIR = File.expand_path('~/.puppetlabs/etc/code/modules/tinydata/data')
+elsif Dir.exist?('/etc/puppetlabs/code/environments/production/modules/tinydata/data')
   TINYDATA_DIR = '/etc/puppetlabs/code/environments/production/modules/tinydata/data'
-else
+elsif Dir.exist?('etc/puppetlabs/code/modules/tinydata/data')
   TINYDATA_DIR = '/etc/puppetlabs/code/modules/tinydata/data'
+else
+  TINYDATA_DIR = ''
 end
 
 COMMAND_REDIR = ' > /dev/null 2>&1'
@@ -40,7 +44,8 @@ def check_yaml(app)
   begin
     result = YAML.load_file(TP_APP_DIR + "/#{app}")
   rescue
-    raise ArgumentError.new(TP_APP_DIR + "/#{app} not found")
+    result = {}
+    # raise ArgumentError.new(TP_APP_DIR + "/#{app} not found")
   end
 end
 
@@ -120,6 +125,10 @@ when 'test'
     TP_APPS.each do |a|
       a.send("tp_test", a)
     end
+    OTHER_TESTS = Dir.entries(TP_TEST_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_TESTS.each do |a|
+      a.send("tp_test", a)
+    end
   else
     app.send("tp_test", app)
   end
@@ -150,14 +159,26 @@ when 'log'
   system("tail -f " + logs.uniq.join(' '))
 
 when 'list'
-  tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
-  puts tinydata_app
+  if Dir.exist?(TINYDATA_DIR)
+    tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
+    puts tinydata_app
+  else
+    puts "Tinydata module not found. Can't list available apps"
+  end
 
 when 'install'
-  exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true , cli_enable => true }'")
+  if Dir.exist?(TINYDATA_DIR)
+    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true , cli_enable => true }'")
+  else
+    puts "You can't install apps with tp wihout having the tp module locally installed"
+  end
 
 when 'uninstall'
-  exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
+  if Dir.exist?(TINYDATA_DIR)
+    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
+  else
+    puts "You can't uninstall apps with tp wihout having the tp module locally installed"
+  end
  
 else
   usage
