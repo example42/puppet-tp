@@ -163,6 +163,15 @@ define tp::dir (
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
   $dir = $title_elements[1]
+
+  # Check if repo or upstream_repo are set in tp::install
+  if defined_with_params(Tp::Install[$app]) {
+    $repo = getparam(Tp::Install[$app],'repo')
+  }
+  if defined_with_params(Tp::Install[$app]) {
+    $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
+  }
+
   if $title =~ /^\/.*$/ {
     # If title is an absolute path do a safe lookup to
     # a dummy app

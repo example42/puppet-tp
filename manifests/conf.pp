@@ -253,6 +253,9 @@ define tp::conf (
   if defined_with_params(Tp::Install[$app]) {
     $repo = getparam(Tp::Install[$app],'repo')
   }
+  if defined_with_params(Tp::Install[$app]) {
+    $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
+  }
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
