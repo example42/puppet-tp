@@ -253,6 +253,9 @@ define tp::conf (
   if defined_with_params(Tp::Install[$app]) {
     $repo = getparam(Tp::Install[$app],'repo')
   }
+  if defined_with_params(Tp::Install[$app]) {
+    $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
+  }
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
 
@@ -275,7 +278,7 @@ define tp::conf (
   $manage_group   = pick($group, $settings[config_file_group])
   $content_params = tp_content($content, $template, $epp)
 
-  if $content_params != Undef and $settings[config_file_format] and $options_hash != {} {
+  if $content_params =~ Undef and $settings[config_file_format] and $options_hash != {} {
     $manage_content = $settings[config_file_format] ? {
       'yaml' => to_yaml($options_hash),
       'json' => to_json($options_hash),

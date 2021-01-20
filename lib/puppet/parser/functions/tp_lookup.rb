@@ -31,6 +31,8 @@ module Puppet::Parser::Functions
       hiera = YAML::load(hiera_file)
       if lookupvar("upstream_repo")
         repo = 'upstream'
+      elsif lookupvar("repo")
+        repo = lookupvar("repo")
       else
         repo = ''
       end
@@ -51,7 +53,11 @@ module Puppet::Parser::Functions
           conf_file = File.open(conf_file_path)
           got_value = YAML::load(conf_file)
 
-          got_value = got_value.include?(key) ? got_value[key] : got_value['default::settings']
+          if res == 'settings'
+            got_value = got_value.include?(key) ? got_value[key] : got_value['default::settings']
+          else
+            got_value = got_value.include?(key) ? got_value[key] : {}
+          end
 
           unless got_value.nil?
             value = function_deep_merge([value,got_value]) if look=='deep_merge'

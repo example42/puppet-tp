@@ -66,13 +66,14 @@ def tp_test(app)
 
     # Check repo if defined
     if settings['repo_package_url'] or settings['repo_url'] or settings['yum_mirrorlist'] or settings['repo_file_url']
-      repo_path = "<%= @options['check_repo_path'] %>#{app}<%= @options['check_repo_path_post'] %>"
+      repo_filename = settings['repo_filename'] ? settings['repo_filename'] : app
+      repo_path = "<%= @options['check_repo_path'] %>#{repo_filename}<%= @options['check_repo_path_post'] %>"
       system("test -f #{repo_path}")
       result = $?
       if result == 0
         puts "- \e[34m#{app}\e[0m: Repo \e[32m#{repo_path} OK \e[0m\n"
       else
-        puts "- \e[34m#{app}\e[0m: Repo #{repo_path} available but not installed\n"
+        puts "- \e[34m#{app}\e[0m: Repo for #{app} available but not installed\n"
       end
     end
 
