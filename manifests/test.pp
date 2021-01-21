@@ -50,8 +50,24 @@ define tp::test (
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
-  $file_content = tp_content($content, $template, $epp)
-  if $file_content != '' {
+  # Find out the file's content value
+  if $content {
+    $file_content = $content
+  } elsif $template {
+    $template_ext = $template[-4,4]
+    $file_content = $template_ext ? {
+      '.epp'  => epp($template),
+      '.erb'  => template($template),
+      default => template($template),
+    }
+  } elsif $epp {
+    $file_content = epp($epp)
+  } else {
+    $file_content = undef
+  }
+
+  if $file_content
+  or $source {
     file { "${base_dir}/${title}":
       ensure  => $ensure,
       mode    => '0755',

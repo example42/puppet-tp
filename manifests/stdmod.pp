@@ -70,7 +70,22 @@ define tp::stdmod (
   $user_settings_clean = delete_undef_values($user_settings)
   $settings = $tp_settings + $user_settings_clean
 
-  $manage_config_file_content = tp_content($config_file_content, $config_file_template, $config_file_epp)
+  if $config_file_content {
+    $manage_config_file_content = $config_file_content
+  } elsif $config_file_template {
+    $template_ext = $config_file_template[-4,4]
+    $manage_config_file_content = $template_ext ? {
+      '.epp'  => epp($config_file_template),
+      '.erb'  => template($config_file_template),
+      default => template($config_file_template),
+    }
+  } elsif $epconfig_file_eppp {
+    $manage_config_file_content = epp($config_file_epp)
+  } else {
+    $manage_config_file_content = undef
+  }
+
+
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
     'default' => "Service[${settings[service_name]}]",
