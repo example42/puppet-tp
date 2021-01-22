@@ -49,7 +49,14 @@ describe 'tp::conf', :type => :define do
             } end
             it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => sample_erb)) }
           end
-          skip 'with epp => tp/spec/sample.epp and sample options_hash' do
+          context 'with template => tp/spec/sample.epp and sample options_hash' do
+            let(:params) do {
+              'template'     => 'tp/spec/sample.epp',
+              'options_hash' => sample_options,
+            } end
+            it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params.merge('content' => sample_epp)) }
+          end
+          context 'with epp => tp/spec/sample.epp and sample options_hash' do
             let(:params) do {
               'epp'          => 'tp/spec/sample.epp',
               'options_hash' => sample_options,

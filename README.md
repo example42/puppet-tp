@@ -270,7 +270,7 @@ It's possible to manage files with different methods, for example directly provi
       content => 'my content is king',
     }
 
-or providing a custom erb template (used as ```content => template($template)```) with custom options:
+or providing a custom template with custom options:
 
     tp::conf { 'openssh::ssh_config':
       template     => 'profile/openssh/ssh_config.erb',
@@ -280,6 +280,8 @@ or providing a custom erb template (used as ```content => template($template)```
       } 
     }
 
+Via the template parameter with can both specify files .erb suffix (used as ```content => template($template)```) or with .epp suffix  (used as ```content => epp($template)```). If not .erb or .epp suffix is present in the template value, then it's treates as and erb (```content => template($template)```).
+
 In the profile/templates/openssh/ssh_config.erb template you will have the contents you want and use the above options with something like (note you can use both the @options and the @options_hash variable):
 
     [...]
@@ -287,7 +289,7 @@ In the profile/templates/openssh/ssh_config.erb template you will have the conte
     X11Forwarding <%= @options['X11Forwarding'] %>
     [...]
 
-Alternatively a custom epp template with Puppet code instead of Ruby (used as ```content => epp($epp)```):
+Alternatively a custom epp template with Puppet code instead of Ruby (used as ```content => epp($epp)```) directly with the epp parameter:
 
     tp::conf { 'redis:
       epp   => 'site/redis/redis.conf.epp',

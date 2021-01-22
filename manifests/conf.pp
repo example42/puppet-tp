@@ -136,17 +136,20 @@
 #   source                => $source,
 #   This parameter is alternative to content, template and epp.
 #
-# @param template Erb Template to use for the content of the file. Used as follows:
-#   content               => template($template),
+# @param template Template (epp or erb) to use for the content of the file. Used as follows:
+#   If template value has a suffix .epp:
+#   content => epp($template),
+#   in all the other not undef cases, used as follows:
+#   content => template($template),
 #   This parameter is alternative to content, source and epp.
 #
 # @param epp Epp Template to use for the content of the file. Used as follows:
-#   content               => epp($epp),
+#   content => epp($epp),
 #   This parameter is alternative to content, source and template.
 #
 # @param content Content of the file. Used as follows:
-#   content               => $content,
-#   This parameter is alternative to source, template and epp.
+#   content => $content,
+#   This parameter is alternative to source, and has priority over template and epp.
 #
 # @param base_dir Type of the directory where to place the file, when a path is
 #   not explicitly set. This name must have a corresponding entry
@@ -276,8 +279,30 @@ define tp::conf (
   $manage_mode    = pick($mode, $settings[config_file_mode])
   $manage_owner   = pick($owner, $settings[config_file_owner])
   $manage_group   = pick($group, $settings[config_file_group])
-  $content_params = tp_content($content, $template, $epp)
 
+  $epp_params = {
+    options      => $options,
+    options_hash => $options_hash,
+    settings     => $settings,
+  }
+  # Find out the file's content value
+  if $content {
+    $content_params = $content
+  } elsif $template {
+    $template_ext = $template[-4,4]
+    $content_params = $template_ext ? {
+      '.epp'  => epp($template,$epp_params),
+      '.erb'  => template($template),
+      default => template($template),
+    }
+  } elsif $epp {
+    $content_params = epp($epp,$epp_params)
+  } else {
+    $content_params = undef
+  }
+
+  # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
+  # if on tinydata is set config_file_format 
   if $content_params =~ Undef and $settings[config_file_format] and $options_hash != {} {
     $manage_content = $settings[config_file_format] ? {
       'yaml' => to_yaml($options_hash),
