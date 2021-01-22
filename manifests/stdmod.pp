@@ -79,7 +79,7 @@ define tp::stdmod (
       '.erb'  => template($config_file_template),
       default => template($config_file_template),
     }
-  } elsif $epconfig_file_eppp {
+  } elsif $config_file_epp {
     $manage_config_file_content = epp($config_file_epp)
   } else {
     $manage_config_file_content = undef
