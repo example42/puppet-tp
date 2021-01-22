@@ -50,18 +50,22 @@ define tp::test (
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
+  $epp_params = {
+    options => $options,
+    options_hash => $options_hash,
+  }
   # Find out the file's content value
   if $content {
     $file_content = $content
   } elsif $template {
     $template_ext = $template[-4,4]
     $file_content = $template_ext ? {
-      '.epp'  => epp($template),
+      '.epp'  => epp($template,$epp_params),
       '.erb'  => template($template),
       default => template($template),
     }
   } elsif $epp {
-    $file_content = epp($epp)
+    $file_content = epp($epp,$epp_params)
   } else {
     $file_content = undef
   }
@@ -72,7 +76,6 @@ define tp::test (
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',
-      group   => 'root',
       content => $file_content,
       source  => $source,
       tag     => 'tp_test',

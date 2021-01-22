@@ -280,18 +280,23 @@ define tp::conf (
   $manage_owner   = pick($owner, $settings[config_file_owner])
   $manage_group   = pick($group, $settings[config_file_group])
 
+  $epp_params = {
+    options      => $options,
+    options_hash => $options_hash,
+    settings     => $settings,
+  }
   # Find out the file's content value
   if $content {
     $content_params = $content
   } elsif $template {
     $template_ext = $template[-4,4]
     $content_params = $template_ext ? {
-      '.epp'  => epp($template),
+      '.epp'  => epp($template,$epp_params),
       '.erb'  => template($template),
       default => template($template),
     }
   } elsif $epp {
-    $content_params = epp($epp)
+    $content_params = epp($epp,$epp_params)
   } else {
     $content_params = undef
   }
