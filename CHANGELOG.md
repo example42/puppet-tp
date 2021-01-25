@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.2.0
+* Avoid usage of legacy tp_content function
+* Allow to specify an .epp file for tempalte param of tp::conf
+* Fix .epp template management in tp::conf
+* Correctly identify repo check in tp test command when repo file path is custom
+* Fix usage of custom templates when config_file_type is set in tinydata
+* Correctly handle $options in templates used by tp::conf
+* Better handle errors in tp command when tp module is not installed locally
 ## 3.1.0
 * Added support for custom tp tests not related to apps
 * Better handling of errors in tp command when tp module is missing
