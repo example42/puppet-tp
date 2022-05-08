@@ -17,6 +17,7 @@ define tp::test (
 
   String[1]               $data_module         = 'tinydata',
   String[1]               $base_dir            = '/etc/tp/test',
+  String[1]               $app_dir             = '/etc/tp/app',
 
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = false,
@@ -86,7 +87,7 @@ define tp::test (
 
   # Options cli integration
   if $cli_enable {
-    file { "${base_dir}/${sane_title}":
+    file { "${app_dir}/${sane_title}":
       ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
