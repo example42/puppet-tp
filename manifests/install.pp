@@ -57,7 +57,7 @@
 # @example Installation of repo packages via proxy
 #   tp::install { 'puppet':
 #     repo_exec_environment => [ 'http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
-#   } 
+#   }
 #
 # @param ensure Manage application status.
 #   Valid values are present, absent or the package version number.
@@ -158,6 +158,8 @@ define tp::install (
   ) {
 
   $app = $title
+  $sane_app = regsubst($app, '/', '_', 'G')
+
   # Settings evaluation
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
@@ -288,7 +290,15 @@ define tp::install (
       create_resources($k,$v, { require => Package[$settings[package_name]] })
     }
   }
+
   # Resources
+  if $settings['brew_tap'] =~ String[1] {
+    Package <| provider == tap |> -> Package <| provider == homebrew |>
+    Package <| provider == tap |> -> Package <| provider == brew |>
+    Package <| provider == tap |> -> Package <| provider == brewcask |>
+    ensure_packages($settings['brew_tap'], { 'provider' => 'tap' })
+  }
+
   if $settings[package_name] =~ Array and $manage_package {
     $package_defaults = {
       ensure   => $plain_ensure,
@@ -409,8 +419,9 @@ define tp::install (
     windows => 'C:/ProgramData/PuppetLabs/puppet/etc/tp/app',
     default => '/etc/tp/app',
   }
+
   if $cli_enable {
-    file { "${tp_basedir}/${app}":
+    file { "${tp_basedir}/${sane_app}":
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
@@ -420,10 +431,10 @@ define tp::install (
   # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    file { "tp_install_debug_${title}":
+    file { "tp_install_debug_${sane_app}":
       ensure  => $plain_ensure,
       content => $debug_scope,
-      path    => "${debug_dir}/tp_install_debug_${title}",
+      path    => "${debug_dir}/tp_install_debug_${sane_app}",
     }
   }
 }

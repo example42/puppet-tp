@@ -70,9 +70,11 @@ define tp::test (
     $file_content = undef
   }
 
+  $sane_title = regsubst($title, '/', '_', 'G')
+
   if $file_content
   or $source {
-    file { "${base_dir}/${title}":
+    file { "${base_dir}/${sane_title}":
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',
@@ -84,7 +86,7 @@ define tp::test (
 
   # Options cli integration
   if $cli_enable {
-    file { "/etc/tp/app/${title}":
+    file { "${base_dir}/${sane_title}":
       ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }

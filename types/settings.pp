@@ -80,6 +80,7 @@ type Tp::Settings = Struct[{
   Optional[yum_priority] => String,
   Optional[yum_mirrorlist] => String,
   Optional[zypper_repofile_url] => String,
+  Optional[brew_tap] => String,
 
   Optional[git_source] => String,
   Optional[git_destination] => String,
