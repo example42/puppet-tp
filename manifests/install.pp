@@ -268,7 +268,7 @@ define tp::install (
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
-        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
+        * => { 'path' => $facts['path'] } + $v,
       }
     }
   }

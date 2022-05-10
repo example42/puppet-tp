@@ -74,9 +74,10 @@ The intended users can be any of the following:
 
 To see real-world usage of tp defines give a look to:
 
-- The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp or tp_profiles are used widely.
+- The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp is used widely.
 - Usage samples in [hieradata](https://github.com/example42/psick-hieradata/search?q=%27tp%3A%3A%27).
-- The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources.
+- The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. [DEPRECATED]
+- The [psick_profile](https://github.com/example42/psick_profile) module which is contains more profiles for common applications.
 
 
 ## Setup
