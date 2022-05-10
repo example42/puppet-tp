@@ -128,7 +128,7 @@
       "version_requirement": ">= 0.0.1 < 5.0.0"
     }
   ],
-  "pdk-version": "1.11.0",
+  "pdk-version": "2.4.0",
   "template-url": "https://github.com/example42/pdk-module-template-tp-profile-minimal-tests#master",
-  "template-ref": "heads/master-0-g3e97c52"
+  "template-ref": "heads/master-0-g5101d3f"
 }

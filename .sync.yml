@@ -1,0 +1,3 @@
+.rubocop.yml:
+  selected_profile: off
+

@@ -84,11 +84,11 @@ Style/Documentation:
 Style/WordArray:
   EnforcedStyle: brackets
 Style/CollectionMethods:
-  Enabled: true
+  Enabled: false
 Style/MethodCalledOnDoEndBlock:
-  Enabled: true
+  Enabled: false
 Style/StringMethods:
-  Enabled: true
+  Enabled: false
 GetText/DecorateFunctionMessage:
   Enabled: false
 GetText/DecorateStringFormattingUsingInterpolation:
