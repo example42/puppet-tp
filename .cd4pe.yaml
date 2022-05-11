@@ -1,0 +1,59 @@
+config:
+  enable_pull_requests_from_forks: false
+  enable_pe_plans: true
+pipelines:
+  /feature_.*/:
+    triggers:
+    - "COMMIT"
+    stages:
+    - name: "Code Validation stage"
+      steps:
+      - type: "JOB"
+        name: "module-pdk-validate"
+        concurrent_compilations: 0
+        all_deployments: false
+      - type: "JOB"
+        name: "module-rspec-puppet"
+        concurrent_compilations: 0
+        all_deployments: false
+      - type: "PULL_REQUEST_GATE"
+        concurrent_compilations: 0
+        all_deployments: false
+      auto_promote: false
+    - name: "Pipeline Stage 2"
+      steps:
+      - type: "DEPLOYMENT"
+        name: "Deployment on puppet-lab"
+        policy:
+          name: "cd4pe_deployments::feature_branch"
+        timeout: 3600000
+        concurrent_compilations: 0
+        all_deployments: false
+        pe_server: "puppet-lab"
+        target:
+          type: "NODE_GROUP"
+        control_repo: "psick"
+        base_feature_branch: "main"
+      auto_promote: false
+  master:
+    triggers:
+    - "COMMIT"
+    stages:
+    - name: "Code Validation stage"
+      steps:
+      - type: "JOB"
+        name: "module-pdk-validate"
+        concurrent_compilations: 0
+        all_deployments: false
+      - type: "JOB"
+        name: "module-rspec-puppet"
+        concurrent_compilations: 0
+        all_deployments: false
+      - type: "PULL_REQUEST_GATE"
+        concurrent_compilations: 0
+        all_deployments: false
+      auto_promote: false
+    - name: "Deployment stage"
+      steps: []
+      auto_promote: false
+spec_version: "V1"
