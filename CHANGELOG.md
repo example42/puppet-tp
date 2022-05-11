@@ -103,8 +103,8 @@
 
 ## 2.1.1
 
--   [#52] Add support for trust_server_cert and any extra option on tp::dir
--   [#44] Install_hash should support arrays [@logicminds]
+-   Add support for trust_server_cert and any extra option on tp::dir
+-   Install_hash should support arrays (@logicminds)
 
 ## 2.1.0
 

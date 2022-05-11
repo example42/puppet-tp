@@ -155,7 +155,7 @@ The above class, once included, will:
 -   Manage the /etc/ssh/sshd_config and /etc/ssh/ssh_config files (eventually on different paths, according to the OS).
 -   Start the service openssh (name adapted to OS) taking care of dependencies and service restarts on files changes (restart behaviour can be customised).
 
-In the defined templates key-values set in the $options hash can be accessed via &lt;%= @options['key_name'] %> (example for an erb template), so, with hieradata as follows:
+In the defined templates key-values set in the $options hash can be accessed via &lt;%= @options['key_name'] %&gt; (example for an erb template), so, with hieradata as follows:
 
     profile::openssh::options:
       StrictHostKeyChecking: yes
@@ -391,7 +391,7 @@ Manage a whole configuration directory:
 
 Manage a specific directory type. Currently defined directories types are:
 
--   `config`: The application *main* configuration directory (Default value).
+-   `config`: The application _main_ configuration directory (Default value).
 -   `conf`: A directory where you can place single configuration files (typically called ./conf.d ).
 -   `data`: Directory where application data resides.
 -   `log`: Dedicated directory for logs, if present.
@@ -696,7 +696,7 @@ The tp module provides the following resources.
 
 ### Tasks
 
--   [`tp::test`], runs a tp test command on a system to check the status of [tp] installed applications
+-   `tp::test`, runs a tp test command on a system to check the status of `tp` installed applications
 
 Refer to in-code documentation for full reference.
 
@@ -732,9 +732,7 @@ In order to work on some OS you need some additional modules and software:
 If you use the relevant defines, other dependencies are needed:
 
 -   Define `tp::concat` requires [puppetlabs-concat](https://github.com/puppetlabs/puppetlabs-concat) module.
-
 -   Define `tp::dir` , when used with the `vcsrepo` argument, requires [puppetlabs-vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo) module.
-
 -   Define `tp::puppi` requires [example42-puppi](https://github.com/example42/puppi) module.
 
 ## Additional info
