@@ -3,21 +3,16 @@ name: PR tests
 
 on: pull_request
 
-concurrency:
-  group: ${{ github.head_ref }}
-  cancel-in-progress: true
-
 jobs:
   static:
     name: 'Static code analysys'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup puppet-dev-tools image
         uses: puppet/puppet-dev-tools:4.x
-      - name: Run pdk validate
-        run: pdk validate --parallel
+        run: pdk validate
 
   unit:
     needs: static
@@ -25,9 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup puppet-dev-tools image
         uses: puppet/puppet-dev-tools:4.x
-      - name: Run pdk test unit
         run: pdk test unit
 

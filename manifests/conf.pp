@@ -238,16 +238,15 @@ define tp::conf (
 
   Variant[Undef,Boolean]  $validate_syntax     = undef,
 
-  Hash                    $options_hash        = { },
-  Hash                    $settings_hash       = { } ,
+  Hash                    $options_hash        = {},
+  Hash                    $settings_hash       = {},
 
   Boolean                 $debug               = false,
   String[1]               $debug_dir           = '/tmp',
 
   String[1]               $data_module         = 'tinydata',
 
-  ) {
-
+) {
   # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
@@ -377,7 +376,7 @@ define tp::conf (
   }
 
   file { $manage_path:
-    * => $file_params + pick($settings[config_file_params],{})
+    * => $file_params + pick($settings[config_file_params],{}),
   }
 
   # Debugging
@@ -389,5 +388,4 @@ define tp::conf (
       path    => "${debug_dir}/tp_conf_debug_${title}",
     }
   }
-
 }

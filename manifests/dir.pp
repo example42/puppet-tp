@@ -65,7 +65,7 @@
 #
 # @param source This sets the source content for the managed dir.
 #   When the vcsrepo option is set it accepts any vcs tool's supported url.
-#   For example: https://github.com/example42/puppet-tp 
+#   For example: https://github.com/example42/puppet-tp
 #   By default a normal directory is managed, whose content may be
 #   populated referring to a directory like: puppet:///modules/site/app/test/
 #   This would refer to the content of the directory
@@ -76,7 +76,7 @@
 #   It requires a valid source parameter.
 #
 # @param vcsrepo_options An hash of parameters to pass to the vcsrepo define,
-#   when used. This hash is merged with an internall built one based on 
+#   when used. This hash is merged with an internall built one based on
 #   the parameters: ensure, source, vcsrepo, owner and group
 #
 # @param base_dir Type of the directory to manage, when a path is not defined.
@@ -150,15 +150,14 @@ define tp::dir (
   Variant[Undef,Boolean] $recurse            = undef,
   Variant[Undef,Boolean] $force              = undef,
 
-  Hash                   $settings_hash      = { } ,
+  Hash                   $settings_hash      = {},
 
   Boolean                $debug               = false,
   String[1]              $debug_dir           = '/tmp',
 
   String[1]              $data_module        = 'tinydata',
 
-  ) {
-
+) {
   # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
@@ -263,7 +262,7 @@ define tp::dir (
       force   => $force,
     }
     file { $manage_path:
-      * => $file_params + pick($settings[config_dir_params],{})
+      * => $file_params + pick($settings[config_dir_params],{}),
     }
   }
 

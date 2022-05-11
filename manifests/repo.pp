@@ -6,7 +6,7 @@
 define tp::repo (
 
   Boolean                   $enabled             = true,
-  Hash                      $settings_hash       = { },
+  Hash                      $settings_hash       = {},
 
   Variant[Undef,String]     $repo                = undef,
   Variant[Undef,Boolean]    $upstream_repo       = undef,
@@ -41,7 +41,6 @@ define tp::repo (
   String[1]                $data_module          = 'tinydata',
 
 ) {
-
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
@@ -73,7 +72,7 @@ define tp::repo (
 
   # Refreshable execs
   if !defined(Exec['tp_apt_update'])
-  and ( $::osfamily == 'Debian' ) {
+  and ( $facts['os']['family'] == 'Debian' ) {
     exec { 'tp_apt_update':
       command     => '/usr/bin/apt-get -qq update',
       path        => '/bin:/sbin:/usr/bin:/usr/sbin',
@@ -84,7 +83,7 @@ define tp::repo (
   }
 
   if !defined(Exec['zypper refresh'])
-  and ( $::osfamily == 'Suse' ) {
+  and ( $facts['os']['family'] == 'Suse' ) {
     exec { 'zypper refresh':
       command     => 'zypper refresh',
       path        => '/bin:/sbin:/usr/bin:/usr/sbin',
@@ -102,7 +101,7 @@ define tp::repo (
         undef   => undef,
         default => Package[$settings[package_name]],
       }
-      case $::osfamily {
+      case $facts['os']['family'] {
         'Debian': {
           $repo_package_path = "${download_dir}/${settings[repo_package_name]}"
           exec { "Download ${title} release package":
@@ -127,13 +126,12 @@ define tp::repo (
         }
       }
       package { $settings[repo_package_name]:
-        * => $package_params + pick($settings[repo_package_params],{})
+        * => $package_params + pick($settings[repo_package_params],{}),
       }
     }
   } else {
-
     # If not release package is available, repos are managed with OS dependent resources
-    case $::osfamily {
+    case $facts['os']['family'] {
       'Suse': {
         if !empty($settings[zypper_repofile_url]) {
           $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
@@ -218,11 +216,10 @@ define tp::repo (
             environment => $exec_environment,
           }
         }
-
       }
       default: {
         notify { "No repo for ${title}":
-          message =>"No dedicated repo available for ${::osfamily}",
+          message => "No dedicated repo available for ${facts['os']['osfamily']}",
         }
       }
     }
@@ -230,12 +227,12 @@ define tp::repo (
 
   if !empty($settings[repo_file_url]) {
     $repo_file_name = pick($settings['repo_filename'],$title)
-    $repo_file_path = $::osfamily ? {
+    $repo_file_path = $facts['os']['family'] ? {
       'Debian' => "/etc/apt/sources.list.d/${repo_file_name}.list",
       'RedHat' => "/etc/yum.repos.d/${repo_file_name}.repo",
       'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
     }
-    $repo_file_notify = $::osfamily ? {
+    $repo_file_notify = $facts['os']['family'] ? {
       'Debian' => 'Exec["tp_apt_update"]',
       'RedHat' => undef,
       'Suse'   => 'Exec["zypper refresh"]',

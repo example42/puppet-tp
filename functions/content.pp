@@ -3,7 +3,6 @@ function tp::content (
   Variant[Undef,String] $template,
   Variant[Undef,String] $epp_template,
 ) {
-
   if ::tp::is_something($local_content) {
     $output = $local_content
   } elsif ::tp::is_something($template) {
@@ -13,5 +12,4 @@ function tp::content (
   } else {
     $output = undef
   }
-
 }

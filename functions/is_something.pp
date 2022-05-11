@@ -1,7 +1,6 @@
 function tp::is_something (
   Any $input,
 ) {
-
   $output = $input ? {
     false     => false,
     ''        => false,
@@ -10,5 +9,4 @@ function tp::is_something (
     undef     => false,
     default   => true,
   }
-
 }
