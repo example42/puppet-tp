@@ -14,10 +14,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
-      - name: Setup puppet-dev-tools image
-        uses: puppet/puppet-dev-tools:4.x-rootless
       - name: Run pdk validate
-        run: pdk validate
+        uses: puppet-enterprise-support-team/action-pdk-validate@v1
   unit:
     needs: static
     name: 'Unit tests'
@@ -25,7 +23,5 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v3
-      - name: Setup puppet-dev-tools image
-        uses: puppet/puppet-dev-tools:4.x-rootless
-      - name: Run pdk test unit
-        run: pdk test unit
+      - name: Run unit tests
+        uses: puppet-enterprise-support-team/action-pdk-test-unit@v1
