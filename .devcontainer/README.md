@@ -1,6 +1,5 @@
 # devcontainer
 
-
 For format details, see https://aka.ms/devcontainer.json. 
 
 For config options, see the README at:
@@ -29,6 +28,3 @@ https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/pupp
 	"postCreateCommand": "pdk --version",
 }
 ```
-
-
-

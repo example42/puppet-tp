@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.3.0
+* Updated to latest pdk template
+* Added GitHub workflow for Merge Request
+* Massive linting based on Voxpupuli extra lint checks
+* Added brew_tap setting
 ## 3.2.0
 * Avoid usage of legacy tp_content function
 * Allow to specify an .epp file for tempalte param of tp::conf

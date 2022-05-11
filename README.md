@@ -1,8 +1,7 @@
 # Tiny Puppet 
 
-[![Build Status](https://travis-ci.org/example42/puppet-tp.png?branch=master)](https://travis-ci.org/example42/puppet-tp)
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6fad76feb4a043289399cd9a91ccb1de)](https://www.codacy.com/app/example42/puppet-tp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7073891df7f9423a846d46a70c60bef1)](https://www.codacy.com/gh/example42/puppet-tp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=example42/puppet-tp&amp;utm_campaign=Badge_Grade)
 
 #### Table of Contents
 
@@ -34,7 +33,7 @@
 
 ## Module description
 
-Example42's tp (short for Tiny Puppet) module can manage **any application** on **any Operating System** (Linux flavours, Solaris, macOS, Windows).
+Example42's tp (short for Tiny Puppet) module can manage **every application** on **every Operating System** (Linux flavours, Solaris, macOS, Windows).
 
 It provides Puppet user defined types to:
 
@@ -451,7 +450,7 @@ When it's present the relevant data for an application, it's possible to install
 In some cases, where for the given application name there are no packages, the following commands have exactly the same effect:
 
     tp::install { 'epel': }  # Installs Epel repository on RedHat derivatives. Does nothing on other OS.
-    tp::repo { 'epel': }     # Same effect of tp::install since no package is actually installed
+    tp::repo { 'epel': }     # Same effect of tp::install since no application package (other than the release one) is actually installed
 
 If, for whatever reason, you don't want to automatically manage a repository for an application, you can set to ```false``` the ```auto_repo``` parameter, and, eventually you can manage the repository in a custom dependency class:
 

@@ -1,7 +1,11 @@
 ---
 name: PR tests
 
-on: pull_request
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   static:
@@ -11,9 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup puppet-dev-tools image
-        uses: puppet/puppet-dev-tools:4.x
+        uses: puppet/puppet-dev-tools:4.x-rootless
+      - name: Run pdk validate
         run: pdk validate
-
   unit:
     needs: static
     name: 'Unit tests'
@@ -22,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup puppet-dev-tools image
-        uses: puppet/puppet-dev-tools:4.x
+        uses: puppet/puppet-dev-tools:4.x-rootless
+      - name: Run pdk test unit
         run: pdk test unit
 
