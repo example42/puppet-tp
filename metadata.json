@@ -129,6 +129,6 @@
     }
   ],
   "pdk-version": "2.4.0",
-  "template-url": "https://github.com/example42/pdk-module-template-tp-profile-minimal-tests#master",
-  "template-ref": "heads/master-0-g5101d3f"
+  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
+  "template-ref": "tags/2.5.0-0-g806810b"
 }

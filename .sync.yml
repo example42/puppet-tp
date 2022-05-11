@@ -3,11 +3,5 @@
   unmanaged: true
 .rubocop.yml:
   unmanaged: true
-.travis.yml:
-  unmanaged: true
 spec/default_facts.yml:
   unmanaged: true
-
-# Files to remove
-appveyor.yml:
-  delete: true
