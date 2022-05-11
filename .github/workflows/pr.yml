@@ -29,4 +29,3 @@ jobs:
         uses: puppet/puppet-dev-tools:4.x-rootless
       - name: Run pdk test unit
         run: pdk test unit
-

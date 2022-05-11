@@ -37,21 +37,21 @@ Example42's tp (short for Tiny Puppet) module can manage **every application** o
 
 It provides Puppet user defined types to:
 
-- Install applications' packages and manage their services (`tp::install`)
-- Handle eventual relevant repos, allowing to choose between native distro repos or the ones from upstream developer (`tp::repo`)
-- Manage applications configuration files (`tp::conf`)
-- Manage whole directories (`tp::dir`), also from an SCM source.
+* Install applications' packages and manage their services (`tp::install`)
+* Handle eventual relevant repos, allowing to choose between native distro repos or the ones from upstream developer (`tp::repo`)
+* Manage applications configuration files (`tp::conf`)
+* Manage whole directories (`tp::dir`), also from an SCM source.
 
 ### Features
 
 The main features of tp module are:
 
-- Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
-- Out of the box and easily expandable support for most common Operating Systems.
-- Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
-- Smooth coexistence with any existing Puppet modules setup: it's up to the user to decide when to use tp and when to use a dedicated module.
-- Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data).
-- Optional CLI command (`tp`) which can be used to install, test, query for logs any tp managed application.
+* Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
+* Out of the box and easily expandable support for most common Operating Systems.
+* Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
+* Smooth coexistence with any existing Puppet modules setup: it's up to the user to decide when to use tp and when to use a dedicated module.
+* Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data).
+* Optional CLI command (`tp`) which can be used to install, test, query for logs any tp managed application.
 
 ### Use cases
 
@@ -61,52 +61,52 @@ It's particularly useful when there are to manage packages, services and configu
 
 It can be used in the following cases:
 
-- In local **profiles**, as an alternative to custom resources or dedicated modules, to ease the management of the relevant applications.
-- Directly via Hiera, specifying in data hashes of tp resources to apply. Check [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera) section for details.
-- Even in **component modules** to leverage on the abstraction on Operating Systems to easily handle package and service names, configuration files paths and upstream repositories.
+* In local **profiles**, as an alternative to custom resources or dedicated modules, to ease the management of the relevant applications.
+* Directly via Hiera, specifying in data hashes of tp resources to apply. Check [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera) section for details.
+* Even in **component modules** to leverage on the abstraction on Operating Systems to easily handle package and service names, configuration files paths and upstream repositories.
 
 The intended users can be any of the following:
 
-- **Experienced sysadmins** who know exactly how to configure their applications without digging into dedicated modules documentation or adapting to their logic.
-- **Absolute Puppet beginners** who struggle to use and integrate public modules and need a quick and fast way to install and configure applications.
-- **Puppet experts** who leverage on tp resources who want to optimise and limit the number of resources on nodes catalogs and of external modules to use.
+* **Experienced sysadmins** who know exactly how to configure their applications without digging into dedicated modules documentation or adapting to their logic.
+* **Absolute Puppet beginners** who struggle to use and integrate public modules and need a quick and fast way to install and configure applications.
+* **Puppet experts** who leverage on tp resources who want to optimise and limit the number of resources on nodes catalogs and of external modules to use.
 
 To see real-world usage of tp defines give a look to:
 
-- The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp is used widely.
-- Usage samples in [hieradata](https://github.com/example42/psick-hieradata/search?q=%27tp%3A%3A%27).
-- The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. [DEPRECATED]
-- The [psick_profile](https://github.com/example42/psick_profile) module which is contains more profiles for common applications.
+* The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp is used widely.
+* Usage samples in [hieradata](https://github.com/example42/psick-hieradata/search?q=%27tp%3A%3A%27).
+* The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. [DEPRECATED]
+* The [psick_profile](https://github.com/example42/psick_profile) module which is contains more profiles for common applications.
 
 
 ## Setup
 
 TP can be installed as any other module:
 
-- From the forge, via the puppet module command on the CLI:
+* From the forge, via the puppet module command on the CLI:
 
         puppet module install example42-tp
 
-- From the forge, adding to Puppetfile and entry like
+* From the forge, adding to Puppetfile and entry like
 
         mod 'example42-tp', 'latest' # For latest version
         mod 'example42-tp', '3.0.0'  # For a specific version (recommended)
 
-- From the forge, initializing a new Bolt project with this module:
+* From the forge, initializing a new Bolt project with this module:
 
         bolt project init --modules example42-tp
 
-- From GitHub repository, cloning the module in your local $modulepath
+* From GitHub repository, cloning the module in your local $modulepath
 
         git clone https://github.com/example42/puppet-tp.git tp
 
 Once tp module is added to the modulepath the (optional) tp command can be installed to a node in the following ways:
 
-- Classifying the tp class for the node in Puppet manifests (or via other classification approaches):
+* Classifying the tp class for the node in Puppet manifests (or via other classification approaches):
 
         include tp
 
-- Directly for the command line on the target node, as root:
+* Directly for the command line on the target node, as root:
 
         puppet tp setup
 
@@ -145,9 +145,9 @@ Here follows an example of tp resources used inside a custom profile where the c
 
 The above class, once included, will:
 
-- Install the openssh package (name of the package adapted to the underlying OS).
-- Manage the /etc/ssh/sshd_config and /etc/ssh/ssh_config files (eventually on different paths, according to the OS).
-- Start the service openssh (name adapted to OS) taking care of dependencies and service restarts on files changes (restart behaviour can be customised).
+* Install the openssh package (name of the package adapted to the underlying OS).
+* Manage the /etc/ssh/sshd_config and /etc/ssh/ssh_config files (eventually on different paths, according to the OS).
+* Start the service openssh (name adapted to OS) taking care of dependencies and service restarts on files changes (restart behaviour can be customised).
 
 In the defined templates key-values set in the $options hash can be accessed via <%= @options['key_name'] %> (example for an erb template), so, with hieradata as follows:
 
@@ -187,9 +187,9 @@ Populate any custom directory from a Git repository (it requires Puppet Labs' vc
 
 Some parameters are available to manage tp::install automation:
 
-- **upstream_repo** Default: true. When true, uses the repo from the upstream developer, if defined in tinydata.
-- **auto_conf** Default: true. If true and tinydata relevant is present a default configuration is provided (this could happen just when some basic configuration is needed to actually activate the service).
-- **auto_prereq**  Default: false. If true eventual package, tp::install or other dependencies are installed automatically. This is set to false by default in order to minimize duplicated resources risk, but might be required to set up specific applications correctly.
+* **upstream_repo** Default: true. When true, uses the repo from the upstream developer, if defined in tinydata.
+* **auto_conf** Default: true. If true and tinydata relevant is present a default configuration is provided (this could happen just when some basic configuration is needed to actually activate the service).
+* **auto_prereq**  Default: false. If true eventual package, tp::install or other dependencies are installed automatically. This is set to false by default in order to minimize duplicated resources risk, but might be required to set up specific applications correctly.
 
     tp::install { 'consul':
       upstream_repo => true,
@@ -199,30 +199,30 @@ Some parameters are available to manage tp::install automation:
 
 Other parameters are available to manage integrations:
 
-- **cli_enable** Default: true. Installs the tp command on the system and provides the data about the application used by ```tp log``` and ```tp test``` commands.
-- **puppi_enable** Default: false. Installs [Puppi](https://github.com/example42/puppi) and enables puppi integration.
-- **test_enable** Default: false. If to enable automatic testing of the managed application.
-- **test_template** Default: undef. If provided, the provided erb template is used to test the application (instead of default tests).
-- **options_hash** Default: {}. An optional hash where to set variable to use in test_template.
+* **cli_enable** Default: true. Installs the tp command on the system and provides the data about the application used by ```tp log``` and ```tp test``` commands.
+* **puppi_enable** Default: false. Installs [Puppi](https://github.com/example42/puppi) and enables puppi integration.
+* **test_enable** Default: false. If to enable automatic testing of the managed application.
+* **test_template** Default: undef. If provided, the provided erb template is used to test the application (instead of default tests).
+* **options_hash** Default: {}. An optional hash where to set variable to use in test_template.
 
 Some specific params are to handle repos:
 
-- **repo** Default: undef. Name of the upstrem_repo to use. This param allows, if tinydata is present, to customise the repo to use (for example to manage the installation of specific versions of an application).
-- **repo_exec_environment** Default []. An array passed to the environment argument of exec types used inside tp::repo define, declared within tp::install when a repo is configured. Can be useful when trying to use tp::repo from behind a proxy.
+* **repo** Default: undef. Name of the upstrem_repo to use. This param allows, if tinydata is present, to customise the repo to use (for example to manage the installation of specific versions of an application).
+* **repo_exec_environment** Default []. An array passed to the environment argument of exec types used inside tp::repo define, declared within tp::install when a repo is configured. Can be useful when trying to use tp::repo from behind a proxy.
 
 These parameters allow to skip management of packages or services:
-- **manage_package** Default: true. When false, tp::install doesn't handle packages, even when there's a package_name defined in tinydata.
-- **manage_service** Default: true. When false, tp::install doesn't handle services, even when there's a service_name defined in tinydata.
+* **manage_package** Default: true. When false, tp::install doesn't handle packages, even when there's a package_name defined in tinydata.
+* **manage_service** Default: true. When false, tp::install doesn't handle services, even when there's a service_name defined in tinydata.
 
 Some parameters allow to configure tp::conf and tp::dir resources directly from tp::install (inheriting the same settings and options):
 
-- **conf_hash**. Default: { }. A hash of tp::conf resources to create. These resources will refer to the same application specified in the tp::install $title and inherits the settings ensure, settings_hash, options_hash and data_module
-- **dir_hash**. Default: { }. A hash of tp::dir resources to create, as for the conf one.
+* **conf_hash**. Default: { }. A hash of tp::conf resources to create. These resources will refer to the same application specified in the tp::install $title and inherits the settings ensure, settings_hash, options_hash and data_module
+* **dir_hash**. Default: { }. A hash of tp::dir resources to create, as for the conf one.
 
 Parameters are also available to customise the tiny data settings which affect package and service names, repos settings, file paths and so on. The params are common to all the tp defines, check [Updating tiny data and using alternative data sources](#Updating-tiny-data-and-using-alternative-data-sources) section for details.
 
-- **settings_hash** Default: {}. An optional hash which can be used to override tinydata settings.
-- **data_module** Default: 'tinydata'. The name of the module to use to get tp data for the managed application.
+* **settings_hash** Default: {}. An optional hash which can be used to override tinydata settings.
+* **data_module** Default: 'tinydata'. The name of the module to use to get tp data for the managed application.
 
 An example with a custom test for the rabbitmq service:
 
@@ -460,27 +460,27 @@ If, for whatever reason, you don't want to automatically manage a repository for
 
 Tinydata has information about various useful repos, both general or application/vendor specific. They are a tp::install away, all the following ones add repos for RedHat systems and derivatives:
 
-- ```tp::install {'epel': }```. Configures [Epel](https://fedoraproject.org/wiki/EPEL) repo on RedHat and derivatives
-- ```tp::install {'rpmfusion-free': }``` - ```tp::install {'rpmfusion-nonfree': }```. Configure [RPM Fusion](https://rpmfusion.org/) free and nonfree repo
-- ```tp::install {'ius': }```. Configures [IUS](https://ius.io/) repo
-- ```tp::install {'remi': }```. Configures [Remi Repository](https://rpms.remirepo.net/)
-- ```tp::install {'elrepo': }```. Configures [ELRepo](http://elrepo.org/tiki/)
-- ```tp::install {'nux': }```. Configures [Nux DexTop](http://li.nux.ro/repos.html) repo
-- ```tp::install {'ulyaoth': }```. Configures [Ulyaoth](https://community.ulyaoth.com/resources/categories/repository.1/) repo
+* ```tp::install {'epel': }```. Configures [Epel](https://fedoraproject.org/wiki/EPEL) repo on RedHat and derivatives
+* ```tp::install {'rpmfusion-free': }``` - ```tp::install {'rpmfusion-nonfree': }```. Configure [RPM Fusion](https://rpmfusion.org/) free and nonfree repo
+* ```tp::install {'ius': }```. Configures [IUS](https://ius.io/) repo
+* ```tp::install {'remi': }```. Configures [Remi Repository](https://rpms.remirepo.net/)
+* ```tp::install {'elrepo': }```. Configures [ELRepo](http://elrepo.org/tiki/)
+* ```tp::install {'nux': }```. Configures [Nux DexTop](http://li.nux.ro/repos.html) repo
+* ```tp::install {'ulyaoth': }```. Configures [Ulyaoth](https://community.ulyaoth.com/resources/categories/repository.1/) repo
 
 There is also Tiny Data for some vendors repos, and sometimes they are directly in the relevant application data, sometimes in a dedicated namespace:
 
-- ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com) repo on RedHat and Debian derivatives
-- ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com) repo on RedHat, Amazon, Fedora and Debian derivatives
+* ```tp::install {'elastic_repo': }```. Configures [ELastic](https://elastic.com) repo on RedHat and Debian derivatives
+* ```tp::install {'hashicorp_repo': }```. Configures [Hashicorp](https://hashicorp.com) repo on RedHat, Amazon, Fedora and Debian derivatives
 
 ### Automated and easy testing - tp::test
 
 The tp module provides the following functionality for writing easy and quick checks:
 
-- The ```tp::test``` **define**, to add custom scripts with tests related to apps managed by tp or just anything else worth testing
-- The ```test_enable``` **argument** of the  ```tp::install``` define which automatically creates tests (usually package presence and service status) of the app installed via tp
-- The ```tp test``` **command** argument which allows, from the CLI, to run all the tests created by the  ```tp::test``` defines and the ones automatically added by ```tp::install``` with ``test_enable``` set to true
-- The ```tp::test``` **task**, which delivers site-wide, uick and easy tests on different nodes.
+* The ```tp::test``` **define**, to add custom scripts with tests related to apps managed by tp or just anything else worth testing
+* The ```test_enable``` **argument** of the  ```tp::install``` define which automatically creates tests (usually package presence and service status) of the app installed via tp
+* The ```tp test``` **command** argument which allows, from the CLI, to run all the tests created by the  ```tp::test``` defines and the ones automatically added by ```tp::install``` with ``test_enable``` set to true
+* The ```tp::test``` **task**, which delivers site-wide, uick and easy tests on different nodes.
 
 To automatically add testing for an application installed via tp use the follwoing parameters:
 
@@ -520,10 +520,10 @@ All the keys set via the $options_hash parameter can be used in the erb template
 
 The ```tp::test``` define has the following parameters to manage the content of the test script (placed under ```/etc/tp/test/$title```):
 
-- **template**, to specify an erb template. Example: ```template => 'profile/rabbimq/tptest.erb'``` (erb template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.erb```)
-- **epp**, to specify an epp template. Example: ```template => 'profile/rabbimq/tptest.epp'``` (epp template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.epp```)
-- **template**, to specify the full content . Example: ```content => $my_script_content``` (content of the ```$my_script_content``` variable set somewhere in Puppet code)
-- **source**, to specify the source file an erb template. Example: ```source => 'puppet:///modules/profile/rabbimq/tptest'``` (static source file located in ```$MODULEPATH/profile/files/rabbimq/tptest```).
+* **template**, to specify an erb template. Example: ```template => 'profile/rabbimq/tptest.erb'``` (erb template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.erb```)
+* **epp**, to specify an epp template. Example: ```template => 'profile/rabbimq/tptest.epp'``` (epp template located in ```$MODULEPATH/profile/templates/rabbimq/tptest.epp```)
+* **template**, to specify the full content . Example: ```content => $my_script_content``` (content of the ```$my_script_content``` variable set somewhere in Puppet code)
+* **source**, to specify the source file an erb template. Example: ```source => 'puppet:///modules/profile/rabbimq/tptest'``` (static source file located in ```$MODULEPATH/profile/files/rabbimq/tptest```).
 
 Starting from tp version 3.1.0 it's also possible to add any custom test script also unrelated to a specific application. You can you these to check general system status of some web application status or whatever it may make sense to test. You can legerage on the tp test command or the tp::test define to automate infrastructure testing on your CI/CD pipelines.
 
@@ -548,9 +548,9 @@ The main and unique class of this module, ```tp```, installs the tp CLI command 
 
 For each of these parameters (example: **install_hash**) it's possible to set on hiera:
 
-- The hash or resources to manage (**tp::*_hash**).
-- The merge lookup method to use for the lookup. Default: first (**tp::*_hash_merge_behaviour**).
-- A hash of default options for that define's Hash of resources (**tp::*_defaults**).
+* The hash or resources to manage (**tp::*_hash**).
+* The merge lookup method to use for the lookup. Default: first (**tp::*_hash_merge_behaviour**).
+* A hash of default options for that define's Hash of resources (**tp::*_defaults**).
 
 Where **\*** is any of **install**, **conf**, **dir**, **puppi**, **stdmod**, **concat** and **repo**.
 
@@ -604,8 +604,8 @@ Here is an example of OS based install_hash (note the usage of [Yaml merge keys]
 
 By default Tiny Puppet uses the [tinydata](https://github.com/example42/tinydata) module to retrieve data for different applications, but it's possible to override its settings in two ways:
 
-- Via the settings_hash parameter
-- Via the data_module parameter
+* Via the settings_hash parameter
+* Via the data_module parameter
 
 The ```settings_hash``` parameter, present in all tp defines, allows the override of specific settings coming from tiny data.
 
@@ -673,13 +673,13 @@ The tp module provides the following resources.
 
 ### Defined types
 
-- ```tp::install```. It installs an application and starts its service, by default.
-- ```tp::conf```. It allows to manage configuration files.
-- ```tp::dir```. It manages the content of directories.
-- ```tp::stdmod```. It manages the installation of an application using StdMod compliant parameters.
-- ```tp::test```. It allows quick and easy (acceptance) testing of an application. 
-- ```tp::repo```. It manages extra repositories for the supported applications.
-- ```tp::puppi```. Puppi integration (Don't worry, fully optional).
+* ```tp::install```. It installs an application and starts its service, by default.
+* ```tp::conf```. It allows to manage configuration files.
+* ```tp::dir```. It manages the content of directories.
+* ```tp::stdmod```. It manages the installation of an application using StdMod compliant parameters.
+* ```tp::test```. It allows quick and easy (acceptance) testing of an application. 
+* ```tp::repo```. It manages extra repositories for the supported applications.
+* ```tp::puppi```. Puppi integration (Don't worry, fully optional).
 
 ### Types
 
@@ -747,16 +747,16 @@ Tiny Puppet has a [website](https://tiny-puppet.com/).
 
 The following blog posts, newest first, have been written on Tiny Puppet, older ones might contain not updated information:
 
-- [Managing extra repositories with Tiny Puppet](https://blog.example42.com/2020/05/21/managing-extra-repositories-with-tiny-puppet/)
-- [Five Years of Tiny Puppet](https://blog.example42.com/2020/04/20/five-years-of-tiny-puppet/)
-- [Request for Tiny Data - Part 4 - Defaults and final call](https://blog.example42.com/2019/12/19/request-for-tinydata-part4/)
-- [Request for Tiny Data - Part 3 - Tiny. fancy and powerful features](https://blog.example42.com/2019/12/16/request-for-tinydata-part3/)
-- [Request for Tiny Data - Part 2 - Tiny data exposed](https://blog.example42.com/2019/12/12/request-for-tinydata-part2/)
-- [Request for Tiny Data - Part 1 - Tiny Puppet (tp)](https://blog.example42.com/2019/12/09/request-for-tinydata-part1/)
-- [Custom applications management using Tiny Puppet](https://www.example42.com/2018/10/15/application-management-using-tinypuppet/)
-- [tp install anything (anywhere),and configure](https://www.example42.com/2018/09/10/tp-install-anything-and-configure/)
-- [A few steps to Tiny Puppet on the command line](https://www.example42.com/2018/07/23/a-few-steps-to-tiny-puppet-command-line/)
-- [Tiny Puppet 1.0](https://blog.example42.com/2015/11/18/tp-1-release/)
-- [Preparing for Tiny Puppet 1.0](https://blog.example42.com/2015/10/26/preparing-for-tp-1/)
-- [Introducing Tiny Puppet](https://blog.example42.com/2015/01/02/introducing-tiny-puppet/)
+* [Managing extra repositories with Tiny Puppet](https://blog.example42.com/2020/05/21/managing-extra-repositories-with-tiny-puppet/)
+* [Five Years of Tiny Puppet](https://blog.example42.com/2020/04/20/five-years-of-tiny-puppet/)
+* [Request for Tiny Data - Part 4 - Defaults and final call](https://blog.example42.com/2019/12/19/request-for-tinydata-part4/)
+* [Request for Tiny Data - Part 3 - Tiny. fancy and powerful features](https://blog.example42.com/2019/12/16/request-for-tinydata-part3/)
+* [Request for Tiny Data - Part 2 - Tiny data exposed](https://blog.example42.com/2019/12/12/request-for-tinydata-part2/)
+* [Request for Tiny Data - Part 1 - Tiny Puppet (tp)](https://blog.example42.com/2019/12/09/request-for-tinydata-part1/)
+* [Custom applications management using Tiny Puppet](https://www.example42.com/2018/10/15/application-management-using-tinypuppet/)
+* [tp install anything (anywhere),and configure](https://www.example42.com/2018/09/10/tp-install-anything-and-configure/)
+* [A few steps to Tiny Puppet on the command line](https://www.example42.com/2018/07/23/a-few-steps-to-tiny-puppet-command-line/)
+* [Tiny Puppet 1.0](https://blog.example42.com/2015/11/18/tp-1-release/)
+* [Preparing for Tiny Puppet 1.0](https://blog.example42.com/2015/10/26/preparing-for-tp-1/)
+* [Introducing Tiny Puppet](https://blog.example42.com/2015/01/02/introducing-tiny-puppet/)
 
