@@ -1,3 +1,13 @@
+# File not to be modified
+.sync.yml:
+  unmanaged: true
 .rubocop.yml:
-  selected_profile: off
+  unmanaged: true
+.travis.yml:
+  unmanaged: true
+spec/default_facts.yml:
+  unmanaged: true
 
+# Files to remove
+appveyor.yml:
+  delete: true
