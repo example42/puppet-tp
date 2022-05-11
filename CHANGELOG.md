@@ -37,8 +37,7 @@
 ## 2.5.0
 
 -   Added tinydata params git_source and git_destination to install apps from git source
--   Added param repo_file_url to install a repo directly from http url (Note: if using https,
-    the repo webserver certificate must be valid and accepted by locally installed CAs certs).
+-   Added param repo_file_url to install a repo directly from http url (Note: if using https, the repo webserver certificate must be valid and accepted by locally installed CAs certs).
 -   Added  repo_description tinydata setting
 -   Added support for puppet gem packages in tp test
 -   Improved support for Windows
@@ -77,7 +76,7 @@
 
 ## 2.3.2
 
--   Approved status request [MODULES-5811] - <https://tickets.puppetlabs.com/browse/MODULES-5811>
+-   Approved status request [MODULES-5811](https://tickets.puppetlabs.com/browse/MODULES-5811)
 -   Skip danger in travis CI
 -   any variables can be accepted for ensure of dir (#59)
 
@@ -97,7 +96,7 @@
 
 ## 2.2.0
 
--   Added support for tinydata setting [repo_package_params] in tp::repo 
+-   Added support for tinydata setting **repo_package_params** in tp::repo 
 -   tp::repo just installs the release package if tinydata exists
 -   Install via wget and dkpg release package from repo_package_url On Debian in tp::repo
 -   Added support for package_params and service_params in tp::install

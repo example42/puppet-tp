@@ -8,9 +8,11 @@
 1.  [Module description - What Tiny Puppet does?](#module-description)
     -   [Features](#features)
     -   [Use cases](#use-cases)
+
 2.  [Setup](#setup)
     -   [What tp affects](#what-tp-affects)
     -   [Getting started with tp](#getting-started-with-tp)
+
 3.  [Usage in Puppet code](#usage-in-puppet-code)
     -   [Common uses](#common-uses)
     -   [Installing packages - tp::install](#installing-packages---tpinstall)
@@ -20,15 +22,20 @@
     -   [Managing repositories - tp::repo](#managing-repositories---tprepo)
     -   [Automated and easy testing - tp::test](#automated-and-easy-testing---tptest)
     -   [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
+
 4.  [Updating tiny data and using alternative data sources](#updating-tiny-data-and-using-alternative-data-sources)
+
 5.  [Usage on the command line](#usage-on-the-command-line)
+
 6.  [Reference](#reference)
     -   [Classes](#classes)
     -   [Defined Types](#defined-types)
     -   [Types](#types)
     -   [Functions](#functions)
     -   [Tasks](#tasks)
+
 7.  [Prerequisites and limitations](#prerequisites-and-limitations)
+
 8.  [Additional info](#additional-info)
 
 ## Module description
@@ -75,7 +82,7 @@ To see real-world usage of tp defines give a look to:
 
 -   The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp is used widely.
 -   Usage samples in [hieradata](https://github.com/example42/psick-hieradata/search?q=%27tp%3A%3A%27).
--   The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. [DEPRECATED]
+-   The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. (DEPRECATED)
 -   The [psick_profile](https://github.com/example42/psick_profile) module which is contains more profiles for common applications.
 
 ## Setup
@@ -384,7 +391,7 @@ Manage a whole configuration directory:
 
 Manage a specific directory type. Currently defined directories types are:
 
--   `config`: The application [main] configuration directory (Default value).
+-   `config`: The application *main* configuration directory (Default value).
 -   `conf`: A directory where you can place single configuration files (typically called ./conf.d ).
 -   `data`: Directory where application data resides.
 -   `log`: Dedicated directory for logs, if present.
@@ -677,15 +684,15 @@ The tp module provides the following resources.
 
 ### Types
 
--   [tp::settings], validates all the possible setting for tinydata
+-   `tp::settings`, validates all the possible setting for tinydata
 
 ### Functions
 
--   [tp::content], manages content for files based on supplied (erb) template, epp, and content
--   [tp::ensure2bool], converts ensure values to boolean
--   [tp::ensure2dir], converts ensure values to esnure values to be used for directories
--   [tp::install], wrapper around the tp::install define, it tries to avoid eventual duplicated resources issues
--   [tp::is_something], returna true if input of any type exists and is not empty
+-   `tp::content`, manages content for files based on supplied (erb) template, epp, and content
+-   `tp::ensure2bool`, converts ensure values to boolean
+-   `tp::ensure2dir`, converts ensure values to esnure values to be used for directories
+-   `tp::install`, wrapper around the tp::install define, it tries to avoid eventual duplicated resources issues
+-   `tp::is_something`, returna true if input of any type exists and is not empty
 
 ### Tasks
 

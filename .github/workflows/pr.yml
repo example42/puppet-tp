@@ -1,11 +1,7 @@
 ---
 name: PR tests
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: pull_request
 
 jobs:
   static:
@@ -15,11 +11,11 @@ jobs:
     env:
       BUNDLE_WITHOUT: development:system_tests:release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
           bundler-cache: true
       - name: Run static validations
         run: bundle exec rake validate lint check
@@ -34,7 +30,7 @@ jobs:
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
           bundler-cache: true
       - name: Run tests
         run: bundle exec rake parallel_spec

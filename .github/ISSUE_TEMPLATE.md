@@ -4,10 +4,6 @@
 
 ## Steps to Reproduce the Problem
 
-1.
-2.
-3.
-
 ## Specifications
 
 Please add this info:
