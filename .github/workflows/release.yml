@@ -17,8 +17,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Publish to Forge
+      - name: Prepare pdk container
         uses: puppet/pdk
+      - name: Publish to the Forge
         run: pdk bundle exec rake module:push 
         env:
           BLACKSMITH_FORGE_USERNAME: '${{ secrets.PUPPET_FORGE_USERNAME }}'

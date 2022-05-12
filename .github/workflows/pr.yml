@@ -12,8 +12,9 @@ jobs:
       BUNDLE_WITHOUT: development:system_tests:release
     steps:
       - uses: actions/checkout@v2
-      - name: Run static validations
+      - name: Prepare pdk container
         uses: puppet/pdk
+      - name: Run static validations
         run: pdk bundle exec rake validate lint check
   unit:
     name: 'Unit tests'
@@ -23,6 +24,7 @@ jobs:
       BUNDLE_WITHOUT: development:system_tests:release
     steps:
       - uses: actions/checkout@v2
-      - name: Run unit tests
+      - name: Prepare pdk container
         uses: puppet/pdk
+      - name: Run unit tests
         run: pdk bundle exec rake spec

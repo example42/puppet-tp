@@ -1,4 +1,4 @@
-FROM puppet/pdk:latest
+FROM puppet/pdk
 
 # [Optional] Uncomment this section to install additional packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
