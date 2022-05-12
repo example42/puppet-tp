@@ -22,5 +22,6 @@ jobs:
       - name: Publish to the Forge
         run: pdk bundle exec rake module:push 
         env:
+          PATH: $PATH:/usr/local/bin
           BLACKSMITH_FORGE_USERNAME: '${{ secrets.PUPPET_FORGE_USERNAME }}'
           BLACKSMITH_FORGE_API_KEY: '${{ secrets.PUPPET_FORGE_API_KEY }}'
