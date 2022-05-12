@@ -12,17 +12,17 @@ define tp::test (
   Variant[Undef,String]   $epp                 = undef,
   Variant[Undef,String]   $content             = undef,
 
-  Hash                    $options_hash        = { },
-  Hash                    $settings_hash       = { },
+  Hash                    $options_hash        = {},
+  Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
   String[1]               $base_dir            = '/etc/tp/test',
+  String[1]               $app_dir             = '/etc/tp/app',
 
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = false,
 
-  ) {
-
+) {
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
@@ -32,11 +32,11 @@ define tp::test (
   # Default options and computed variables
   $options_defaults = {
     check_timeout          => '10',
-    check_service_command  => "${::tp::check_service_command} ${settings[service_name]} ${::tp::check_service_command_post}",
+    check_service_command  => "${tp::check_service_command} ${settings[service_name]} ${tp::check_service_command_post}",
     check_package_command  => $settings['package_provider'] ? {
       'gem'   => "gem list -i ${settings[package_name]}",
       'pip'   => "pip show ${settings[package_name]}",
-      default => $::tp::check_package_command,
+      default => $tp::check_package_command,
     },
     check_port_command     => 'check_tcp',
     check_port_critical    => '10',
@@ -70,9 +70,11 @@ define tp::test (
     $file_content = undef
   }
 
+  $sane_title = regsubst($title, '/', '_', 'G')
+
   if $file_content
   or $source {
-    file { "${base_dir}/${title}":
+    file { "${base_dir}/${sane_title}":
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',
@@ -84,7 +86,7 @@ define tp::test (
 
   # Options cli integration
   if $cli_enable {
-    file { "/etc/tp/app/${title}":
+    file { "${app_dir}/${sane_title}":
       ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }

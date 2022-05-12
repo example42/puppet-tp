@@ -1,0 +1,29 @@
+---
+name: PR tests
+
+on: pull_request
+
+jobs:
+  static:
+    name: 'Static code analysys'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container: puppet/puppet-dev-tools:4.x
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run static validations
+        run: /usr/local/bin/pdk bundle exec rake validate lint check
+        env:
+          BUNDLE_WITHOUT: development:system_tests:release
+
+  unit:
+    name: 'Unit tests'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    container: puppet/puppet-dev-tools:4.x
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run unit tests
+        run: /usr/local/bin/pdk bundle exec rake spec
+        env:
+          BUNDLE_WITHOUT: development:system_tests:release

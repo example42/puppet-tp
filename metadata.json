@@ -1,7 +1,7 @@
 {
   "name": "example42-tp",
-  "version": "3.2.0",
-  "author": "Example42 Gmbh",
+  "version": "3.3.0",
+  "author": "example42",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/puppet-tp",
@@ -109,7 +109,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.9.0 < 8.0.0"
+      "version_requirement": ">= 4.9.0 < 9.0.0"
     }
   ],
   "checksums": {
@@ -128,7 +128,7 @@
       "version_requirement": ">= 0.0.1 < 5.0.0"
     }
   ],
-  "pdk-version": "1.11.0",
-  "template-url": "https://github.com/example42/pdk-module-template-tp-profile-minimal-tests#master",
-  "template-ref": "heads/master-0-g3e97c52"
+  "pdk-version": "2.4.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#main",
+  "template-ref": "tags/2.5.0-0-g806810b"
 }

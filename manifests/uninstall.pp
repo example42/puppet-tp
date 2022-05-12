@@ -27,18 +27,12 @@
 #  Default is tinydata: https://github.com/example42/tinydata
 #
 define tp::uninstall (
-
-  Hash      $conf_hash                 = { } ,
-  Hash      $dir_hash                  = { } ,
-
-  Hash      $settings_hash             = { } ,
-
+  Hash      $conf_hash                 = {},
+  Hash      $dir_hash                  = {},
+  Hash      $settings_hash             = {},
   Boolean   $auto_repo                 = true,
-
   String[1] $data_module               = 'tinydata',
-
-  ) {
-
+) {
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
@@ -52,19 +46,18 @@ define tp::uninstall (
     }
   }
 
-
   # Resources removed
   if $settings[package_name] {
     ensure_resource( 'package', $settings[package_name], {
-      'ensure' => 'absent',
-    } )
+        'ensure' => 'absent',
+    })
   }
 
   if $settings[service_name] {
     ensure_resource( 'service', $settings[service_name], {
-      'ensure'  => 'stopped',
-      'enable'  => false,
-    } )
+        'ensure'  => 'stopped',
+        'enable'  => false,
+    })
   }
 
   if $conf_hash != {} {
@@ -81,5 +74,4 @@ define tp::uninstall (
       }
     }
   }
-
 }

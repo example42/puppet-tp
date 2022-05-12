@@ -1,0 +1,7 @@
+# File not to be modified
+.sync.yml:
+  unmanaged: true
+.rubocop.yml:
+  unmanaged: true
+spec/default_facts.yml:
+  unmanaged: true

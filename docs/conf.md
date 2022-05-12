@@ -1,6 +1,4 @@
-
-
-
+# Using tp::conf
 
 To configure nginx.conf with a custom template you can write:
 

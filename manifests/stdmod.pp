@@ -45,8 +45,7 @@ define tp::stdmod (
 
   Variant[Undef,String]         $data_module               = 'tinydata',
 
-  ) {
-
+) {
   # Settings evaluation
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $user_settings = {
@@ -85,7 +84,6 @@ define tp::stdmod (
     $manage_config_file_content = undef
   }
 
-
   $manage_config_file_require = "Package[${settings[package_name]}]"
   $manage_config_file_notify  = $config_file_notify ? {
     'default' => "Service[${settings[service_name]}]",
@@ -114,12 +112,10 @@ define tp::stdmod (
     $config_file_ensure = present
   }
 
-
   # Dependency class
   if $dependency_class and $dependency_class != '' {
     include $dependency_class
   }
-
 
   # Resources
   if $settings['package_name'] {
@@ -137,7 +133,7 @@ define tp::stdmod (
 
   if $settings['config_file_path'] and
   ( $config_file_source
-  or $manage_config_file_content
+    or $manage_config_file_content
   or $config_file_ensure == 'absent' ) {
     file { $settings[config_file_path]:
       ensure  => $config_file_ensure,
@@ -165,7 +161,6 @@ define tp::stdmod (
     }
   }
 
-
   # Extra classes
   if $monitor_class and $monitor_class != '' {
     include $monitor_class
@@ -173,7 +168,6 @@ define tp::stdmod (
   if $firewall_class and $firewall_class != '' {
     include $firewall_class
   }
-
 
   # Debugging
   if $debug == true {
@@ -184,5 +178,4 @@ define tp::stdmod (
       path    => "${debug_dir}/tp_stdmod_debug_${title}",
     }
   }
-
 }

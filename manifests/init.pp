@@ -4,7 +4,7 @@
 # This class provides hiera data entry points to create tp resources
 # and tp commands to interact with applications installed via tp.
 # If you don't use them, you don't need to include
-# this class 
+# this class
 #
 class tp (
 
@@ -23,44 +23,43 @@ class tp (
   Hash $options_hash                 = {},
 
   Variant[Hash,Array[String],String] $install_hash                   = {},
-  Enum['first','hash','deep'] $install_hash_merge_behaviour          = 'first',
+  Enum['first','hash','deep'] $install_hash_merge_behaviour           = 'first',
   Hash $install_defaults                                             = {},
 
   Variant[Hash,Array[String],String] $osfamily_install_hash          = {},
-  Enum['first','hash','deep'] $osfamily_install_hash_merge_behaviour = 'first',
+  Enum['first','hash','deep'] $osfamily_install_hash_merge_behaviour  = 'first',
   Hash $osfamily_install_defaults                                    = {},
 
   Hash $conf_hash                                                    = {},
-  Enum['first','hash','deep'] $conf_hash_merge_behaviour             = 'first',
+  Enum['first','hash','deep'] $conf_hash_merge_behaviour              = 'first',
   Hash $conf_defaults                                                = {},
 
   Hash $osfamily_conf_hash                                           = {},
-  Enum['first','hash','deep'] $osfamily_conf_hash_merge_behaviour    = 'first',
+  Enum['first','hash','deep'] $osfamily_conf_hash_merge_behaviour     = 'first',
   Hash $osfamily_conf_defaults                                       = {},
 
   Hash $dir_hash                                                     = {},
-  Enum['first','hash','deep'] $dir_hash_merge_behaviour              = 'first',
+  Enum['first','hash','deep'] $dir_hash_merge_behaviour               = 'first',
   Hash $dir_defaults                                                 = {},
 
   Hash $concat_hash                                                  = {},
-  Enum['first','hash','deep'] $concat_hash_merge_behaviour           = 'first',
+  Enum['first','hash','deep'] $concat_hash_merge_behaviour            = 'first',
   Hash $concat_defaults                                              = {},
 
   Hash $stdmod_hash                                                  = {},
-  Enum['first','hash','deep'] $stdmod_hash_merge_behaviour           = 'first',
+  Enum['first','hash','deep'] $stdmod_hash_merge_behaviour            = 'first',
   Hash $stdmod_defaults                                              = {},
 
   Hash $puppi_hash                                                   = {},
-  Enum['first','hash','deep'] $puppi_hash_merge_behaviour            = 'first',
+  Enum['first','hash','deep'] $puppi_hash_merge_behaviour             = 'first',
   Hash $puppi_defaults                                               = {},
 
   Hash $repo_hash                                                    = {},
-  Enum['first','hash','deep'] $repo_hash_merge_behaviour             = 'first',
+  Enum['first','hash','deep'] $repo_hash_merge_behaviour              = 'first',
   Hash $repo_defaults                                                = {},
 
   Boolean $purge_dirs                                                = false,
 ) {
-
   $options_defaults = {
     'check_timeout'              => '10',
     'check_service_command'      => $check_service_command,
@@ -72,7 +71,7 @@ class tp (
   $options = $options_defaults + $options_hash
 
   if $cli_enable {
-    file { [ $tp_dir , "${tp_dir}/app" , "${tp_dir}/test" ]:
+    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
       ensure  => directory,
       mode    => $tp_mode,
       owner   => $tp_owner,
@@ -89,7 +88,7 @@ class tp (
       mode    => $tp_mode,
       content => template('tp/tp.erb'),
     }
-    if $::osfamily == 'windows' {
+    if $facts['os']['family'] == 'windows' {
       file { "${tp_path}.bat":
         ensure  => present,
         owner   => $tp_owner,
@@ -107,7 +106,7 @@ class tp (
   case $install_hash_merged {
     Array: {
       $install_hash_merged.each |$kk| {
-        tp_install($kk, $install_defaults + {ensure => present})
+        tp_install($kk, $install_defaults + { ensure => present })
       }
     }
     Hash: {
@@ -116,7 +115,7 @@ class tp (
       }
     }
     String: {
-      tp_install($install_hash_merged, $install_defaults + {ensure => present})
+      tp_install($install_hash_merged, $install_defaults + { ensure => present })
     }
     default: {
       fail("Unsupported type for ${install_hash_merged}. Valid types are String, Array, Hash")
@@ -128,7 +127,7 @@ class tp (
     default => lookup('tp::osfamily_install_hash',Variant[Hash,Array[String],String],$osfamily_install_hash_merge_behaviour,{})
   }
   $osfamily_install_hash_merged.each |$k,$v| {
-    if $::osfamily == $k {
+    if $facts['os']['family'] == $k {
       if has_key($osfamily_install_defaults, $k) {
         $os_defaults = $osfamily_install_defaults[$k]
       } else {
@@ -170,7 +169,7 @@ class tp (
     default => lookup('tp::osfamily_conf_hash',Hash,$osfamily_conf_hash_merge_behaviour,{})
   }
   $osfamily_conf_hash_merged.each |$k,$v| {
-    if $::osfamily == $k {
+    if $facts['os']['family'] == $k {
       if has_key($osfamily_conf_defaults, $k) {
         $os_defaults = $osfamily_conf_defaults[$k]
       } else {

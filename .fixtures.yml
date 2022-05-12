@@ -1,9 +1,9 @@
 fixtures:
   repositories:
-    "stdlib": "git://github.com/puppetlabs/puppetlabs-stdlib.git"
-    "concat": "git://github.com/puppetlabs/puppetlabs-concat.git"
-    "vcsrepo": "git://github.com/puppetlabs/puppetlabs-vcsrepo.git"
-    "puppi": "git://github.com/example42/puppi.git"
-    "tinydata": "git://github.com/example42/tinydata.git"
-    "yumrepo": "https://github.com/puppetlabs/puppetlabs-yumrepo_core"
+    "stdlib": "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    "concat": "https://github.com/puppetlabs/puppetlabs-concat.git"
+    "vcsrepo": "https://github.com/puppetlabs/puppetlabs-vcsrepo.git"
+    "puppi": "https://github.com/example42/puppi.git"
+    "tinydata": "https://github.com/example42/tinydata.git"
+    "yumrepo": "https://github.com/puppetlabs/puppetlabs-yumrepo_core.git"
 

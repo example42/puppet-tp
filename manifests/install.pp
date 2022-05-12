@@ -57,7 +57,7 @@
 # @example Installation of repo packages via proxy
 #   tp::install { 'puppet':
 #     repo_exec_environment => [ 'http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
-#   } 
+#   }
 #
 # @param ensure Manage application status.
 #   Valid values are present, absent or the package version number.
@@ -127,11 +127,11 @@ define tp::install (
 
   Variant[Boolean,String] $ensure           = present,
 
-  Hash                    $conf_hash        = { },
-  Hash                    $dir_hash         = { },
+  Hash                    $conf_hash        = {},
+  Hash                    $dir_hash         = {},
 
-  Hash                    $options_hash     = { },
-  Hash                    $settings_hash    = { },
+  Hash                    $options_hash     = {},
+  Hash                    $settings_hash    = {},
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
@@ -155,9 +155,10 @@ define tp::install (
 
   String[1]               $data_module      = 'tinydata',
 
-  ) {
-
+) {
   $app = $title
+  $sane_app = regsubst($app, '/', '_', 'G')
+
   # Settings evaluation
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
@@ -206,10 +207,10 @@ define tp::install (
   # Automatic repo management
   $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
   if $auto_repo
-    and ( $settings[repo_url]
+  and ( $settings[repo_url]
     or $settings[yum_mirrorlist]
     or $settings[repo_package_url]
-    or $settings[repo_file_url]) {
+  or $settings[repo_file_url]) {
     $repo_enabled = $ensure ? {
       'absent'  => false,
       false     => false,
@@ -251,7 +252,7 @@ define tp::install (
       Hash: {
         $settings[tp_prerequisites].each | $p,$v | {
           Tp::Install[$p] -> Package[$settings[package_name]]
-          $tp_install_params =  { auto_prereq => true } + $v
+          $tp_install_params = { auto_prereq => true } + $v
           tp_install($p, $tp_install_params)
         }
       }
@@ -266,7 +267,7 @@ define tp::install (
     $settings[exec_prerequisites].each | $k , $v | {
       Exec[$k] -> Package[$settings[package_name]]
       exec { $k:
-        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
+        * => { 'path' => $facts['path'] } + $v,
       }
     }
   }
@@ -288,7 +289,15 @@ define tp::install (
       create_resources($k,$v, { require => Package[$settings[package_name]] })
     }
   }
+
   # Resources
+  if $settings['brew_tap'] =~ String[1] {
+    Package <| provider == tap |> -> Package <| provider == homebrew |>
+    Package <| provider == tap |> -> Package <| provider == brew |>
+    Package <| provider == tap |> -> Package <| provider == brewcask |>
+    ensure_packages($settings['brew_tap'], { 'provider' => 'tap' })
+  }
+
   if $settings[package_name] =~ Array and $manage_package {
     $package_defaults = {
       ensure   => $plain_ensure,
@@ -296,7 +305,7 @@ define tp::install (
     }
     $settings[package_name].each |$pkg| {
       package { $pkg:
-        * => $package_defaults + pick($settings[package_params],{})
+        * => $package_defaults + pick($settings[package_params],{}),
       }
     }
   }
@@ -308,7 +317,7 @@ define tp::install (
       install_options => $package_install_options,
     }
     package { $settings[package_name]:
-      * => $package_defaults + pick($settings[package_params],{})
+      * => $package_defaults + pick($settings[package_params],{}),
     }
   }
 
@@ -321,7 +330,7 @@ define tp::install (
         require => $service_require,
       }
       service { $svc:
-        * => $service_defaults + pick($settings[service_params],{})
+        * => $service_defaults + pick($settings[service_params],{}),
       }
     }
   }
@@ -406,24 +415,25 @@ define tp::install (
 
   # Options cli integration
   $tp_basedir = $facts['os']['family'] ? {
-    windows => 'C:/ProgramData/PuppetLabs/puppet/etc/tp/app',
-    default => '/etc/tp/app',
+    'windows' => 'C:/ProgramData/PuppetLabs/puppet/etc/tp/app',
+    default   => '/etc/tp/app',
   }
+
   if $cli_enable {
-    file { "${tp_basedir}/${app}":
+    file { "${tp_basedir}/${sane_app}":
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
     }
-    include ::tp
+    include tp
   }
 
   # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    file { "tp_install_debug_${title}":
+    file { "tp_install_debug_${sane_app}":
       ensure  => $plain_ensure,
       content => $debug_scope,
-      path    => "${debug_dir}/tp_install_debug_${title}",
+      path    => "${debug_dir}/tp_install_debug_${sane_app}",
     }
   }
 }

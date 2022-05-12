@@ -2,7 +2,6 @@ function tp::ensure2bool (
   Variant[Boolean,String] $input  = present,
   $default = undef,
 ) {
-
   $output = $input ? {
     'absent'  => false,
     false     => false,
@@ -10,5 +9,4 @@ function tp::ensure2bool (
     true      => true,
     default   => $default,
   }
-
 }
