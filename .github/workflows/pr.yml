@@ -13,10 +13,9 @@ jobs:
       - name: Prepare puppet-dev-tools container
         uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run static validations
-        run: pdk bundle exec rake validate lint check
+        run: /usr/local/bin/pdk bundle exec rake validate lint check
         env:
           BUNDLE_WITHOUT: development:system_tests:release
-          PATH: $PATH:/usr/local/bin
 
   unit:
     name: 'Unit tests'
@@ -29,7 +28,6 @@ jobs:
       - name: Prepare puppet-dev-tools container
         uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run unit tests
-        run: pdk bundle exec rake spec
+        run: /usr/local/bin/pdk bundle exec rake spec
         env:
           BUNDLE_WITHOUT: development:system_tests:release
-          PATH: $PATH:/usr/local/bin
