@@ -8,10 +8,9 @@ jobs:
     name: 'Static code analysys'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    container: puppet/puppet-dev-tools:4.x
     steps:
       - uses: actions/checkout@v2
-      - name: Prepare puppet-dev-tools container
-        uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run static validations
         run: /usr/local/bin/pdk bundle exec rake validate lint check
         env:
@@ -21,12 +20,9 @@ jobs:
     name: 'Unit tests'
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    env:
-      BUNDLE_WITHOUT: development:system_tests:release
+    container: puppet/puppet-dev-tools:4.x
     steps:
       - uses: actions/checkout@v2
-      - name: Prepare puppet-dev-tools container
-        uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run unit tests
         run: /usr/local/bin/pdk bundle exec rake spec
         env:
