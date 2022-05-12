@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Prepare pdk container
-        uses: puppet/pdk
+      - name: Prepare puppet-dev-tools container
+        uses: puppet/puppet-dev-tools:4.x
       - name: Publish to the Forge
         run: pdk bundle exec rake module:push 
         env:
