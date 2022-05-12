@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Prepare puppet-dev-tools container
-        uses: puppet/puppet-dev-tools:4.x
+        uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run static validations
         run: pdk bundle exec rake validate lint check
   unit:
@@ -25,6 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Prepare puppet-dev-tools container
-        uses: puppet/puppet-dev-tools:4.x
+        uses: docker://puppet/puppet-dev-tools:4.x
       - name: Run unit tests
         run: pdk bundle exec rake spec
