@@ -1,0 +1,25 @@
+---
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  BUNDLE_WITHOUT: development:test:system_tests
+
+jobs:
+  deploy:
+    name: 'Deploy to forge'
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'example42'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Publish to Forge
+        uses: puppet/pdk
+        run: pdk bundle exec rake module:push 
+        env:
+          BLACKSMITH_FORGE_USERNAME: '${{ secrets.PUPPET_FORGE_USERNAME }}'
+          BLACKSMITH_FORGE_API_KEY: '${{ secrets.PUPPET_FORGE_API_KEY }}'

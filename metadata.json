@@ -1,7 +1,7 @@
 {
   "name": "example42-tp",
   "version": "3.3.0",
-  "author": "Example42 Gmbh",
+  "author": "example42",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/puppet-tp",
