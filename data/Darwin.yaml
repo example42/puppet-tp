@@ -1,3 +1,7 @@
 ---
-  tp::tp_path: '/usr/local/bin/tp'
-  tp::tp_group: 'wheel'
+tp::tp_group: wheel
+tp::check_service_command: 'launchctl print system/'
+tp::check_service_command_post: " | grep 'running'"
+tp::check_package_command: 'brew info'
+tp::check_repo_path: '/opt/homebrew/Library/Taps'
+tp::check_repo_path_post: ''

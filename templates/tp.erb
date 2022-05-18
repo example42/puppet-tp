@@ -8,8 +8,7 @@ TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
 
 TINYDATA_DIRS = [
-  "/home/#{ENV['USER']}/.puppetlabs/etc/code/modules/tinydata/data",
-  '/root/.puppetlabs/etc/code/modules/tinydata/data',
+  "/#{ENV['HOME']}/.puppetlabs/etc/code/modules/tinydata/data",
   '/etc/puppetlabs/code/environments/production/modules/tinydata/data',
   '/etc/puppetlabs/code/modules/tinydata/data',
   '/'
