@@ -45,7 +45,7 @@ describe 'tp::test', :type => :define do
           let(:title) { app }
 
           context 'without any param' do
-            it { is_expected.to compile }
+            it { is_expected.to compile.with_all_deps }
             it { should have_file_resource_count(file_count) }
             it { should have_resource_count(total_count) }
           end

@@ -8,7 +8,7 @@ describe 'tp' do
       file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
 
       context 'with default params' do
-        it { is_expected.to compile }
+        it { is_expected.to compile.with_all_deps }
         it { should have_file_resource_count(file_resource_count) }
         it { should have_resource_count(file_resource_count) }
       end

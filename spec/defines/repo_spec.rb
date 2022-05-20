@@ -63,7 +63,7 @@ describe 'tp::repo', :type => :define do
             total_count = total_count.to_i + 1
           end
           context 'without any param' do
-            it { is_expected.to compile }
+            it { is_expected.to compile.with_all_deps }
             it { should have_tp__repo_resource_count(1) }
             it { should have_package_resource_count(package_count) }
             it { should have_exec_resource_count(exec_count) }

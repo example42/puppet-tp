@@ -71,7 +71,7 @@ describe 'tp::uninstall', :type => :define do
           let(:title) { app }
 
           context 'without any param' do
-            it { is_expected.to compile }
+            it { is_expected.to compile.with_all_deps }
             # it { should have_tp__install_resource_count(1) }
             it { should have_package_resource_count(package_count) }
             it { is_expected.to contain_package(appdata['package_name']).only_with(default_package_params) }

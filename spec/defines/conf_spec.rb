@@ -30,7 +30,7 @@ describe 'tp::conf', :type => :define do
             'require' => "Package[#{appdata['package_name']}]",
           }
           context 'without any param' do
-            it { is_expected.to compile }
+            it { is_expected.to compile.with_all_deps }
             it { should have_file_resource_count(1) }
             it { is_expected.to contain_file(appdata['config_file_path']).only_with(default_file_params) }
           end
