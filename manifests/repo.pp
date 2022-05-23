@@ -219,7 +219,7 @@ define tp::repo (
       }
       default: {
         notify { "No repo for ${title}":
-          message => "No dedicated repo available for ${facts['os']['osfamily']}",
+          message => "No dedicated repo available for ${facts['os']['family']}",
         }
       }
     }
