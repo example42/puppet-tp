@@ -18,8 +18,13 @@ class tp (
   String $check_package_command      = 'puppet resource package',
   String $check_repo_path            = '',
   String $check_repo_path_post       = '',
+  String $info_package_command      = 'rpm -qi',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
-  Stdlib::Absolutepath $ruby_path    = 'opt/puppetlabs/puppet/bin/ruby',
+  Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
+
+  Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
+  String $info_script_template                  = 'tp/run_info.sh.epp',
+  String $bash_commons_source        = 'puppet:///modules/tp/commons',
   Hash $options_hash                 = {},
 
   Variant[Hash,Array[String],String] $install_hash                   = {},
@@ -67,11 +72,13 @@ class tp (
     'check_package_command'      => $check_package_command,
     'check_repo_path'            => $check_repo_path,
     'check_repo_path_post'       => $check_repo_path_post,
-  }
+    'info_package_command'       => $info_package_command,
+    'info_script_path'           => $info_script_path,
+}
   $options = $options_defaults + $options_hash
 
   if $cli_enable {
-    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
+    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test" , "${tp_dir}/info"]:
       ensure  => directory,
       mode    => $tp_mode,
       owner   => $tp_owner,
@@ -87,6 +94,22 @@ class tp (
       group   => $tp_group,
       mode    => $tp_mode,
       content => template('tp/tp.erb'),
+    }
+    file { 'tp info common libraries':
+      ensure => present,
+      path   => "${tp_dir}/commons",
+      owner  => $tp_owner,
+      group  => $tp_group,
+      mode   => $tp_mode,
+      source => $bash_commons_source,
+    }
+    file { $info_script_path:
+      ensure  => present,
+      path    => $info_script_path,
+      owner   => $tp_owner,
+      group   => $tp_group,
+      mode    => $tp_mode,
+      content => epp($info_script_template, { 'options' => $options }),
     }
     if $facts['os']['family'] == 'windows' {
       file { "${tp_path}.bat":

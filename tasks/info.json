@@ -1,0 +1,10 @@
+{
+  "description": "Run tp info on the specified nodes",
+  "supports_noop": false,
+  "parameters": {
+    "app": {
+      "description": "The application to info about",
+      "type": "Optional[String[1]]"
+    }
+  }
+}
