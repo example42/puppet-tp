@@ -37,6 +37,7 @@ type Tp::Settings = Struct[{
     Optional[pid_file_path] => Stdlib::Absolutepath,
     Optional[init_file_path] => Stdlib::Absolutepath,
     Optional[init_file_template] => String,
+    Optional[init_system] => String,
 
     Optional[conf_dir_path] => Stdlib::Absolutepath,
     Optional[data_dir_path] => Stdlib::Absolutepath,

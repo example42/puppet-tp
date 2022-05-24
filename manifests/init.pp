@@ -23,8 +23,9 @@ class tp (
   Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
 
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
-  String $info_script_template                  = 'tp/run_info.sh.epp',
+  String $info_script_template           = 'tp/run_info.sh.epp',
   String $bash_commons_source        = 'puppet:///modules/tp/commons',
+
   Hash $options_hash                 = {},
 
   Variant[Hash,Array[String],String] $install_hash                   = {},

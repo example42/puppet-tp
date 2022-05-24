@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.4.0
+
+-   Added tp info define, task and cli command
+-   Added init_system setting
+
 ## 3.3.0
 
 -   Updated to latest pdk template
