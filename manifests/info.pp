@@ -19,7 +19,7 @@ define tp::info (
   String[1]               $base_dir            = '/etc/tp/info',
   String[1]               $app_dir             = '/etc/tp/app',
 
-  Stdlib::Absolutepath    $info_command        = '/etc/tp/run_info',
+  Stdlib::Absolutepath    $info_command        = $tp::info_script_path,
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = false,
 
@@ -32,17 +32,7 @@ define tp::info (
 
   # Default options and computed variables
   $options_defaults = {
-    tp_info_command        => $tp_info_command,
-    check_service_command  => "${tp::check_service_command} ${settings[service_name]} ${tp::check_service_command_post}",
-    check_package_command  => $settings['package_provider'] ? {
-      'gem'   => "gem list -i ${settings[package_name]}",
-      'pip'   => "pip show ${settings[package_name]}",
-      default => $tp::check_package_command,
-    },
-    check_port_command     => 'check_tcp',
-    check_port_critical    => '10',
-    check_port_warning     => '5',
-    check_port_host        => '127.0.0.1',
+    info_command           => $info_command,
   }
 
   $options = merge($options_defaults, $options_hash)

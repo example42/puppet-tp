@@ -24,3 +24,4 @@ process_group: root
 nodaemon_args: "-D"
 validate_cmd: "sshd -t -f %"
 repo_package_provider: rpm
+init_system: systemd

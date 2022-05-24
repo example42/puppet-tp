@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-# Apps to test against. Data is in spec/tpdata/
+# Apps to info against. Data is in spec/tpdata/
 apps = ['rsyslog','sysdig']
 
-# Sample options and rendered templates to test upon
+# Sample options and rendered templates to info upon
 sample_options = {
   'host' => 'spec.example.com',
   'port' => '8080',
@@ -11,10 +11,12 @@ sample_options = {
 sample_erb = File.read(File.join(File.dirname(__FILE__), '../tpdata/sample.erb'))
 sample_epp = File.read(File.join(File.dirname(__FILE__), '../tpdata/sample.epp'))
 
-describe 'tp::test', :type => :define do
+describe 'tp::info', :type => :define do
   on_supported_os(facterversion: '2.4').select { |k, _v| k == 'centos-7-x86_64' || k == 'ubuntu-16.04-x86_64' }.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
+      let(:pre_condition) { 'include tp' }
+
       apps.each do | app |
         appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
 
@@ -23,11 +25,11 @@ describe 'tp::test', :type => :define do
           'ensure'  => 'present',
           'mode'    => '0755',
           'owner'   => 'root',
-          'tag'     => 'tp_test',
+          'tag'     => 'tp_info',
         }
 
-        # Resource counts with normal tp::test
-        total_count = 8 # tp::test + file + tp
+        # Resource counts with normal tp::info
+        total_count = 8 # tp::info + file + tp
         package_count = 0
         service_count = 0
         exec_count = 0
@@ -51,38 +53,38 @@ describe 'tp::test', :type => :define do
           end
           context 'with source => puppet:///modules/tp/spec' do
             let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
           end
           context 'with template => tp/spec/sample.erb and sample options_hash' do
             let(:params) do {
               'template'     => 'tp/spec/sample.erb',
               'options_hash' => sample_options,
             } end
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").only_with(default_file_params.merge('content' => sample_erb)) }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_erb)) }
           end
           context 'with template => tp/spec/sample.epp and sample options_hash' do
             let(:params) do {
               'template'     => 'tp/spec/sample.epp',
               'options_hash' => sample_options,
             } end
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
           end
           context 'with epp => tp/spec/sample.epp and sample options_hash' do
             let(:params) do {
               'epp'          => 'tp/spec/sample.epp',
               'options_hash' => sample_options,
             } end
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
           end
           context 'with content => sample' do
             let(:params) do {
               'content'     => 'sample',
             } end
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").only_with(default_file_params.merge('content' => 'sample')) }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => 'sample')) }
           end
           context 'with ensure => absent and source'  do
             let(:params) { { 'ensure' => 'absent' , 'source' => 'puppet:///modules/tp/spec' } }
-            it { is_expected.to contain_file("/etc/tp/test/#{app}").with('ensure' => 'absent') }
+            it { is_expected.to contain_file("/etc/tp/info/#{app}").with('ensure' => 'absent') }
           end
         end
       end

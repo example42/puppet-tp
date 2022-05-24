@@ -29,3 +29,4 @@ sendmail_path: "/usr/sbin/sendmail.postfix"
 newaliases_path: "/usr/bin/newaliases.postfix"
 mailq_path: "/usr/bin/mailq.postfix"
 init_file_path: "/etc/sysconfig/postfix"
+init_system: systemd
