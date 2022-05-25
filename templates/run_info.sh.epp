@@ -1,44 +1,20 @@
-<%- | Hash $options
+<%- |
+Hash $options,
 | -%>
 #!/bin/bash
-app=$1
+app=${1:-'no'}
+infoblock=${2:-'all'}
 
 # Source helper functions
-. <%= $tp::tp_dir %>/commons
+. <%= $tp::tp_dir %>/lib/functions.sh
 
-### Commands executed on info
-config_dir_path=$(grep 'config_dir_path' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${config_dir_path}" != '' ]; then
-  echo_title "${HOSTNAME} - ${app}: Configurations directory: ${config_dir_path}"
-  show_command "ls -latr ${config_dir_path}"
-fi
+# Set tinydata as vars
+eval $(parse_yaml "/etc/tp/app/${app}" "")
 
-config_file_path=$(grep 'config_file_path' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${config_file_path}" != '' ]; then
-  echo_title "$HOSTNAME - $app: Main configuration file content (first 100 lines): ${config_file_path}"
-  show_command "cat ${config_file_path} | grep -v \"^#\" | grep -v \"^$\" "
-fi
-
-data_dir_path=$(grep 'data_dir_path' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${data_dir_path}" != '' ]; then
-  echo_title "$HOSTNAME - $app: Application data is in: ${data_dir_path}"
-  show_command "ls -latr ${data_dir_path} "
-fi
-
-log_dir_path=$(grep 'log_dir_path' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${log_dir_path}" != '' ]; then
-  echo_title "$HOSTNAME - $app: Application logs are in: ${log_dir_path}"
-  show_command "ls -latr ${log_dir_path} "
-fi
-
-process_name=$(grep 'process_name' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${process_name}" != '' ]; then
-  echo_title "$HOSTNAME - $app: Running rocesses: ${process_name}"
-  show_command "ps -adef | grep ${process_name} | grep -v grep"
-fi
-
-package_name=$(grep 'package_name' "/etc/tp/app/${app}" | cut -d ':' -f 2 )
-if [ "${package_name}" != '' ]; then
-  echo_title "$HOSTNAME - $app: Package info for: ${package_name}"
-  show_command "<%= $options['info_package_command'] %> ${package_name}"
+if [ "$infoblock" != 'all' ]; then
+    . "<%= $tp::tp_dir %>/info/${infoblock}"
+else
+    for f in $(ls -1 <%= $tp::tp_dir %>/info/) ; do
+        . "<%= $tp::tp_dir %>/info/${f}"
+    done
 fi

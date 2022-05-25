@@ -18,13 +18,16 @@ class tp (
   String $check_package_command      = 'puppet resource package',
   String $check_repo_path            = '',
   String $check_repo_path_post       = '',
-  String $info_package_command      = 'rpm -qi',
+  String $info_package_command       = 'rpm -qi',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
   Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
 
+  String $lib_source                 = 'puppet:///modules/tp/lib/',
+
+  Boolean $info_enable                   = true,
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
   String $info_script_template           = 'tp/run_info.sh.epp',
-  String $bash_commons_source        = 'puppet:///modules/tp/commons',
+  String $info_source                    = 'puppet:///modules/tp/info/',
 
   Hash $options_hash                 = {},
 
@@ -79,7 +82,7 @@ class tp (
   $options = $options_defaults + $options_hash
 
   if $cli_enable {
-    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test" , "${tp_dir}/info"]:
+    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
       ensure  => directory,
       mode    => $tp_mode,
       owner   => $tp_owner,
@@ -96,22 +99,6 @@ class tp (
       mode    => $tp_mode,
       content => template('tp/tp.erb'),
     }
-    file { 'tp info common libraries':
-      ensure => present,
-      path   => "${tp_dir}/commons",
-      owner  => $tp_owner,
-      group  => $tp_group,
-      mode   => $tp_mode,
-      source => $bash_commons_source,
-    }
-    file { $info_script_path:
-      ensure  => present,
-      path    => $info_script_path,
-      owner   => $tp_owner,
-      group   => $tp_group,
-      mode    => $tp_mode,
-      content => epp($info_script_template, { 'options' => $options }),
-    }
     if $facts['os']['family'] == 'windows' {
       file { "${tp_path}.bat":
         ensure  => present,
@@ -119,6 +106,39 @@ class tp (
         group   => $tp_group,
         mode    => $tp_mode,
         content => template('tp/tp.bat.erb'),
+      }
+    }
+
+    if $info_enable {
+      file { 'tp common libraries':
+        ensure  => directory,
+        path    => "${tp_dir}/lib",
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        source  => $lib_source,
+        recurse => true,
+      }
+      file { 'info scripts':
+        ensure  => directory,
+        path    => "${tp_dir}/info",
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        source  => $info_source,
+        recurse => true,
+      }
+      tp::info { 'package_info':
+        epp          => 'tp/info/package_info.epp',
+        options_hash => $options,
+      }
+      file { $info_script_path:
+        ensure  => present,
+        path    => $info_script_path,
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        content => epp($info_script_template, { 'options' => $options }),
       }
     }
   }

@@ -5,6 +5,10 @@
     "app": {
       "description": "The application to info about",
       "type": "Optional[String[1]]"
+    },
+    "block": {
+      "description": "The info block to show (if empty all info blocks are shown)",
+      "type": "Optional[String[1]]"
     }
   }
 }

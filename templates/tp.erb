@@ -3,6 +3,7 @@
 require 'yaml'
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
+extra = ARGV[2] ? ARGV[2] : ''
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
@@ -119,12 +120,12 @@ def tp_test(app)
   end
 end
 
-def tp_info(app)
+def tp_info(app,infoblock)
   begin
     settings = check_yaml app
 
     # Run custom test script if exists
-    if File.exists?(TP_INFO_DIR + "/#{app}")
+    if File.exists?(TP_INFO_DIR + "bla/#{app}")
       system(TP_INFO_DIR + "/#{app}")
       result = $?
       if result == 0
@@ -135,12 +136,18 @@ def tp_info(app)
       $error_exit = 1 if result != 0
     end
     
-    system("<%= @options['info_script_path'] %> " + app)
-    result = $?
-    if result == 0
-    puts "- \e[34m#{app}\e[0m: Info \e[32m#{app} OK \e[0m\n"
+    if infoblock != ''
+      system("<%= @options['info_script_path'] %> " + app + ' ' + infoblock)
+      result = $?
     else
-      puts "- \e[34m#{app}\e[0m: Info \e[31m#{app} ERROR \e[0m\n"
+      system("<%= @options['info_script_path'] %> " + app)
+      result = $?
+    end
+
+    if result == 0
+      puts "- \e[34m#{app}\e[0m: Info OK \e[0m\n"
+    else
+      puts "- \e[34m#{app}\e[0m: Info ERROR \e[0m\n"
     end
 
   rescue
@@ -217,14 +224,14 @@ when 'info'
   $error_exit=0
   if app == 'all'
     TP_APPS.each do |a|
-      a.send("tp_info", a)
+      a.send("tp_info", a, extra)
     end
     OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
     OTHER_INFOS.each do |a|
-      a.send("tp_info", a)
+      a.send("tp_info", a, extra)
     end
   else
-    app.send("tp_info", app)
+    app.send("tp_info", app, extra)
   end
   if $error_exit == 0
     puts "\n\e[32mAll outputs OK\e[0m\n"

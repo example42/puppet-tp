@@ -1,0 +1,4 @@
+if [ "${config_file_path}" != '' ]; then
+  echo_title "$HOSTNAME - $app - config_file_content: ${config_file_path}"
+  show_command "cat ${config_file_path} | grep -v \"^#\" | grep -v \"^$\" "
+fi

@@ -1,0 +1,4 @@
+if [ "${package_name}" != '' ]; then
+  echo_title "$HOSTNAME - $app - package_info: ${package_name}"
+  show_command "<%= $options['info_package_command'] %> ${package_name}"
+fi

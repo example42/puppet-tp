@@ -1,0 +1,4 @@
+if [ "${config_dir_path}" != '' ]; then
+  echo_title "${HOSTNAME} - ${app} - config_dir_ls: ${config_dir_path}"
+  show_command "ls -latr ${config_dir_path}"
+fi

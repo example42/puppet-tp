@@ -1,5 +1,5 @@
 #!/bin/bash
-# General Puppi functions
+# General shell functions
 
 BOOTUP=color
 RES_COL=75
@@ -115,16 +115,6 @@ handle_result () {
             echo
         fi
 
-        # Output to file
-        if [ ! -d $logdir/$project/$tag ] ; then
-            mkdir -p $logdir/$project/$tag
-        fi
-        let counter=counter+1
-        echo $title > $logdir/$project/$tag/$counter-$command
-        echo $code >> $logdir/$project/$tag/$counter-$command
-        echo $result >> $logdir/$project/$tag/$counter-$command
-        echo $output >> $logdir/$project/$tag/$counter-$command
-
 }
 
 
@@ -140,49 +130,7 @@ xml_parse () {
             -e 's/^<.*>\([^<].*\)<.*>$/\1/'
 }
 
-# Stores the passed arguments in Project runtime config file
-# Only if the parameter is not already defined
-# Usage:
-# save_runtime_config parameter=value # Sets or overrides parameter
-# save_runtime_config parameter=value notforce # Sets parameters only if is not already set
-save_runtime_config () {
-    parameter=$(echo $1 | cut -d '=' -f1)
-    value=$(echo $1 | cut -d '=' -f2-)
-    force=$2
-
-    if [[ ! $(grep $parameter $workdir/$project/config) ]] ; then
-        echo  >> $workdir/$project/config
-        echo "# Added by $0" >> $workdir/$project/config
-        echo "$parameter=\"$value\"" >> $workdir/$project/config
-    else
-#        sed -i "/^$parameter=/d" $workdir/$project/config # No real need to remove lines with old configs
-        if [[ x$force == xnotforce ]] ; then
-            echo  >> $workdir/$project/config
-            echo "# CHANGE NOT FORCED by $0" >> $workdir/$project/config
-            echo "# $parameter=\"$value\"" >> $workdir/$project/config
-        else
-            echo  >> $workdir/$project/config
-            echo "# CHANGED by $0" >> $workdir/$project/config
-            echo "$parameter=\"$value\"" >> $workdir/$project/config
-       fi
-    fi
-    
-}
-
-# Adds a runtime comment to Project runtime config file
-save_runtime_comment () {
-    echo  >> $workdir/$project/config
-    echo "# Added by $0" >> $workdir/$project/config
-    echo "  ## $1" >> $workdir/$project/config
-}
-
-
-# Stores the passed arguments in Project runtime config file
-# Forces parameter overwrite if already defined
-overwrite_runtime_config () {
-    echo "$1" >> $workdir/$project/config
-}
-
+# Prompt for next step
 ask_interactive () {
     if [ x$show == "xyes" ] ; then
         echo -n $title
@@ -205,13 +153,6 @@ show_command () {
    $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL
 
    bash -c "$*"
-
-# Grep filter at show_command level
-#   if [ ! -z "$greppattern" ] ; then
-#       bash -c "$*" | grep $greppattern
-#   else
-#       bash -c "$*"
-#   fi
 }
 
 # Filtering out only:  $ ; ` | < >
@@ -219,11 +160,24 @@ shell_filter () {
     echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'
 }
 
-shell_filter_strict () {
 # Filtering out:  $ ; ` | < > = ! { } [ ] / \ # &
+shell_filter_strict () {
     echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'  | sed 's/=//g' | sed 's/!//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\///g' | sed 's/\\//g' | sed 's/#//g' | sed 's/&//g'
-
-# Filtering out: all but accepted chars
-#     echo $1 | sed "s/[^a-Z0-9_\-]//Ig"
 }
 
+# Yaml parse. From: https://gist.github.com/pkuczynski/8665367
+parse_yaml() {
+   local prefix=$2
+   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+   sed -ne "s|^\($s\)\($w\)$s:$s\"\(.*\)\"$s\$|\1$fs\2$fs\3|p" \
+        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+   awk -F$fs '{
+      indent = length($1)/2;
+      vname[indent] = $2;
+      for (i in vname) {if (i > indent) {delete vname[i]}}
+      if (length($3) > 0) {
+         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+      }
+   }'
+}
