@@ -3,11 +3,12 @@
 require 'yaml'
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
-extra = ARGV[2] ? ARGV[2] : ''
+infoblock = ARGV[2] ? ARGV[2] : ''
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
 TP_INFO_DIR = '<%= @tp_dir %>/info'
+TP_RUN_INFO_DIR = '<%= @tp_dir %>/run_info'
 
 TINYDATA_DIRS = [
   "/#{ENV['HOME']}/.puppetlabs/etc/code/modules/tinydata/data",
@@ -124,18 +125,19 @@ def tp_info(app,infoblock)
   begin
     settings = check_yaml app
 
-    # Run custom test script if exists
-    if File.exists?(TP_INFO_DIR + "bla/#{app}")
+    # Run custom test script if exists under /etc/tp/info/
+    if File.exists?(TP_INFO_DIR + "/#{app}")
       system(TP_INFO_DIR + "/#{app}")
       result = $?
       if result == 0
-        puts "- \e[34m#{app}\e[0m: Output \e[32m#{TP_INFO_DIR}/#{app} OK \e[0m\n"
+        puts "- \e[34m#{app}\e[0m: Custom \e[32m#{TP_INFO_DIR}/#{app} OK \e[0m\n"
       else
-        puts "- \e[34m#{app}\e[0m: Output \e[31m#{TP_INFO_DIR}/#{app} ERROR \e[0m\n"
+        puts "- \e[34m#{app}\e[0m: Custom \e[31m#{TP_INFO_DIR}/#{app} ERROR \e[0m\n"
       end
       $error_exit = 1 if result != 0
     end
     
+    # Run default checks via /etc/tp/run_info.sh
     if infoblock != ''
       system("<%= @options['info_script_path'] %> " + app + ' ' + infoblock)
       result = $?
@@ -145,9 +147,29 @@ def tp_info(app,infoblock)
     end
 
     if result == 0
-      puts "- \e[34m#{app}\e[0m: Info OK \e[0m\n"
+      puts "### \e[34m#{app}\e[0m info OK \e[0m\n"
     else
-      puts "- \e[34m#{app}\e[0m: Info ERROR \e[0m\n"
+      puts "### \e[34m#{app}\e[0m info ERROR \e[0m\n"
+      $error_exit = 1
+    end
+
+    # Extra tinydata commands
+    if settings['info_commands']
+        settings['info_commands'].each do |k,v|
+          if infoblock != '' and infoblock.to_s == k.to_s
+            system(settings['info_commands'][k])
+            result = $?
+          else
+            system(settings['info_commands'][k][v])
+            result = $?
+          end
+          if result == 0
+            puts "\n\n### \e[34m#{app}\e[0m extra info OK \e[0m\n"
+          else
+            puts "\n\n### \e[34m#{app}\e[0m extra info ERROR \e[0m\n"
+            $error_exit = 1
+          end
+        end
     end
 
   rescue
@@ -224,19 +246,19 @@ when 'info'
   $error_exit=0
   if app == 'all'
     TP_APPS.each do |a|
-      a.send("tp_info", a, extra)
+      a.send("tp_info", a, infoblock)
     end
     OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
     OTHER_INFOS.each do |a|
-      a.send("tp_info", a, extra)
+      a.send("tp_info", a, infoblock)
     end
   else
-    app.send("tp_info", app, extra)
+    app.send("tp_info", app, infoblock)
   end
   if $error_exit == 0
-    puts "\n\e[32mAll outputs OK\e[0m\n"
+    puts "\n\e[32mAll info OK\e[0m\n"
   else
-    puts "\n\e[31mSome outputs FAILED\e[0m\n"
+    puts "\n\e[31mSome info FAILED\e[0m\n"
   end
   exit($error_exit)
 

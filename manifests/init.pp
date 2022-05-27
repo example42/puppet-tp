@@ -18,7 +18,7 @@ class tp (
   String $check_package_command      = 'puppet resource package',
   String $check_repo_path            = '',
   String $check_repo_path_post       = '',
-  String $info_package_command       = 'rpm -qi',
+  String $info_package_command       = 'puppet resource package',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
   Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
 
@@ -27,7 +27,7 @@ class tp (
   Boolean $info_enable                   = true,
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
   String $info_script_template           = 'tp/run_info.sh.epp',
-  String $info_source                    = 'puppet:///modules/tp/info/',
+  String $info_source                    = 'puppet:///modules/tp/run_info/',
 
   Hash $options_hash                 = {},
 
@@ -121,7 +121,7 @@ class tp (
       }
       file { 'info scripts':
         ensure  => directory,
-        path    => "${tp_dir}/info",
+        path    => "${tp_dir}/run_info",
         owner   => $tp_owner,
         group   => $tp_group,
         mode    => $tp_mode,
@@ -129,7 +129,8 @@ class tp (
         recurse => true,
       }
       tp::info { 'package_info':
-        epp          => 'tp/info/package_info.epp',
+        path         => "${tp_dir}/run_info/package_info",
+        epp          => 'tp/run_info/package_info.epp',
         options_hash => $options,
       }
       file { $info_script_path:

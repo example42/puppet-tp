@@ -8,6 +8,7 @@
   tp::check_package_command: 'puppet resource package'
   tp::check_repo_path: 'echo "Check repo not supported on this OS"'
   tp::check_repo_path_post: ''
+  tp::info_package_command': 'puppet resource package'
   tp::tp_dir: '/etc/tp'
   tp::ruby_path: '/opt/puppetlabs/puppet/bin/ruby'
   tp::options_hash: {}

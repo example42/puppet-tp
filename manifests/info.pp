@@ -6,7 +6,7 @@
 define tp::info (
 
   Variant[Boolean,String] $ensure              = present,
-
+  Variant[Undef,String]   $path                = undef,
   Variant[Undef,String,Array] $source          = undef,
   Variant[Undef,String,Array] $template        = undef,
   Variant[Undef,String]   $epp                 = undef,
@@ -63,9 +63,13 @@ define tp::info (
 
   $sane_title = regsubst($title, '/', '_', 'G')
 
+  $real_path = $path ? {
+    undef   => "${base_dir}/${sane_title}",
+    default => $path,
+  }
   if $file_content
   or $source {
-    file { "${base_dir}/${sane_title}":
+    file { $real_path:
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',

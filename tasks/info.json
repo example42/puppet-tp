@@ -4,7 +4,8 @@
   "parameters": {
     "app": {
       "description": "The application to info about",
-      "type": "Optional[String[1]]"
+      "type": "Optional[String[1]]",
+      "default": "all"
     },
     "block": {
       "description": "The info block to show (if empty all info blocks are shown)",

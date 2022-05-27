@@ -84,4 +84,7 @@ type Tp::Settings = Struct[{
 
     Optional[git_source] => String,
     Optional[git_destination] => String,
+
+    Optional[info_commands] => Hash,
+
 }]
