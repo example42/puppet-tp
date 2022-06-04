@@ -119,6 +119,13 @@ class tp (
         source  => $lib_source,
         recurse => true,
       }
+      file { 'info dir':
+        ensure => directory,
+        path   => "${tp_dir}/info",
+        owner  => $tp_owner,
+        group  => $tp_group,
+        mode   => $tp_mode,
+      }
       file { 'info scripts':
         ensure  => directory,
         path    => "${tp_dir}/run_info",

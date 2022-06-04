@@ -1,9 +1,12 @@
 #!<%= @ruby_path %>
 
 require 'yaml'
+
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
-infoblock = ARGV[2] ? ARGV[2] : ''
+infoblock = ARGV[2] ? ARGV[2] : 'all'
+NODENAME = %x{hostname}.gsub("\n",'')
+#NODENAME = "pippo"
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
@@ -27,18 +30,18 @@ trap("INT") { puts 'Exiting...'; exit }
 
 def usage
   print <<EOF
+Usage: tp <action> [app] [args]
 
-Usage: tp <action> [app]
+Available actions (some may have extra args):
 
-Available actions:
-install: Install the given app with tp (relevant tinydata must be available)
+install: Install the given application with tp
 uninstall: Uninstall the given application with tp
 test: Test if the given (or all) application is correctly working
 log: Tail the logs of the given (or all) application (CTRL+C to exit)
-list: List ALL the applications installable with tp
-info: Show info on a given application
+list: List all the applications for which tinydata is present
+info: Show all info on a given application or the topic specified by args 
 
-Applications installed via tp (available for tp test and log actions):
+Current applications installed via tp (you can use tp test, info and log with them):
 EOF
 puts TP_APPS
 end
@@ -51,68 +54,65 @@ def check_yaml(app)
   end
 end
 
+def echo_ok(text)
+  puts "\e[32m#{text} OK\e[0m\n"
+end
+def echo_fail(text)
+  puts("\e[31m#{text} FAIL\e[0m\n")
+end
+def echo_title(text)
+  puts "\n\e[34m#{text}\e[0m\n"
+end
+def echo_command(text)
+  puts "\n\e[35m#{text}\e[0m\n"
+end
+
+def run_command(command,output)
+  system(command)
+  result = $?
+  if result == 0
+    echo_ok(output)
+  else
+    echo_fail(output)
+    $error_exit = 1
+  end
+end
+
 def tp_test(app)
   begin
     settings = check_yaml app
 
     # Run custom test script if exists
     if File.exists?(TP_TEST_DIR + "/#{app}")
-      system(TP_TEST_DIR + "/#{app}" + COMMAND_REDIR)
-      result = $?
-      if result == 0
-        puts "- \e[34m#{app}\e[0m: Test \e[32m#{TP_TEST_DIR}/#{app} OK \e[0m\n"
-      else
-        puts "- \e[34m#{app}\e[0m: Test \e[31m#{TP_TEST_DIR}/#{app} ERROR \e[0m\n"
-      end
-      $error_exit = 1 if result != 0
+      run_command("#{TP_TEST_DIR}/#{app} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - custom: #{TP_TEST_DIR}/#{app}")
     end
 
     # Check repo if defined
     if settings['repo_package_url'] or settings['repo_url'] or settings['yum_mirrorlist'] or settings['repo_file_url']
       repo_filename = settings['repo_filename'] ? settings['repo_filename'] : app
       repo_path = "<%= @options['check_repo_path'] %>#{repo_filename}<%= @options['check_repo_path_post'] %>"
-      system("test -f #{repo_path}")
-      result = $?
-      if result == 0
-        puts "- \e[34m#{app}\e[0m: Repo \e[32m#{repo_path} OK \e[0m\n"
-      else
-        puts "- \e[34m#{app}\e[0m: Repo for #{app} available but not installed\n"
-      end
+      run_command("test -f #{repo_path}" , "#{NODENAME} - #{app} - repo: #{repo_path}")
     end
 
     # Check package if defined
     if settings['package_name'] and settings['package_name'] != ""
       Array(settings['package_name']).each do |s|
         if settings['package_provider'] == 'gem'
-          system("gem list | grep  " + s + " " + COMMAND_REDIR)
+          run_command("gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         elsif settings['package_provider'] == 'puppet_gem'
-          system("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR)
+          run_command("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         elsif settings['package_provider'] == 'pip'
-          system("pip list | grep  " + s + " " + COMMAND_REDIR)
+          run_command("pip list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         else
-          system("<%= @options['check_package_command'] %> " + s + " " + COMMAND_REDIR)
+          run_command("<%= @options['check_package_command'] %> #{s} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
         end
-        result = $?
-        if result == 0
-        puts "- \e[34m#{app}\e[0m: Package \e[32m#{s} OK \e[0m\n"
-        else
-          puts "- \e[34m#{app}\e[0m: Package \e[31m#{s} ERROR \e[0m\n"
-        end
-        $error_exit = 1 if result != 0
       end
     end
 
     # Check service if defined
     if settings['service_name'] and settings['service_name'] != ""
       Array(settings['service_name']).each do |s|
-        system("<%= @options['check_service_command'] %> " + s + " <%= @options['check_service_command_post'] %>" + COMMAND_REDIR)
-        result = $?
-        if result == 0
-          puts "- \e[34m#{app}\e[0m: Service \e[32m#{s} OK \e[0m\n"
-        else
-          puts "- \e[34m#{app}\e[0m: Service \e[31m#{s} ERROR \e[0m\n"
-        end
-        $error_exit = 1 if result != 0
+        run_command("<%= @options['check_service_command'] %> #{s} <%= @options['check_service_command_post'] %> #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
       end
     end
 
@@ -121,55 +121,33 @@ def tp_test(app)
   end
 end
 
-def tp_info(app,infoblock)
+def tp_info(app,infoblock='all')
   begin
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/info/
     if File.exists?(TP_INFO_DIR + "/#{app}")
-      system(TP_INFO_DIR + "/#{app}")
-      result = $?
-      if result == 0
-        puts "- \e[34m#{app}\e[0m: Custom \e[32m#{TP_INFO_DIR}/#{app} OK \e[0m\n"
-      else
-        puts "- \e[34m#{app}\e[0m: Custom \e[31m#{TP_INFO_DIR}/#{app} ERROR \e[0m\n"
-      end
-      $error_exit = 1 if result != 0
+      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
     end
     
     # Run default checks via /etc/tp/run_info.sh
-    if infoblock != ''
-      system("<%= @options['info_script_path'] %> " + app + ' ' + infoblock)
-      result = $?
+    if infoblock != 'all'
+      run_command("<%= @options['info_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
     else
-      system("<%= @options['info_script_path'] %> " + app)
-      result = $?
-    end
-
-    if result == 0
-      puts "### \e[34m#{app}\e[0m info OK \e[0m\n"
-    else
-      puts "### \e[34m#{app}\e[0m info ERROR \e[0m\n"
-      $error_exit = 1
+      run_command("<%= @options['info_script_path'] %> " + app , "#{NODENAME} - #{app} - info")
     end
 
     # Extra tinydata commands
     if settings['info_commands']
-        settings['info_commands'].each do |k,v|
-          if infoblock != '' and infoblock.to_s == k.to_s
-            system(settings['info_commands'][k])
-            result = $?
-          else
-            system(settings['info_commands'][k][v])
-            result = $?
+      settings['info_commands'].each do |k,v|
+        if infoblock != 'all'
+          if infoblock.to_s == k.to_s
+            run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
           end
-          if result == 0
-            puts "\n\n### \e[34m#{app}\e[0m extra info OK \e[0m\n"
-          else
-            puts "\n\n### \e[34m#{app}\e[0m extra info ERROR \e[0m\n"
-            $error_exit = 1
-          end
+        else
+          run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
         end
+      end
     end
 
   rescue

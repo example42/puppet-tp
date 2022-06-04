@@ -68,7 +68,6 @@ echo_warning() {
 
 echo_title () {
   echo
-  echo
   [ "$BOOTUP" = "color" ] && $SETCOLOR_TITLE
   echo "$1"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
@@ -149,7 +148,6 @@ ask_interactive () {
 
 # Shows or executes a command
 show_command () {
-   echo
    $SETCOLOR_BOLD ; echo "$HOSTNAME: $*" ; $SETCOLOR_NORMAL
 
    bash -c "$*"

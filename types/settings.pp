@@ -71,6 +71,7 @@ type Tp::Settings = Struct[{
     Optional[key] => String,
     Optional[key_url] => String,
     Optional[include_src] => String,
+    Optional[yumrepo_params] => Hash,
 
     Optional[apt_repos] => String,
     Optional[apt_key_server] => String,
@@ -86,5 +87,5 @@ type Tp::Settings = Struct[{
     Optional[git_destination] => String,
 
     Optional[info_commands] => Hash,
-
+    Optional[run_commands] => Hash,
 }]
