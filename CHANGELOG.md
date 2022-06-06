@@ -4,6 +4,9 @@
 
 -   Added tp info define, task and cli command
 -   Added init_system setting
+-   tp test output change
+-   Added info_commands setting
+-   Added yumrepo_params setting
 
 ## 3.3.0
 

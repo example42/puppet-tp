@@ -112,7 +112,7 @@ def tp_test(app)
     # Check service if defined
     if settings['service_name'] and settings['service_name'] != ""
       Array(settings['service_name']).each do |s|
-        run_command("<%= @options['check_service_command'] %> #{s} <%= @options['check_service_command_post'] %> #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
+        run_command("<%= @options['check_service_command'] %> #{s} <%= @options['check_service_command_post'] %> #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - service: #{s}")
       end
     end
 

@@ -163,7 +163,7 @@ define tp::repo (
             gpgkey     => $settings[key_url],
             priority   => $settings[yum_priority],
             mirrorlist => $settings[yum_mirrorlist],
-            *          => $settings[yumrepo_settings],
+            *          => pick($settings[yumrepo_params],{}),
           }
         }
       }
