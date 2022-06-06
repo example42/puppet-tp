@@ -25,3 +25,4 @@ process_name: rsyslogd
 process_user: root
 process_group: root
 repo_package_provider: rpm
+init_system: systemd

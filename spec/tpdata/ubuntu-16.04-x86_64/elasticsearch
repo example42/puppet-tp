@@ -29,3 +29,4 @@ init_file_path: "/etc/default/elasticsearch"
 repo_package_provider: dpkg
 tp_prerequisites:
   elastic_repo: {}
+init_system: systemd

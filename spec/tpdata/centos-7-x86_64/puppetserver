@@ -32,4 +32,5 @@ log_file_path:
 - "/var/log/puppetlabs/puppetserver/file-sync-access.log"
 repo_package_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 repo_package_provider: rpm
+init_system: systemd
 

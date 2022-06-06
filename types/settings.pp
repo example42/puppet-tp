@@ -37,6 +37,7 @@ type Tp::Settings = Struct[{
     Optional[pid_file_path] => Stdlib::Absolutepath,
     Optional[init_file_path] => Stdlib::Absolutepath,
     Optional[init_file_template] => String,
+    Optional[init_system] => String,
 
     Optional[conf_dir_path] => Stdlib::Absolutepath,
     Optional[data_dir_path] => Stdlib::Absolutepath,
@@ -70,6 +71,7 @@ type Tp::Settings = Struct[{
     Optional[key] => String,
     Optional[key_url] => String,
     Optional[include_src] => String,
+    Optional[yumrepo_params] => Hash,
 
     Optional[apt_repos] => String,
     Optional[apt_key_server] => String,
@@ -83,4 +85,7 @@ type Tp::Settings = Struct[{
 
     Optional[git_source] => String,
     Optional[git_destination] => String,
+
+    Optional[info_commands] => Hash,
+    Optional[run_commands] => Hash,
 }]

@@ -236,28 +236,56 @@ define tp::install (
 
   # Automatic dependencies management, if data defined
   if $auto_prereq and $settings[package_prerequisites] and $ensure != 'absent' {
-    $settings[package_prerequisites].each | $p | {
-      Package[$p] -> Package[$settings[package_name]]
-      ensure_packages($p)
+    case $settings[package_prerequisites] {
+      Array: {
+        $settings[package_prerequisites].each | $p | {
+          if $settings[package_name] {
+            Package[$p] -> Package[$settings[package_name]]
+          }
+          ensure_packages($p)
+        }
+      }
+      Hash: {
+        $settings[package_prerequisites].each | $p,$v | {
+          if $settings[package_name] {
+            Package[$p] -> Package[$settings[package_name]]
+          }
+          ensure_packages($p, $v)
+        }
+      }
+      String: {
+        if $settings[package_name] {
+          Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
+        }
+        package { "${settings[package_prerequisites]}": }
+        # ensure_packages("${settings[package_prerequisites]}")
+      }
+      default: {}
     }
   }
   if $auto_prereq and $settings[tp_prerequisites] and $ensure != 'absent' {
     case $settings[tp_prerequisites] {
       Array: {
         $settings[tp_prerequisites].each | $p | {
-          Tp::Install[$p] -> Package[$settings[package_name]]
+          if $settings[package_name] {
+            Tp::Install[$p] -> Package[$settings[package_name]]
+          }
           tp_install($p, { auto_prereq => true })
         }
       }
       Hash: {
         $settings[tp_prerequisites].each | $p,$v | {
-          Tp::Install[$p] -> Package[$settings[package_name]]
+          if $settings[package_name] {
+            Tp::Install[$p] -> Package[$settings[package_name]]
+          }
           $tp_install_params = { auto_prereq => true } + $v
           tp_install($p, $tp_install_params)
         }
       }
       String: {
-        Tp::Install[$settings[tp_prerequisites]] -> Package[$settings[package_name]]
+        if $settings[package_name] {
+          Tp::Install[$settings[tp_prerequisites]] -> Package[$settings[package_name]]
+        }
         tp_install($settings[tp_prerequisites], { auto_prereq => true })
       }
       default: {}

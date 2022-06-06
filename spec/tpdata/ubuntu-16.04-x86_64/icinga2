@@ -27,3 +27,4 @@ process_user: icinga
 process_group: icinga
 init_file_path: "/etc/default/icinga2"
 repo_package_provider: dpkg
+init_system: systemd

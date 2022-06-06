@@ -46,17 +46,17 @@ define tp::repo (
   $ensure      = bool2ensure($enabled)
   $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
   $user_settings = {
-    repo_url            => $repo_url,
-    key_url             => $key_url,
-    key                 => $key,
-    include_src         => $include_src,
-    apt_key_server      => $apt_key_server,
+    repo_url           => $repo_url,
+    key_url            => $key_url,
+    key                => $key,
+    include_src        => $include_src,
+    apt_key_server     => $apt_key_server,
     apt_key_fingerprint => $apt_key_fingerprint,
-    apt_release         => $apt_release,
-    apt_repos           => $apt_repos,
-    apt_pin             => $apt_pin,
-    yum_priority        => $yum_priority,
-    yum_mirrorlist      => $yum_mirrorlist,
+    apt_release        => $apt_release,
+    apt_repos          => $apt_repos,
+    apt_pin            => $apt_pin,
+    yum_priority       => $yum_priority,
+    yum_mirrorlist     => $yum_mirrorlist,
     zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
@@ -163,6 +163,7 @@ define tp::repo (
             gpgkey     => $settings[key_url],
             priority   => $settings[yum_priority],
             mirrorlist => $settings[yum_mirrorlist],
+            *          => pick($settings[yumrepo_params],{}),
           }
         }
       }
@@ -193,13 +194,30 @@ define tp::repo (
         if !defined(Exec["tp_aptkey_add_${settings[key]}"])
         and !empty($settings[key])
         and !empty($settings[key_url]) {
-          exec { "tp_aptkey_add_${settings[key]}":
-            command     => "wget -O - ${settings[key_url]} | apt-key add -",
-            unless      => "apt-key list | grep -q \"${settings[key]}\"",
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before      => File["${aptrepo_title}.list"],
-            user        => 'root',
-            environment => $exec_environment,
+          case $settings[key_url] {
+            Array: {
+              $settings[key_url].each | $k | {
+                exec { "tp_aptkey_add_${settings[key]}_${k}":
+                  command     => "wget -O - ${k} | apt-key add -",
+                  unless      => "apt-key list | grep -q \"${settings[key]}\"",
+                  path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+                  before      => File["${aptrepo_title}.list"],
+                  user        => 'root',
+                  environment => $exec_environment,
+                }
+              }
+            }
+            String: {
+              exec { "tp_aptkey_add_${settings[key]}":
+                command     => "wget -O - ${settings[key_url]} | apt-key add -",
+                unless      => "apt-key list | grep -q \"${settings[key]}\"",
+                path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+                before      => File["${aptrepo_title}.list"],
+                user        => 'root',
+                environment => $exec_environment,
+              }
+            }
+            default: {}
           }
         }
 
@@ -219,7 +237,7 @@ define tp::repo (
       }
       default: {
         notify { "No repo for ${title}":
-          message => "No dedicated repo available for ${facts['os']['osfamily']}",
+          message => "No dedicated repo available for ${facts['os']['family']}",
         }
       }
     }

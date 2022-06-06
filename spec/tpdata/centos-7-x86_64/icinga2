@@ -31,3 +31,4 @@ repo_package_name: icinga-rpm-release
 repo_package_url: https://packages.icinga.com/epel/7/release/noarch/icinga-rpm-release-7-1.el7.centos.noarch.rpm
 tp_prerequisites:
   - epel
+init_system: systemd

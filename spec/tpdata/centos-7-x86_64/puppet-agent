@@ -34,3 +34,4 @@ repo_package_name: puppetlabs-release-pc1
 repo_package_provider: rpm
 dockerfile_prerequisites: RUN yum install -y wget which
 repo_package_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+init_system: systemd
