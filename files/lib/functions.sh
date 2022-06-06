@@ -81,70 +81,6 @@ check_retcode () {
     fi
 }
 
-handle_result () {
-        RETVAL=$?
-        if [ "$RETVAL" = "0" ] ; then
-            showresult="echo_success"
-            result="OK"
-        fi
-        if [ "$RETVAL" = "1" ] ; then
-            showresult="echo_warning"
-            EXITWARN="1"
-            result="WARNING"
-        fi
-        if [ "$RETVAL" = "2" ] ; then
-            showresult="echo_failure"
-            EXITCRIT="1"
-            result="CRITICAL"
-        fi
-        if [ "$RETVAL" = "99" ] ; then
-            showresult="echo_dontdeploy"
-            DONTDEPLOY="1"
-            result="OK"
-        fi
-        if [ x$show == "xyes" ] ; then
-            $showresult
-            echo
-            echo -e "$output"
-            echo
-        elif [ x$show == "xfail" ] && [ x$RETVAL != "x0" ] ; then
-            $showresult
-            echo
-            echo -e "$output"
-            echo
-        fi
-
-}
-
-
-# Function taken from http://www.threadstates.com/articles/parsing_xml_in_bash.html
-xml_parse () {
-    local tag=$1
-    local xml=$2
-
-    # Find tag in the xml, convert tabs to spaces, remove leading spaces, remove the tag.
-    grep $tag $xml | \
-        tr '\011' '\040' | \
-        sed -e 's/^[ ]*//' \
-            -e 's/^<.*>\([^<].*\)<.*>$/\1/'
-}
-
-# Prompt for next step
-ask_interactive () {
-    if [ x$show == "xyes" ] ; then
-        echo -n $title
-    fi
-
-    if [ "$interactive" = "yes" ] ; then
-        echo 
-        echo "INTERACTIVE MODE: Press 'x' to exit or just return to go on" 
-        read press
-        case $press in 
-            x) exit 2 ;;
-            *) return
-        esac
-    fi
-}
 
 # Shows or executes a command
 show_command () {
@@ -155,12 +91,12 @@ show_command () {
 
 # Filtering out only:  $ ; ` | < >
 shell_filter () {
-    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'
+    echo "$1" | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'
 }
 
 # Filtering out:  $ ; ` | < > = ! { } [ ] / \ # &
 shell_filter_strict () {
-    echo $1 | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'  | sed 's/=//g' | sed 's/!//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\///g' | sed 's/\\//g' | sed 's/#//g' | sed 's/&//g'
+    echo "$1" | sed 's/\$//g' | sed 's/;//g' | sed 's/`//g' | sed 's/|//g' | sed 's/<//g' | sed 's/>//g'  | sed 's/=//g' | sed 's/!//g' | sed 's/{//g' | sed 's/}//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\///g' | sed 's/\\//g' | sed 's/#//g' | sed 's/&//g'
 }
 
 # Yaml parse. 
@@ -169,7 +105,7 @@ function parse_yaml {
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
    sed -ne "s|^\($s\):|\1|" \
         -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
-        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  "$1" |
    awk -F$fs '{
       indent = length($1)/2;
       vname[indent] = $2;
