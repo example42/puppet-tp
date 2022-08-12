@@ -365,11 +365,13 @@ define tp::install (
 
   # Install straight from git source
   if $settings[git_source] {
-    tp::dir { $app:
-      ensure  => $ensure,
-      path    => pick ($settings[git_destination], "/opt/${app}"),
-      source  => $settings[git_source],
-      vcsrepo => 'git',
+    if ! $settings[package_name] or $settings[git_use] {
+      tp::dir { $app:
+        ensure  => $ensure,
+        path    => pick ($settings[git_destination], "/opt/${app}"),
+        source  => $settings[git_source],
+        vcsrepo => 'git',
+      }
     }
   }
 

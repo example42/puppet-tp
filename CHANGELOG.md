@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.5.0
+
+-   Added ability to install from git_source in tp::install
+-   Added git_use and git_source settings
+-   Added version_command setting and tp version subcommand
+
 ## 3.4.0
 
 -   Added tp info define, task and cli command

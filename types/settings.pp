@@ -1,6 +1,5 @@
 type Tp::Settings = Struct[{
     Optional[upstream_repo] => Boolean,
-    Optional[upstream_source] => Boolean,
 
     Optional[package_name] => Variant[String,Array],
     Optional[package_ensure] => String,
@@ -83,9 +82,11 @@ type Tp::Settings = Struct[{
     Optional[zypper_repofile_url] => String,
     Optional[brew_tap] => String,
 
+    Optional[git_use] => Boolean,
     Optional[git_source] => String,
     Optional[git_destination] => String,
 
     Optional[info_commands] => Hash,
     Optional[run_commands] => Hash,
+    Optional[version_command] => String,
 }]
