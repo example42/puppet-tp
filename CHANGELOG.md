@@ -3,8 +3,11 @@
 ## 3.5.0
 
 -   Added ability to install from git_source in tp::install
--   Added git_use and git_source settings
+-   Added git_use, git_destination and git_source settings
 -   Added version_command setting and tp version subcommand
+-   Added tp::version task
+-   Fixed tp install command auto_prereq
+
 
 ## 3.4.0
 

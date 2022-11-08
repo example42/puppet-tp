@@ -1,0 +1,11 @@
+{
+  "description": "Run tp version on the specified nodes",
+  "supports_noop": false,
+  "parameters": {
+    "app": {
+      "description": "The application to show version",
+      "type": "Optional[String[1]]",
+      "default": "all"
+    }
+  }
+}

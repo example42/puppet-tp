@@ -79,6 +79,12 @@ def run_command(command,output)
   end
 end
 
+def show_command(command,output)
+  puts output
+  system(command)
+  puts
+end
+
 def tp_test(app)
   begin
     settings = check_yaml app
@@ -159,16 +165,16 @@ end
 def tp_version(app)
   begin
     settings = check_yaml app
-    
-    # Version command from tinydata or default
-    if settings['version_command']
-      run_command(settings['version_command'], "#{NODENAME} - #{app} - #{settings['version_command']}")
-    else
-      run_command("#{app} --version" , "#{NODENAME} - #{app} - #{app} - #{app} --version")
+    if settings['package_name']
+      # Version command from tinydata or default
+      if settings['version_command']
+        show_command(settings['version_command'], "#{NODENAME} - #{app}: #{settings['version_command']}")
+      else
+        show_command("#{app} --version" , "#{NODENAME} - #{app}: #{app} --version")
+      end
     end
-
   rescue
-    raise ArgumentError.new("#{app} version got errors")
+    puts ''
   end
 end
 
@@ -226,7 +232,7 @@ when 'list'
 
 when 'install'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prerequisites => true , cli_enable => true }'")
+    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'")
   else
     puts "You can't install apps with tp wihout having the tp module locally installed"
   end
@@ -259,7 +265,6 @@ when 'info'
   exit($error_exit)
 
 when 'version'
-  $error_exit=0
   if app == 'all'
     TP_APPS.each do |a|
       a.send("tp_version", a)
@@ -267,12 +272,7 @@ when 'version'
   else
     app.send("tp_version", app)
   end
-  if $error_exit == 0
-    puts "\n\e[32mAll version OK\e[0m\n"
-  else
-    puts "\n\e[31mSome version FAILED\e[0m\n"
-  end
-  exit($error_exit)
+  exit
 
 else
   usage
