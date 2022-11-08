@@ -37,7 +37,8 @@
       "operatingsystemrelease": [
         "6",
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
@@ -53,22 +54,23 @@
       "operatingsystemrelease": [
         "6",
         "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
         "6",
-        "7",
-        "8"
+        "7"
       ]
     },
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "11 SP1",
-        "12"
+        "11 SP4",
+        "12 SP4",
+        "15 SP4"
       ]
     },
     {
@@ -86,7 +88,8 @@
         "7",
         "8",
         "9",
-        "10"
+        "10",
+        "11"
       ]
     },
     {
@@ -96,7 +99,8 @@
         "14.04",
         "16.04",
         "18.04",
-        "20.04"
+        "20.04",
+        "22.04"
       ]
     },
     {
@@ -117,15 +121,15 @@
   "optional_dependencies": [
     {
       "name": "puppetlabs/chocolatey",
-      "version_requirement": ">= 0.0.1 < 5.0.0"
+      "version_requirement": ">= 0.0.1 < 6.0.0"
     },
     {
       "name": "puppetlabs/vcsrepo",
-      "version_requirement": ">= 0.0.1 < 5.0.0"
+      "version_requirement": ">= 0.0.1 < 6.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 0.0.1 < 5.0.0"
+      "version_requirement": ">= 0.0.1 < 6.0.0"
     }
   ],
   "pdk-version": "2.4.0",
