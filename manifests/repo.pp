@@ -199,6 +199,7 @@ define tp::repo (
               $settings[key_url].each | $k | {
                 exec { "tp_aptkey_add_${settings[key]}_${k}":
                   command     => "wget -O - ${k} | apt-key add -",
+#                  command     => "wget -O - ${k} | apt-key add -",
                   unless      => "apt-key list | grep -q \"${settings[key]}\"",
                   path        => '/bin:/sbin:/usr/bin:/usr/sbin',
                   before      => File["${aptrepo_title}.list"],
