@@ -1,0 +1,13 @@
+<%- | Boolean $apt_safe_trusted_key = false, String $apt_key_path , Hash $settings = {} | -%>
+# File Managed by Tiny Puppet
+<%- if $apt_safe_trusted_key { -%>
+deb [signed-by=<%= $apt_key_path %>] <%= $settings['repo_url'] %> <%= $settings['apt_release'] %> <%= $settings['apt_repos'] %>
+<%- if $settings['include_src'] { -%>
+deb-src [signed-by=<%= $apt_key_path %>] <%= $settings['repo_url'] %> <%= $settings['apt_release'] %> <%= $settings['apt_repos'] %>
+<%- } -%>
+<%- } else { -%>
+deb <%= $settings['repo_url'] %> <%= $settings['apt_release'] %> <%= $settings['apt_repos'] %>
+<%- if $settings['include_src'] { -%>
+deb-src <%= $settings['repo_url'] %> <%= $settings['apt_release'] %> <%= $settings['apt_repos'] %>
+<%- } -%>
+<%- } -%>

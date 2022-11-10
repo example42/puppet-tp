@@ -29,6 +29,8 @@ define tp::repo (
   Variant[Undef,String[1]] $apt_release          = undef,
   Variant[Undef,String[1]] $apt_repos            = undef,
   Variant[Undef,String[1]] $apt_pin              = undef,
+  Boolean $apt_safe_trusted_key                  = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
+  Stdlib::Absolutepath $apt_gpg_key_dir          = '/etc/apt/keyrings',
 
   Variant[Undef,String[1]] $zypper_repofile_url  = undef,
 
@@ -176,49 +178,40 @@ define tp::repo (
         }
 
         $aptrepo_title = pick($settings[repo_filename],$title)
-        if !defined(File["${aptrepo_title}.list"])
-        and !empty($settings[key])
-        and !empty($settings[key_url])
-        and !empty($settings[repo_url]) {
-          file { "${aptrepo_title}.list":
-            ensure  => $ensure,
-            path    => "/etc/apt/sources.list.d/${aptrepo_title}.list",
-            owner   => root,
-            group   => root,
-            mode    => '0644',
-            content => template('tp/apt/source.list.erb'),
-            notify  => Exec['tp_apt_update'],
-          }
-        }
 
-        if !defined(Exec["tp_aptkey_add_${settings[key]}"])
-        and !empty($settings[key])
-        and !empty($settings[key_url]) {
-          case $settings[key_url] {
-            Array: {
-              $settings[key_url].each | $k | {
-                exec { "tp_aptkey_add_${settings[key]}_${k}":
-                  command     => "wget -O - ${k} | apt-key add -",
-#                  command     => "wget -O - ${k} | apt-key add -",
-                  unless      => "apt-key list | grep -q \"${settings[key]}\"",
-                  path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-                  before      => File["${aptrepo_title}.list"],
-                  user        => 'root',
-                  environment => $exec_environment,
-                }
-              }
+        if !empty($settings[key]) and !empty($settings[key_url]) {
+          $apt_key_path = "${apt_gpg_key_dir}/${title}.gpg"
+          $command = $apt_safe_trusted_key ? {
+            false => "wget -O - ${settings[key_url]} | apt-key add -",
+            true  => "wget -O - ${settings[key_url]} | gpg --dearmor -o ${apt_key_path}",
+          }
+          if !defined(Exec["tp_aptkey_add_${settings[key]}"]) {
+            exec { "tp_aptkey_add_${settings[key]}":
+              command     => $command,
+              unless      => "apt-key list | grep -q \"${settings[key]}\"",
+              path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+              before      => File["${aptrepo_title}.list"],
+              user        => 'root',
+              environment => $exec_environment,
             }
-            String: {
-              exec { "tp_aptkey_add_${settings[key]}":
-                command     => "wget -O - ${settings[key_url]} | apt-key add -",
-                unless      => "apt-key list | grep -q \"${settings[key]}\"",
-                path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-                before      => File["${aptrepo_title}.list"],
-                user        => 'root',
-                environment => $exec_environment,
-              }
+          }
+
+          $epp_params = {
+            apt_safe_trusted_key => $apt_safe_trusted_key,
+            settings             => $settings,
+            apt_key_path         => $apt_key_path,
+          }
+          if !defined(File["${aptrepo_title}.list"])
+          and !empty($settings[repo_url]) {
+            file { "${aptrepo_title}.list":
+              ensure  => $ensure,
+              path    => "/etc/apt/sources.list.d/${aptrepo_title}.list",
+              owner   => root,
+              group   => root,
+              mode    => '0644',
+              content => epp('tp/apt/source.list.epp', $epp_params),
+              notify  => Exec['tp_apt_update'],
             }
-            default: {}
           }
         }
 
@@ -270,7 +263,7 @@ define tp::repo (
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_repo_debug_${title}":
-      ensure  => present,
+      ensure  => $ensure,
       content => $debug_scope,
       path    => "${debug_dir}/tp_repo_debug_${title}",
     }
