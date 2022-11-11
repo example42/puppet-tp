@@ -29,7 +29,7 @@ describe 'tp::info', :type => :define do
         }
 
         # Resource counts with normal tp::info
-        total_count = 11 # tp::info + file + tp
+        total_count = 10 # tp::info + file + tp
         package_count = 0
         service_count = 0
         exec_count = 0

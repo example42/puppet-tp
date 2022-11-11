@@ -250,18 +250,14 @@ when 'list'
 
 when 'install'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => false }'" + suppress_warnings)
+    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'" + suppress_warnings)
   else
     puts "You can't install apps with tp wihout having the tp module locally installed"
   end
 
 when 'uninstall'
   if TINYDATA_DIR != '/'
-<% if @suppress_tp_warnings -%>
-    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }' 2>&1 grep -v 'Warning' ")
-<% else -%>
-    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
-<% end -%>
+    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'" + suppress_warnings)
   else
     puts "You can't uninstall apps with tp wihout having the tp module locally installed"
   end
