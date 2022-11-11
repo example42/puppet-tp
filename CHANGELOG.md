@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 3.5.1
+
+-   From Debian 11 and Ubuntu 22.04 upwards apt-key is no more used by default to manage apt keys.
+    Keys are placed under /etc/apt/keyrings and trusted in the relevant source list files.
+    If you upgrade tp and have Debian 11 and Ubuntu 22.04 servers where keys are already present,
+    tp updates the trusted entry in the source list file but does not move existing keys from
+    /etc/apt/trusted.gpg.d to /etc/apt/keyrings. You have to do it manually, naming the keyring gpg file as referenced in the source list.
+    If you want to keep on using deprecated apt-key method to install keys also in these OS versions set on Hiera: tp::apt_safe_trusted_key: false
+-   Added ensure parameter to tp class
+-   Added support for Debian 11, SLES 15, Ubuntu 22.04
+-   Fixed tinydata module path search when not using the official Puppet agent package
+-   Added options to suppress annoying warnings or full output in tp install and uninstall commands
+-   Fixed ruby interpreter path in tp command when not using the official Puppet agent package
+
 ## 3.5.0
 
 -   Added ability to install from git_source in tp::install
@@ -7,7 +21,6 @@
 -   Added version_command setting and tp version subcommand
 -   Added tp::version task
 -   Fixed tp install command auto_prereq
-
 
 ## 3.4.0
 
@@ -70,7 +83,7 @@
 -   Propagate data_module var to tp defines used in tp::install 
 -   pdk convert
 
-# 2.4.1
+## 2.4.1
 
 -   Fix for tp::install when upstream_repo is missing in tinydata
 

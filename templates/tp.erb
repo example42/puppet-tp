@@ -1,4 +1,4 @@
-#!<%= @ruby_path %>
+#!<%= @real_ruby_path %>
 
 require 'yaml'
 
@@ -6,21 +6,39 @@ $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
 infoblock = ARGV[2] ? ARGV[2] : 'all'
 NODENAME = %x{hostname}.gsub("\n",'')
-#NODENAME = "pippo"
+
+<% if @suppress_tp_warnings -%>
+    suppress_warnings = " 2>&1 | grep -v 'Warning'"
+<% else -%>
+    suppress_warnings = ''
+<% end -%>
+<% if @suppress_tp_output -%>
+    suppress_warnings = " >/dev/null 2>&1"
+<% else -%>
+    suppress_warnings = suppress_warnings
+<% end -%>
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
 TP_TEST_DIR = '<%= @tp_dir %>/test'
 TP_INFO_DIR = '<%= @tp_dir %>/info'
 TP_RUN_INFO_DIR = '<%= @tp_dir %>/run_info'
 
+<% if @osfamily == 'windows' -%>
 TINYDATA_DIRS = [
-  "/#{ENV['HOME']}/.puppetlabs/etc/code/modules/tinydata/data",
-  '/etc/puppetlabs/code/environments/production/modules/tinydata/data',
-  '/etc/puppetlabs/code/modules/tinydata/data',
+  "#{ENV['HOMEPATH']}/.puppetlabs/etc/code/modules/tinydata/data",
+  - 'C:/Program Files/Puppet Labs/Puppet/puppet/modules/tinydata/data'
   '/'
 ]
+<% else -%>
+TINYDATA_DIRS = [
+  "#{ENV['HOME']}/.puppetlabs/etc/code/modules/tinydata/data",
+  '/etc/puppetlabs/code/environments/production/modules/tinydata/data',
+  '/etc/puppetlabs/code/modules/tinydata/data',
+  '/etc/puppet/code/modules/tinydata/data',
+  '/'
+]
+<% end -%>
 TINYDATA_DIR = TINYDATA_DIRS.find { |d| Dir.exist?(d) }
-
 COMMAND_REDIR = ' > /dev/null 2>&1'
 
 TP_APPS = Dir.entries(TP_APP_DIR).reject { |f| File.directory?(f) }
@@ -232,14 +250,14 @@ when 'list'
 
 when 'install'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'")
+    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'" + suppress_warnings)
   else
     puts "You can't install apps with tp wihout having the tp module locally installed"
   end
 
 when 'uninstall'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'")
+    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'" + suppress_warnings)
   else
     puts "You can't uninstall apps with tp wihout having the tp module locally installed"
   end

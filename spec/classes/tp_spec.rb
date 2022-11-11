@@ -6,7 +6,7 @@ describe 'tp' do
       let(:facts) { os_facts }
       file_resource_count = 9
       file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
-      resource_count = file_resource_count + 1
+      resource_count = file_resource_count + 0
 
       context 'with default params' do
         it { is_expected.to compile.with_all_deps }
@@ -63,7 +63,7 @@ describe 'tp' do
           'recurse' => false,
         }
         file_params = {
-          'ensure' => 'present',
+          'ensure' => 'file',
           'mode'   => '0755',
           'owner'  => 'al',
           'group'  => 'al',

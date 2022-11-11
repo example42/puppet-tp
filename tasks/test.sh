@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare tp_options
+declare app
 PATH=$PATH:/usr/local/bin
-[[ -n "${PT_app}" ]] && tp_options="${PT_app}"
-tp test $tp_options
+[[ -n "${PT_app}" ]] && app="${PT_app}"
+tp test "${app}"

@@ -1,5 +1,0 @@
-# File Managed by Tiny Puppet
-deb <%= @settings['repo_url'] %> <%= @settings['apt_release'] %> <%= @settings['apt_repos'] %>
-<%- if @settings['include_src'] then -%>
-deb-src <%= @setting['repo_url'] %> <%= @settings['apt_release'] %> <%= @settings['apt_repos'] %>
-<%- end -%>

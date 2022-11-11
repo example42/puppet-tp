@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/example42/puppet-tp/badge.svg?branch=master&service=github)](https://coveralls.io/github/example42/puppet-tp?branch=master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7073891df7f9423a846d46a70c60bef1)](https://www.codacy.com/gh/example42/puppet-tp/dashboard?utm_source=github.com&utm_medium=referral&utm_content=example42/puppet-tp&utm_campaign=Badge_Grade)
 
-#### Table of Contents
+## Table of Contents
 
 1.  [Module description - What Tiny Puppet does?](#module-description)
     -   [Features](#features)

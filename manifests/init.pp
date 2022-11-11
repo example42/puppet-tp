@@ -7,7 +7,7 @@
 # this class
 #
 class tp (
-
+  Enum['present','absent'] $ensure   = 'present',
   Boolean $cli_enable                = true,
   Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
   String $tp_owner                   = 'root',
@@ -20,9 +20,10 @@ class tp (
   String $check_repo_path_post       = '',
   String $info_package_command       = 'puppet resource package',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
-  Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
-
+  Optional[String] $ruby_path        = undef,
   String $lib_source                 = 'puppet:///modules/tp/lib/',
+  Boolean $suppress_tp_warnings      = true,
+  Boolean $suppress_tp_output        = false,
 
   Boolean $info_enable                   = true,
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
@@ -69,6 +70,15 @@ class tp (
 
   Boolean $purge_dirs                                                = false,
 ) {
+  $file_ensure = $ensure ? {
+    'present' => 'file',
+    'absent'  => 'absent',
+  }
+  $dir_ensure = $ensure ? {
+    'present' => 'directory',
+    'absent'  => 'absent',
+  }
+
   $options_defaults = {
     'check_timeout'              => '10',
     'check_service_command'      => $check_service_command,
@@ -78,12 +88,24 @@ class tp (
     'check_repo_path_post'       => $check_repo_path_post,
     'info_package_command'       => $info_package_command,
     'info_script_path'           => $info_script_path,
-}
+  }
   $options = $options_defaults + $options_hash
+
+  $real_ruby_path = $ruby_path ? {
+    undef   => $facts['aio_agent_version'] ? {
+      undef   => '/usr/bin/env ruby',
+      ''      => '/usr/bin/env ruby',
+      default => $facts['os']['family'] ? {
+        'windows' => 'C:/Program Files/Puppet Labs/Puppet/bin/ruby',
+        default   => '/opt/puppetlabs/puppet/bin/ruby',
+      },
+    },
+    default => $ruby_path,
+  }
 
   if $cli_enable {
     file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
-      ensure  => directory,
+      ensure  => $dir_ensure,
       mode    => $tp_mode,
       owner   => $tp_owner,
       group   => $tp_group,
@@ -92,7 +114,7 @@ class tp (
       recurse => $purge_dirs,
     }
     file { $tp_path:
-      ensure  => present,
+      ensure  => $file_ensure,
       path    => $tp_path,
       owner   => $tp_owner,
       group   => $tp_group,
@@ -101,7 +123,7 @@ class tp (
     }
     if $facts['os']['family'] == 'windows' {
       file { "${tp_path}.bat":
-        ensure  => present,
+        ensure  => $file_ensure,
         owner   => $tp_owner,
         group   => $tp_group,
         mode    => $tp_mode,
@@ -111,7 +133,7 @@ class tp (
 
     if $info_enable {
       file { 'tp common libraries':
-        ensure  => directory,
+        ensure  => $dir_ensure,
         path    => "${tp_dir}/lib",
         owner   => $tp_owner,
         group   => $tp_group,
@@ -120,14 +142,14 @@ class tp (
         recurse => true,
       }
       file { 'info dir':
-        ensure => directory,
+        ensure => $dir_ensure,
         path   => "${tp_dir}/info",
         owner  => $tp_owner,
         group  => $tp_group,
         mode   => $tp_mode,
       }
       file { 'info scripts':
-        ensure  => directory,
+        ensure  => $dir_ensure,
         path    => "${tp_dir}/run_info",
         owner   => $tp_owner,
         group   => $tp_group,
@@ -135,13 +157,14 @@ class tp (
         source  => $info_source,
         recurse => true,
       }
-      tp::info { 'package_info':
-        path         => "${tp_dir}/run_info/package_info",
-        epp          => 'tp/run_info/package_info.epp',
-        options_hash => $options,
+      file { 'package_info':
+        ensure  => $file_ensure,
+        mode    => '0755',
+        path    => "${tp_dir}/run_info/package_info",
+        content => epp('tp/run_info/package_info.epp'),
       }
       file { $info_script_path:
-        ensure  => present,
+        ensure  => $file_ensure,
         path    => $info_script_path,
         owner   => $tp_owner,
         group   => $tp_group,

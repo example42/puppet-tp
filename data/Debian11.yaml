@@ -1,0 +1,2 @@
+---
+tp::apt_safe_trusted_key: true

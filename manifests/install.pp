@@ -98,6 +98,9 @@
 #   in case it is used. These params are merged with the ones coming from other
 #   repo related parameters and are supposed to be used for special cases.
 #
+# @param apt_safe_trusted_key Boolean to enable the use of safe management of apt keys
+#   (Stop using apt-key add)
+#
 # @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's are valid values for tinydata $settings['config_file_template']
 #   and $settings['init_file_template'] then the relevant
@@ -144,6 +147,7 @@ define tp::install (
   Hash                    $tp_repo_params   = {},
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
+  Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
   Boolean                 $cli_enable       = false,
   Boolean                 $puppi_enable     = false,
@@ -217,13 +221,14 @@ define tp::install (
       default   => true,
     }
     $tp_repo_params_default = {
-      enabled          => $repo_enabled,
-      before           => Package[$settings[package_name]],
-      data_module      => $data_module,
-      repo             => $repo,
-      settings_hash    => $settings_hash,
-      exec_environment => $repo_exec_environment,
-      upstream_repo    => $use_upstream_repo,
+      enabled              => $repo_enabled,
+      before               => Package[$settings[package_name]],
+      data_module          => $data_module,
+      repo                 => $repo,
+      settings_hash        => $settings_hash,
+      exec_environment     => $repo_exec_environment,
+      upstream_repo        => $use_upstream_repo,
+      apt_safe_trusted_key => $apt_safe_trusted_key,
     }
     tp::repo { $app:
       * => $tp_repo_params_default + $tp_repo_params,
