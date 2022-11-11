@@ -11,6 +11,9 @@
     set on Hiera: tp::apt_safe_trusted_key: false
 -   Added ensure parameter to tp class
 -   Added support for Debian 11, SLES 15, Ubuntu 22.04
+-   Fixed tinydata module path search when not using the official Puppet agent package
+-   Added options to suppress annoying warnings or full output in tp install and uninstall commands
+-   Fixed ruby interpreter path in tp command when not using the official Puppet agent package
 
 ## 3.5.0
 

@@ -20,9 +20,10 @@ class tp (
   String $check_repo_path_post       = '',
   String $info_package_command       = 'puppet resource package',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
-  Stdlib::Absolutepath $ruby_path    = '/opt/puppetlabs/puppet/bin/ruby',
-
+  Optional[String] $ruby_path        = undef,
   String $lib_source                 = 'puppet:///modules/tp/lib/',
+  Boolean $suppress_tp_warnings      = true,
+  Boolean $suppress_tp_output        = false,
 
   Boolean $info_enable                   = true,
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
@@ -89,6 +90,18 @@ class tp (
     'info_script_path'           => $info_script_path,
   }
   $options = $options_defaults + $options_hash
+
+  $real_ruby_path = $ruby_path ? {
+    undef   => $facts['aio_agent_version'] ? {
+      undef   => '/usr/bin/env ruby',
+      ''      => '/usr/bin/env ruby',
+      default => $facts['os']['family'] ? {
+        'windows' => 'C:/Program Files/Puppet Labs/Puppet/bin/ruby',
+        default   => '/opt/puppetlabs/puppet/bin/ruby',
+      },
+    },
+    default => $ruby_path,
+  }
 
   if $cli_enable {
     file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
