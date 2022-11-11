@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.6.0
+## 3.5.1
 
 -   From Debian 11 and Ubuntu 22.04 upwards apt-key is no more used by default to manage apt keys.
     Keys are placed under /etc/apt/keyrings and trusted in the relevant source list files.
