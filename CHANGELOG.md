@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.5.2
+
+-   Fixed idempotency in keys management when tp::apt_safe_trusted_key is true
+
 ## 3.5.1
 
 -   From Debian 11 and Ubuntu 22.04 upwards apt-key is no more used by default to manage apt keys.
