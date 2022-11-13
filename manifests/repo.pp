@@ -181,14 +181,22 @@ define tp::repo (
 
         if !empty($settings[key]) and !empty($settings[key_url]) {
           $apt_key_path = "${apt_gpg_key_dir}/${title}.gpg"
-          $command = $apt_safe_trusted_key ? {
-            false => "wget -O - ${settings[key_url]} | apt-key add -",
-            true  => "wget -O - ${settings[key_url]} | gpg --dearmor -o ${apt_key_path}",
+          if $apt_safe_trusted_key {
+            $unless  = undef
+            $creates = $apt_key_path
+            $command = "wget -O - ${settings[key_url]} | gpg --dearmor > ${apt_key_path}"
+            # $key_nospaces = regsubst($settings[key],' ','','G')
+            # $unless = "for f in /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/*.{asc,gpg} /etc/apt/keyrings/*.{asc,gpg} ; do gpg --list-keys --keyid-format short --no-default-keyring --keyring \$f; done | grep -q \"${key_nospaces}\"",  # lint:ignore:140chars
+          } else {
+            $unless  = "apt-key list | grep -q \"${settings[key]}\""
+            $creates = undef
+            $command = "wget -O - ${settings[key_url]} | apt-key add -"
           }
           if !defined(Exec["tp_aptkey_add_${settings[key]}"]) {
             exec { "tp_aptkey_add_${settings[key]}":
               command     => $command,
-              unless      => "apt-key list | grep -q \"${settings[key]}\"",
+              unless      => $unless,
+              creates     => $creates,
               path        => '/bin:/sbin:/usr/bin:/usr/sbin',
               before      => File["${aptrepo_title}.list"],
               user        => 'root',
