@@ -8,6 +8,7 @@ defaults:
 hierarchy:
   - name: "In module hierarchy"
     paths:
+      - "virtual/%{facts.virtual}.yaml"
       - "%{facts.os.name}%{facts.os.release.major}.yaml"
       - "%{facts.os.name}.yaml"
       - "%{facts.os.family}%{facts.os.release.major}.yaml"

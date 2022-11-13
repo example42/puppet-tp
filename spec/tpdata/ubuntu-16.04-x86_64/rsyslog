@@ -26,3 +26,5 @@ process_user: root
 process_group: root
 repo_package_provider: dpkg
 init_system: systemd
+version_command: "rsyslogd -v"
+

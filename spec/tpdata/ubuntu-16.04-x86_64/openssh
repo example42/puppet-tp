@@ -26,3 +26,4 @@ init_file_path: "/var/default/ssh"
 validate_cmd: "sshd -t -f %"
 repo_package_provider: dpkg
 init_system: systemd
+version_command: "ssh -V"

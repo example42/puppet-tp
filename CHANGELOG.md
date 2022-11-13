@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.5.3
+
+-   Fix tp service test within docker containers
+
 ## 3.5.2
 
 -   Fixed idempotency in keys management when tp::apt_safe_trusted_key is true
