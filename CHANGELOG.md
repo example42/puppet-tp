@@ -2,10 +2,10 @@
 
 ## 3.6.0
 
-- Added shellvars data to shell scripts using tiny data.
-- Fixed tp info output
-- First prototype of tp desktop
-- Added define tp::source
+-   Added shellvars data to shell scripts using tiny data.
+-   Fixed tp info output
+-   First prototype of tp desktop
+-   Added define tp::source
 
 ## 3.5.3
 
