@@ -104,7 +104,7 @@ class tp (
   }
 
   if $cli_enable {
-    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/test"]:
+    file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test"]:
       ensure  => $dir_ensure,
       mode    => $tp_mode,
       owner   => $tp_owner,

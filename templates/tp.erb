@@ -1,21 +1,24 @@
 #!<%= @real_ruby_path %>
-
+require 'fileutils'
 require 'yaml'
 
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
 infoblock = ARGV[2] ? ARGV[2] : 'all'
 NODENAME = %x{hostname}.gsub("\n",'')
+REPO_DIR = %x{pwd}.gsub("\n",'')
+GIT_COMMAND = %x{which git}.gsub("\n",'')
+PUPPET_COMMAND = %x{which puppet}.gsub("\n",'')
 
 <% if @suppress_tp_warnings -%>
-    suppress_warnings = " 2>&1 | grep -v 'Warning'"
+suppress_warnings = " 2>&1 | grep -v 'Warning'"
 <% else -%>
-    suppress_warnings = ''
+suppress_warnings = ''
 <% end -%>
 <% if @suppress_tp_output -%>
-    suppress_warnings = " >/dev/null 2>&1"
+suppress_warnings = " >/dev/null 2>&1"
 <% else -%>
-    suppress_warnings = suppress_warnings
+suppress_warnings = suppress_warnings
 <% end -%>
 
 TP_APP_DIR = '<%= @tp_dir %>/app'
@@ -59,11 +62,25 @@ log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List all the applications for which tinydata is present
 info: Show all info on a given application or the topic specified by args 
 version: Show the version of apps managed with tp
+desktop: Manage your desktop apps and settings with tp
 
-Current applications installed via tp (you can use tp test, info and log with them):
+Current applications installed via tp (you can use tp test, info, version and log with them):
 EOF
 puts TP_APPS
 end
+
+# Copy and paste from StackOverflow
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each do |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    end
+  end
+  nil
+end
+
 
 def check_yaml(app)
   begin
@@ -196,7 +213,72 @@ def tp_version(app)
   end
 end
 
+def desktop_apply(desktop_name)
+  begin
+    #if File.exist("#{repo_dir}/environment.conf")
+      modulepath="--modulepath #{repo_dir}/site:#{repo_dir}/modules:/etc/puppetlabs/code/modules"
+      environmentpath="--environmentpath #{repo_dir}"
+      hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
+      extra_options=""
+      puppet_command="#{PUPPET_COMMAND} apply #{verbose_options} #{modulepath} #{environmentpath} #{hiera_config} #{extra_options} #{repo_dir}/site.pp "
+#      show_command(puppet_command, "#{NODENAME} - Puppet apply #{repo_dir}/manifests/site.pp with name #{desktop_name}")
+      puts "#{NODENAME} - Apply desktop #{desktop_name}"
+      %x[puppet_command]
+    #end
+    puts "Environment.conf is missing, please run 'tp desktop init' first"
+    %x[puppet_command]
 
+  rescue
+    puts "#{NODENAME} - Failed to apply desktop #{desktop_name}"
+    %x[puppet_command]
+
+  end
+end
+
+def desktop_list(desktops_dir="#{repo_dir}/data/desktops")
+  begin
+    desktops = Dir.entries(desktops_dir)
+    desktops.delete(".")
+    desktops.delete("..")
+    desktops.each do |desktop|
+      puts desktop.gsub(".yaml","")
+    end
+  rescue
+    puts "No desktops found"
+  end
+end
+
+def desktop_init(url,repo_dir)
+  puts "Cloning #{url} in #{repo_dir}/tp-desktop"
+
+  begin
+    puts "Check if current directory is a Puppet environment"
+    if File.exist("#{repo_dir}/environment.conf")
+      puts "You are already in a tp desktop environment, no need to init again"
+      puts "If you want to create another tp desktop environment, just run tp desktop init from"
+      puts "another directory."
+      exit 1
+    else
+      puts "Check if %{GIT_COMMAND} is present"
+      if File.executable[GIT_COMMAND]
+        puts "git found, cloning #{url} to #{repo_dir}/tp-desktop"
+        # show_command("git clone #{url} #{repo_dir}/tp-desktop", "Cloning #{url} to #{repo_dir}")
+        %x[git clone #{url} #{repo_dir}/tp-desktop]
+      else
+        puts "Git is not installed, please install it first"
+      end
+    end
+  
+    puts "Quindi sei qui"
+    # run_command("git clone #{url} #{repo_dir}", "Cloning #{url} to #{repo_dir}")
+    %x[GIT_COMMAND clone #{url} #{repo_dir}/tp-desktop]
+
+  rescue
+    puts "Oops, something went wrong"
+    %x[#{GIT_COMMAND} clone #{url} #{repo_dir}/tp-desktop]
+
+  end
+end
 
 
 # ACTIONS selection
@@ -291,6 +373,37 @@ when 'version'
     app.send("tp_version", app)
   end
   exit
+
+when 'desktop'
+  case app
+  when 'init'
+    puts "Initializing a new tp desktop environment"
+    case infoblock
+    when 'tp'
+      url='https://github.com/example42/tp-desktop.git'
+    when 'tp-advanced'
+      url='https://github.com/example42/tp-desktop-advanced.git'
+    when 'psick'
+      url='https://github.com/example42/psick.git'
+    when 'all'
+      url='https://github.com/example42/tp-desktop.git'
+    else
+      url=infoblock
+    end
+    desktop_init(url,REPO_DIR)
+    exit
+  when 'apply'
+    puts "Applying desktop #{infoblock}"
+    desktop_apply(infoblock)
+    exit
+  when 'list'
+    puts "Listing desktops under #{REPO_DIR}/data/desktops"
+    desktop_list("#{REPO_DIR}/data/desktops")
+    exit
+  else
+    puts "Unknown desktop action. Please specify init, list or apply."
+    exit
+  end
 
 else
   usage

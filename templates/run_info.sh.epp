@@ -4,9 +4,8 @@ infoblock=${2:-'all'}
 
 # Source helper functions
 . <%= $tp::tp_dir %>/lib/functions.sh
+. <%= $tp::tp_dir %>/shellvars/$app
 
-# Set tinydata as vars
-eval $(parse_yaml "/etc/tp/app/${app}" "")
 if [ "$infoblock" != 'all' ]; then
     . "<%= $tp::tp_dir %>/run_info/${infoblock}"
 else
