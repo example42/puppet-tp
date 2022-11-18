@@ -448,16 +448,20 @@ define tp::install (
     }
   }
 
-  # Options cli integration
+  # Optional cli integration
   $tp_basedir = $facts['os']['family'] ? {
-    'windows' => 'C:/ProgramData/PuppetLabs/puppet/etc/tp/app',
-    default   => '/etc/tp/app',
+    'windows' => 'C:/ProgramData/PuppetLabs/puppet/etc/tp',
+    default   => '/etc/tp',
   }
 
   if $cli_enable {
-    file { "${tp_basedir}/${sane_app}":
+    file { "${tp_basedir}/app/${sane_app}":
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),
+    }
+    file { "${tp_basedir}/shellvars/${sane_app}":
+      ensure  => $plain_ensure,
+      content => epp('tp/shellvars.epp', { settings => $settings }),
     }
     include tp
   }
