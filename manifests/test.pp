@@ -21,7 +21,7 @@ define tp::test (
   String[1]               $shellvars_dir       = '/etc/tp/shellvars',
 
   Boolean                 $verbose             = false,
-  Boolean                 $cli_enable          = pick($tp::cli_enable,false),
+  Boolean                 $cli_enable          = false,
 
 ) {
   # Settings evaluation
