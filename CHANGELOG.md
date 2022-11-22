@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.6.1
+
+-   Fixed tp desktop show command
+-   Show output of tp desktop apply command
+
 ## 3.6.0
 
 -   Added shellvars data to shell scripts using tiny data.
