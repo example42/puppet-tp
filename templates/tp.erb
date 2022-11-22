@@ -226,9 +226,10 @@ def desktop_apply(desktop_name,extra_options)
       #      puppet_command="#{PUPPET_COMMAND} apply #{verbose_options} #{modulepath} #{environmentpath} #{hiera_config} #{extra_options} #{repo_dir}/site.pp "
 #      show_command(puppet_command, "#{NODENAME} - Puppet apply #{repo_dir}/manifests/site.pp with name #{desktop_name}")
       puts "#{NODENAME} - Apply desktop #{desktop_name}"
-
       puts "#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp "
-      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp ]
+#      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp ]
+      exec("#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp")
+
     else
       puts "Environment.conf is missing, please run 'tp desktop init' first"
       exit 1
@@ -239,7 +240,7 @@ def desktop_apply(desktop_name,extra_options)
   end
 end
 
-def desktop_list(desktops_dir="#{repo_dir}/data/desktops")
+def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
   begin
     desktops = Dir.entries(desktops_dir)
     desktops.delete(".")
@@ -256,11 +257,11 @@ end
 def desktop_show(desktop)
   data_file="#{REPO_DIR}/data/desktops/#{desktop}.yaml"
   begin
-    if Files.exists?(data_file)
+    if File.exists?(data_file)
       puts "Showing #{data_file}"
       # %x[cat #{data_file}]
-      system("cat #{data_file}")
-      puts
+      # system("cat #{data_file}")
+      exec("cat #{data_file} ; echo")
     else
       puts "Desktop #{desktop} not found in #{data_file}"
       exit 1
@@ -286,14 +287,15 @@ def desktop_init(url,repo_dir)
           puts
           begin
             puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
-            %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
-            # show_command(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
+            #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
+            # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
+            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
             #system(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
           rescue
             puts "Failed to install the tp module! "
           end
           puts
-          puts "You can now move 'cd #{repo_dir}/tp_desktop and run tp desktop commands."
+          puts "You can move the, 'cd #{repo_dir}/tp_desktop', and run tp desktop commands."
         rescue
           puts "Failed to clone #{url} to #{repo_dir}/tp_desktop"
         end
@@ -407,7 +409,7 @@ when 'desktop'
     case infoblock
     when 'tp'
       url='https://github.com/example42/tp-desktop.git'
-    when 'tp-advanced'
+    when 'advanced'
       url='https://github.com/example42/tp-desktop-advanced.git'
     when 'psick'
       url='https://github.com/example42/psick.git'
