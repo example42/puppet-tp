@@ -221,15 +221,14 @@ def desktop_apply(desktop_name,extra_options)
       modulepath="--modulepath #{repo_dir}/site:#{repo_dir}/modules:/etc/puppetlabs/code/modules"
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
-      extra_options=""
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
-      #      puppet_command="#{PUPPET_COMMAND} apply #{verbose_options} #{modulepath} #{environmentpath} #{hiera_config} #{extra_options} #{repo_dir}/site.pp "
-#      show_command(puppet_command, "#{NODENAME} - Puppet apply #{repo_dir}/manifests/site.pp with name #{desktop_name}")
+      extra=extra_options
+      # extra=extra_options.join(' ')
+      # puppet_command="#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
       puts "#{NODENAME} - Apply desktop #{desktop_name}"
-      puts "#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp "
-#      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp ]
-      exec("#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp")
-
+      puts "#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
+#      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp ]
+      exec("#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
     else
       puts "Environment.conf is missing, please run 'tp desktop init' first"
       exit 1
@@ -239,6 +238,12 @@ def desktop_apply(desktop_name,extra_options)
     exit 1
   end
 end
+def desktop_noapply(desktop_name,extra_options)
+  extra=extra_options.to_s
+  desktop_apply(desktop_name," --noop ")
+end
+
+
 
 def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
   begin
@@ -295,7 +300,7 @@ def desktop_init(url,repo_dir)
             puts "Failed to install the tp module! "
           end
           puts
-          puts "You can move the, 'cd #{repo_dir}/tp_desktop', and run tp desktop commands."
+          puts "You can now move into the created dir (cd #{repo_dir}/tp_desktop) and run tp desktop commands."
         rescue
           puts "Failed to clone #{url} to #{repo_dir}/tp_desktop"
         end
@@ -424,6 +429,10 @@ when 'desktop'
     puts "Applying desktop #{infoblock}"
     desktop_apply(infoblock,ARGV[3..-1])
     exit
+  when 'noapply'
+    puts "Applying in noop mode (no real changes done) desktop #{infoblock}"
+    desktop_noapply(infoblock,ARGV[3..-1])
+    exit
   when 'list'
     puts "Listing desktops under #{REPO_DIR}/data/desktops"
     desktop_list("#{REPO_DIR}/data/desktops")
@@ -437,9 +446,10 @@ when 'desktop'
 Usage: tp desktop <action> [args]
 
 Available tp desktop actions (some may have extra args):
-init:  Initialise a tp desktop Puppet environment
-list:  List the available desktops (yaml files under data/desktops/)
-show:  Show the configurations of a desktop to apply
+init: Initialise a tp desktop Puppet environment
+list: List the available desktops (yaml files under data/desktops/)
+show: Show the configurations of a desktop to apply
+noapply: Apply in noop mode: do a safe run without changes of the specified desktop
 apply: Apply the specified desktop. If no desktop is specified, the default one is applied
 EOF
   end
