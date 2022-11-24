@@ -1,0 +1,15 @@
+{
+  "description": "Run tp debug on the specified nodes",
+  "supports_noop": false,
+  "parameters": {
+    "app": {
+      "description": "The application to debug",
+      "type": "Optional[String[1]]",
+      "default": "all"
+    },
+    "block": {
+      "description": "The debug block to show (if empty all debug blocks are shown)",
+      "type": "Optional[String[1]]"
+    }
+  }
+}

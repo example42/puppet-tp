@@ -18,7 +18,6 @@ class tp (
   String $check_package_command      = 'puppet resource package',
   String $check_repo_path            = '',
   String $check_repo_path_post       = '',
-  String $info_package_command       = 'puppet resource package',
   Stdlib::Absolutepath $tp_dir       = '/etc/tp',
   Optional[String] $ruby_path        = undef,
   String $lib_source                 = 'puppet:///modules/tp/lib/',
@@ -26,9 +25,16 @@ class tp (
   Boolean $suppress_tp_output        = false,
 
   Boolean $info_enable                   = true,
+  String $info_package_command           = 'puppet resource package',
   Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
   String $info_script_template           = 'tp/run_info.sh.epp',
   String $info_source                    = 'puppet:///modules/tp/run_info/',
+
+  Boolean $debug_enable                   = true,
+  String $debug_package_command           = 'puppet resource package',
+  Stdlib::Absolutepath $debug_script_path = '/etc/tp/run_debug.sh',
+  String $debug_script_template           = 'tp/run_debug.sh.epp',
+  String $debug_source                    = 'puppet:///modules/tp/run_debug/',
 
   Hash $options_hash                 = {},
 
@@ -88,6 +94,8 @@ class tp (
     'check_repo_path_post'       => $check_repo_path_post,
     'info_package_command'       => $info_package_command,
     'info_script_path'           => $info_script_path,
+    'debug_package_command'      => $debug_package_command,
+    'debug_script_path'          => $debug_script_path,
   }
   $options = $options_defaults + $options_hash
 
@@ -170,6 +178,39 @@ class tp (
         group   => $tp_group,
         mode    => $tp_mode,
         content => epp($info_script_template, { 'options' => $options }),
+      }
+    }
+
+    if $debug_enable {
+      file { 'debug dir':
+        ensure => $dir_ensure,
+        path   => "${tp_dir}/debug",
+        owner  => $tp_owner,
+        group  => $tp_group,
+        mode   => $tp_mode,
+      }
+      file { 'debug scripts':
+        ensure  => $dir_ensure,
+        path    => "${tp_dir}/run_debug",
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        source  => $debug_source,
+        recurse => true,
+      }
+      file { 'package_debug':
+        ensure  => $file_ensure,
+        mode    => '0755',
+        path    => "${tp_dir}/run_debug/package_debug",
+        content => epp('tp/run_debug/package_debug.epp'),
+      }
+      file { $debug_script_path:
+        ensure  => $file_ensure,
+        path    => $debug_script_path,
+        owner   => $tp_owner,
+        group   => $tp_group,
+        mode    => $tp_mode,
+        content => epp($debug_script_template, { 'options' => $options }),
       }
     }
   }

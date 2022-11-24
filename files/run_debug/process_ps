@@ -1,0 +1,4 @@
+if [ "${process_name}" != '' ]; then
+  echo_title "$HOSTNAME - ${app} - process_ps: ${process_name}"
+  show_command "ps -adeFl | grep ${process_name} | egrep -v '(grep|run_debug|tp debug)' "
+fi

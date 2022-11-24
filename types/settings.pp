@@ -89,6 +89,7 @@ type Tp::Settings = Struct[{
     Optional[info_commands] => Hash,
     Optional[run_commands] => Hash,
     Optional[version_command] => String,
+    Optional[debug_commands] => Hash,
 
     Optional[user_config_file_path] => Stdlib::Absolutepath,
     Optional[user_config_file_owner] => String,

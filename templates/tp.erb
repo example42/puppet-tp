@@ -61,6 +61,7 @@ test: Test if the given (or all) application is correctly working
 log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List all the applications for which tinydata is present
 info: Show all info on a given application or the topic specified by args 
+debug: Troubleshoot an app, showing information useful for debugging
 version: Show the version of apps managed with tp
 desktop: Manage your desktop apps and settings with tp
 
@@ -197,6 +198,39 @@ def tp_info(app,infoblock='all')
   end
 end
 
+def tp_debug(app,infoblock='all')
+  begin
+    settings = check_yaml app
+
+    # Run custom test script if exists under /etc/tp/debug/
+    if File.exists?(TP_INFO_DIR + "/#{app}")
+      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
+    end
+    
+    # Run default checks via /etc/tp/run_debug.sh
+    if infoblock != 'all'
+      run_command("<%= @options['debug_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
+    else
+      run_command("<%= @options['debug_script_path'] %> " + app , "#{NODENAME} - #{app} - debug")
+    end
+
+    # Extra tinydata commands
+    if settings['debug_commands']
+      settings['debug_commands'].each do |k,v|
+        if infoblock != 'all'
+          if infoblock.to_s == k.to_s
+            run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+          end
+        else
+          run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+        end
+      end
+    end
+
+  rescue
+    raise ArgumentError.new("#{app} debug got errors")
+  end
+end
 def tp_version(app)
   begin
     settings = check_yaml app
@@ -393,6 +427,26 @@ when 'info'
     puts "\n\e[32mAll info OK\e[0m\n"
   else
     puts "\n\e[31mSome info FAILED\e[0m\n"
+  end
+  exit($error_exit)
+
+when 'debug'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+    OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_INFOS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+  else
+    app.send("tp_debug", app, infoblock)
+  end
+  if $error_exit == 0
+    puts "\n\e[32mAll debug outputs OK\e[0m\n"
+  else
+    puts "\n\e[31mSome debug outputs FAILED\e[0m\n"
   end
   exit($error_exit)
 
