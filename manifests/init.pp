@@ -103,7 +103,7 @@ class tp (
     default => $ruby_path,
   }
 
-  if $cli_enable {
+  if $cli_enable and getvar('facts.identity.privileged') != false {
     file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test"]:
       ensure  => $dir_ensure,
       mode    => $tp_mode,

@@ -86,7 +86,7 @@ define tp::test (
   }
 
   # Optional cli integration
-  if $cli_enable {
+  if $cli_enable and getvar('facts.identity.privileged') != false {
     file { "${app_dir}/${sane_title}":
       ensure  => $ensure,
       content => inline_template('<%= @settings.to_yaml %>'),

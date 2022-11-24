@@ -222,13 +222,13 @@ def desktop_apply(desktop_name,extra_options)
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
-      extra=extra_options
-      # extra=extra_options.join(' ')
+      #extra=extra_options
+      extra=extra_options.join(' ')
+      fact="export FACTER_hostname=#{desktop_name} ; "
       # puppet_command="#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
       puts "#{NODENAME} - Apply desktop #{desktop_name}"
-      puts "#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
-#      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp ]
-      exec("#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
+      puts "#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
+      exec("#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
     else
       puts "Environment.conf is missing, please run 'tp desktop init' first"
       exit 1
@@ -239,8 +239,7 @@ def desktop_apply(desktop_name,extra_options)
   end
 end
 def desktop_noapply(desktop_name,extra_options)
-  extra=extra_options.to_s
-  desktop_apply(desktop_name," --noop ")
+  desktop_apply(desktop_name,['--noop'] + extra_options)
 end
 
 
@@ -295,7 +294,7 @@ def desktop_init(url,repo_dir)
             #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
             # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
             show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
-            #system(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
+            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
           rescue
             puts "Failed to install the tp module! "
           end

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+-   Added tp desktop noapply command
+-   Better management of tp global files when user is not privileged
+-   Added support for scope in tp::conf and tp::dir
+-   Added relevant user_ tinydata settings
+
 ## 3.6.1
 
 -   Fixed tp desktop show command
