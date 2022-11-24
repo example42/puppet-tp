@@ -115,7 +115,7 @@ def run_command(command,output)
 end
 
 def show_command(command,output)
-  puts output
+  echo_title output
   system(command)
   puts
 end
@@ -230,11 +230,11 @@ def desktop_apply(desktop_name,extra_options)
       puts "#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
       exec("#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
     else
-      puts "Environment.conf is missing, please run 'tp desktop init' first"
+      echo_fail "Environment.conf is missing, please run 'tp desktop init' first"
       exit 1
     end
   rescue
-    puts "#{NODENAME} - Failed to apply desktop #{desktop_name}"
+    echo_fail "#{NODENAME} - Failed to apply desktop #{desktop_name}"
     exit 1
   end
 end
@@ -253,7 +253,7 @@ def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
       puts desktop.gsub(".yaml","")
     end
   rescue
-    puts "No desktops found"
+    echo_fail "No desktops found"
     exit 1
   end
 end
@@ -267,11 +267,11 @@ def desktop_show(desktop)
       # system("cat #{data_file}")
       exec("cat #{data_file} ; echo")
     else
-      puts "Desktop #{desktop} not found in #{data_file}"
+      echo_fail "Desktop #{desktop} not found in #{data_file}"
       exit 1
     end
   rescue
-    puts "No desktops data file found in #{data_file}"
+    echo_fail "No desktops data file found in #{data_file}"
     puts "Available desktops to show and apply:"
     desktop_list
   end
@@ -294,7 +294,7 @@ def desktop_init(url,repo_dir)
             #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
             # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
             show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
-            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
+            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
           rescue
             puts "Failed to install the tp module! "
           end
@@ -308,7 +308,7 @@ def desktop_init(url,repo_dir)
       end
     end
   rescue
-    puts "Oops, something went wrong"
+    echo_fail "Oops, we couldn't setup tp desktop"
   end
 end
 
@@ -409,7 +409,7 @@ when 'version'
 when 'desktop'
   case app
   when 'init'
-    puts "Initializing a new tp desktop environment"
+    echo_title "Initializing a new tp desktop environment"
     case infoblock
     when 'tp'
       url='https://github.com/example42/tp-desktop.git'
@@ -425,19 +425,19 @@ when 'desktop'
     desktop_init(url,REPO_DIR)
     exit
   when 'apply'
-    puts "Applying desktop #{infoblock}"
+    echo_title "Applying desktop #{infoblock}"
     desktop_apply(infoblock,ARGV[3..-1])
     exit
   when 'noapply'
-    puts "Applying in noop mode (no real changes done) desktop #{infoblock}"
+    echo_title "Applying in noop mode (no real changes done) desktop #{infoblock}"
     desktop_noapply(infoblock,ARGV[3..-1])
     exit
   when 'list'
-    puts "Listing desktops under #{REPO_DIR}/data/desktops"
+    echo_title "Listing desktops under #{REPO_DIR}/data/desktops"
     desktop_list("#{REPO_DIR}/data/desktops")
     exit
   when 'show'
-    puts "Show a desktop configuration in #{REPO_DIR}/data/desktops"
+    echo_title "Show #{infoblock} configuration in #{REPO_DIR}/data/desktops"
     desktop_show(infoblock)
     exit
   else
