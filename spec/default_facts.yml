@@ -7,3 +7,5 @@ ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
 env_windows_installdir: 'C:\Program Files\Puppet Labs\Puppet'
+identity:
+  privileged: true

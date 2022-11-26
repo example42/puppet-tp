@@ -111,7 +111,16 @@ class tp (
     default => $ruby_path,
   }
 
-  if $cli_enable and getvar('facts.identity.privileged') != false {
+  # Cli dirs and files
+  if has_key($facts,'identity') {
+    $real_cli_enable = $facts['identity']['privileged'] ? {
+      false   => false,
+      default => $cli_enable,
+    }
+  } else {
+    $real_cli_enable = $cli_enable
+  }
+  if $real_cli_enable {
     file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test"]:
       ensure  => $dir_ensure,
       mode    => $tp_mode,
@@ -215,6 +224,7 @@ class tp (
     }
   }
 
+  # tp::install
   $install_hash_merged = $install_hash_merge_behaviour ? {
     'first' => $install_hash,
     default => lookup('tp::install_hash',Variant[Hash,Array[String]],$install_hash_merge_behaviour,{})
@@ -270,6 +280,7 @@ class tp (
     }
   }
 
+  # tp::conf
   $conf_hash_merged = $conf_hash_merge_behaviour ? {
     'first' => $conf_hash,
     default => lookup('tp::conf_hash',Hash,$conf_hash_merge_behaviour,{})
