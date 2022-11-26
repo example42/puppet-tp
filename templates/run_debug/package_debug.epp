@@ -1,0 +1,4 @@
+if [ "${package_name}" != '' ]; then
+  echo_title "$HOSTNAME - $app - package_debug: ${package_name}"
+  show_command "<%= $tp::debug_package_command %> ${package_name}"
+fi

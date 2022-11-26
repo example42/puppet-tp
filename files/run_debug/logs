@@ -1,0 +1,8 @@
+if [ "${log_dir_path}" != '' ]; then
+  echo_title "$HOSTNAME - $app - log_dir_ls: ${log_dir_path}"
+  show_command "ls -latr ${log_dir_path} "
+fi
+if [ "${log_file_path}" != '' ]; then
+  echo_title "$HOSTNAME - $app - log_file_taild: ${log_dir_path}"
+  show_command "tail -100 ${log_file_path} "
+fi

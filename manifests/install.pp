@@ -454,7 +454,7 @@ define tp::install (
     default   => '/etc/tp',
   }
 
-  if $cli_enable {
+  if $cli_enable and getvar('facts.identity.privileged') != false {
     file { "${tp_basedir}/app/${sane_app}":
       ensure  => $plain_ensure,
       content => inline_template('<%= @settings.to_yaml %>'),

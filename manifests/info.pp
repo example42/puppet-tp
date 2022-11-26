@@ -78,5 +78,4 @@ define tp::info (
       tag     => 'tp_info',
     }
   }
-
 }

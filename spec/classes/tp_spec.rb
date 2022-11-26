@@ -4,7 +4,7 @@ describe 'tp' do
   on_supported_os(facterversion: '2.4').each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
-      file_resource_count = 10
+      file_resource_count = 14
       file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
       resource_count = file_resource_count + 0
 
@@ -12,6 +12,13 @@ describe 'tp' do
         it { is_expected.to compile.with_all_deps }
         it { should have_file_resource_count(file_resource_count) }
         it { should have_resource_count(resource_count) }
+      end
+
+      context 'with identity privileged fact set to false' do
+        let(:facts) { os_facts.merge({'identity' => {'privileged' => false}}) }
+        it { is_expected.to compile.with_all_deps }
+        it { should have_file_resource_count(0) }
+        it { should have_resource_count(0) }
       end
 
       context 'when install_hash is an array' do

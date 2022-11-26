@@ -19,14 +19,14 @@
 #   config_file_path in the tp/data/$app directory according to the underlying OS.
 #
 #   tp::conf { 'openssh':  # Path is defined by tp $settings['config_file_path']
-#     template            => 'site/openssh/sshd_config.erb', 
+#     template            => 'site/openssh/sshd_config.erb',
 #   }
 #
 # - When the base_file parameter is specified the path of the managed file is #
-#   looked in the value of the key ${base_file}_file_path in the tp/data/$app directory 
+#   looked in the value of the key ${base_file}_file_path in the tp/data/$app directory
 #   tp::conf { 'openssh':  # Path is defined by tp $settings['init_file_path']
-#     template            => 'site/openssh/init.erb', 
-#     base_file           => 'init', 
+#     template            => 'site/openssh/init.erb',
+#     base_file           => 'init',
 #   }
 #
 # - When the title has a format like: app::file and no base_dir is set the path
@@ -53,7 +53,7 @@
 #
 #   tp::conf { 'openssh':
 #     template            => 'site/openssh/sshd_config',
-#     options_hash        => hiera('openssh::options_hash'), 
+#     options_hash        => hiera('openssh::options_hash'),
 #   }
 #
 #
@@ -87,7 +87,7 @@
 # @example management of a file related to openssh with an
 # explicit path given and the content populated via a Puppet epp template.
 # In this case the title is not used for any specific purpose, but it should
-# have a unique name and refer to the relevat app in the first part of the title (before ::) 
+# have a unique name and refer to the relevat app in the first part of the title (before ::)
 #
 #   tp::conf { 'openssh::root_config': # Title must be unique
 #     path                => '/root/.ssh/config',
@@ -225,6 +225,8 @@ define tp::conf (
   String[1]               $base_dir            = 'config',
   String[1]               $base_file           = 'config',
 
+  Enum['global','user']   $scope               = 'global',
+
   Variant[Undef,String]   $path                = undef,
   Variant[Undef,String]   $mode                = undef,
   Variant[Undef,String]   $owner               = undef,
@@ -265,10 +267,14 @@ define tp::conf (
   $options = $tp_options + $options_hash
 
   if $file and $file != '' {
-    $real_dir = $settings["${base_dir}_dir_path"]
+    $prefix = $scope ? {
+      'global' => '',
+      'user'   => 'user_',
+    }
+    $real_dir = $settings["${prefix}${base_dir}_dir_path"]
     $auto_path = $base_file ? {
       'config' => "${real_dir}/${file}",
-      default  => $settings["${base_file}_file_path"],
+      default  => $settings["${prefix}${base_file}_file_path"],
     }
   } else {
     $auto_path = $settings["${base_file}_file_path"]
@@ -301,7 +307,7 @@ define tp::conf (
   }
 
   # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
-  # if on tinydata is set config_file_format 
+  # if on tinydata is set config_file_format
   if $content_params =~ Undef and $settings[config_file_format] and $options_hash != {} {
     $manage_content = $settings[config_file_format] ? {
       'yaml' => to_yaml($options_hash),

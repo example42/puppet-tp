@@ -140,6 +140,8 @@ define tp::dir (
   Variant[Undef,String]  $owner              = undef,
   Variant[Undef,String]  $group              = undef,
 
+  Enum['global','user']  $scope               = 'global',
+
   String                 $path_prefix         = '',
   Boolean                $path_parent_create  = false,
 
@@ -180,8 +182,13 @@ define tp::dir (
     $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
     $title_path = undef
   }
+
   $settings = $tp_settings + $settings_hash
-  $base_dir_path = $settings["${base_dir}_dir_path"]
+  $prefix = $scope ? {
+    'global' => '',
+    'user'   => 'user_',
+  }
+  $base_dir_path = $settings["${prefix}${base_dir}_dir_path"]
   $real_path      = pick($path, $title_path, $base_dir_path)
   $manage_path    = "${path_prefix}${real_path}"
   $manage_mode    = pick($mode, $settings[config_dir_mode])

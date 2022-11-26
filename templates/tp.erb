@@ -61,6 +61,7 @@ test: Test if the given (or all) application is correctly working
 log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List all the applications for which tinydata is present
 info: Show all info on a given application or the topic specified by args 
+debug: Troubleshoot an app, showing information useful for debugging
 version: Show the version of apps managed with tp
 desktop: Manage your desktop apps and settings with tp
 
@@ -115,7 +116,7 @@ def run_command(command,output)
 end
 
 def show_command(command,output)
-  puts output
+  echo_title output
   system(command)
   puts
 end
@@ -197,6 +198,39 @@ def tp_info(app,infoblock='all')
   end
 end
 
+def tp_debug(app,infoblock='all')
+  begin
+    settings = check_yaml app
+
+    # Run custom test script if exists under /etc/tp/debug/
+    if File.exists?(TP_INFO_DIR + "/#{app}")
+      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
+    end
+    
+    # Run default checks via /etc/tp/run_debug.sh
+    if infoblock != 'all'
+      run_command("<%= @options['debug_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
+    else
+      run_command("<%= @options['debug_script_path'] %> " + app , "#{NODENAME} - #{app} - debug")
+    end
+
+    # Extra tinydata commands
+    if settings['debug_commands']
+      settings['debug_commands'].each do |k,v|
+        if infoblock != 'all'
+          if infoblock.to_s == k.to_s
+            run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+          end
+        else
+          run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+        end
+      end
+    end
+
+  rescue
+    raise ArgumentError.new("#{app} debug got errors")
+  end
+end
 def tp_version(app)
   begin
     settings = check_yaml app
@@ -221,24 +255,28 @@ def desktop_apply(desktop_name,extra_options)
       modulepath="--modulepath #{repo_dir}/site:#{repo_dir}/modules:/etc/puppetlabs/code/modules"
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
-      extra_options=""
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
-      #      puppet_command="#{PUPPET_COMMAND} apply #{verbose_options} #{modulepath} #{environmentpath} #{hiera_config} #{extra_options} #{repo_dir}/site.pp "
-#      show_command(puppet_command, "#{NODENAME} - Puppet apply #{repo_dir}/manifests/site.pp with name #{desktop_name}")
+      #extra=extra_options
+      extra=extra_options.join(' ')
+      fact="export FACTER_hostname=#{desktop_name} ; "
+      # puppet_command="#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
       puts "#{NODENAME} - Apply desktop #{desktop_name}"
-      puts "#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp "
-#      %x[#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp ]
-      exec("#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra_options} #{repo_dir}/manifests/site.pp")
-
+      puts "#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
+      exec("#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
     else
-      puts "Environment.conf is missing, please run 'tp desktop init' first"
+      echo_fail "Environment.conf is missing, please run 'tp desktop init' first"
       exit 1
     end
   rescue
-    puts "#{NODENAME} - Failed to apply desktop #{desktop_name}"
+    echo_fail "#{NODENAME} - Failed to apply desktop #{desktop_name}"
     exit 1
   end
 end
+def desktop_noapply(desktop_name,extra_options)
+  desktop_apply(desktop_name,['--noop'] + extra_options)
+end
+
+
 
 def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
   begin
@@ -249,7 +287,7 @@ def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
       puts desktop.gsub(".yaml","")
     end
   rescue
-    puts "No desktops found"
+    echo_fail "No desktops found"
     exit 1
   end
 end
@@ -263,11 +301,11 @@ def desktop_show(desktop)
       # system("cat #{data_file}")
       exec("cat #{data_file} ; echo")
     else
-      puts "Desktop #{desktop} not found in #{data_file}"
+      echo_fail "Desktop #{desktop} not found in #{data_file}"
       exit 1
     end
   rescue
-    puts "No desktops data file found in #{data_file}"
+    echo_fail "No desktops data file found in #{data_file}"
     puts "Available desktops to show and apply:"
     desktop_list
   end
@@ -290,12 +328,12 @@ def desktop_init(url,repo_dir)
             #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
             # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
             show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
-            #system(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
+            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
           rescue
             puts "Failed to install the tp module! "
           end
           puts
-          puts "You can move the, 'cd #{repo_dir}/tp_desktop', and run tp desktop commands."
+          puts "You can now move into the created dir (cd #{repo_dir}/tp_desktop) and run tp desktop commands."
         rescue
           puts "Failed to clone #{url} to #{repo_dir}/tp_desktop"
         end
@@ -304,7 +342,7 @@ def desktop_init(url,repo_dir)
       end
     end
   rescue
-    puts "Oops, something went wrong"
+    echo_fail "Oops, we couldn't setup tp desktop"
   end
 end
 
@@ -392,6 +430,26 @@ when 'info'
   end
   exit($error_exit)
 
+when 'debug'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+    OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_INFOS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+  else
+    app.send("tp_debug", app, infoblock)
+  end
+  if $error_exit == 0
+    puts "\n\e[32mAll debug outputs OK\e[0m\n"
+  else
+    puts "\n\e[31mSome debug outputs FAILED\e[0m\n"
+  end
+  exit($error_exit)
+
 when 'version'
   if app == 'all'
     TP_APPS.each do |a|
@@ -405,7 +463,7 @@ when 'version'
 when 'desktop'
   case app
   when 'init'
-    puts "Initializing a new tp desktop environment"
+    echo_title "Initializing a new tp desktop environment"
     case infoblock
     when 'tp'
       url='https://github.com/example42/tp-desktop.git'
@@ -421,15 +479,19 @@ when 'desktop'
     desktop_init(url,REPO_DIR)
     exit
   when 'apply'
-    puts "Applying desktop #{infoblock}"
+    echo_title "Applying desktop #{infoblock}"
     desktop_apply(infoblock,ARGV[3..-1])
     exit
+  when 'noapply'
+    echo_title "Applying in noop mode (no real changes done) desktop #{infoblock}"
+    desktop_noapply(infoblock,ARGV[3..-1])
+    exit
   when 'list'
-    puts "Listing desktops under #{REPO_DIR}/data/desktops"
+    echo_title "Listing desktops under #{REPO_DIR}/data/desktops"
     desktop_list("#{REPO_DIR}/data/desktops")
     exit
   when 'show'
-    puts "Show a desktop configuration in #{REPO_DIR}/data/desktops"
+    echo_title "Show #{infoblock} configuration in #{REPO_DIR}/data/desktops"
     desktop_show(infoblock)
     exit
   else
@@ -437,9 +499,10 @@ when 'desktop'
 Usage: tp desktop <action> [args]
 
 Available tp desktop actions (some may have extra args):
-init:  Initialise a tp desktop Puppet environment
-list:  List the available desktops (yaml files under data/desktops/)
-show:  Show the configurations of a desktop to apply
+init: Initialise a tp desktop Puppet environment
+list: List the available desktops (yaml files under data/desktops/)
+show: Show the configurations of a desktop to apply
+noapply: Apply in noop mode: do a safe run without changes of the specified desktop
 apply: Apply the specified desktop. If no desktop is specified, the default one is applied
 EOF
   end

@@ -1,12 +1,12 @@
-# tp::test
+# tp::debug
 #
-# Creates test scripts to check if the application managed
+# Creates debug scripts to check if the application managed
 # by Tiny Puppet is runnign correctly.
 #
-define tp::test (
+define tp::debug (
 
   Variant[Boolean,String] $ensure              = present,
-
+  Variant[Undef,String]   $path                = undef,
   Variant[Undef,String,Array] $source          = undef,
   Variant[Undef,String,Array] $template        = undef,
   Variant[Undef,String]   $epp                 = undef,
@@ -16,10 +16,10 @@ define tp::test (
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
-  String[1]               $base_dir            = '/etc/tp/test',
+  String[1]               $base_dir            = '/etc/tp/debug',
   String[1]               $app_dir             = '/etc/tp/app',
-  String[1]               $shellvars_dir       = '/etc/tp/shellvars',
 
+  Stdlib::Absolutepath    $debug_command        = $tp::debug_script_path,
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = false,
 
@@ -32,17 +32,7 @@ define tp::test (
 
   # Default options and computed variables
   $options_defaults = {
-    check_timeout          => '10',
-    check_service_command  => "${tp::check_service_command} ${settings[service_name]} ${tp::check_service_command_post}",
-    check_package_command  => $settings['package_provider'] ? {
-      'gem'   => "gem list -i ${settings[package_name]}",
-      'pip'   => "pip show ${settings[package_name]}",
-      default => $tp::check_package_command,
-    },
-    check_port_command     => 'check_tcp',
-    check_port_critical    => '10',
-    check_port_warning     => '5',
-    check_port_host        => '127.0.0.1',
+    debug_command           => $debug_command,
   }
 
   $options = merge($options_defaults, $options_hash)
@@ -73,23 +63,19 @@ define tp::test (
 
   $sane_title = regsubst($title, '/', '_', 'G')
 
+  $real_path = $path ? {
+    undef   => "${base_dir}/${sane_title}",
+    default => $path,
+  }
   if $file_content
   or $source {
-    file { "${base_dir}/${sane_title}":
+    file { $real_path:
       ensure  => $ensure,
       mode    => '0755',
       owner   => 'root',
       content => $file_content,
       source  => $source,
-      tag     => 'tp_test',
-    }
-  }
-
-  # Optional cli integration
-  if $cli_enable and getvar('facts.identity.privileged') != false {
-    file { "${app_dir}/${sane_title}":
-      ensure  => $ensure,
-      content => inline_template('<%= @settings.to_yaml %>'),
+      tag     => 'tp_debug',
     }
   }
 }

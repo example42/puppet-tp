@@ -1,0 +1,13 @@
+if [ "${pid_file_path}" != '' ]; then
+  pid=$(cat "${pid_file_path}") 
+  echo_title "$HOSTNAME - $app - pid: ${pid}"
+  if [ $(which lsof) ]; then
+    show_command "lsof | grep ${pid} "
+  fi
+  show_command "cat /proc/${pid}/cmdline"
+  show_command "cat /proc/${pid}/cgroup"
+  show_command "cat /proc/${pid}/environ"
+  show_command "cat /proc/${pid}/limits"
+  show_command "cat /proc/${pid}/io"
+  show_command "cat /proc/${pid}/status"
+fi
