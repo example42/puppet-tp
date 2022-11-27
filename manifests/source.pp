@@ -6,7 +6,7 @@ define tp::source (
 
   Variant[Boolean,String] $ensure              = present,
   Variant[Undef,String]   $path                = undef,
-  Variant[Undef,String,Array] $source          = undef,
+  Variant[Undef,String]   $source              = undef,
   Variant[Undef,String]   $app                 = $title,
 
   Hash                    $settings_hash       = {},
@@ -18,8 +18,6 @@ define tp::source (
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
   $settings = $tp_settings + $settings_hash
-
-  include tp
 
   if $settings[git_source] or $source {
     tp::dir { $app:

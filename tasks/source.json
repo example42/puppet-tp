@@ -1,0 +1,19 @@
+{
+  "description": "Run tp source on the specified node for the specified application",
+  "supports_noop": false,
+  "parameters": {
+    "app": {
+      "description": "The application to info about",
+      "type": "String[1]"
+    },
+    "url": {
+      "description": "The url to use as git source for the application (default comes from the git_source if present",
+      "type": "Optional[String[1]]"
+    },
+    "target_dir": {
+      "description": "The target parent directory where to clone the app source",
+      "type": "Optional[String[1]]",
+      "default": "/opt/src"
+    }
+  }
+}
