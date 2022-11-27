@@ -62,6 +62,7 @@ log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List all the applications for which tinydata is present
 info: Show all info on a given application or the topic specified by args 
 debug: Troubleshoot an app, showing information useful for debugging
+source: Git clone the source code of the specified app
 version: Show the version of apps managed with tp
 desktop: Manage your desktop apps and settings with tp
 
@@ -505,6 +506,15 @@ show: Show the configurations of a desktop to apply
 noapply: Apply in noop mode: do a safe run without changes of the specified desktop
 apply: Apply the specified desktop. If no desktop is specified, the default one is applied
 EOF
+  end
+
+when 'source'
+  if infoblock != 'all'
+    exec ("puppet apply -t -e 'tp::source { " + app + ": url => " + infoblock + ", target => " + target + "}'" + suppress_warnings)
+  elsif app == 'all'
+    puts "You must specify at least the app of which you want to clone the source"
+  else
+    exec ("puppet apply -t -e 'tp::source { " + app + ": }'" + suppress_warnings)
   end
 
 else
