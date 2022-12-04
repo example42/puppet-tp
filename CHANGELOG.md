@@ -1,11 +1,15 @@
 # CHANGELOG
 
+## 3.6.2
+
 -   Added tp debug command, define and task. Added debug_commands tinydata key.
 -   Added tp desktop noapply command
 -   Better management of tp global files when user is not privileged
 -   Added support for scope in tp::conf and tp::dir
 -   Added relevant user_ tinydata settings
 -   Quote shellvars script
+-   Fixed prerequisites dependencies when package_name is absent
+-   Added tp source command and task
 
 ## 3.6.1
 
