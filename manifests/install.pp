@@ -298,7 +298,9 @@ define tp::install (
   }
   if $auto_prereq and $settings['exec_prerequisites'] and $ensure != 'absent' {
     $settings[exec_prerequisites].each | $k , $v | {
-      Exec[$k] -> Package[$settings[package_name]]
+      if $settings[package_name] {
+        Exec[$k] -> Package[$settings[package_name]]
+      }
       exec { $k:
         * => { 'path' => $facts['path'] } + $v,
       }
@@ -311,7 +313,9 @@ define tp::install (
   }
   if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
     $settings[exec_postinstall].each | $k , $v | {
-      Package[$settings[package_name]] -> Exec[$k]
+      if $settings[package_name] {
+        Package[$settings[package_name]] -> Exec[$k]
+      }
       exec { $k:
         * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
