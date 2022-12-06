@@ -1,5 +1,5 @@
 if [ "${pid_file_path}" != '' ]; then
-  pid=$(cat "${pid_file_path}") 
+  pid=$(cat "${pid_file_path}" | xargs)
   echo_title "$HOSTNAME - $app - pid: ${pid}"
   if [ $(which lsof) ]; then
     show_command "lsof | grep ${pid} "

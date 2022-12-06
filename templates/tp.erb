@@ -9,6 +9,7 @@ NODENAME = %x{hostname}.gsub("\n",'')
 REPO_DIR = %x{pwd}.gsub("\n",'')
 GIT_COMMAND = %x{which git}.gsub("\n",'')
 PUPPET_COMMAND = %x{which puppet}.gsub("\n",'')
+PIP_COMMAND = %x{which pip}.size.>(0) ? %x{which pip}.gsub("\n",'') : %x{which pip3}.gsub("\n",'')
 
 <% if @suppress_tp_warnings -%>
 suppress_warnings = " 2>&1 | grep -v 'Warning'"
@@ -145,8 +146,8 @@ def tp_test(app)
           run_command("gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         elsif settings['package_provider'] == 'puppet_gem'
           run_command("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
-        elsif settings['package_provider'] == 'pip'
-          run_command("pip list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
+        elsif settings['package_provider'] == 'pip' or settings['package_provider'] == 'pip3'
+          run_command(PIP_COMMAND + " list --format=columns | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         else
           run_command("<%= @options['check_package_command'] %> #{s} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
         end
@@ -252,8 +253,9 @@ def desktop_apply(desktop_name,extra_options)
   begin
     repo_dir=REPO_DIR
     repo_dirname=File.basename(repo_dir)
+    local_modulepath=`puppet config print modulepath`.strip
     if File.exists?("#{repo_dir}/environment.conf")
-      modulepath="--modulepath #{repo_dir}/site:#{repo_dir}/modules:/etc/puppetlabs/code/modules"
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}"
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
@@ -324,15 +326,13 @@ def desktop_init(url,repo_dir)
         begin
           %x[git clone #{url} #{repo_dir}/tp_desktop]
           puts
-          begin
-            puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
-            #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
-            # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
-            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
-            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
-          rescue
-            puts "Failed to install the tp module! "
-          end
+#          begin
+#            puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
+#            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
+#            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
+#          rescue
+#            puts "Failed to install the tp module! "
+#          end
           puts
           puts "You can now move into the created dir (cd #{repo_dir}/tp_desktop) and run tp desktop commands."
         rescue

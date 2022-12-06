@@ -257,13 +257,10 @@ define tp::repo (
       'RedHat' => undef,
       'Suse'   => 'Exec["zypper refresh"]',
     }
-    file { $repo_file_path:
-      ensure => $ensure,
-      path   => $repo_file_path,
-      owner  => root,
-      group  => root,
-      mode   => '0644',
-      source => $repo_file_url,
+    exec { "Download repo file for ${title}":
+      command => "wget ${settings[repo_file_url]} -q -O ${repo_file_path}",
+      creates => $repo_file_path,
+      path    => $facts['path'],
       notify => $repo_file_notify,
     }
   }

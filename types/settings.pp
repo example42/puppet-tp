@@ -98,4 +98,9 @@ type Tp::Settings = Struct[{
     Optional[user_conf_dir_path] => Stdlib::Absolutepath,
     Optional[user_data_dir_path] => Stdlib::Absolutepath,
     Optional[home_dir_path] => Stdlib::Absolutepath,
+
+    Optional[website_url] => String,
+
+    Optional[winget_package_name] => String,
+    Optional[choco_package_name] => String,
 }]
