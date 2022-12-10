@@ -4,7 +4,7 @@ describe 'tp' do
   on_supported_os(facterversion: '2.4').each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
-      file_resource_count = 14
+      file_resource_count = 15
       file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
       resource_count = file_resource_count + 0
 

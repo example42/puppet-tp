@@ -255,7 +255,11 @@ def desktop_apply(desktop_name,extra_options)
     repo_dirname=File.basename(repo_dir)
     local_modulepath=`puppet config print modulepath`.strip
     if File.exists?("#{repo_dir}/environment.conf")
-      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}"
+<% if @osfamily == 'windows' -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
+<% else -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:/etc/puppetlabs/code/environments/production/modules"
+<% end -%>
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
