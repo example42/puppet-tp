@@ -174,8 +174,7 @@ define tp::dir (
   }
 
   if $title =~ /^\/.*$/ {
-    # If title is an absolute path do a safe lookup to
-    # a dummy app
+    # If title is an absolute path do a safe lookup to a dummy app
     $tp_settings = tp_lookup('test','settings','tinydata','merge')
     $title_path = $title
   } else {
@@ -208,9 +207,8 @@ define tp::dir (
     default   => $config_dir_require,
   }
 
-  # Set notify if service_name is present and title is not a abs path
-  if $settings[service_name] and $settings[package_name] != ''
-  and $title !~ /^\/.*$/ {
+  # Set notify if service_name is present
+  if $settings[service_name] and $settings[service_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef

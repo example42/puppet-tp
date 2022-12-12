@@ -5,7 +5,7 @@ describe 'tp' do
     context "on #{os}" do
       let(:facts) { os_facts }
       file_resource_count = 15
-      file_resource_count = file_resource_count + 1 if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
+      file_resource_count = file_resource_count if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
       resource_count = file_resource_count + 0
 
       context 'with default params' do
