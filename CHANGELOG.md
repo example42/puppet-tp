@@ -2,12 +2,12 @@
 
 ## 3.7.0
 
-- tp desktop noapply command renamed to tp desktop preview
-- Added /usr/sbin/tp symbolic link to avoid errors due to incorrect PATH
-- Fixed tp::repo with setting repo_file_url
-- Fixed tp test con packages using pip3
-- Do now clone locally tp module when using tp desktop command
-- Added new settings: website_url, winget_package_name, choco_package_name, docker_image
+-   tp desktop noapply command renamed to tp desktop preview
+-   Added /usr/sbin/tp symbolic link to avoid errors due to incorrect PATH
+-   Fixed tp::repo with setting repo_file_url
+-   Fixed tp test con packages using pip3
+-   Do now clone locally tp module when using tp desktop command
+-   Added new settings: website_url, winget_package_name, choco_package_name, docker_image
 
 ## 3.6.2
 
