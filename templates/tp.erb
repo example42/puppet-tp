@@ -279,7 +279,7 @@ def desktop_apply(desktop_name,extra_options)
     exit 1
   end
 end
-def desktop_noapply(desktop_name,extra_options)
+def desktop_preview(desktop_name,extra_options)
   desktop_apply(desktop_name,['--noop'] + extra_options)
 end
 
@@ -487,9 +487,9 @@ when 'desktop'
     echo_title "Applying desktop #{infoblock}"
     desktop_apply(infoblock,ARGV[3..-1])
     exit
-  when 'noapply'
+  when 'preview'
     echo_title "Applying in noop mode (no real changes done) desktop #{infoblock}"
-    desktop_noapply(infoblock,ARGV[3..-1])
+    desktop_preview(infoblock,ARGV[3..-1])
     exit
   when 'list'
     echo_title "Listing desktops under #{REPO_DIR}/data/desktops"
@@ -507,7 +507,7 @@ Available tp desktop actions (some may have extra args):
 init: Initialise a tp desktop Puppet environment
 list: List the available desktops (yaml files under data/desktops/)
 show: Show the configurations of a desktop to apply
-noapply: Apply in noop mode: do a safe run without changes of the specified desktop
+preview: Preview the changes to apply, running puppet apply in noop mode
 apply: Apply the specified desktop. If no desktop is specified, the default one is applied
 EOF
   end
