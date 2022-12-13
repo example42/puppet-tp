@@ -49,6 +49,7 @@ type Tp::Settings = Struct[{
 
     Optional[nodaemon_args] => String,
     Optional[dockerfile_prerequisites] => String,
+    Optional[docker_image] => String,
 
     Optional[package_prerequisites] => Array,
     Optional[tp_prerequisites] => Array,
@@ -97,5 +98,9 @@ type Tp::Settings = Struct[{
     Optional[user_config_file_mode] => String,
     Optional[user_conf_dir_path] => Stdlib::Absolutepath,
     Optional[user_data_dir_path] => Stdlib::Absolutepath,
-    Optional[home_dir_path] => Stdlib::Absolutepath,
+
+    Optional[website_url] => String,
+
+    Optional[winget_package_name] => String,
+    Optional[choco_package_name] => String,
 }]

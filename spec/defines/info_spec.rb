@@ -29,11 +29,11 @@ describe 'tp::info', :type => :define do
         }
 
         # Resource counts with normal tp::info
-        total_count = 15 # tp::info + file + tp
+        total_count = 16 # tp::info + file + tp
         package_count = 0
         service_count = 0
         exec_count = 0
-        file_count = 14 # Includes files from tp
+        file_count = 15 # Includes files from tp
 
         # Define if there's a service to check
         if appdata['service_name']

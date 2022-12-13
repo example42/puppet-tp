@@ -9,6 +9,7 @@ NODENAME = %x{hostname}.gsub("\n",'')
 REPO_DIR = %x{pwd}.gsub("\n",'')
 GIT_COMMAND = %x{which git}.gsub("\n",'')
 PUPPET_COMMAND = %x{which puppet}.gsub("\n",'')
+PIP_COMMAND = %x{which pip}.size.>(0) ? %x{which pip}.gsub("\n",'') : %x{which pip3}.gsub("\n",'')
 
 <% if @suppress_tp_warnings -%>
 suppress_warnings = " 2>&1 | grep -v 'Warning'"
@@ -145,8 +146,8 @@ def tp_test(app)
           run_command("gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         elsif settings['package_provider'] == 'puppet_gem'
           run_command("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
-        elsif settings['package_provider'] == 'pip'
-          run_command("pip list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
+        elsif settings['package_provider'] == 'pip' or settings['package_provider'] == 'pip3'
+          run_command(PIP_COMMAND + " list --format=columns | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
         else
           run_command("<%= @options['check_package_command'] %> #{s} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
         end
@@ -252,8 +253,13 @@ def desktop_apply(desktop_name,extra_options)
   begin
     repo_dir=REPO_DIR
     repo_dirname=File.basename(repo_dir)
+    local_modulepath=`puppet config print modulepath`.strip
     if File.exists?("#{repo_dir}/environment.conf")
-      modulepath="--modulepath #{repo_dir}/site:#{repo_dir}/modules:/etc/puppetlabs/code/modules"
+<% if @osfamily == 'windows' -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
+<% else -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:/etc/puppetlabs/code/environments/production/modules"
+<% end -%>
       environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
       hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
       verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
@@ -273,7 +279,7 @@ def desktop_apply(desktop_name,extra_options)
     exit 1
   end
 end
-def desktop_noapply(desktop_name,extra_options)
+def desktop_preview(desktop_name,extra_options)
   desktop_apply(desktop_name,['--noop'] + extra_options)
 end
 
@@ -324,15 +330,13 @@ def desktop_init(url,repo_dir)
         begin
           %x[git clone #{url} #{repo_dir}/tp_desktop]
           puts
-          begin
-            puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
-            #exec(puppet module install example42/tp --modulepath "#{repo_dir}/tp_desktop/modules") 
-            # %x[puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules]
-            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
-            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
-          rescue
-            puts "Failed to install the tp module! "
-          end
+#          begin
+#            puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
+#            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
+#            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
+#          rescue
+#            puts "Failed to install the tp module! "
+#          end
           puts
           puts "You can now move into the created dir (cd #{repo_dir}/tp_desktop) and run tp desktop commands."
         rescue
@@ -467,13 +471,13 @@ when 'desktop'
     echo_title "Initializing a new tp desktop environment"
     case infoblock
     when 'tp'
-      url='https://github.com/example42/tp-desktop.git'
+      url='https://github.com/example42/tp_desktop.git'
     when 'advanced'
-      url='https://github.com/example42/tp-desktop-advanced.git'
+      url='https://github.com/example42/tp_desktop-advanced.git'
     when 'psick'
       url='https://github.com/example42/psick.git'
     when 'all'
-      url='https://github.com/example42/tp-desktop.git'
+      url='https://github.com/example42/tp_desktop.git'
     else
       url=infoblock
     end
@@ -483,9 +487,9 @@ when 'desktop'
     echo_title "Applying desktop #{infoblock}"
     desktop_apply(infoblock,ARGV[3..-1])
     exit
-  when 'noapply'
+  when 'preview'
     echo_title "Applying in noop mode (no real changes done) desktop #{infoblock}"
-    desktop_noapply(infoblock,ARGV[3..-1])
+    desktop_preview(infoblock,ARGV[3..-1])
     exit
   when 'list'
     echo_title "Listing desktops under #{REPO_DIR}/data/desktops"
@@ -503,7 +507,7 @@ Available tp desktop actions (some may have extra args):
 init: Initialise a tp desktop Puppet environment
 list: List the available desktops (yaml files under data/desktops/)
 show: Show the configurations of a desktop to apply
-noapply: Apply in noop mode: do a safe run without changes of the specified desktop
+preview: Preview the changes to apply, running puppet apply in noop mode
 apply: Apply the specified desktop. If no desktop is specified, the default one is applied
 EOF
   end

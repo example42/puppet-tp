@@ -146,6 +146,11 @@ class tp (
         mode    => $tp_mode,
         content => template('tp/tp.bat.erb'),
       }
+    } else {
+      file { '/usr/sbin/tp':
+        ensure => link,
+        target => $tp_path,
+      }
     }
 
     if $info_enable {

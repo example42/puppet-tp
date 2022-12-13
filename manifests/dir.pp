@@ -148,9 +148,9 @@ define tp::dir (
   Variant[Boolean,String] $config_dir_notify  = true,
   Variant[Boolean,String] $config_dir_require = true,
 
-  Variant[Undef,Boolean] $purge              = undef,
-  Variant[Undef,Boolean] $recurse            = undef,
-  Variant[Undef,Boolean] $force              = undef,
+  Variant[Undef,Boolean]                $purge   = undef,
+  Variant[Undef,Boolean,Enum['remote']] $recurse = undef,
+  Variant[Undef,Boolean]                $force   = undef,
 
   Hash                   $settings_hash      = {},
 
@@ -174,8 +174,7 @@ define tp::dir (
   }
 
   if $title =~ /^\/.*$/ {
-    # If title is an absolute path do a safe lookup to
-    # a dummy app
+    # If title is an absolute path do a safe lookup to a dummy app
     $tp_settings = tp_lookup('test','settings','tinydata','merge')
     $title_path = $title
   } else {
@@ -196,8 +195,7 @@ define tp::dir (
   $manage_group   = pick($group, $settings[config_dir_group])
 
   # Set require if package_name is present and title is not a abs path
-  if $settings[package_name] and $settings[package_name] != ''
-  and $title !~ /^\/.*$/ {
+  if $settings[package_name] and $settings[package_name] != '' {
     $package_ref = "Package[${settings[package_name]}]"
   } else {
     $package_ref = undef
@@ -209,9 +207,8 @@ define tp::dir (
     default   => $config_dir_require,
   }
 
-  # Set notify if service_name is present and title is not a abs path
-  if $settings[service_name] and $settings[package_name] != ''
-  and $title !~ /^\/.*$/ {
+  # Set notify if service_name is present
+  if $settings[service_name] and $settings[service_name] != '' {
     $service_ref = "Service[${settings[service_name]}]"
   } else {
     $service_ref = undef
