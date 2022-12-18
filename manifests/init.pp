@@ -1,10 +1,8 @@
-#
 # Class: tp
 #
-# This class provides hiera data entry points to create tp resources
-# and tp commands to interact with applications installed via tp.
-# If you don't use them, you don't need to include
-# this class
+# This class is what you need to include. It provides:
+# - Installation of tp command line on target node
+# - Hiera data entry points, in the tp:: namespace to mannage tp resources
 #
 class tp (
   Enum['present','absent'] $ensure   = 'present',
@@ -75,7 +73,23 @@ class tp (
   Hash $repo_defaults                                                = {},
 
   Boolean $purge_dirs                                                = false,
+
+  # tp 4 new entrypoints
+  # Variant[Hash,Array[String],String] $command+s             = {},
+  # Looked up in code based on $merge_behaviours and $resources_defaults
+  Hash $merge_behaviours   = {},
+  Hash $resources_defaults = {},
+
+  # OSfamily specific entrypoints
+  Hash $osfamily_resources                                                           = {},
+  Optional[Enum['first','unique','hash','deep']] $osfamily_resources_merge_behaviour = undef,
+  Hash $osfamily_resources_defaults                                                  = {},
+
+  String[1]               $data_module      = 'tinydata',
+
 ) {
+  $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop']
+
   $file_ensure = $ensure ? {
     'present' => 'file',
     'absent'  => 'absent',
@@ -85,6 +99,7 @@ class tp (
     'absent'  => 'absent',
   }
 
+  # TOREVIEW
   $options_defaults = {
     'check_timeout'              => '10',
     'check_service_command'      => $check_service_command,
@@ -229,7 +244,7 @@ class tp (
     }
   }
 
-  # tp::install
+  # Legacy lookup code
   $install_hash_merged = $install_hash_merge_behaviour ? {
     'first' => $install_hash,
     default => lookup('tp::install_hash',Variant[Hash,Array[String]],$install_hash_merge_behaviour,{})
@@ -362,6 +377,65 @@ class tp (
   $repo_hash.each |$k,$v| {
     tp::repo { $k:
       * => $repo_defaults + $v,
+    }
+  }
+
+  # tp 4 new entrypoints
+  $resources.each |$resource| {
+    $resource_data = lookup("tp::${resource}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${resource}",'first'),{})) # puppet-lint:ignore:140chars
+    $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${resource}",{})
+    case $resource_data {
+      Hash: {
+        $resource_data.each |$kk,$vv| {
+          create_resources("tp::${resource}", { $kk => {} }, $resource_defaults + $vv)
+        }
+      }
+      Array: {
+        create_resources("tp::${resource}", { $resource_data => {} }, $resource_defaults)
+      }
+      String: {
+        create_resources("tp::${resource}", { $resource_data => {} }, $resource_defaults)
+      }
+      Undef: {
+        # do nothing
+      }
+      default: {
+        fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
+      }
+    }
+  }
+
+  $osfamily_resources.each |$k,$v| {
+    if $facts['os']['family'] == $k {
+      $v.each |$res,$val| {
+        $res.each |$resource| {
+          if $res == $resource {
+            $resource_data = lookup("tp::${res}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${res}",'first'),{}))
+            $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${k}",{})
+            case $resource_data {
+              Hash: {
+                $resource_data.each |$kk,$vv| {
+                  create_resources("tp::${resource}", $kk, $resource_defaults + $vv)
+                }
+              }
+              Array: {
+                $resource_data.each |$kk| {
+                  create_resources("tp::${resource}", { $kk => {} }, $resource_defaults)
+                }
+              }
+              String: {
+                create_resources("tp::${resource}", $resource_data, $resource_defaults)
+              }
+              Undef: {
+                # do nothing
+              }
+              default: {
+                fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

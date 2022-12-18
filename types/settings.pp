@@ -103,4 +103,12 @@ type Tp::Settings = Struct[{
 
     Optional[winget_package_name] => String,
     Optional[choco_package_name] => String,
+
+    Optional[configs]      => Hash,
+    Optional[dirs]         => Hash,
+    Optional[user_configs] => Hash,
+    Optional[user_dirs]    => Hash,
+
+    Optional[website_url] => String,
+
 }]

@@ -42,3 +42,28 @@ tp::purge_dirs: false
 
 # Looked up in tp::install and tp::repo defines.
 tp::apt_safe_trusted_key: false
+
+# tp 4 new entrypoints
+tp::repos: {}
+tp::installs: {}
+tp::uninstalls: {}
+tp::confs: {}
+tp::dirs: {}
+tp::tests: {}
+tp::infos: {}
+tp::debugs: {}
+tp::images: {}
+tp::sources: {}
+tp::desktops: {}
+
+tp::redhat::repos: {}
+tp::redhat::installs: {}
+tp::redhat::::uninstalls: {}
+tp::confs: {}
+tp::dirs: {}
+tp::tests: {}
+tp::infos: {}
+tp::debugs: {}
+tp::images: {}
+tp::sources: {}
+tp::desktops: {}
