@@ -92,23 +92,14 @@ type Tp::Settings = Struct[{
     Optional[version_command] => String,
     Optional[debug_commands] => Hash,
 
-    Optional[user_config_file_path] => Stdlib::Absolutepath,
-    Optional[user_config_file_owner] => String,
-    Optional[user_config_file_group] => String,
-    Optional[user_config_file_mode] => String,
-    Optional[user_conf_dir_path] => Stdlib::Absolutepath,
-    Optional[user_data_dir_path] => Stdlib::Absolutepath,
-
-    Optional[website_url] => String,
-
     Optional[winget_package_name] => String,
     Optional[choco_package_name] => String,
 
     Optional[configs]      => Hash,
-    Optional[dirs]         => Hash,
     Optional[user_configs] => Hash,
+    Optional[dirs]         => Hash,
     Optional[user_dirs]    => Hash,
-
-    Optional[website_url] => String,
-
+    Optional[ports]        => Hash,
+    Optional[urls]         => Hash,
+    Optional[build]        => Hash,
 }]

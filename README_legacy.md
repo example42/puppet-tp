@@ -647,30 +647,22 @@ Starting from version 2.3.0 (with tinydata version > 0.3.0) tp can even install 
 
 Tiny Puppet adds the tp command to Puppet. Just have it in your modulepath and install the tp command with:
 
-    sudo puppet module install example42-tp
-    sudo puppet tp setup
+    puppet tp setup
 
 With the tp command you can install on the local OS the given application, taking care of naming differences, additional repos or prerequisites.
 
-    tp install <application>    # Install an application
-    tp uninstall <application>  # Uninstall an application
-    tp test [application]       # Test one or all the applications
-    tp log [application]        # Tail the logs of one or all applications
-    tp info [application]       # Show info on one or all applications
-    tp debug [application]      # Troubleshoot one or all applications
-    tp version [application]    # Show version of one or all applications
-    tp source <application>     # Clone the source of an applications
-    tp version [application]    # Show version of one or all applications
+    tp install <application>
+    tp uninstall <application>
 
-    tp desktop                  # Show tp desktop options
-    tp desktop init             # Initialise a new tp desktop repostiory
-    tp desktop list             # List the available desktops
-    tp desktop show <desktop>   # Show the details of a desktop
-    tp desktop prevew <desktop> # Preview what desktop apply would do
-    tp desktop apply <desktop>  # Apply a desktop configuration
+    tp test # Test all the applications installed by tp
+    tp test <application> # Test the specified application
 
-Check this [![asciicast](https://asciinema.org/a/uYLSvQL5AQwqzalLq9Gi353W1.svg)](https://asciinema.org/a/uYLSvQL5AQwqzalLq9Gi353W1) to see tp cli in action.
+    tp log # Tail all the logs of all the applications installed by tp
+    tp log <application> # Tail the log of the specified application
 
+Each of these commands can be invoked also via the tp puppet face:
+
+    puppet tp <command> <arguments>
 
 ## Reference
 
