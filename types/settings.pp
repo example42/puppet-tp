@@ -102,4 +102,6 @@ type Tp::Settings = Struct[{
     Optional[ports]        => Hash,
     Optional[urls]         => Hash,
     Optional[build]        => Hash,
+    Optional[install_method] => Enum['package', 'build', 'file', 'image'],
+
 }]

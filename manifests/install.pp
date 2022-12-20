@@ -1,6 +1,8 @@
 # @define tp::install
 #
 # This define installs the application (app) set in the given title.
+# Default installation method is package. Alternative ones are possible
+# if the necessary tinydta is present for the app.
 # It manages the packages presence and, eventually, the relevant
 # services on the supported Operating Systems.
 # Several parameters allow any kind of override of default settings and
@@ -13,6 +15,12 @@
 #
 # @example installation of postfix
 #   tp::install { 'postfix': }
+#
+# @example installation of prometheus directly from a binary of the given version
+#   tp::install { 'prometheus':
+#     install_method: 'file'
+#     ensure: '2.41.0',
+#   }
 #
 # @example installation of a specific version of a package
 # Note: the version MUST be a valid for the underlying package provider.
@@ -130,6 +138,22 @@ define tp::install (
 
   Variant[Boolean,String] $ensure           = present,
 
+  # Temporary flag to use v4 code
+  Boolean                 $use_v4           = pick($tp::use_v4,false),
+
+  # V4 params
+
+  Enum['package', 'build', 'file', 'image'] $install_method = 'package',
+
+  Hash                    $confs            = {},
+  Hash                    $dirs             = {},
+
+  Hash                    $options          = {},
+  Hash                    $my_settings      = {},
+
+  Hash                    $install_params   = {},
+
+  # Legacy params
   Hash                    $conf_hash        = {},
   Hash                    $dir_hash         = {},
 
@@ -163,320 +187,399 @@ define tp::install (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
+  deprecation('conf_hash', 'Replace with confs')
+  deprecation('dir_hash', 'Replace with dirs')
+  deprecation('settings_hash', 'Replace with my_settings')
+  deprecation('options_hash', 'Replace with options')
+
   # Settings evaluation
   $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
-  $settings = $tp_settings + $settings_hash
+  $settings = $tp_settings + $settings_hash + $my_settings
 
-  if $settings[package_name] == Variant[Undef,String[0]]
-  or $manage_package == false {
-    $service_require = undef
-  } else {
-    $service_require = Package[$settings[package_name]]
-  }
-
-  if $settings[package_provider] == Variant[Undef,String[0]] {
-    $package_provider = undef
-  } else {
-    $package_provider = $settings[package_provider]
-  }
-
-  if $settings[package_source] == Variant[Undef,String[0]] {
-    $package_source = undef
-  } else {
-    $package_source = $settings[package_source]
-  }
-
-  if $settings[package_install_options] == Variant[Undef,String[0]] {
-    $package_install_options = undef
-  } else {
-    $package_install_options = $settings[package_install_options]
-  }
-
-  $plain_ensure = $ensure ? {
-    'absent' => 'absent',
-    false    => 'absent',
-    default  => 'present',
-  }
-  $service_ensure = $ensure ? {
-    'absent' => 'stopped',
-    false    => 'stopped',
-    default  => $settings[service_ensure],
-  }
-  $service_enable = $ensure ? {
-    'absent' => false,
-    false    => false,
-    default  => $settings[service_enable],
-  }
-
-  # Automatic repo management
-  $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
-  if $auto_repo
-  and ( $settings[repo_url]
-    or $settings[yum_mirrorlist]
-    or $settings[repo_package_url]
-  or $settings[repo_file_url]) {
-    $repo_enabled = $ensure ? {
-      'absent'  => false,
-      false     => false,
-      default   => true,
-    }
-    $tp_repo_params_default = {
-      enabled              => $repo_enabled,
-      before               => Package[$settings[package_name]],
-      data_module          => $data_module,
-      repo                 => $repo,
-      settings_hash        => $settings_hash,
-      exec_environment     => $repo_exec_environment,
-      upstream_repo        => $use_upstream_repo,
+  # v4 code
+  if $use_v4 {
+    $default_install_params = {
+      ensure             => $ensure,
+      upstream_repo      => $upstream_repo,
+      auto_repo          => $auto_repo,
+      auto_prereq        => $auto_prereq,
+      repo               => $repo,
+      repo_exec_environment => $repo_exec_environment,
+      tp_repo_params       => $tp_repo_params,
       apt_safe_trusted_key => $apt_safe_trusted_key,
+      manage_package       => $manage_package,
+      manage_service       => $manage_service,
+      data_module          => $data_module,
     }
-    tp::repo { $app:
-      * => $tp_repo_params_default + $tp_repo_params,
-    }
-  }
 
-  if $auto_prerequisites {
-    deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
-  }
-
-  # Automatic dependencies management, if data defined
-  if $auto_prereq and $settings[package_prerequisites] and $ensure != 'absent' {
-    case $settings[package_prerequisites] {
-      Array: {
-        $settings[package_prerequisites].each | $p | {
-          if $settings[package_name] {
-            Package[$p] -> Package[$settings[package_name]]
-          }
-          ensure_packages($p)
+    case $install_method {
+      'package': {
+        tp::install::package { $app:
+          * => $default_install_params + $install_params,
         }
       }
-      Hash: {
-        $settings[package_prerequisites].each | $p,$v | {
-          if $settings[package_name] {
-            Package[$p] -> Package[$settings[package_name]]
-          }
-          ensure_packages($p, $v)
+      'build': {
+        tp::install::build { $app:
+          * => $default_install_params + $install_params,
         }
       }
-      String: {
-        if $settings[package_name] {
-          Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
-        }
-        package { "${settings[package_prerequisites]}": }
-        # ensure_packages("${settings[package_prerequisites]}")
-      }
-      default: {}
-    }
-  }
-  if $auto_prereq and $settings[tp_prerequisites] and $ensure != 'absent' {
-    case $settings[tp_prerequisites] {
-      Array: {
-        $settings[tp_prerequisites].each | $p | {
-          if $settings[package_name] {
-            Tp::Install[$p] -> Package[$settings[package_name]]
-          }
-          tp_install($p, { auto_prereq => true })
+      'file': {
+        tp::install::file { $app:
+          * => $default_install_params + $install_params,
         }
       }
-      Hash: {
-        $settings[tp_prerequisites].each | $p,$v | {
-          if $settings[package_name] {
-            Tp::Install[$p] -> Package[$settings[package_name]]
-          }
-          $tp_install_params = { auto_prereq => true } + $v
-          tp_install($p, $tp_install_params)
+      'image': {
+        tp::install::image { $app:
+          * => $default_install_params + $install_params,
         }
       }
-      String: {
-        if $settings[package_name] {
-          Tp::Install[$settings[tp_prerequisites]] -> Package[$settings[package_name]]
-        }
-        tp_install($settings[tp_prerequisites], { auto_prereq => true })
-      }
-      default: {}
-    }
-  }
-  if $auto_prereq and $settings['exec_prerequisites'] and $ensure != 'absent' {
-    $settings[exec_prerequisites].each | $k , $v | {
-      if $settings[package_name] {
-        Exec[$k] -> Package[$settings[package_name]]
-      }
-      exec { $k:
-        * => { 'path' => $facts['path'] } + $v,
+      default: {
+        fail("Invalid install_method ${install_method}")
       }
     }
-  }
-  if $auto_prereq and $settings['extra_prerequisites'] and $ensure != 'absent' {
-    $settings['extra_prerequisites'].each | $k,$v | {
-      create_resources($k,$v, { before => Package[$settings[package_name]] })
-    }
-  }
-  if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
-    $settings[exec_postinstall].each | $k , $v | {
-      if $settings[package_name] {
-        Package[$settings[package_name]] -> Exec[$k]
-      }
-      exec { $k:
-        * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
-      }
-    }
-  }
-  if $auto_prereq and $settings['extra_postinstall'] and $ensure != 'absent' {
-    $settings['extra_postinstall'].each | $k,$v | {
-      create_resources($k,$v, { require => Package[$settings[package_name]] })
-    }
-  }
 
-  # Resources
-  if $settings['brew_tap'] =~ String[1] {
-    Package <| provider == tap |> -> Package <| provider == homebrew |>
-    Package <| provider == tap |> -> Package <| provider == brew |>
-    Package <| provider == tap |> -> Package <| provider == brewcask |>
-    ensure_packages($settings['brew_tap'], { 'provider' => 'tap' })
-  }
-
-  if $settings[package_name] =~ Array and $manage_package {
-    $package_defaults = {
-      ensure   => $plain_ensure,
-      provider => $package_provider,
+    # Additional confs and dirs
+    $conf_defaults = {
+      'ensure'        => tp::ensure2file($ensure),
+      'settings_hash' => $settings,
+      'options_hash'  => $options_hash,
+      'data_module'   => $data_module,
     }
-    $settings[package_name].each |$pkg| {
-      package { $pkg:
-        * => $package_defaults + pick($settings[package_params],{}),
-      }
-    }
-  }
-  if $settings[package_name] =~ String[1] and $manage_package {
-    $package_defaults = {
-      ensure          => $ensure,
-      provider        => $package_provider,
-      source          => $package_source,
-      install_options => $package_install_options,
-    }
-    package { $settings[package_name]:
-      * => $package_defaults + pick($settings[package_params],{}),
-    }
-  }
-
-  if $settings[service_name] and $manage_service {
-    $services_array=any2array($settings[service_name])
-    $services_array.each |$svc| {
-      $service_defaults = {
-        ensure  => $service_ensure,
-        enable  => $service_enable,
-        require => $service_require,
-      }
-      service { $svc:
-        * => $service_defaults + pick($settings[service_params],{}),
-      }
-    }
-  }
-
-  # Install straight from git source
-  if $settings[git_source] {
-    if ! $settings[package_name] or $settings[git_use] {
-      tp::dir { $app:
-        ensure  => $ensure,
-        path    => pick ($settings[git_destination], "/opt/${app}"),
-        source  => $settings[git_source],
-        vcsrepo => 'git',
-      }
-    }
-  }
-
-  # Manage additional tp::conf as in conf_hash
-  $conf_defaults = {
-    'ensure'        => tp::ensure2file($ensure),
-    'settings_hash' => $settings,
-    'options_hash'  => $options_hash,
-    'data_module'   => $data_module,
-  }
-  if $conf_hash != {} {
-    $conf_hash.each |$k,$v| {
+    $confs.each |$k,$v| {
       tp::conf { $k:
         * => $conf_defaults + $v,
       }
     }
-  }
-  if $options_hash != {} and $settings[config_file_format] {
-    tp::conf { $app:
-      * => $conf_defaults,
+
+    if $options_hash != {} and $settings[config_file_format] {
+      tp::conf { $app:
+        * => $conf_defaults,
+      }
     }
-  }
-  # Manage additional tp::dir as in dir_hash
-  $dir_defaults = {
-    'ensure'        => tp::ensure2dir($ensure),
-    'settings_hash' => $settings,
-    'data_module'   => $data_module,
-  }
-  if $dir_hash != {} {
-    $dir_hash.each |$k,$v| {
+    $dir_defaults = {
+      'ensure'        => tp::ensure2dir($ensure),
+      'settings_hash' => $settings,
+      'data_module'   => $data_module,
+    }
+    $dirs.each |$k,$v| {
       tp::dir { $k:
         * => $dir_defaults + $v,
       }
     }
-  }
+  } else {
+  # Legacy code
 
-  # Automatically manage config files and any Puppet resource, if tinydata defined
-  if $auto_conf and $settings['config_file_template'] {
-    ::tp::conf { $app:
-      template     => $settings['config_file_template'],
-      options_hash => $options_hash,
-      data_module  => $data_module,
+    if $settings[package_name] == Variant[Undef,String[0]]
+    or $manage_package == false {
+      $service_require = undef
+    } else {
+      $service_require = Package[$settings[package_name]]
     }
-  }
-  if $auto_conf and $settings['init_file_template'] {
-    ::tp::conf { "${app}::init":
-      template     => $settings['init_file_template'],
-      options_hash => $options_hash,
-      base_file    => 'init',
-      data_module  => $data_module,
-    }
-  }
 
-  # Optional test automation integration
-  if $test_enable and $test_template {
-    tp::test { $app:
-      settings_hash => $settings,
-      options_hash  => $options_hash,
-      template      => $test_template,
-      data_module   => $data_module,
+    if $settings[package_provider] == Variant[Undef,String[0]] {
+      $package_provider = undef
+    } else {
+      $package_provider = $settings[package_provider]
     }
-  }
 
-  # Optional puppi integration
-  if $puppi_enable {
-    tp::puppi { $app:
-      settings_hash => $settings,
-      data_module   => $data_module,
+    if $settings[package_source] == Variant[Undef,String[0]] {
+      $package_source = undef
+    } else {
+      $package_source = $settings[package_source]
     }
-  }
 
-  # Optional cli integration
-  $tp_basedir = $facts['os']['family'] ? {
-    'windows' => 'C:/ProgramData/PuppetLabs/puppet/etc/tp',
-    default   => '/etc/tp',
-  }
-
-  if $cli_enable and getvar('facts.identity.privileged') != false {
-    file { "${tp_basedir}/app/${sane_app}":
-      ensure  => $plain_ensure,
-      content => inline_template('<%= @settings.to_yaml %>'),
+    if $settings[package_install_options] == Variant[Undef,String[0]] {
+      $package_install_options = undef
+    } else {
+      $package_install_options = $settings[package_install_options]
     }
-    file { "${tp_basedir}/shellvars/${sane_app}":
-      ensure  => $plain_ensure,
-      content => epp('tp/shellvars.epp', { settings => $settings }),
-    }
-    include tp
-  }
 
-  # Debugging
-  if $debug == true {
-    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    file { "tp_install_debug_${sane_app}":
-      ensure  => $plain_ensure,
-      content => $debug_scope,
-      path    => "${debug_dir}/tp_install_debug_${sane_app}",
+    $plain_ensure = $ensure ? {
+      'absent' => 'absent',
+      false    => 'absent',
+      default  => 'present',
+    }
+    $service_ensure = $ensure ? {
+      'absent' => 'stopped',
+      false    => 'stopped',
+      default  => $settings[service_ensure],
+    }
+    $service_enable = $ensure ? {
+      'absent' => false,
+      false    => false,
+      default  => $settings[service_enable],
+    }
+
+    # Automatic repo management
+    $use_upstream_repo = pick($upstream_repo,$settings[upstream_repo],false)
+    if $auto_repo
+    and ( $settings[repo_url]
+      or $settings[yum_mirrorlist]
+      or $settings[repo_package_url]
+    or $settings[repo_file_url]) {
+      $repo_enabled = $ensure ? {
+        'absent'  => false,
+        false     => false,
+        default   => true,
+      }
+      $tp_repo_params_default = {
+        enabled              => $repo_enabled,
+        before               => Package[$settings[package_name]],
+        data_module          => $data_module,
+        repo                 => $repo,
+        settings_hash        => $settings_hash,
+        exec_environment     => $repo_exec_environment,
+        upstream_repo        => $use_upstream_repo,
+        apt_safe_trusted_key => $apt_safe_trusted_key,
+      }
+      tp::repo { $app:
+        * => $tp_repo_params_default + $tp_repo_params,
+      }
+    }
+
+    if $auto_prerequisites {
+      deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
+    }
+
+    # Automatic dependencies management, if data defined
+    if $auto_prereq and $settings[package_prerequisites] and $ensure != 'absent' {
+      case $settings[package_prerequisites] {
+        Array: {
+          $settings[package_prerequisites].each | $p | {
+            if $settings[package_name] {
+              Package[$p] -> Package[$settings[package_name]]
+            }
+            ensure_packages($p)
+          }
+        }
+        Hash: {
+          $settings[package_prerequisites].each | $p,$v | {
+            if $settings[package_name] {
+              Package[$p] -> Package[$settings[package_name]]
+            }
+            ensure_packages($p, $v)
+          }
+        }
+        String: {
+          if $settings[package_name] {
+            Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
+          }
+          package { "${settings[package_prerequisites]}": }
+          # ensure_packages("${settings[package_prerequisites]}")
+        }
+        default: {}
+      }
+    }
+    if $auto_prereq and $settings[tp_prerequisites] and $ensure != 'absent' {
+      case $settings[tp_prerequisites] {
+        Array: {
+          $settings[tp_prerequisites].each | $p | {
+            if $settings[package_name] {
+              Tp::Install[$p] -> Package[$settings[package_name]]
+            }
+            tp_install($p, { auto_prereq => true })
+          }
+        }
+        Hash: {
+          $settings[tp_prerequisites].each | $p,$v | {
+            if $settings[package_name] {
+              Tp::Install[$p] -> Package[$settings[package_name]]
+            }
+            $tp_install_params = { auto_prereq => true } + $v
+            tp_install($p, $tp_install_params)
+          }
+        }
+        String: {
+          if $settings[package_name] {
+            Tp::Install[$settings[tp_prerequisites]] -> Package[$settings[package_name]]
+          }
+          tp_install($settings[tp_prerequisites], { auto_prereq => true })
+        }
+        default: {}
+      }
+    }
+    if $auto_prereq and $settings['exec_prerequisites'] and $ensure != 'absent' {
+      $settings[exec_prerequisites].each | $k , $v | {
+        if $settings[package_name] {
+          Exec[$k] -> Package[$settings[package_name]]
+        }
+        exec { $k:
+          * => { 'path' => $facts['path'] } + $v,
+        }
+      }
+    }
+    if $auto_prereq and $settings['extra_prerequisites'] and $ensure != 'absent' {
+      $settings['extra_prerequisites'].each | $k,$v | {
+        create_resources($k,$v, { before => Package[$settings[package_name]] })
+      }
+    }
+    if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
+      $settings[exec_postinstall].each | $k , $v | {
+        if $settings[package_name] {
+          Package[$settings[package_name]] -> Exec[$k]
+        }
+        exec { $k:
+          * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
+        }
+      }
+    }
+    if $auto_prereq and $settings['extra_postinstall'] and $ensure != 'absent' {
+      $settings['extra_postinstall'].each | $k,$v | {
+        create_resources($k,$v, { require => Package[$settings[package_name]] })
+      }
+    }
+
+    # Resources
+    if $settings['brew_tap'] =~ String[1] {
+      Package <| provider == tap |> -> Package <| provider == homebrew |>
+      Package <| provider == tap |> -> Package <| provider == brew |>
+      Package <| provider == tap |> -> Package <| provider == brewcask |>
+      ensure_packages($settings['brew_tap'], { 'provider' => 'tap' })
+    }
+
+    if $settings[package_name] =~ Array and $manage_package {
+      $package_defaults = {
+        ensure   => $plain_ensure,
+        provider => $package_provider,
+      }
+      $settings[package_name].each |$pkg| {
+        package { $pkg:
+          * => $package_defaults + pick($settings[package_params],{}),
+        }
+      }
+    }
+    if $settings[package_name] =~ String[1] and $manage_package {
+      $package_defaults = {
+        ensure          => $ensure,
+        provider        => $package_provider,
+        source          => $package_source,
+        install_options => $package_install_options,
+      }
+      package { $settings[package_name]:
+        * => $package_defaults + pick($settings[package_params],{}),
+      }
+    }
+
+    if $settings[service_name] and $manage_service {
+      $services_array=any2array($settings[service_name])
+      $services_array.each |$svc| {
+        $service_defaults = {
+          ensure  => $service_ensure,
+          enable  => $service_enable,
+          require => $service_require,
+        }
+        service { $svc:
+          * => $service_defaults + pick($settings[service_params],{}),
+        }
+      }
+    }
+
+    # Install straight from git source
+    if $settings[git_source] {
+      if ! $settings[package_name] or $settings[git_use] {
+        tp::dir { $app:
+          ensure  => $ensure,
+          path    => pick ($settings[git_destination], "/opt/${app}"),
+          source  => $settings[git_source],
+          vcsrepo => 'git',
+        }
+      }
+    }
+
+    # Manage additional tp::conf as in conf_hash
+    $conf_defaults = {
+      'ensure'        => tp::ensure2file($ensure),
+      'settings_hash' => $settings,
+      'options_hash'  => $options_hash,
+      'data_module'   => $data_module,
+    }
+    if $conf_hash != {} {
+      $conf_hash.each |$k,$v| {
+        tp::conf { $k:
+          * => $conf_defaults + $v,
+        }
+      }
+    }
+    if $options_hash != {} and $settings[config_file_format] {
+      tp::conf { $app:
+        * => $conf_defaults,
+      }
+    }
+    # Manage additional tp::dir as in dir_hash
+    $dir_defaults = {
+      'ensure'        => tp::ensure2dir($ensure),
+      'settings_hash' => $settings,
+      'data_module'   => $data_module,
+    }
+    if $dir_hash != {} {
+      $dir_hash.each |$k,$v| {
+        tp::dir { $k:
+          * => $dir_defaults + $v,
+        }
+      }
+    }
+
+    # Automatically manage config files and any Puppet resource, if tinydata defined
+    if $auto_conf and $settings['config_file_template'] {
+      ::tp::conf { $app:
+        template     => $settings['config_file_template'],
+        options_hash => $options_hash,
+        data_module  => $data_module,
+      }
+    }
+    if $auto_conf and $settings['init_file_template'] {
+      ::tp::conf { "${app}::init":
+        template     => $settings['init_file_template'],
+        options_hash => $options_hash,
+        base_file    => 'init',
+        data_module  => $data_module,
+      }
+    }
+
+    # Optional test automation integration
+    if $test_enable and $test_template {
+      tp::test { $app:
+        settings_hash => $settings,
+        options_hash  => $options_hash,
+        template      => $test_template,
+        data_module   => $data_module,
+      }
+    }
+
+    # Optional puppi integration
+    if $puppi_enable {
+      tp::puppi { $app:
+        settings_hash => $settings,
+        data_module   => $data_module,
+      }
+    }
+
+    # Optional cli integration
+    $tp_basedir = $facts['os']['family'] ? {
+      'windows' => 'C:/Program Files/Puppet Labs/Puppet/tp',
+      default   => '/etc/tp',
+    }
+
+    if $cli_enable and getvar('facts.identity.privileged') != false {
+      file { "${tp_basedir}/app/${sane_app}":
+        ensure  => $plain_ensure,
+        content => inline_template('<%= @settings.to_yaml %>'),
+      }
+      file { "${tp_basedir}/shellvars/${sane_app}":
+        ensure  => $plain_ensure,
+        content => epp('tp/shellvars.epp', { settings => $settings }),
+      }
+      include tp
+    }
+
+    # Debugging
+    if $debug == true {
+      $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+      file { "tp_install_debug_${sane_app}":
+        ensure  => $plain_ensure,
+        content => $debug_scope,
+        path    => "${debug_dir}/tp_install_debug_${sane_app}",
+      }
     }
   }
 }

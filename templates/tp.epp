@@ -1,0 +1,528 @@
+<%- | Hash $options = {}, Boolean $suppress_tp_warnings = true, String $tp_dir, String $real_ruby_path | -%>
+#!<%= $real_ruby_path %>
+require 'fileutils'
+require 'yaml'
+
+$action = ARGV[0] ? ARGV[0] : 'none'
+app = ARGV[1] ? ARGV[1] : 'all'
+infoblock = ARGV[2] ? ARGV[2] : 'all'
+NODENAME = %x{hostname}.gsub("\n",'')
+REPO_DIR = %x{pwd}.gsub("\n",'')
+GIT_COMMAND = %x{which git}.gsub("\n",'')
+PUPPET_COMMAND = %x{which puppet}.gsub("\n",'')
+PIP_COMMAND = %x{which pip}.size.>(0) ? %x{which pip}.gsub("\n",'') : %x{which pip3}.gsub("\n",'')
+
+<% if $suppress_tp_warnings { -%>
+suppress_warnings = " 2>&1 | grep -v 'Warning'"
+<% } else { -%>
+suppress_warnings = ''
+<% } -%>
+<% if $suppress_tp_output { -%>
+suppress_warnings = " >/dev/null 2>&1"
+<% } else { -%>
+suppress_warnings = suppress_warnings
+<% } -%>
+
+TP_APP_DIR = '<%= $tp_dir %>/app'
+TP_TEST_DIR = '<%= $tp_dir %>/test'
+TP_INFO_DIR = '<%= $tp_dir %>/info'
+TP_RUN_INFO_DIR = '<%= $tp_dir %>/run_info'
+
+<% if $osfamily == 'windows' { -%>
+TINYDATA_DIRS = [
+  "#{ENV['HOMEPATH']}/.puppetlabs/etc/code/modules/tinydata/data",
+  - 'C:/Program Files/Puppet Labs/Puppet/puppet/modules/tinydata/data'
+  '/'
+]
+<% } else { -%>
+TINYDATA_DIRS = [
+  "#{ENV['HOME']}/.puppetlabs/etc/code/modules/tinydata/data",
+  '/etc/puppetlabs/code/environments/production/modules/tinydata/data',
+  '/etc/puppetlabs/code/modules/tinydata/data',
+  '/etc/puppet/code/modules/tinydata/data',
+  '/'
+]
+<% } -%>
+TINYDATA_DIR = TINYDATA_DIRS.find { |d| Dir.exist?(d) }
+COMMAND_REDIR = ' > /dev/null 2>&1'
+
+TP_APPS = Dir.entries(TP_APP_DIR).reject { |f| File.directory?(f) }
+
+# Trap CTRL+C cleanly (in tp log)
+trap("INT") { puts 'Exiting...'; exit }
+
+def usage
+  print <<EOF
+Usage: tp <action> [app] [args]
+
+Available actions (some may have extra args):
+
+install: Install the given application with tp
+uninstall: Uninstall the given application with tp
+test: Test if the given (or all) application is correctly working
+log: Tail the logs of the given (or all) application (CTRL+C to exit)
+list: List all the applications for which tinydata is present
+info: Show all info on a given application or the topic specified by args
+debug: Troubleshoot an app, showing information useful for debugging
+source: Git clone the source code of the specified app
+version: Show the version of apps managed with tp
+desktop: Manage your desktop apps and settings with tp
+
+Current applications installed via tp (you can use tp test, info, version and log with them):
+EOF
+puts TP_APPS
+end
+
+# Copy and paste from StackOverflow
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each do |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    end
+  end
+  nil
+end
+
+
+def check_yaml(app)
+  begin
+    result = YAML.load_file(TP_APP_DIR + "/#{app}")
+  rescue
+    result = {}
+  end
+end
+
+def echo_ok(text)
+  puts "\e[32m#{text} OK\e[0m\n"
+end
+def echo_fail(text)
+  puts("\e[31m#{text} FAIL\e[0m\n")
+end
+def echo_title(text)
+  puts "\n\e[34m#{text}\e[0m\n"
+end
+def echo_command(text)
+  puts "\n\e[35m#{text}\e[0m\n"
+end
+
+def run_command(command,output)
+  system(command)
+  result = $?
+  if result == 0
+    echo_ok(output)
+  else
+    echo_fail(output)
+    $error_exit = 1
+  end
+end
+
+def show_command(command,output)
+  echo_title output
+  system(command)
+  puts
+end
+
+def tp_test(app)
+  begin
+    settings = check_yaml app
+
+    # Run custom test script if exists
+    if File.exists?(TP_TEST_DIR + "/#{app}")
+      run_command("#{TP_TEST_DIR}/#{app} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - custom: #{TP_TEST_DIR}/#{app}")
+    end
+
+    # Check repo if defined
+    if settings['repo_package_url'] or settings['repo_url'] or settings['yum_mirrorlist'] or settings['repo_file_url']
+      repo_filename = settings['repo_filename'] ? settings['repo_filename'] : app
+      repo_path = "<%= $options['check_repo_path'] %>#{repo_filename}<%= $options['check_repo_path_post'] %>"
+      run_command("test -f #{repo_path}" , "#{NODENAME} - #{app} - repo: #{repo_path}")
+    end
+
+    # Check package if defined
+    if settings['package_name'] and settings['package_name'] != ""
+      Array(settings['package_name']).each do |s|
+        if settings['package_provider'] == 'gem'
+          run_command("gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
+        elsif settings['package_provider'] == 'puppet_gem'
+          run_command("/opt/puppetlabs/puppet/bin/gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
+        elsif settings['package_provider'] == 'pip' or settings['package_provider'] == 'pip3'
+          run_command(PIP_COMMAND + " list --format=columns | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
+        else
+          run_command("<%= $options['check_package_command'] %> #{s} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - package: #{s}")
+        end
+      end
+    end
+
+    # Check service if defined
+    if settings['service_name'] and settings['service_name'] != ""
+      Array(settings['service_name']).each do |s|
+        run_command("<%= $options['check_service_command'] %> #{s} <%= $options['check_service_command_post'] %> #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - service: #{s}")
+      end
+    end
+
+  rescue
+    raise ArgumentError.new("#{app} not found in " + TP_APP_DIR)
+  end
+end
+
+def tp_info(app,infoblock='all')
+  begin
+    settings = check_yaml app
+
+    # Run custom test script if exists under /etc/tp/info/
+    if File.exists?(TP_INFO_DIR + "/#{app}")
+      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
+    end
+
+    # Run default checks via /etc/tp/run_info.sh
+    if infoblock != 'all'
+      run_command("<%= $options['info_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
+    else
+      run_command("<%= $options['info_script_path'] %> " + app , "#{NODENAME} - #{app} - info")
+    end
+
+    # Extra tinydata commands
+    if settings['info_commands']
+      settings['info_commands'].each do |k,v|
+        if infoblock != 'all'
+          if infoblock.to_s == k.to_s
+            run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+          end
+        else
+          run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+        end
+      end
+    end
+
+  rescue
+    raise ArgumentError.new("#{app} info got errors")
+  end
+end
+
+def tp_debug(app,infoblock='all')
+  begin
+    settings = check_yaml app
+
+    # Run custom test script if exists under /etc/tp/debug/
+    if File.exists?(TP_INFO_DIR + "/#{app}")
+      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
+    end
+
+    # Run default checks via /etc/tp/run_debug.sh
+    if infoblock != 'all'
+      run_command("<%= $options['debug_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
+    else
+      run_command("<%= $options['debug_script_path'] %> " + app , "#{NODENAME} - #{app} - debug")
+    end
+
+    # Extra tinydata commands
+    if settings['debug_commands']
+      settings['debug_commands'].each do |k,v|
+        if infoblock != 'all'
+          if infoblock.to_s == k.to_s
+            run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+          end
+        else
+          run_command(v , "#{NODENAME} - #{app} - #{k}: #{v}")
+        end
+      end
+    end
+
+  rescue
+    raise ArgumentError.new("#{app} debug got errors")
+  end
+end
+def tp_version(app)
+  begin
+    settings = check_yaml app
+    if settings['package_name']
+      # Version command from tinydata or default
+      if settings['version_command']
+        show_command(settings['version_command'], "#{NODENAME} - #{app}: #{settings['version_command']}")
+      else
+        show_command("#{app} --version" , "#{NODENAME} - #{app}: #{app} --version")
+      end
+    end
+  rescue
+    puts ''
+  end
+end
+
+def desktop_apply(desktop_name,extra_options)
+  begin
+    repo_dir=REPO_DIR
+    repo_dirname=File.basename(repo_dir)
+    local_modulepath=`puppet config print modulepath`.strip
+    if File.exists?("#{repo_dir}/environment.conf")
+<% if $osfamily == 'windows' { -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
+<% } else { -%>
+      modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:/etc/puppetlabs/code/environments/production/modules"
+<% } -%>
+      environmentpath="--environmentpath #{repo_dir}/.. --environment #{repo_dirname}"
+      hiera_config="--hiera_config #{repo_dir}/hiera.yaml"
+      verbose_options="--verbose --report --show_diff --summarize --detailed-exitcodes"
+      #extra=extra_options
+      extra=extra_options.join(' ')
+      fact="export FACTER_hostname=#{desktop_name} ; "
+      # puppet_command="#{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
+      puts "#{NODENAME} - Apply desktop #{desktop_name}"
+      puts "#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp "
+      exec("#{fact} #{PUPPET_COMMAND} apply #{modulepath} #{environmentpath} #{hiera_config} #{verbose_options} #{extra} #{repo_dir}/manifests/site.pp")
+    else
+      echo_fail "Environment.conf is missing, please run 'tp desktop init' first"
+      exit 1
+    end
+  rescue
+    echo_fail "#{NODENAME} - Failed to apply desktop #{desktop_name}"
+    exit 1
+  end
+end
+def desktop_preview(desktop_name,extra_options)
+  desktop_apply(desktop_name,['--noop'] + extra_options)
+end
+
+
+
+def desktop_list(desktops_dir="#{REPO_DIR}/data/desktops")
+  begin
+    desktops = Dir.entries(desktops_dir)
+    desktops.delete(".")
+    desktops.delete("..")
+    desktops.each do |desktop|
+      puts desktop.gsub(".yaml","")
+    end
+  rescue
+    echo_fail "No desktops found"
+    exit 1
+  end
+end
+
+def desktop_show(desktop)
+  data_file="#{REPO_DIR}/data/desktops/#{desktop}.yaml"
+  begin
+    if File.exists?(data_file)
+      puts "Showing #{data_file}"
+      # %x[cat #{data_file}]
+      # system("cat #{data_file}")
+      exec("cat #{data_file} ; echo")
+    else
+      echo_fail "Desktop #{desktop} not found in #{data_file}"
+      exit 1
+    end
+  rescue
+    echo_fail "No desktops data file found in #{data_file}"
+    puts "Available desktops to show and apply:"
+    desktop_list
+  end
+end
+
+def desktop_init(url,repo_dir)
+  begin
+    if File.exist?("#{repo_dir}/environment.conf")
+      puts "You are already in a tp desktop environment, no need to init again."
+      puts "If you want work on another one, just run tp desktop init from another directory."
+      exit 1
+    else
+      if File.executable?("#{GIT_COMMAND}")
+        puts "git found, cloning #{url} to #{repo_dir}/tp_desktop"
+        begin
+          %x[git clone #{url} #{repo_dir}/tp_desktop]
+          puts
+#          begin
+#            puts "Cloning done! Now we are going to install the tp module in #{repo_dir}/tp_desktop/modules"
+#            show_command("puppet module install example42/tp --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing tp module")
+#            show_command("puppet module install puppetlabs/vcsrepo --modulepath #{repo_dir}/tp_desktop/modules", "#{NODENAME} - Installing vcsrepo module")
+#          rescue
+#            puts "Failed to install the tp module! "
+#          end
+          puts
+          puts "You can now move into the created dir (cd #{repo_dir}/tp_desktop) and run tp desktop commands."
+        rescue
+          puts "Failed to clone #{url} to #{repo_dir}/tp_desktop"
+        end
+      else
+        puts "Git is not installed, please install it and run tp desktop init again"
+      end
+    end
+  rescue
+    echo_fail "Oops, we couldn't setup tp desktop"
+  end
+end
+
+
+# ACTIONS selection
+case $action
+when 'test'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_test", a)
+    end
+    OTHER_TESTS = Dir.entries(TP_TEST_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_TESTS.each do |a|
+      a.send("tp_test", a)
+    end
+  else
+    app.send("tp_test", app)
+  end
+  if $error_exit == 0
+    puts "\n\e[32mAll tests OK\e[0m\n"
+  else
+    puts "\n\e[31mSome test in ERROR\e[0m\n"
+  end
+  exit($error_exit)
+
+when 'log'
+  logs = []
+  if app == 'all'
+    TP_APPS.each do |f|
+      settings = check_yaml f
+      logs << settings['log_file_path']
+      if settings['log_dir_path']
+        logs << settings['log_dir_path'] + "/*.log"
+      end
+    end
+  else
+    settings = check_yaml app
+    logs << settings['log_file_path']
+    if settings['log_dir_path']
+      logs << settings['log_dir_path'] + "/*.log"
+    end
+  end
+  system("tail -f " + logs.uniq.join(' '))
+
+when 'list'
+  if TINYDATA_DIR != '/'
+    tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
+    puts tinydata_app
+  else
+    puts "Tinydata module not found. Can't list available apps"
+  end
+
+when 'install'
+  if TINYDATA_DIR != '/'
+    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'" + suppress_warnings)
+  else
+    puts "You can't install apps with tp wihout having the tp module locally installed"
+  end
+
+when 'uninstall'
+  if TINYDATA_DIR != '/'
+    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'" + suppress_warnings)
+  else
+    puts "You can't uninstall apps with tp wihout having the tp module locally installed"
+  end
+
+when 'info'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_info", a, infoblock)
+    end
+    OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_INFOS.each do |a|
+      a.send("tp_info", a, infoblock)
+    end
+  else
+    app.send("tp_info", app, infoblock)
+  end
+  if $error_exit == 0
+    puts "\n\e[32mAll info OK\e[0m\n"
+  else
+    puts "\n\e[31mSome info FAILED\e[0m\n"
+  end
+  exit($error_exit)
+
+when 'debug'
+  $error_exit=0
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+    OTHER_INFOS = Dir.entries(TP_INFO_DIR).reject { |f| TP_APPS.include?(f) || File.directory?(f) }
+    OTHER_INFOS.each do |a|
+      a.send("tp_debug", a, infoblock)
+    end
+  else
+    app.send("tp_debug", app, infoblock)
+  end
+  if $error_exit == 0
+    puts "\n\e[32mAll debug outputs OK\e[0m\n"
+  else
+    puts "\n\e[31mSome debug outputs FAILED\e[0m\n"
+  end
+  exit($error_exit)
+
+when 'version'
+  if app == 'all'
+    TP_APPS.each do |a|
+      a.send("tp_version", a)
+    end
+  else
+    app.send("tp_version", app)
+  end
+  exit
+
+when 'desktop'
+  case app
+  when 'init'
+    echo_title "Initializing a new tp desktop environment"
+    case infoblock
+    when 'tp'
+      url='https://github.com/example42/tp_desktop.git'
+    when 'advanced'
+      url='https://github.com/example42/tp_desktop-advanced.git'
+    when 'psick'
+      url='https://github.com/example42/psick.git'
+    when 'all'
+      url='https://github.com/example42/tp_desktop.git'
+    else
+      url=infoblock
+    end
+    desktop_init(url,REPO_DIR)
+    exit
+  when 'apply'
+    echo_title "Applying desktop #{infoblock}"
+    desktop_apply(infoblock,ARGV[3..-1])
+    exit
+  when 'preview'
+    echo_title "Applying in noop mode (no real changes done) desktop #{infoblock}"
+    desktop_preview(infoblock,ARGV[3..-1])
+    exit
+  when 'list'
+    echo_title "Listing desktops under #{REPO_DIR}/data/desktops"
+    desktop_list("#{REPO_DIR}/data/desktops")
+    exit
+  when 'show'
+    echo_title "Show #{infoblock} configuration in #{REPO_DIR}/data/desktops"
+    desktop_show(infoblock)
+    exit
+  else
+    print <<EOF
+Usage: tp desktop <action> [args]
+
+Available tp desktop actions (some may have extra args):
+init: Initialise a tp desktop Puppet environment
+list: List the available desktops (yaml files under data/desktops/)
+show: Show the configurations of a desktop to apply
+preview: Preview the changes to apply, running puppet apply in noop mode
+apply: Apply the specified desktop. If no desktop is specified, the default one is applied
+EOF
+  end
+
+when 'source'
+  if infoblock != 'all'
+    exec ("puppet apply -t -e 'tp::source { " + app + ": url => " + infoblock + ", target => " + target + "}'" + suppress_warnings)
+  elsif app == 'all'
+    puts "You must specify at least the app of which you want to clone the source"
+  else
+    exec ("puppet apply -t -e 'tp::source { " + app + ": }'" + suppress_warnings)
+  end
+
+else
+  usage
+
+end
