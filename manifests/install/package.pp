@@ -137,6 +137,7 @@
 define tp::install::package (
 
   Variant[Boolean,String] $ensure           = present,
+  Optional[String]        $version          = undef,
 
   Hash                    $my_settings      = {},
 
@@ -162,8 +163,6 @@ define tp::install::package (
   # Settings evaluation
   $tp_settings = tp_lookup4($app,'settings',$data_module,'merge')
   $settings = $tp_settings + $my_settings
-
-
 
   if $settings[package_provider] == Variant[Undef,String[0]] {
     $package_provider = undef
@@ -336,7 +335,7 @@ define tp::install::package (
       }
       String[1]: {
         $package_defaults = {
-          ensure          => $ensure,
+          ensure          => pick($version,$ensure),
           provider        => $package_provider,
           source          => $package_source,
           install_options => $package_install_options,

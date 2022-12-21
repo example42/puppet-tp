@@ -76,6 +76,8 @@ class tp (
   Boolean $purge_dirs                                                = false,
 
   # tp 4 new entrypoints
+  Enum['fail','ignore','warn'] $data_fail_behaviour                  = 'warn',
+
   # Variant[Hash,Array[String],String] $command+s             = {},
   # Looked up in code based on $merge_behaviours and $resources_defaults
   Hash $merge_behaviours   = {},

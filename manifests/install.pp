@@ -150,8 +150,13 @@ define tp::install (
 
   Hash                    $options          = {},
   Hash                    $my_settings      = {},
+  Hash                    $my_releases      = {},
 
   Hash                    $install_params   = {},
+
+  Optional[String] $version                 = undef,
+  Optional[String] $source                  = undef,
+  Optional[String] $destination             = undef,
 
   # Legacy params
   Hash                    $conf_hash        = {},
@@ -200,22 +205,26 @@ define tp::install (
   if $use_v4 {
     $default_install_params = {
       ensure             => $ensure,
-      upstream_repo      => $upstream_repo,
-      auto_repo          => $auto_repo,
       auto_prereq        => $auto_prereq,
-      repo               => $repo,
-      repo_exec_environment => $repo_exec_environment,
-      tp_repo_params       => $tp_repo_params,
-      apt_safe_trusted_key => $apt_safe_trusted_key,
-      manage_package       => $manage_package,
       manage_service       => $manage_service,
       data_module          => $data_module,
+      my_settings      => $my_settings,
+      version => $version,
     }
 
     case $install_method {
       'package': {
+        $default_install_package_params = {
+          upstream_repo      => $upstream_repo,
+          auto_repo          => $auto_repo,
+          repo               => $repo,
+          repo_exec_environment => $repo_exec_environment,
+          tp_repo_params       => $tp_repo_params,
+          apt_safe_trusted_key => $apt_safe_trusted_key,
+          manage_package       => $manage_package,
+        }
         tp::install::package { $app:
-          * => $default_install_params + $install_params,
+          * => $default_install_params + $default_install_package_params + $install_params
         }
       }
       'build': {
@@ -224,8 +233,13 @@ define tp::install (
         }
       }
       'file': {
+        $default_install_file_params = {
+          source      => $source,
+          destination => $destination,
+          my_releases => $my_releases,
+        }
         tp::install::file { $app:
-          * => $default_install_params + $install_params,
+          * => $default_install_params + $default_install_file_params + $install_params,
         }
       }
       'image': {

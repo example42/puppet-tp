@@ -9,14 +9,24 @@
 define tp::install::file (
 
   Variant[Boolean,String] $ensure           = present,
+  Enum['fail','ignore','warn'] $data_fail_behaviour = pick($tp::data_fail_behaviour,'warn'),
 
   Hash                    $my_settings      = {},
   Hash                    $my_releases      = {},
 
   Boolean                 $auto_prereq      = false,
 
-  Stdlib::Url             $source           = undef,
-  Sdlib::Absolutepath $destination          = '/usr/local/sbin',
+  Optional[String]               $version             = undef,
+  Optional[String]               $source              = undef,
+  Optional[Stdlib::Absolutepath] $destination         = undef,
+
+  Stdlib::Absolutepath $destination_dir     = '/usr/local/sbin',
+  Stdlib::Absolutepath $download_dir        = '/var/tp/download',
+  Stdlib::Absolutepath $extract_dir         = '/var/tp/extract',
+
+  Boolean $manage_service                    = false,
+
+  String $retrieve_command                   = 'wget',
 
   String[1]               $data_module      = 'tinydata',
 
@@ -32,165 +42,118 @@ define tp::install::file (
 
   # Automatic dependencies management, if data defined
   if $auto_prereq and has_key($releases, 'prerequisites') and $ensure != 'absent' {
-    $resource_defaults = {}
-    $releases['prerequisites'].each |$resource,$params| {
-      case $params {
-        Hash: {
-          $resource.each |$kk,$vv| {
-            create_resources($resource, { $kk => {} }, $resource_defaults + $vv)
-          }
-        }
-        Array: {
-          create_resources($resource, { $resource_data.unique => {} }, $resource_defaults)
-        }
-        String: {
-          create_resources($resource, { $resource_data => {} }, $resource_defaults)
-        }
-        Undef: {
-          # do nothing
-        }
-        default: {
-          fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
-        }
-      }
-    }
+    tp::create_everything ( $releases['prerequisites'], {})
   }
 
-  # Download and unpack the file
+  # Download and unpack source
   case $ensure {
     'latest': {
-      if has_key($releases, 'latest') {
-        $real_source = pick($releases['latest']['url']
+      if getvar('releases.latest.url') {
+        $real_source = pick($source, $releases['latest']['url'])
       } else {
-        fail("No latest release defined for ${app}")
+        tp::fail($data_fail_behaviour,"Missing tinydata releases.last_version, releases.latest.url or data for ${app}")
       }
-    },
+    }
     'present': {
-      $version = $releases['latest']
-    },
+      if $version and getvar('releases.base_url') and getvar('releases.version.file_path') {
+        $composed_url = "${releases['base_url']}${releases['version']['file_path']}"
+        $versioned_url = tp::url_replace($composed_url, $version) # lint-ignore: 140chars
+        $real_source = pick($source, $versioned_url)
+      } elsif getvar('releases.last_version') {
+        $composed_url = "${releases['base_url']}${releases['version']['file_path']}"
+        $versioned_url = tp::url_replace($composed_url, $facts['os']['family'], $facts['os']['architecture'], $facts['kernel']) # lint-ignore: 140chars
+        $real_source = pick($source, $versioned_url)
+      } elsif getvar('releases.latest.url') {
+        $real_source = pick($source, $releases['latest']['url'])
+      } else {
+        tp::fail($data_fail_behaviour,"Missing tinydata releases.last_version, releases.latest.url or data for ${app}")
+      }
+    }
     'absent': {
-      $version = 'absent'
-    },
+      $real_source = false
+    }
+    default: {
+      if has_key($releases, 'version') {
+        $versioned_url = tp::url_replace($releases['version']['url'], $ensure, $facts['os']['family'], $facts['os']['architecture'], $facts['kernel']) # lint-ignore: 140chars
+        $real_source = pick($source, $versioned_url)
+      } else {
+        fail("No release ${ensure} defined for ${app}")
+      }
+    }
   }
 
   if $real_source {
-    exec { "Downloaded ${real_source} in ${destination} - ${title}":
+    $source_filename = pick(getvar('releases.file_name'), basename(getvar('releases.version.file_path')))
+    $source_filetype = pick(getvar('releases.file_format'),'zip')
+    $source_dirname = pick(getvar('releases.version.extracted_dir'),getvar('releases.extracted_dir'),$source_filename)
+    $real_extract_command = getvar('releases.extract_command') ? {
+      ''      => $source_filetype ? {
+        'tgz'     => 'tar -zxf',
+        'gz'      => 'tar -zxf',
+        'tar.gz'  => 'tar -zxf',
+        'bz2'     => 'tar -jxf',
+        'tar'     => 'tar -xf',
+        'zip'     => 'unzip',
+        'binary'  => 'cp',
+        default   => 'tar -zxf',
+      },
+      default => getvar('releases.extract_command'),
+    }
+
+    $extract_command_second_arg = $real_extract_command ? {
+      /^cp.*/    => '.',
+      /^rsync.*/ => '.',
+      default    => '',
+    }
+
+    $real_extracted_dir = getvar('releases.extract_command') ? {
+      ''      => $real_extract_command ? {
+        /(^cp.*|^rsync.*)/         => $source_filename,
+        /(^tar -zxf*|^tar -jxf*)/  => regsubst($source_dirname,'.tar',''),
+        default                    => $source_dirname,
+      },
+      default => $extracted_dir,
+    }
+
+    $real_postextract_cwd = $postextract_cwd ? {
+      ''      => "${extract_dir}/${real_extracted_dir}",
+      default => $postextract_cwd,
+    }
+
+    $real_creates = $creates ? {
+      undef   => "${extract_dir}/${real_extracted_dir}",
+      default => $creates,
+    }
+
+    exec { "Downloading ${title} from ${real_source} to ${download_dir}":
       cwd         => $work_dir,
       command     => "${retrieve_command} ${retrieve_args} ${real_source}",
-      creates     => "${work_dir}/${source_filename}",
+      creates     => "${download_dir}/${source_filename}",
       timeout     => $timeout,
       path        => $path,
       environment => $exec_env,
     }
 
-  $source_filename = parse_url($url,'filename')
-  $source_filetype = parse_url($url,'filetype')
-  $source_dirname = parse_url($url,'filedir')
+    if $extract_command {
+      exec { "Extract ${source_filename} from ${work_dir} - ${title}":
+        command     => "mkdir -p ${extract_dir} && cd ${extract_dir} && ${real_extract_command} ${work_dir}/${source_filename} ${extract_command_second_arg}", # lint:ignore:140chars
+        unless      => "ls ${extract_dir}/${real_extracted_dir}",
+        creates     => $real_creates,
+        timeout     => $timeout,
+        require     => Exec["Downloading ${title} from ${real_source} to ${download_dir}"],
+        path        => $path,
+        environment => $exec_env,
+        notify      => Exec["Chown ${source_filename} in ${extract_dir} - ${title}"],
+      }
 
-  $real_extract_command = $extract_command ? {
-    ''      => $source_filetype ? {
-      '.tgz'     => 'tar -zxf',
-      '.gz'      => 'tar -zxf',
-      '.bz2'     => 'tar -jxf',
-      '.tar'     => 'tar -xf',
-      '.zip'     => 'unzip',
-      default    => 'tar -zxf',
-    },
-    default => $extract_command,
-  }
-
-  $extract_command_second_arg = $real_extract_command ? {
-    /^cp.*/    => '.',
-    /^rsync.*/ => '.',
-    default    => '',
-  }
-
-  $real_extracted_dir = $extracted_dir ? {
-    ''      => $real_extract_command ? {
-      /(^cp.*|^rsync.*)/         => $source_filename,
-      /(^tar -zxf*|^tar -jxf*)/  => regsubst($source_dirname,'.tar',''),
-      default                    => $source_dirname,
-    },
-    default => $extracted_dir,
-  }
-
-  $real_postextract_cwd = $postextract_cwd ? {
-    ''      => "${destination_dir}/${real_extracted_dir}",
-    default => $postextract_cwd,
-  }
-
-  $real_creates = $creates ? {
-    undef   => "${destination_dir}/${real_extracted_dir}",
-    default => $creates,
-  }
-
-  if $preextract_command and $preextract_command != '' {
-    exec { "PreExtract ${source_filename} in ${destination_dir} - ${title}":
-      command     => $preextract_command,
-      subscribe   => Exec["Retrieve ${url} in ${work_dir} - ${title}"],
-      refreshonly => true,
-      path        => $path,
-      environment => $exec_env,
-      timeout     => $timeout,
+      exec { "Chown ${source_filename} in ${extract_dir} - ${title}":
+        command     => "chown -R ${owner}:${group} ${extract_dir}/${real_extracted_dir}",
+        refreshonly => true,
+        timeout     => $timeout,
+        require     => Exec["Extract ${source_filename} from ${work_dir} - ${title}"],
+        path        => $path,
+        environment => $exec_env,
+      }
     }
   }
-
-  exec { "Retrieve ${url} in ${work_dir} - ${title}":
-    cwd         => $work_dir,
-    command     => "${retrieve_command} ${retrieve_args} ${url}",
-    creates     => "${work_dir}/${source_filename}",
-    timeout     => $timeout,
-    path        => $path,
-    environment => $exec_env,
-  }
-
-  if $extract_command {
-    exec { "Extract ${source_filename} from ${work_dir} - ${title}":
-      command     => "mkdir -p ${destination_dir} && cd ${destination_dir} && ${real_extract_command} ${work_dir}/${source_filename} ${extract_command_second_arg}", # lint:ignore:140chars
-      unless      => "ls ${destination_dir}/${real_extracted_dir}",
-      creates     => $real_creates,
-      timeout     => $timeout,
-      require     => Exec["Retrieve ${url} in ${work_dir} - ${title}"],
-      path        => $path,
-      environment => $exec_env,
-      notify      => Exec["Chown ${source_filename} in ${destination_dir} - ${title}"],
-    }
-
-    exec { "Chown ${source_filename} in ${destination_dir} - ${title}":
-      command     => "chown -R ${owner}:${group} ${destination_dir}/${real_extracted_dir}",
-      refreshonly => true,
-      timeout     => $timeout,
-      require     => Exec["Extract ${source_filename} from ${work_dir} - ${title}"],
-      path        => $path,
-      environment => $exec_env,
-    }
-  }
-
-  if $postextract_command and $postextract_command != '' {
-    exec { "PostExtract ${source_filename} in ${destination_dir} - ${title}":
-      command     => $postextract_command,
-      cwd         => $real_postextract_cwd,
-      subscribe   => Exec["Extract ${source_filename} from ${work_dir} - ${title}"],
-      refreshonly => true,
-      timeout     => $timeout,
-      require     => [Exec["Retrieve ${url} in ${work_dir} - ${title}"],Exec["Chown ${source_filename} in ${destination_dir} - ${title}"]],
-      path        => $path,
-      environment => $exec_env,
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-  }
-
-
 }
