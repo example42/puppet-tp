@@ -1,10 +1,10 @@
 # Function tp::fail.
 # Gets an url and coverts is based on a given map
 function tp::fail (
-  Enum['fail','ignore','warn'] $data_fail_behaviour,
+  Tp::Fail $on_missing_data,
   String $message,
 ) {
-  case $data_fail_behaviour {
+  case $on_missing_data {
     'alert': {
       alert($message)
     }
@@ -34,6 +34,9 @@ function tp::fail (
         message  => $message,
         loglevel => 'warning',
       }
+    }
+    'notify': {
+      # do nothing
     }
     default: {
       info($message)

@@ -1,4 +1,5 @@
 ---
+# Legacy params
 tp::tp_path: '/usr/local/bin/tp'
 tp::tp_owner: 'root'
 tp::tp_group: 'root'
@@ -44,10 +45,88 @@ tp::purge_dirs: false
 tp::apt_safe_trusted_key: false
 
 # tp 4 new entrypoints
-tp::params:
-  owner: 'root'
-  group: 'root'
-  mode: '0755'
+## tp cli configurations
+tp::tp_params:
+  global:
+    tp:
+      path: '/usr/local/bin/tp'
+      args:
+        owner: 'root'
+        group: 'root'
+        mode: '0755'
+    conf:
+      path: '/etc/tp'
+      args:
+        ensure: 'directory'
+        owner: 'root'
+        group: 'root'
+        mode: '0755'
+    data:
+      path: '/var/lib/tp'
+      args:
+        ensure: 'directory'
+        owner: 'root'
+        group: 'root'
+        mode: '0755'
+    bin:
+      path: '/etc/tp/bin'
+      args:
+        ensure: 'directory'
+        owner: 'root'
+        group: 'root'
+        mode: '0755'
+        source: 'puppet:///modules/tp/bin'
+    destination:
+      path: '/usr/local/bin'
+  user:
+    tp:
+      path: '~/.tp/bin/tp'
+      args:
+        mode: '0755'
+    conf:
+      path: '~/.tp/etc'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+    data:
+      path: '~/.tp/lib'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+    bin:
+      path: '~/.tp/bin'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+        source: 'puppet:///modules/tp/bin'
+    destination:
+      path: '~/.tp/bin'
+
+tp::tp_commands:
+  check:
+    service:
+      command: 'puppet resource service'
+      post_command: ''
+    package:
+      command: 'puppet resource package'
+    repo:
+      command: echo 'Check repo not supported on this OS'
+      post_command: ''
+  info:
+    scripts:
+      template: 'tp/run_info.epp'
+      dir_source: 'puppet:///modules/tp/run_info'
+    package:
+      command: 'puppet resource package'
+  debug:
+    package:
+      command: 'puppet resource package'
+    scripts:
+      template: 'tp/run_debug.epp'
+      dir_source: 'puppet:///modules/tp/run_debug'
+
+
+tp::options: {}
 
 tp::repos: {}
 tp::installs: {}
@@ -61,3 +140,67 @@ tp::images: {}
 tp::sources: {}
 tp::desktops: {}
 tp::builds: {}
+
+
+lookup_options:
+  tp::tp_params:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::tp_commands:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::options:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::repos:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::installs:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::uninstalls:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::confs:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::dirs:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::tests:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::infos:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::debugs:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::images:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::sources:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::desktops:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+  tp::builds:
+    merge:
+      strategy: deep
+      knockout_prefix: '--'
+

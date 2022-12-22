@@ -3,61 +3,61 @@
 # This class installs the tp command line
 class tp::cli (
   Enum['present','absent'] $ensure   = 'present',
-  Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
-  Hash $tp_params                    = {},
-  Stdlib::Absolutepath $tp_dir       = '/etc/tp',
-  Optional[String] $ruby_path        = undef,
-  String $scritps_source             = 'puppet:///modules/tp/scripts/',
-  Boolean $suppress_tp_warnings      = true,
-  Boolean $suppress_tp_output        = false,
+  Boolean $manage_tp                 = true,
+  Hash $tp_params                    = pick($tp::tp_params,{}),
+  Hash $tp_commands                  = lookup('tp::tp_commands',{}),
 
   Hash $options                      = {},
+  Boolean $purge_dirs                = false,
+  Boolean $cli_enable                = true,
 
-  Boolean $info_enable                   = true,
-  String $info_package_command           = 'puppet resource package',
-  Stdlib::Absolutepath $info_script_path = '/etc/tp/run_info.sh',
-  String $info_script_template           = 'tp/run_info.sh.epp',
-  String $info_source                    = 'puppet:///modules/tp/run_info/',
+  String[1] $data_module = pick($tp::data_module,'tinydata'),
+  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
 
-  Boolean $debug_enable                   = true,
-  String $debug_package_command           = 'puppet resource package',
-  Stdlib::Absolutepath $debug_script_path = '/etc/tp/run_debug.sh',
-  String $debug_script_template           = 'tp/run_debug.sh.epp',
-  String $debug_source                    = 'puppet:///modules/tp/run_debug/',
-
-  Boolean $purge_dirs                                                = false,
-
-  Boolean $cli_enable                                                = true,
 ) {
-  $file_ensure = $ensure ? {
-    'present' => 'file',
-    'absent'  => 'absent',
-  }
-  $dir_ensure = $ensure ? {
-    'present' => 'directory',
-    'absent'  => 'absent',
-  }
+  $file_ensure = tp::ensure2file($ensure)
+  $dir_ensure = tp::ensure2dir($ensure)
 
   if has_key($facts,'identity') {
-    $real_cli_enable = $facts['identity']['privileged'] ? {
-      false   => false,
-      default => $cli_enable,
+    $real_tp_params = $facts['identity']['privileged'] ? {
+      false   => $tp_params['user'],
+      default => $tp_params['global'],
     }
   } else {
-    $real_cli_enable = $cli_enable
+    $real_tp_params = $tp_params['global']
   }
-  if $real_cli_enable {
-    # Legacy code
+
+  $tp_path = $real_tp_params['tp']['path']
+  $tp_dir = $real_tp_params['conf']['path']
+  $destination_dir = $real_tp_params['destination']['path']
+  $data_dir = $real_tp_params['data']['path']
+  $download_dir    = "${real_tp_params['data']['path']}/download"
+  $extract_dir     = "${real_tp_params['data']['path']}/extract"
+
+  $ruby_path = undef
+  $scripts_source = 'puppet:///modules/tp/scripts/'
+  $suppress_tp_warnings = true
+  $suppress_tp_output = false
+
+  $info_script_path = "${tp_dir}/run_info.sh"
+  $info_script_template = pick(getvar('tp_commands.info.scripts.template'),'tp/run_info.epp')
+  $info_source  = getvar('tp_commands.info.scripts.dir_source')
+
+  $debug_script_path = "${tp_dir}/run_debug.sh"
+  $debug_script_template = getvar('tp_commands.debug.scripts.template')
+  $debug_source = getvar('tp_commands.debug.scripts.dir_source')
+
+  if $cli_enable {
     $options_defaults = {
       'check_timeout'              => '10',
-      'check_service_command'      => $check_service_command,
-      'check_service_command_post' => $check_service_command_post,
-      'check_package_command'      => $check_package_command,
-      'check_repo_path'            => $check_repo_path,
-      'check_repo_path_post'       => $check_repo_path_post,
-      'info_package_command'       => $info_package_command,
+      'check_service_command'      => getvar('tp_commands.check.service.command'),
+      'check_service_command_post' => getvar('tp_commands.service.post_command'),
+      'check_package_command'      => getvar('tp_commands.check.package.command'),
+      'check_repo_path'            => getvar('tp_commands.check.repo.command'),
+      'check_repo_path_post'       => getvar('tp_commands.check.repo.post_commandcommand'),
+      'info_package_command'       => getvar('tp_commands.info.package'),
       'info_script_path'           => $info_script_path,
-      'debug_package_command'      => $debug_package_command,
+      'debug_package_command'      => getvar('tp_commands.debug.package.command'),
       'debug_script_path'          => $debug_script_path,
     }
     $real_options = $options_defaults + $options
@@ -74,20 +74,32 @@ class tp::cli (
       default => $ruby_path,
     }
 
-    if $real_cli_enable {
+    File {
+      ensure  => $file_ensure,
+      mode    => $real_tp_params['mode'],
+      owner   => $real_tp_params['owner'],
+      group   => $real_tp_params['group'],
+    }
+
+    if $cli_enable {
       $dirs = [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test", "${tp_dir}/info", "${tp_dir}/debug"]
       $dirs.each | $d | {
         file { $d:
           ensure  => $dir_ensure,
-          mode    => $tp_params['mode'],
-          owner   => $tp_params['owner'],
-          group   => $tp_params['group'],
           purge   => $purge_dirs,
           force   => $purge_dirs,
           recurse => $purge_dirs,
         }
       }
-
+      $work_dirs = [$data_dir, $download_dir , $extract_dir]
+      $work_dirs.each | $d | {
+        file { $d:
+          ensure  => $dir_ensure,
+#          purge   => $purge_dirs,
+#          force   => $purge_dirs,
+#          recurse => $purge_dirs,
+        }
+      }
       $epp_params = {
         'real_ruby_path' => $real_ruby_path,
         'options'        => $real_options,
@@ -95,20 +107,12 @@ class tp::cli (
         'tp_dir'         => $tp_dir,
       }
       file { $tp_path:
-        ensure  => $file_ensure,
         path    => $tp_path,
-        mode    => $tp_params['mode'],
-        owner   => $tp_params['owner'],
-        group   => $tp_params['group'],
         content => epp('tp/tp.epp', $epp_params),
       }
 
       if $facts['os']['family'] == 'windows' {
         file { "${tp_path}.bat":
-          ensure  => $file_ensure,
-          mode    => $tp_params['mode'],
-          owner   => $tp_params['owner'],
-          group   => $tp_params['group'],
           content => epp('tp/tp.bat.epp'),
         }
       } else {
@@ -118,60 +122,42 @@ class tp::cli (
         }
       }
 
-      file { 'Scripts dir':
+      file { 'bin dir':
         ensure  => $dir_ensure,
-        path    => "${tp_dir}/scripts",
-        mode    => $tp_params['mode'],
-        owner   => $tp_params['owner'],
-        group   => $tp_params['group'],
-        source  => $scripts_source,
+        path    => "${tp_dir}/bin",
+        source  => $real_tp_params['source'],
         recurse => true,
       }
       file { 'info scripts':
         ensure  => $dir_ensure,
-        path    => "${tp_dir}/run_info",
-        mode    => $tp_params['mode'],
-        owner   => $tp_params['owner'],
-        group   => $tp_params['group'],
+        path    => "${tp_dir}/bin/run_info",
         source  => $info_source,
         recurse => true,
       }
       file { 'package_info':
-        ensure  => $file_ensure,
         mode    => '0755',
         path    => "${tp_dir}/run_info/package_info",
         content => epp('tp/run_info/package_info.epp'),
       }
 
       file { $info_script_path:
-        ensure  => $file_ensure,
+        mode    => '0755',
         path    => $info_script_path,
-        mode    => $tp_params['mode'],
-        owner   => $tp_params['owner'],
-        group   => $tp_params['group'],
-        content => epp($info_script_template,),
+        content => epp($info_script_template, { 'options' => $real_options }),
       }
 
       file { 'debug scripts':
         ensure => $dir_ensure,
-        path   => "${tp_dir}/run_debug",
-        mode   => $tp_params['mode'],
-        owner  => $tp_params['owner'],
-        group  => $tp_params['group'],
+        path   => "${tp_dir}/bin/run_debug",
         source => $debug_source,
       }
       file { 'package_debug':
-        ensure  => $file_ensure,
         mode    => '0755',
         path    => "${tp_dir}/run_debug/package_debug",
         content => epp('tp/run_debug/package_debug.epp'),
       }
       file { $debug_script_path:
-        ensure  => $file_ensure,
         path    => $debug_script_path,
-        mode    => $tp_params['mode'],
-        owner   => $tp_params['owner'],
-        group   => $tp_params['group'],
         content => epp($debug_script_template, { 'options' => $real_options }),
       }
     }

@@ -152,13 +152,19 @@ define tp::install (
   Hash                    $my_settings      = {},
   Hash                    $my_releases      = {},
 
-  Hash                    $install_params   = {},
+  Hash $tp_params                    = {},
+  Hash $params                    = {},
 
   Optional[String] $version                 = undef,
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
 
-  # Legacy params
+# Legacy params preserved
+#  Boolean                 $auto_prereq      = false,
+#  Boolean                 $cli_enable       = false,
+
+
+  # Legacy params deprecated
   Hash                    $conf_hash        = {},
   Hash                    $dir_hash         = {},
 
@@ -203,13 +209,21 @@ define tp::install (
 
   # v4 code
   if $use_v4 {
+    if has_key($facts,'identity') {
+      $real_tp_params = $facts['identity']['privileged'] ? {
+        false   => $tp_params['user'],
+        default => $tp_params['global'],
+      }
+    } else {
+      $real_tp_params = $tp_params['global']
+    }
     $default_install_params = {
-      ensure             => $ensure,
-      auto_prereq        => $auto_prereq,
-      manage_service       => $manage_service,
-      data_module          => $data_module,
-      my_settings      => $my_settings,
-      version => $version,
+      ensure         => $ensure,
+      auto_prereq    => $auto_prereq,
+      manage_service => $manage_service,
+      data_module    => $data_module,
+      my_settings    => $my_settings,
+      version        => $version,
     }
 
     case $install_method {
@@ -224,12 +238,12 @@ define tp::install (
           manage_package       => $manage_package,
         }
         tp::install::package { $app:
-          * => $default_install_params + $default_install_package_params + $install_params
+          * => $default_install_params + $default_install_package_params + $params
         }
       }
       'build': {
         tp::install::build { $app:
-          * => $default_install_params + $install_params,
+          * => $default_install_params + $params,
         }
       }
       'file': {
@@ -239,12 +253,12 @@ define tp::install (
           my_releases => $my_releases,
         }
         tp::install::file { $app:
-          * => $default_install_params + $default_install_file_params + $install_params,
+          * => $default_install_params + $default_install_file_params + $params,
         }
       }
       'image': {
         tp::install::image { $app:
-          * => $default_install_params + $install_params,
+          * => $default_install_params + $params,
         }
       }
       default: {
@@ -280,6 +294,24 @@ define tp::install (
         * => $dir_defaults + $v,
       }
     }
+
+    # Tinydata
+    $tp_basedir = $facts['os']['family'] ? {
+      'windows' => 'C:/Program Files/Puppet Labs/Puppet/tp',
+      default   => '/etc/tp',
+    }
+    if $cli_enable and getvar('facts.identity.privileged') != false {
+      file { "${tp_basedir}/app/${sane_app}":
+        ensure  => $plain_ensure,
+        content => inline_template('<%= @settings.to_yaml %>'),
+      }
+      file { "${tp_basedir}/shellvars/${sane_app}":
+        ensure  => $plain_ensure,
+        content => epp('tp/shellvars.epp', { settings => $settings }),
+      }
+      include tp
+    }
+
   } else {
   # Legacy code
 

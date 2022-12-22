@@ -1,13 +1,17 @@
 # CHANGELOG
 
 
-## 3.8.0
+## 
 
--   Added tp::use_v4 option to use Puppet 4 compatible code
+-   Added tp::use_v4 setting to use Puppet 4 compatible code
 -   Added v4 code for tp, tp::install
 -   Added tp::cli class to manage tp command
 -   Added tp::install::package to manage apps from packages
--   Added tp::install::file to download appd from source urls
+-   Added tp::install::file to download apps from release urls
+-   Added tp::fail function and data type and on_missing_data setting
+-   Separated all old code, files and templaes from v4 specific
+-   [TODO] Added tp::install::source to download apps from source repos
+-   [TODO] Added tp::install::image to download and install app container image
 
 ## 3.7.0
 

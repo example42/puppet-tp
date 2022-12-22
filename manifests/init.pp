@@ -5,9 +5,29 @@
 # - Hiera data entry points, in the tp:: namespace to mannage tp resources
 #
 class tp (
-  Boolean $use_v4                    = false,
   Enum['present','absent'] $ensure   = 'present',
+  Boolean $use_v4                    = false,
   Boolean $cli_enable                = true,
+  Boolean $purge_dirs                = false,
+  String[1] $data_module             = 'tinydata',
+
+  # tp 4 new entrypoints
+  Tp::Fail  $on_missing_data     = 'notify',
+
+  # Variant[Hash,Array[String],String] $command+s             = {},
+  # Looked up in code based on $merge_behaviours and $resources_defaults
+  Hash $merge_behaviours   = {},
+  Hash $resources_defaults = {},
+
+  # OSfamily specific entrypoints
+  Hash $osfamily_resources                                                           = {},
+  Optional[Enum['first','unique','hash','deep']] $osfamily_resources_merge_behaviour = undef,
+  Hash $osfamily_resources_defaults                                                  = {},
+
+  Hash $tp_params                    = {},
+  Hash $tp_commands                  = {},
+
+  # Legacy params
   Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
   String $tp_owner                   = 'root',
   String $tp_group                   = 'root',
@@ -73,22 +93,6 @@ class tp (
   Enum['first','hash','deep'] $repo_hash_merge_behaviour              = 'first',
   Hash $repo_defaults                                                = {},
 
-  Boolean $purge_dirs                                                = false,
-
-  # tp 4 new entrypoints
-  Enum['fail','ignore','warn'] $data_fail_behaviour                  = 'warn',
-
-  # Variant[Hash,Array[String],String] $command+s             = {},
-  # Looked up in code based on $merge_behaviours and $resources_defaults
-  Hash $merge_behaviours   = {},
-  Hash $resources_defaults = {},
-
-  # OSfamily specific entrypoints
-  Hash $osfamily_resources                                                           = {},
-  Optional[Enum['first','unique','hash','deep']] $osfamily_resources_merge_behaviour = undef,
-  Hash $osfamily_resources_defaults                                                  = {},
-
-  String[1]               $data_module      = 'tinydata',
 
 ) {
   $file_ensure = $ensure ? {
@@ -99,6 +103,12 @@ class tp (
     'present' => 'directory',
     'absent'  => 'absent',
   }
+
+  deprecation('conf_hash', 'Replace with confs')
+  deprecation('dir_hash', 'Replace with dirs')
+  deprecation('settings_hash', 'Replace with my_settings')
+  deprecation('options_hash', 'Replace with options')
+
   if $use_v4 {
     $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
     # tp 4 new entrypoints
@@ -121,7 +131,7 @@ class tp (
           # do nothing
         }
         default: {
-          fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
+          tp::fail($on_missing_data, "Missing data for tp::${resource}s : ${resource_data}. Expected: String, Array, Hash, Undef.")
         }
       }
     }
@@ -167,6 +177,7 @@ class tp (
     } else {
       $real_cli_enable = $cli_enable
     }
+
     if $real_cli_enable {
       include 'tp::cli'
     }

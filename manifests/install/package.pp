@@ -54,7 +54,7 @@
 #
 # @example installation with custom settings
 #   tp::install { 'apache':
-#     settings_hash       => {
+#     settings => {
 #        package_name     => 'opt_apache',
 #        service_enable   => false,
 #        config_file_path => '/opt/apache/conf/httpd.conf',
@@ -67,69 +67,27 @@
 #     repo_exec_environment => [ 'http_proxy=http://proxy.domain:8080','https_proxy=http://proxy.domain:8080'],
 #   }
 #
-# @param ensure Manage application status.
+# @param ensure Manage application presence.
 #   Valid values are present, absent or the package version number.
 #
-# @param conf_hash An hash of tp::conf resources to create.
+# @param confs An hash of tp::conf resources to create.
 #   These resources will refer to the same application specified in the $title.
 #
-# @param dir_hash  An hash of tp::dir resources to create.
+# @param dirs  An hash of tp::dir resources to create.
 #   These resources will refer to the same application specified in the $title.
 #
-# @param options_hash Generic hash of configuration parameters specific for the
+# @param options Generic hash of configuration parameters specific for the
 #   app, they are passed to tp::test if test_enable parameter is true
 #
-# @param settings_hash An hash that can override the application settings tp
+# @param settings An hash that can override the application settings tp
 #   returns, according to the underlying OS and the default behaviour
-#
-# @param upstream_repo Boolean to enable usage of upstream repo for the app and
-#   install packages from it rather than default local OS one
-#   For working needs relevant tinydata settings, like repo_package_url or
-#   repo_url. If auto_repo is false, no repo is managed at all, even if
-#   upstream_repo is true.
-#
-# @param auto_repo Boolean to enable automatic package repo management for the
-#   specified application. Repo data is not always provided.
 #
 # @param auto_prereq Boolean to enable automatic management of prerequisite dependencies
 #   required for the installation of the application. If they are defined in
 #   tp data.
 #
-# @param repo Name of the repository to use. Multiple different repositories may
-#   be used, if they are defined in Tiny Puppet data.
-#
-# @repo_exec_environment Array to use for the environment argument of exec types
-#   used inside tp::repo define. Used if $auto_repo is true. Can be useful when trying
-#   to use tp::repo from behing  a proxy
-#
-# @param tp_repo_params An hash of additional parameters to pass to the tp::repo define,
-#   in case it is used. These params are merged with the ones coming from other
-#   repo related parameters and are supposed to be used for special cases.
-#
-# @param apt_safe_trusted_key Boolean to enable the use of safe management of apt keys
-#   (Stop using apt-key add)
-#
-# @param auto_conf Boolean to enable automatic configuration of the application.
-#   If true and there's are valid values for tinydata $settings['config_file_template']
-#   and $settings['init_file_template'] then the relevant
-#   file is managed according to tinydata defaults and user's $options_hash.
-#
 # @param cli_enable Enable cli integration.
 #   If true, tp commands to query apps installed via tp are added to the system.
-#
-# @param puppi_enable Enable puppi integration. Default disabled.
-#   If set true, the puppi module is needed.
-#
-# @param test_enable If true, it is called the define tp::test, which allows
-#   to test the status of the application from the command line.
-#
-# @param test_template Custom template to use to for the content of test script,
-#   used by the tp::test define. It requires test_enable = true
-#
-# @param debug If set to true it prints debug information for tp into the
-#   directory set in debug_dir
-#
-# @param debug_dir The directory where tp stores debug info, if enabled.
 #
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
@@ -137,9 +95,13 @@
 define tp::install::package (
 
   Variant[Boolean,String] $ensure           = present,
-  Optional[String]        $version          = undef,
 
+  # V4
+  Optional[String]        $version          = undef,
   Hash                    $my_settings      = {},
+  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
+
+  Boolean            $cli_enable            = true,
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
@@ -348,12 +310,12 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        fail("Unsupported type for ${packages}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data, "tp::install::package. No data for ${packages}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }
 
-  $services = pick($settings['service_name'])
+  $services = pick_default($settings['service_name'],undef)
   if $manage_service {
     $service_ensure = $ensure ? {
       'absent' => 'stopped',
@@ -408,7 +370,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        fail("Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data,"tp::install::package - ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }

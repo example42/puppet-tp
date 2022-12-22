@@ -8,9 +8,6 @@ app = ARGV[1] ? ARGV[1] : 'all'
 infoblock = ARGV[2] ? ARGV[2] : 'all'
 NODENAME = %x{hostname}.gsub("\n",'')
 REPO_DIR = %x{pwd}.gsub("\n",'')
-GIT_COMMAND = %x{which git}.gsub("\n",'')
-PUPPET_COMMAND = %x{which puppet}.gsub("\n",'')
-PIP_COMMAND = %x{which pip}.size.>(0) ? %x{which pip}.gsub("\n",'') : %x{which pip3}.gsub("\n",'')
 
 <% if $suppress_tp_warnings { -%>
 suppress_warnings = " 2>&1 | grep -v 'Warning'"
@@ -22,6 +19,11 @@ suppress_warnings = " >/dev/null 2>&1"
 <% } else { -%>
 suppress_warnings = suppress_warnings
 <% } -%>
+
+GIT_COMMAND = %x{which git "#{suppress_warnings}"}.gsub("\n",'')
+PUPPET_COMMAND = %x{which puppet "#{suppress_warnings}"}.gsub("\n",'')
+PIP_COMMAND = %x{which pip "#{suppress_warnings}"}.size.>(0) ? %x{which pip "#{suppress_warnings}"}.gsub("\n",'') : %x{which pip3 "#{suppress_warnings}"}.gsub("\n",'')
+
 
 TP_APP_DIR = '<%= $tp_dir %>/app'
 TP_TEST_DIR = '<%= $tp_dir %>/test'
@@ -53,22 +55,25 @@ trap("INT") { puts 'Exiting...'; exit }
 
 def usage
   print <<EOF
-Usage: tp <action> [app] [args]
+Usage: tp <action> [subaction] [app] [args]
 
 Available actions (some may have extra args):
 
-install: Install the given application with tp
+install:   Install the given application with tp
 uninstall: Uninstall the given application with tp
-test: Test if the given (or all) application is correctly working
-log: Tail the logs of the given (or all) application (CTRL+C to exit)
-list: List all the applications for which tinydata is present
-info: Show all info on a given application or the topic specified by args
-debug: Troubleshoot an app, showing information useful for debugging
-source: Git clone the source code of the specified app
-version: Show the version of apps managed with tp
-desktop: Manage your desktop apps and settings with tp
+test:      Test if the given (or all) application is correctly working
+log:       Tail the logs of the given (or all) application (CTRL+C to exit)
+list:      List all the applications for which tinydata is present
+info:      Show all info on a given application or the topic specified by args
+debug:     Troubleshoot an app, showing information useful for debugging
+source:    Git clone the source code of the specified app
+version:   Show the version of apps managed with tp
+desktop:   Manage your desktop apps and settings with tp
+build:     [WIP] Build a package, binary, or image of the app
+image:     [WIP] Install, run or build an image (container, vm) of the app
+run:       [WIP] Execute a given command of the app
 
-Current applications installed via tp (you can use tp test, info, version and log with them):
+tp is managing the following apps. You can run other tp commands on them.
 EOF
 puts TP_APPS
 end
@@ -399,14 +404,14 @@ when 'list'
     tinydata_app = Dir.entries(TINYDATA_DIR).sort.reject { |f| File.directory?(f) }
     puts tinydata_app
   else
-    puts "Tinydata module not found. Can't list available apps"
+    puts "Tinydata not found. Install with: puppet module install example42-tp"
   end
 
 when 'install'
   if TINYDATA_DIR != '/'
     exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'" + suppress_warnings)
   else
-    puts "You can't install apps with tp wihout having the tp module locally installed"
+    puts "You need to puppet install example42-tp to install apps from cli."
   end
 
 when 'uninstall'
