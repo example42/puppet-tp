@@ -28,7 +28,7 @@ PIP_COMMAND = %x{which pip "#{suppress_warnings}"}.size.>(0) ? %x{which pip "#{s
 TP_APP_DIR = '<%= $tp_dir %>/app'
 TP_TEST_DIR = '<%= $tp_dir %>/test'
 TP_INFO_DIR = '<%= $tp_dir %>/info'
-TP_RUN_INFO_DIR = '<%= $tp_dir %>/run_info'
+TP_DEGUB_DIR = '<%= $tp_dir %>/debug'
 
 <% if $osfamily == 'windows' { -%>
 TINYDATA_DIRS = [
@@ -146,7 +146,7 @@ def tp_test(app)
     end
 
     # Check package if defined
-    if settings['package_name'] and settings['package_name'] != ""
+    if settings['package_name'] and settings['package_name'] != "" and settings['install_method'] == 'package'
       Array(settings['package_name']).each do |s|
         if settings['package_provider'] == 'gem'
           run_command("gem list | grep  " + s + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - package: #{s}")
@@ -181,7 +181,7 @@ def tp_info(app,infoblock='all')
       run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
     end
 
-    # Run default checks via /etc/tp/run_info.sh
+    # Run default checks via /etc/tp/bin/run_info.sh
     if infoblock != 'all'
       run_command("<%= $options['info_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
     else
@@ -211,11 +211,11 @@ def tp_debug(app,infoblock='all')
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/debug/
-    if File.exists?(TP_INFO_DIR + "/#{app}")
-      run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
+    if File.exists?(TP_DEBUG_DIR + "/#{app}")
+      run_command(TP_DEBUG_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_DEBUG_DIR}/#{app}")
     end
 
-    # Run default checks via /etc/tp/run_debug.sh
+    # Run default checks via /etc/tp/bin/run_debug.sh
     if infoblock != 'all'
       run_command("<%= $options['debug_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
     else

@@ -31,19 +31,19 @@ class tp::cli (
   $tp_dir = $real_tp_params['conf']['path']
   $destination_dir = $real_tp_params['destination']['path']
   $data_dir = $real_tp_params['data']['path']
-  $download_dir    = "${real_tp_params['data']['path']}/download"
-  $extract_dir     = "${real_tp_params['data']['path']}/extract"
+  $download_dir = "${real_tp_params['data']['path']}/download"
+  $extract_dir = "${real_tp_params['data']['path']}/extract"
 
   $ruby_path = undef
   $scripts_source = 'puppet:///modules/tp/scripts/'
   $suppress_tp_warnings = true
   $suppress_tp_output = false
 
-  $info_script_path = "${tp_dir}/run_info.sh"
+  $info_script_path = "${tp_dir}/bin/run_info.sh"
   $info_script_template = pick(getvar('tp_commands.info.scripts.template'),'tp/run_info.epp')
   $info_source  = getvar('tp_commands.info.scripts.dir_source')
 
-  $debug_script_path = "${tp_dir}/run_debug.sh"
+  $debug_script_path = "${tp_dir}/bin/run_debug.sh"
   $debug_script_template = getvar('tp_commands.debug.scripts.template')
   $debug_source = getvar('tp_commands.debug.scripts.dir_source')
 
@@ -136,7 +136,7 @@ class tp::cli (
       }
       file { 'package_info':
         mode    => '0755',
-        path    => "${tp_dir}/run_info/package_info",
+        path    => "${tp_dir}/bin/run_info/package_info",
         content => epp('tp/run_info/package_info.epp'),
       }
 
@@ -153,7 +153,7 @@ class tp::cli (
       }
       file { 'package_debug':
         mode    => '0755',
-        path    => "${tp_dir}/run_debug/package_debug",
+        path    => "${tp_dir}/bin/run_debug/package_debug",
         content => epp('tp/run_debug/package_debug.epp'),
       }
       file { $debug_script_path:

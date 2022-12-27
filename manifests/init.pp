@@ -26,6 +26,7 @@ class tp (
 
   Hash $tp_params                    = {},
   Hash $tp_commands                  = {},
+  Boolean $auto_prereq               = true,
 
   # Legacy params
   Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
@@ -92,7 +93,6 @@ class tp (
   Hash $repo_hash                                                    = {},
   Enum['first','hash','deep'] $repo_hash_merge_behaviour              = 'first',
   Hash $repo_defaults                                                = {},
-
 
 ) {
   $file_ensure = $ensure ? {
@@ -169,17 +169,14 @@ class tp (
         }
       }
     }
-    if has_key($facts,'identity') {
-      $real_cli_enable = $facts['identity']['privileged'] ? {
-        false   => false,
-        default => $cli_enable,
-      }
-    } else {
-      $real_cli_enable = $cli_enable
+    if $cli_enable {
+      include 'tp::cli'
     }
 
-    if $real_cli_enable {
-      include 'tp::cli'
+    exec { "tp systemctl daemon-reload":
+      command     => 'systemctl daemon-reload',
+      refreshonly => true,
+      path        => $facts['path'],
     }
   } else {
     # Legacy code

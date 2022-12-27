@@ -5,3 +5,61 @@ tp::tp_group: 'Administrators'
 tp::tp_dir: 'C:/Program Files/Puppet Labs/Puppet/tp'
 tp::info_script_path: 'C:/Program Files/Puppet Labs/Puppet/bin/run_info.ps1'
 tp::debug_script_path: 'C:/Program Files/Puppet Labs/Puppet/bin/run_debug.ps1'
+
+# tp 4 new entrypoints
+## tp cli configurations
+tp::tp_params:
+  global:
+    tp:
+      path: 'C:/Program Files/Puppet Labs/Puppet/bin/tp'
+      args:
+        owner: 'Administrator'
+        group: 'Administrators'
+    conf:
+      path: 'C:/Program Files/Puppet Labs/Puppet/tp'
+      args:
+        ensure: 'directory'
+        owner: 'Administrator'
+        group: 'Administrators'
+    data:
+      path: 'C:/Program Files/Puppet Labs/Puppet/tp/lib'
+      args:
+        ensure: 'directory'
+        owner: 'Administrator'
+        group: 'Administrators'
+    bin:
+      path: 'C:/Program Files/Puppet Labs/Puppet/tp/bin'
+      args:
+        ensure: 'directory'
+        owner: 'Administrator'
+        group: 'Administrators'
+        source: 'puppet:///modules/tp/bin'
+    destination:
+      path: 'C:/Program Files/Puppet Labs/Puppet/tp'
+  user:
+    tp:
+      path: '~/.tp/bin/tp'
+      args:
+        mode: '0755'
+    conf:
+      path: '~/.tp/etc'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+    data:
+      path: '~/.tp/lib'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+    bin:
+      path: '~/.tp/bin'
+      args:
+        ensure: 'directory'
+        mode: '0755'
+        source: 'puppet:///modules/tp/bin'
+    destination:
+      path: '~/.tp/bin'
+  settings:
+    extract_command: ''
+    retrieve_command: 'wget'
+    retrieve_args: ''

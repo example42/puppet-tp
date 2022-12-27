@@ -142,27 +142,28 @@ define tp::install (
   Boolean                 $use_v4           = pick($tp::use_v4,false),
 
   # V4 params
-
-  Enum['package', 'build', 'file', 'image'] $install_method = 'package',
+  Optional[Enum['package', 'image', 'file', 'image']] $install_method = undef,
 
   Hash                    $confs            = {},
   Hash                    $dirs             = {},
 
   Hash                    $options          = {},
-  Hash                    $my_settings      = {},
-  Hash                    $my_releases      = {},
 
-  Hash $tp_params                    = {},
-  Hash $params                    = {},
+  Hash                    $my_settings      = {},
+
+  Hash $tp_params                           = {},
+  Hash $params                              = {},
 
   Optional[String] $version                 = undef,
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
+  Optional[Boolean] $build                    = undef,
+  Optional[Boolean] $install                  = undef,
 
 # Legacy params preserved
 #  Boolean                 $auto_prereq      = false,
 #  Boolean                 $cli_enable       = false,
-
+#  String[1]               $data_module      = 'tinydata',
 
   # Legacy params deprecated
   Hash                    $conf_hash        = {},
@@ -174,7 +175,7 @@ define tp::install (
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Boolean                 $auto_prereq      = false,
+  Boolean                 $auto_prereq      = pick($::tp::auto_prereq, false),
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -204,8 +205,14 @@ define tp::install (
   deprecation('options_hash', 'Replace with options')
 
   # Settings evaluation
-  $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
-  $settings = $tp_settings + $settings_hash + $my_settings
+  $local_settings = delete_undef_values( {
+      install_method => $install_method,
+      repo           => $repo,
+      upstream_repo  => $upstream_repo,
+  })
+
+  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+  $settings = $tinydata_settings + $settings_hash + $my_settings + $local_settings
 
   # v4 code
   if $use_v4 {
@@ -220,29 +227,33 @@ define tp::install (
     $default_install_params = {
       ensure         => $ensure,
       auto_prereq    => $auto_prereq,
-      manage_service => $manage_service,
       data_module    => $data_module,
-      my_settings    => $my_settings,
+      settings       => $settings,
       version        => $version,
     }
 
-    case $install_method {
+    # If not user specified or set as settings.install_method, the default
+    # installation method is 'package'
+    $real_install_method = pick($install_method, getvar('settings.install_method'), 'package')
+
+    case $real_install_method {
       'package': {
         $default_install_package_params = {
-          upstream_repo      => $upstream_repo,
-          auto_repo          => $auto_repo,
-          repo               => $repo,
+          upstream_repo         => $upstream_repo,
+          auto_repo             => $auto_repo,
+          repo                  => $repo,
           repo_exec_environment => $repo_exec_environment,
-          tp_repo_params       => $tp_repo_params,
-          apt_safe_trusted_key => $apt_safe_trusted_key,
-          manage_package       => $manage_package,
+          tp_repo_params        => $tp_repo_params,
+          apt_safe_trusted_key  => $apt_safe_trusted_key,
+          manage_package        => $manage_package,
+          manage_service        => $manage_service,
         }
         tp::install::package { $app:
-          * => $default_install_params + $default_install_package_params + $params
+          * => $default_install_params + $default_install_package_params + $params,
         }
       }
-      'build': {
-        tp::install::build { $app:
+      'source': {
+        tp::install::source { $app:
           * => $default_install_params + $params,
         }
       }
@@ -250,7 +261,8 @@ define tp::install (
         $default_install_file_params = {
           source      => $source,
           destination => $destination,
-          my_releases => $my_releases,
+          build       => $build,
+          install     => $install,
         }
         tp::install::file { $app:
           * => $default_install_params + $default_install_file_params + $params,
@@ -262,7 +274,21 @@ define tp::install (
         }
       }
       default: {
-        fail("Invalid install_method ${install_method}")
+        fail("Invalid install_method ${real_install_method}")
+      }
+    }
+
+    # Cli integration
+    if $cli_enable {
+      include tp::cli
+      $tp_dir = $tp::cli::tp_dir
+      file { "${tp_dir}/app/${sane_app}":
+        ensure  => $plain_ensure,
+        content => inline_epp('<%= $settings.to_yaml %>'),
+      }
+      file { "${tp_dir}/shellvars/${sane_app}":
+        ensure  => $plain_ensure,
+        content => epp('tp/shellvars.epp', { settings => $settings , }),
       }
     }
 
@@ -270,7 +296,7 @@ define tp::install (
     $conf_defaults = {
       'ensure'        => tp::ensure2file($ensure),
       'settings_hash' => $settings,
-      'options_hash'  => $options_hash,
+      'options_hash'  => $options_hash + $options,
       'data_module'   => $data_module,
     }
     $confs.each |$k,$v| {
@@ -279,7 +305,7 @@ define tp::install (
       }
     }
 
-    if $options_hash != {} and $settings[config_file_format] {
+    if $options_hash != {} and getvar('settings.config_file_format') {
       tp::conf { $app:
         * => $conf_defaults,
       }
@@ -294,26 +320,8 @@ define tp::install (
         * => $dir_defaults + $v,
       }
     }
-
-    # Tinydata
-    $tp_basedir = $facts['os']['family'] ? {
-      'windows' => 'C:/Program Files/Puppet Labs/Puppet/tp',
-      default   => '/etc/tp',
-    }
-    if $cli_enable and getvar('facts.identity.privileged') != false {
-      file { "${tp_basedir}/app/${sane_app}":
-        ensure  => $plain_ensure,
-        content => inline_template('<%= @settings.to_yaml %>'),
-      }
-      file { "${tp_basedir}/shellvars/${sane_app}":
-        ensure  => $plain_ensure,
-        content => epp('tp/shellvars.epp', { settings => $settings }),
-      }
-      include tp
-    }
-
   } else {
-  # Legacy code
+    # Legacy code
 
     if $settings[package_name] == Variant[Undef,String[0]]
     or $manage_package == false {

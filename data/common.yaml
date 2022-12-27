@@ -101,6 +101,10 @@ tp::tp_params:
         source: 'puppet:///modules/tp/bin'
     destination:
       path: '~/.tp/bin'
+  settings:
+    extract_command: ''
+    retrieve_command: 'wget'
+    retrieve_args: ''
 
 tp::tp_commands:
   check:
@@ -124,6 +128,7 @@ tp::tp_commands:
     scripts:
       template: 'tp/run_debug.epp'
       dir_source: 'puppet:///modules/tp/run_debug'
+
 
 
 tp::options: {}

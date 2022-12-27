@@ -98,7 +98,8 @@ define tp::install::package (
 
   # V4
   Optional[String]        $version          = undef,
-  Hash                    $my_settings      = {},
+  Hash                    $settings         = {},
+  Hash                    $releases         = {},
   Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
 
   Boolean            $cli_enable            = true,
@@ -106,7 +107,7 @@ define tp::install::package (
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Boolean                 $auto_prereq      = false,
+  Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -116,15 +117,12 @@ define tp::install::package (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
+
   String[1]               $data_module      = 'tinydata',
 
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
-
-  # Settings evaluation
-  $tp_settings = tp_lookup4($app,'settings',$data_module,'merge')
-  $settings = $tp_settings + $my_settings
 
   if $settings[package_provider] == Variant[Undef,String[0]] {
     $package_provider = undef

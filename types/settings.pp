@@ -92,6 +92,7 @@ type Tp::Settings = Struct[{
     Optional[version_command] => String,
     Optional[debug_commands] => Hash,
 
+    #v4
     Optional[winget_package_name] => String,
     Optional[choco_package_name] => String,
 
@@ -102,6 +103,5 @@ type Tp::Settings = Struct[{
     Optional[ports]        => Hash,
     Optional[urls]         => Hash,
     Optional[build]        => Hash,
-    Optional[install_method] => Enum['package', 'build', 'file', 'image'],
-
+    Optional[install_method] => Enum['package', 'source', 'file', 'image'],
 }]
