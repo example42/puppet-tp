@@ -66,7 +66,7 @@ define tp::install::source (
   Hash $settings                              = {},
 
   Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
-  Boolean $cli_enable                         = true,
+  Boolean $cli_enable                         = pick($tp::cli_enable, true),
 
   Optional[String]               $version     = undef,
   Optional[String]               $source      = undef,
@@ -76,7 +76,7 @@ define tp::install::source (
 
   Optional[Boolean] $build                    = undef,
   Optional[Boolean] $install                  = undef,
-  Boolean $manage_service                     = false,
+  Optional[Boolean] $manage_service           = undef,
 
   String[1] $data_module      = 'tinydata',
 ) {
@@ -91,93 +91,48 @@ define tp::install::source (
   }
   $real_destination = pick($destination, "${destination_dir}/${app}")
 
-  tp::create_dir { "tp::install::file - create_dir ${real_destination}":
-    path   => $real_destination,
-  }
+#  tp::create_dir { "tp::install::file - create_dir ${real_destination}":
+#    path   => $real_destination,
+#  }
 
   # Automatic dependencies management, if data defined
-  if $auto_prereq and getvar('releases.prerequisites') and $ensure != 'absent' {
-    tp::create_everything ( getvar('releases.prerequisites'), {})
+  if $auto_prereq and getvar('settings.releases.prerequisites') and $ensure != 'absent' {
+    tp::create_everything ( getvar('settings.releases.prerequisites'), {})
   }
 
   if $real_source {
+    tp::source { $app:
+      ensure => $ensure,
+      source => $real_source,
+      path   => $real_destination,
+    }
+
     if pick($build, getvar('settings.build.enable'), false ) {
-      if $auto_prereq and getvar('settings.build.prerequisites') {
-        tp::create_everything ( getvar('settings.build.prerequisites'), {})
-      }
-      if getvar('settings.build.execs') {
-        getvar('settings.build.execs').each | $c,$v | {
-          $default_exec_params = {
-            'cwd' => $real_postextract_cwd,
-            path  => $facts['path'],
-          }
-          exec { "${app} - tp::install::file build exec - ${c}":
-            * => $default_exec_params + $v,
-          }
-        }
+      tp::build { $app:
+        ensure          => $ensure,
+        build_dir       => $real_destination,
+        on_missing_data => $on_missing_data,
+        settings        => $settings,
+        data_module     => $data_module,
+        auto_prereq     => $auto_prereq,
+        owner           => $owner,
+        group           => $group,
+        install         => $install,
+        require         => Tp::Source[$app],
       }
     }
 
-    if $install {
-      tp::source { $app:
-        ensure          => $ensure,
-        source          => $real_source,
-        destination_dir => $real_destination,
-      }
-
+    if pick($install, getvar('settings.install.enable'), false ) {
       if getvar('releases.install.resources') and $ensure != 'absent' {
         tp::create_everything ( getvar('releases.install.resources'), {})
       }
-      if $manage_service {
-        case $facts['service_provider'] {
-          'systemd': {
-            $options_defaults = {
-              'Unit' => {
-                'Description' => pick(getvar('settings.description'),"${app} service"),
-                'Documentation' => pick(getvar('settings.website'),"Search: ${app}"),
-              },
-              'Service' => {
-                'ExecStart' => "${destination_dir}/${app}",
-                'Restart' => 'always',
-                'RestartSec' => '10s',
-                'User' => pick(getvar('settings.process_user'), 'root'),
-                'Group' => pick(getvar('process_group'), 'root'),
-                'EnvironmentFile' => pick(getvar('settings.init_file_path'),getvar('configs.init.path'),"/etc/default/${app}"), # lint:ignore:140chars
-                'ExecReload' => '/bin/kill -HUP $MAINPID',
-              },
-              'Install' => {
-                'WantedBy' => 'multi-user.target',
-              },
-            }
-
-            $options = $options_defaults + getvar('releases.install.systemd_settings', {})
-            file { "/lib/systemd/system/${app}.service":
-              ensure  => $ensure,
-              path    => "/lib/systemd/system/${app}.service",
-              owner   => 'root',
-              group   => 'root',
-              mode    => '0644',
-              content => template('tp/inifile_with_stanzas.erb'),
-              require => Exec["Extract ${real_filename} from ${download_dir} - ${title}"],
-              notify  => Exec['tp systemctl daemon-reload'],
-              before  => Service[$app],
-            }
-            $symlink_path = pick(getvar('releases.systemd_symlink'),"/etc/systemd/system/multi-user.target.wants/${app}.service") # lint:ignore:140chars
-            file { $symlink_path:
-              ensure => $link,
-              target => "/lib/systemd/system/${app}.service",
-              notify => Exec['tp systemctl daemon-reload'],
-              before => Service[$app],
-            }
-            service { $app:
-              ensure    => tp::ensure2service($ensure,'ensure'),
-              enable    => tp::ensure2service($ensure,'enable'),
-              hasstatus => true,
-            }
-          }
-          default: {
-            tp::fail($on_missing_data, "service_provider ${service_provider} is not supported")
-          }
+      if pick($manage_service, getvar('settings.install.manage_service'), false ) {
+        tp::service { $app:
+          ensure          => $ensure,
+          on_missing_data => $on_missing_data,
+          settings        => $settings,
+          data_module     => $data_module,
+          require         => Tp::Source[$app],
         }
       }
     }

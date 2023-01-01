@@ -102,7 +102,7 @@ define tp::install::package (
   Hash                    $releases         = {},
   Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
 
-  Boolean            $cli_enable            = true,
+  Boolean                 $cli_enable       = pick($tp::cli_enable, true),
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
@@ -365,6 +365,9 @@ define tp::install::package (
         }
       }
       Undef: {
+        # do nothing
+      }
+      '': {
         # do nothing
       }
       default: {

@@ -95,173 +95,180 @@ define tp::repo (
     }
   }
 
-  # Install repo via release package, if tinydata present
-  if $settings[repo_package_url] and $settings[repo_package_name] {
-    if ! defined(Package[$settings[repo_package_name]]) {
-      $repo_package_before = $settings[package_name] ? {
-        ''      => undef,
-        undef   => undef,
-        default => Package[$settings[package_name]],
+  if $ensure != 'absent' {
+    # Install repo via release package, if tinydata present
+    if $settings[repo_package_url] and $settings[repo_package_name] {
+      if ! defined(Package[$settings[repo_package_name]]) {
+        $repo_package_before = $settings[package_name] ? {
+          ''      => undef,
+          undef   => undef,
+          default => Package[$settings[package_name]],
+        }
+        case $facts['os']['family'] {
+          'Debian': {
+            $repo_package_path = "${download_dir}/${settings[repo_package_name]}"
+            exec { "Download ${title} release package":
+              command     => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
+              before      => Package[$settings[repo_package_name]],
+              creates     => $repo_package_path,
+              path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+              environment => $exec_environment,
+            }
+            $package_params = {
+              source   => $repo_package_path,
+              provider => pick($settings[repo_package_provider],'dpkg'),
+              before   => $repo_package_before,
+            }
+          }
+          default: {
+            $package_params = {
+              source   => $settings[repo_package_url],
+              provider => $settings[repo_package_provider],
+              before   => $repo_package_before,
+            }
+          }
+        }
+        package { $settings[repo_package_name]:
+          * => $package_params + pick($settings[repo_package_params],{}),
+        }
       }
+    } else {
+      # If not release package is available, repos are managed with OS dependent resources
       case $facts['os']['family'] {
-        'Debian': {
-          $repo_package_path = "${download_dir}/${settings[repo_package_name]}"
-          exec { "Download ${title} release package":
-            command     => "wget -O ${repo_package_path} '${settings[repo_package_url]}'",
-            before      => Package[$settings[repo_package_name]],
-            creates     => $repo_package_path,
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            environment => $exec_environment,
-          }
-          $package_params = {
-            source   => $repo_package_path,
-            provider => pick($settings[repo_package_provider],'dpkg'),
-            before   => $repo_package_before,
-          }
-        }
-        default: {
-          $package_params = {
-            source   => $settings[repo_package_url],
-            provider => $settings[repo_package_provider],
-            before   => $repo_package_before,
-          }
-        }
-      }
-      package { $settings[repo_package_name]:
-        * => $package_params + pick($settings[repo_package_params],{}),
-      }
-    }
-  } else {
-    # If not release package is available, repos are managed with OS dependent resources
-    case $facts['os']['family'] {
-      'Suse': {
-        if !empty($settings[zypper_repofile_url]) {
-          $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
-          $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
-        } else {
-          $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
-          $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
-        }
-        if !defined(Exec["zypper_addrepo_${title}"]) {
-          exec { "zypper_addrepo_${title}":
-            command     => $zypper_command,
-            unless      => $zypper_unless,
-            notify      => Exec['zypper refresh'],
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            environment => $exec_environment,
-          }
-        }
-      }
-      'RedHat': {
-        $yumrepo_title = pick($settings[repo_filename],$title)
-        $yumrepo_description = pick($settings[repo_description],$description)
-        if !defined(Yumrepo[$yumrepo_title])
-        and ( $settings[repo_url] or $settings[yum_mirrorlist] ) {
-          yumrepo { $yumrepo_title:
-            enabled    => $enabled_num,
-            descr      => $yumrepo_description,
-            baseurl    => $settings[repo_url],
-            gpgcheck   => $manage_yum_gpgcheck,
-            gpgkey     => $settings[key_url],
-            priority   => $settings[yum_priority],
-            mirrorlist => $settings[yum_mirrorlist],
-            *          => pick($settings[yumrepo_params],{}),
-          }
-        }
-      }
-      # To avoid to introduce another dependency we manage apt repos directly
-      'Debian': {
-        if !empty($settings[package_name])
-        and !empty($settings[key])
-        and defined(Package[$settings[package_name]]) {
-          Exec['tp_apt_update'] -> Package[$settings[package_name]]
-        }
-
-        $aptrepo_title = pick($settings[repo_filename],$title)
-
-        if !empty($settings[key]) and !empty($settings[key_url]) {
-          $apt_key_path = "${apt_gpg_key_dir}/${title}.gpg"
-          if $apt_safe_trusted_key {
-            $unless  = undef
-            $creates = $apt_key_path
-            $command = "wget -O - ${settings[key_url]} | gpg --dearmor > ${apt_key_path}"
-            # $key_nospaces = regsubst($settings[key],' ','','G')
-            # $unless = "for f in /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/*.{asc,gpg} /etc/apt/keyrings/*.{asc,gpg} ; do gpg --list-keys --keyid-format short --no-default-keyring --keyring \$f; done | grep -q \"${key_nospaces}\"",  # lint:ignore:140chars
+        'Suse': {
+          if !empty($settings[zypper_repofile_url]) {
+            $zypper_command = "zypper addrepo ${settings[zypper_repofile_url]}"
+            $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
           } else {
-            $unless  = "apt-key list | grep -q \"${settings[key]}\""
-            $creates = undef
-            $command = "wget -O - ${settings[key_url]} | apt-key add -"
+            $zypper_command = "zypper addrepo ${settings[repo_url]} ${settings[repo_name]}"
+            $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
           }
-          if !defined(Exec["tp_aptkey_add_${settings[key]}"]) {
-            exec { "tp_aptkey_add_${settings[key]}":
-              command     => $command,
-              unless      => $unless,
-              creates     => $creates,
+          if !defined(Exec["zypper_addrepo_${title}"]) {
+            exec { "zypper_addrepo_${title}":
+              command     => $zypper_command,
+              unless      => $zypper_unless,
+              notify      => Exec['zypper refresh'],
+              path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+              environment => $exec_environment,
+            }
+          }
+        }
+        'RedHat': {
+          $yumrepo_title = pick($settings[repo_filename],$title)
+          $yumrepo_description = pick($settings[repo_description],$description)
+          if !defined(Yumrepo[$yumrepo_title])
+          and ( $settings[repo_url] or $settings[yum_mirrorlist] ) {
+            yumrepo { $yumrepo_title:
+              enabled    => $enabled_num,
+              descr      => $yumrepo_description,
+              baseurl    => $settings[repo_url],
+              gpgcheck   => $manage_yum_gpgcheck,
+              gpgkey     => $settings[key_url],
+              priority   => $settings[yum_priority],
+              mirrorlist => $settings[yum_mirrorlist],
+              *          => pick($settings[yumrepo_params],{}),
+            }
+          }
+        }
+        # To avoid to introduce another dependency we manage apt repos directly
+        'Debian': {
+          if !empty($settings[package_name])
+          and !empty($settings[key])
+          and defined(Package[$settings[package_name]]) {
+            Exec['tp_apt_update'] -> Package[$settings[package_name]]
+          }
+
+          $aptrepo_title = pick($settings[repo_filename],$title)
+
+          if !empty($settings[key]) and !empty($settings[key_url]) and $ensure != 'absent' {
+            $apt_key_path = "${apt_gpg_key_dir}/${title}.gpg"
+            if $apt_safe_trusted_key {
+              $unless  = undef
+              $creates = $apt_key_path
+              $command = "wget -O - ${settings[key_url]} | gpg --dearmor > ${apt_key_path}"
+
+              exec { "Ensure ${apt_gpg_key_dir} exists for ${title}":
+                command => "mkdir -p ${apt_gpg_key_dir}",
+                creates => $apt_gpg_key_dir,
+              }
+              # $key_nospaces = regsubst($settings[key],' ','','G')
+              # $unless = "for f in /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/*.{asc,gpg} /etc/apt/keyrings/*.{asc,gpg} ; do gpg --list-keys --keyid-format short --no-default-keyring --keyring \$f; done | grep -q \"${key_nospaces}\"",  # lint:ignore:140chars
+            } else {
+              $unless  = "apt-key list | grep -q \"${settings[key]}\""
+              $creates = undef
+              $command = "wget -O - ${settings[key_url]} | apt-key add -"
+            }
+            if !defined(Exec["tp_aptkey_add_${settings[key]}"]) {
+              exec { "tp_aptkey_add_${settings[key]}":
+                command     => $command,
+                unless      => $unless,
+                creates     => $creates,
+                path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+                before      => File["${aptrepo_title}.list"],
+                user        => 'root',
+                environment => $exec_environment,
+              }
+            }
+
+            $epp_params = {
+              apt_safe_trusted_key => $apt_safe_trusted_key,
+              settings             => $settings,
+              apt_key_path         => $apt_key_path,
+            }
+            if !defined(File["${aptrepo_title}.list"])
+            and !empty($settings[repo_url]) {
+              file { "${aptrepo_title}.list":
+                ensure  => $ensure,
+                path    => "/etc/apt/sources.list.d/${aptrepo_title}.list",
+                owner   => root,
+                group   => root,
+                mode    => '0644',
+                content => epp('tp/apt/source.list.epp', $epp_params),
+                notify  => Exec['tp_apt_update'],
+              }
+            }
+          }
+
+          if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
+          and !empty($settings[key])
+          and !empty($settings[apt_key_fingerprint])
+          and !empty($settings[apt_key_server]) {
+            exec { "tp_aptkey_adv_${settings[key]}":
+              command     => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
+              unless      => "apt-key list | grep -q \"${settings[key]}\"",
               path        => '/bin:/sbin:/usr/bin:/usr/sbin',
               before      => File["${aptrepo_title}.list"],
               user        => 'root',
               environment => $exec_environment,
             }
           }
-
-          $epp_params = {
-            apt_safe_trusted_key => $apt_safe_trusted_key,
-            settings             => $settings,
-            apt_key_path         => $apt_key_path,
-          }
-          if !defined(File["${aptrepo_title}.list"])
-          and !empty($settings[repo_url]) {
-            file { "${aptrepo_title}.list":
-              ensure  => $ensure,
-              path    => "/etc/apt/sources.list.d/${aptrepo_title}.list",
-              owner   => root,
-              group   => root,
-              mode    => '0644',
-              content => epp('tp/apt/source.list.epp', $epp_params),
-              notify  => Exec['tp_apt_update'],
-            }
-          }
         }
-
-        if !defined(Exec["tp_aptkey_adv_${settings[key]}"])
-        and !empty($settings[key])
-        and !empty($settings[apt_key_fingerprint])
-        and !empty($settings[apt_key_server]) {
-          exec { "tp_aptkey_adv_${settings[key]}":
-            command     => "apt-key adv --keyserver ${settings[apt_key_server]} --recv ${settings[apt_key_fingerprint]}",
-            unless      => "apt-key list | grep -q \"${settings[key]}\"",
-            path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-            before      => File["${aptrepo_title}.list"],
-            user        => 'root',
-            environment => $exec_environment,
+        default: {
+          notify { "No repo for ${title}":
+            message => "No dedicated repo available for ${facts['os']['family']}",
           }
         }
       }
-      default: {
-        notify { "No repo for ${title}":
-          message => "No dedicated repo available for ${facts['os']['family']}",
-        }
-      }
     }
-  }
 
-  if !empty($settings[repo_file_url]) {
-    $repo_file_name = pick($settings['repo_filename'],$title)
-    $repo_file_path = $facts['os']['family'] ? {
-      'Debian' => "/etc/apt/sources.list.d/${repo_file_name}.list",
-      'RedHat' => "/etc/yum.repos.d/${repo_file_name}.repo",
-      'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
-    }
-    $repo_file_notify = $facts['os']['family'] ? {
-      'Debian' => 'Exec["tp_apt_update"]',
-      'RedHat' => undef,
-      'Suse'   => 'Exec["zypper refresh"]',
-    }
-    exec { "Download repo file for ${title}":
-      command => "wget ${settings[repo_file_url]} -q -O ${repo_file_path}",
-      creates => $repo_file_path,
-      path    => $facts['path'],
-      notify => $repo_file_notify,
+    if !empty($settings[repo_file_url]) {
+      $repo_file_name = pick($settings['repo_filename'],$title)
+      $repo_file_path = $facts['os']['family'] ? {
+        'Debian' => "/etc/apt/sources.list.d/${repo_file_name}.list",
+        'RedHat' => "/etc/yum.repos.d/${repo_file_name}.repo",
+        'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
+      }
+      $repo_file_notify = $facts['os']['family'] ? {
+        'Debian' => 'Exec["tp_apt_update"]',
+        'RedHat' => undef,
+        'Suse'   => 'Exec["zypper refresh"]',
+      }
+      exec { "Download repo file for ${title}":
+        command => "wget ${settings[repo_file_url]} -q -O ${repo_file_path}",
+        creates => $repo_file_path,
+        path    => $facts['path'],
+        notify => $repo_file_notify,
+      }
     }
   }
   # Debugging

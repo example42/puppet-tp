@@ -8,8 +8,8 @@ class tp::cli (
   Hash $tp_commands                  = lookup('tp::tp_commands',{}),
 
   Hash $options                      = {},
-  Boolean $purge_dirs                = false,
-  Boolean $cli_enable                = true,
+  Boolean $purge_dirs                = true,
+  Boolean $cli_enable                = pick($tp::cli_enable, true),
 
   String[1] $data_module = pick($tp::data_module,'tinydata'),
   Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
@@ -33,6 +33,7 @@ class tp::cli (
   $data_dir = $real_tp_params['data']['path']
   $download_dir = "${real_tp_params['data']['path']}/download"
   $extract_dir = "${real_tp_params['data']['path']}/extract"
+  $flags_dir = "${real_tp_params['data']['path']}/flags"
 
   $ruby_path = undef
   $scripts_source = 'puppet:///modules/tp/scripts/'
@@ -91,7 +92,7 @@ class tp::cli (
           recurse => $purge_dirs,
         }
       }
-      $work_dirs = [$data_dir, $download_dir , $extract_dir]
+      $work_dirs = [$data_dir, $download_dir , $extract_dir , $flags_dir]
       $work_dirs.each | $d | {
         file { $d:
           ensure  => $dir_ensure,
@@ -125,7 +126,7 @@ class tp::cli (
       file { 'bin dir':
         ensure  => $dir_ensure,
         path    => "${tp_dir}/bin",
-        source  => $real_tp_params['source'],
+        source  => $real_tp_params['bin']['args']['source'],
         recurse => true,
       }
       file { 'info scripts':

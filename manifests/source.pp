@@ -22,7 +22,7 @@ define tp::source (
   if $settings[git_source] or $source {
     tp::dir { $app:
       ensure  => $ensure,
-      path    => pick($settings[git_destination], "${destination_dir}/${app}"),
+      path    => pick($path, $settings[git_destination], "${destination_dir}/${app}"),
       source  => pick($source,$settings[git_source]),
       vcsrepo => 'git',
     }

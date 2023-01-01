@@ -16,12 +16,12 @@ define tp::test (
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
-  String[1]               $base_dir            = '/etc/tp/test',
-  String[1]               $app_dir             = '/etc/tp/app',
-  String[1]               $shellvars_dir       = '/etc/tp/shellvars',
+  String[1]               $base_dir            = "${tp::cli::tp_dir}/test",
+  String[1]               $app_dir             = "${tp::cli::tp_dir}/app",
+  String[1]               $shellvars_dir       = "${tp::cli::tp_dir}/shellvars",
 
   Boolean                 $verbose             = false,
-  Boolean                 $cli_enable          = false,
+  Boolean                 $cli_enable          = pick($tp::cli_enable, true),
 
 ) {
   # Settings evaluation

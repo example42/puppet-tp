@@ -15,27 +15,27 @@ define tp::create_dir (
 ) {
   exec { "mkdir -p ${title}":
     command => "mkdir -p ${path}",
-    path    => '/bin:/sbin:/usr/sbin:/usr/bin',
+    path    => $facts['path'],
     creates => $path,
   }
   if $owner {
     exec { "chown ${owner} ${title}":
       command => "chown ${owner} ${path}",
-      path    => '/bin:/sbin:/usr/sbin:/usr/bin',
+      path    => $facts['path'],
       onlyif  => "[ $(ls -ld ${path} | awk '{ print \$3 }') != ${owner} ]",
     }
   }
   if $group {
     exec { "chgrp ${group} ${title}":
       command => "chgrp ${group} ${path}",
-      path    => '/bin:/sbin:/usr/sbin:/usr/bin',
+      path    => $facts['path'],
       onlyif  => "[ $(ls -ld ${path} | awk '{ print \$4 }') != ${group} ]",
     }
   }
   if $mode {
     exec { "chmod ${mode} ${title}":
       command     => "chmod ${mode} ${path}",
-      path        => '/bin:/sbin:/usr/sbin:/usr/bin',
+      path        => $facts['path'],
       subscribe   => Exec["mkdir -p ${title}"],
       refreshonly => true,
     }

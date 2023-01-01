@@ -173,7 +173,7 @@ class tp (
       include 'tp::cli'
     }
 
-    exec { "tp systemctl daemon-reload":
+    exec { 'tp systemctl daemon-reload':
       command     => 'systemctl daemon-reload',
       refreshonly => true,
       path        => $facts['path'],

@@ -142,7 +142,7 @@ define tp::install (
   Boolean                 $use_v4           = pick($tp::use_v4,false),
 
   # V4 params
-  Optional[Enum['package', 'image', 'file', 'image']] $install_method = undef,
+  Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
 
   Hash                    $confs            = {},
   Hash                    $dirs             = {},
@@ -185,7 +185,7 @@ define tp::install (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
-  Boolean                 $cli_enable       = false,
+  Boolean                 $cli_enable       = pick($tp::cli_enable, true),
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
@@ -206,9 +206,9 @@ define tp::install (
 
   # Settings evaluation
   $local_settings = delete_undef_values( {
-      install_method => $install_method,
-      repo           => $repo,
-      upstream_repo  => $upstream_repo,
+    install_method => $install_method,
+    repo           => $repo,
+    upstream_repo  => $upstream_repo,
   })
 
   $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
@@ -283,11 +283,11 @@ define tp::install (
       include tp::cli
       $tp_dir = $tp::cli::tp_dir
       file { "${tp_dir}/app/${sane_app}":
-        ensure  => $plain_ensure,
+        ensure  => tp::ensure2file($ensure),
         content => inline_epp('<%= $settings.to_yaml %>'),
       }
       file { "${tp_dir}/shellvars/${sane_app}":
-        ensure  => $plain_ensure,
+        ensure  => tp::ensure2file($ensure),
         content => epp('tp/shellvars.epp', { settings => $settings , }),
       }
     }
