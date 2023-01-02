@@ -16,9 +16,9 @@ define tp::test (
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
-  String[1]               $base_dir            = "${tp::cli::tp_dir}/test",
-  String[1]               $app_dir             = "${tp::cli::tp_dir}/app",
-  String[1]               $shellvars_dir       = "${tp::cli::tp_dir}/shellvars",
+  String[1]               $base_dir            = "${tp::tp_dir}/test",
+  String[1]               $app_dir             = "${tp::tp_dir}/app",
+  String[1]               $shellvars_dir       = "${tp::tp_dir}/shellvars",
 
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = pick($tp::cli_enable, true),
@@ -82,14 +82,6 @@ define tp::test (
       content => $file_content,
       source  => $source,
       tag     => 'tp_test',
-    }
-  }
-
-  # Optional cli integration
-  if $cli_enable and getvar('facts.identity.privileged') != false {
-    file { "${app_dir}/${sane_title}":
-      ensure  => $ensure,
-      content => inline_template('<%= @settings.to_yaml %>'),
     }
   }
 }

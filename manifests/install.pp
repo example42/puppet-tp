@@ -139,7 +139,7 @@ define tp::install (
   Variant[Boolean,String] $ensure           = present,
 
   # Temporary flag to use v4 code
-  Boolean                 $use_v4           = pick($tp::use_v4,false),
+  Boolean                 $use_v4           = pick(getvar('tp::use_v4'),false),
 
   # V4 params
   Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
@@ -206,9 +206,9 @@ define tp::install (
 
   # Settings evaluation
   $local_settings = delete_undef_values( {
-    install_method => $install_method,
-    repo           => $repo,
-    upstream_repo  => $upstream_repo,
+      install_method => $install_method,
+      repo           => $repo,
+      upstream_repo  => $upstream_repo,
   })
 
   $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')

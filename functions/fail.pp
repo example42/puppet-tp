@@ -1,5 +1,6 @@
 # Function tp::fail.
-# Gets an url and coverts is based on a given map
+# Uses the approach provided via the first argument to manage the notification
+# of the message in the second argument
 function tp::fail (
   Tp::Fail $on_missing_data,
   String $message,
@@ -35,7 +36,7 @@ function tp::fail (
         loglevel => 'warning',
       }
     }
-    'notify': {
+    'ignore': {
       # do nothing
     }
     default: {

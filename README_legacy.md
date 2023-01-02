@@ -196,11 +196,11 @@ Some parameters are available to manage tp::install automation:
 -   **auto_conf** Default: true. If true and tinydata relevant is present a default configuration is provided (this could happen just when some basic configuration is needed to actually activate the service).
 -   **auto_prereq**  Default: false. If true eventual package, tp::install or other dependencies are installed automatically. This is set to false by default in order to minimize duplicated resources risk, but might be required to set up specific applications correctly.
 
-      tp::install { 'consul':
-        upstream_repo => true,
-        auto_conf     => true,
-        auto_prereq   => false,
-      }
+    tp::install { 'consul':
+      upstream_repo => true,
+      auto_conf     => true,
+      auto_prereq   => false,
+    }
 
 Other parameters are available to manage integrations:
 

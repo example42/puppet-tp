@@ -671,7 +671,6 @@ With the tp command you can install on the local OS the given application, takin
 
 Check this [![asciicast](https://asciinema.org/a/uYLSvQL5AQwqzalLq9Gi353W1.svg)](https://asciinema.org/a/uYLSvQL5AQwqzalLq9Gi353W1) to see tp cli in action.
 
-
 ## Reference
 
 The tp module provides the following resources.
@@ -685,10 +684,10 @@ The tp module provides the following resources.
 -   `tp::install`. It installs an application and starts its service, by default.
 -   `tp::conf`. It allows to manage configuration files.
 -   `tp::dir`. It manages the content of directories.
--   `tp::stdmod`. It manages the installation of an application using StdMod compliant parameters.
+-   `tp::stdmod`. It manages the installation of an application using StdMod compliant parameters. LEGACY
 -   `tp::test`. It allows quick and easy (acceptance) testing of an application. 
 -   `tp::repo`. It manages extra repositories for the supported applications.
--   `tp::puppi`. Puppi integration (Don't worry, fully optional).
+-   `tp::puppi`. Puppi integration (Don't worry, fully optional). LEGACY
 
 ### Types
 
@@ -698,9 +697,14 @@ The tp module provides the following resources.
 
 -   `tp::content`, manages content for files based on supplied (erb) template, epp, and content
 -   `tp::ensure2bool`, converts ensure values to boolean
--   `tp::ensure2dir`, converts ensure values to esnure values to be used for directories
+-   `tp::ensure2dir`, converts ensure values to ensure values to be used for directories
+-   `tp::ensure2file`, converts ensure values to ensure values to be used for files
+-   `tp::ensure2service`, converts ensure values to ensure and enable values to be used for services
 -   `tp::install`, wrapper around the tp::install define, it tries to avoid eventual duplicated resources issues
--   `tp::is_something`, returna true if input of any type exists and is not empty
+-   `tp::is_something`, returns true if input of any type exists and is not empty
+-   `tp::fail`, handles errors or unexpected conditions in the desired way (via a notify resource, via server side notification functions, or just silently ignoring)
+-   `tp::create_everything`, runs create_resources on the specified hash of resources types
+-   `tp::url_replace`, gets as input an URL with variables are replaces them with actual values
 
 ### Tasks
 

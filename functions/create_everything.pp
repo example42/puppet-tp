@@ -1,5 +1,5 @@
 # Function tp::create_everything.
-# Gets an url and coverts is based on a given map
+# Gets an hash of resource types and creates the relevant resources
 function tp::create_everything (
   Hash $resources = {},
   Hash $resources_defaults = {},

@@ -24,12 +24,10 @@ define tp::service (
             'Requires'      => 'docker.service',
           },
           'Service' => {
-            'ExecStartPre' => "-/usr/bin/docker stop ${app}",
-            'ExecStartPre' => "-/usr/bin/docker rm ${app}",
-            'ExecStartPre' => "/usr/bin/docker pull ${settings['docker_image']}",
+            'ExecStartPre' => "/usr/bin/docker stop ${app} ; /usr/bin/docker rm ${app} ; /usr/bin/docker pull ${settings['docker_image']}",
             'ExecStart'    => "/usr/bin/docker run --rm --name ${app} ${docker_args} ${settings['docker_image']}",
-            'Restart' => 'always',
-            'RestartSec' => '10s',
+            'Restart'      => 'always',
+            'RestartSec'   => '10s',
           },
           'Install' => {
             'WantedBy' => 'multi-user.target',
@@ -38,17 +36,17 @@ define tp::service (
       } else {
         $options_defaults = {
           'Unit' => {
-            'Description' => pick(getvar('settings.description'),"${app} service"),
+            'Description'   => pick(getvar('settings.description'),"${app} service"),
             'Documentation' => pick(getvar('settings.website'),"Search: ${app}"),
           },
           'Service' => {
-            'ExecStart' => $real_command_path,
-            'Restart' => 'always',
-            'RestartSec' => '10s',
-            'User' => pick(getvar('settings.process_user'), 'root'),
-            'Group' => pick(getvar('settings.process_group'), 'root'),
+            'ExecStart'       => $real_command_path,
+            'Restart'         => 'always',
+            'RestartSec'      => '10s',
+            'User'            => pick(getvar('settings.process_user'), 'root'),
+            'Group'           => pick(getvar('settings.process_group'), 'root'),
             'EnvironmentFile' => pick(getvar('settings.init_file_path'),getvar('settings.configs.init.path'),"/etc/default/${app}"), # lint:ignore:140chars
-            'ExecReload' => '/bin/kill -HUP $MAINPID',
+            'ExecReload'      => '/bin/kill -HUP $MAINPID',
           },
           'Install' => {
             'WantedBy' => 'multi-user.target',
