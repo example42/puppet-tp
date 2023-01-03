@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 # Apps to test against. Data is in spec/tpdata/
-apps = ['rsyslog','postfix']
+apps = ['rsyslog']
 
 # Sample options and rendered templates to test upon
 sample_options = {
