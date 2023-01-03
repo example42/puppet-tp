@@ -110,6 +110,22 @@ class tp (
   deprecation('options_hash', 'Replace with options')
 
   if $use_v4 {
+    if has_key($facts,'identity') {
+      $real_tp_params = $facts['identity']['privileged'] ? {
+        false   => $tp_params['user'],
+        default => $tp_params['global'],
+      }
+    } else {
+      $real_tp_params = $tp_params['global']
+    }
+    $tp_path = $real_tp_params['tp']['path']
+    $tp_dir = $real_tp_params['conf']['path']
+    $destination_dir = $real_tp_params['destination']['path']
+    $data_dir = $real_tp_params['data']['path']
+    $download_dir = "${real_tp_params['data']['path']}/download"
+    $extract_dir = "${real_tp_params['data']['path']}/extract"
+    $flags_dir = "${real_tp_params['data']['path']}/flags"
+
     $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
     # tp 4 new entrypoints
     $resources.each |$resource| {

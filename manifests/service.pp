@@ -10,7 +10,7 @@ define tp::service (
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
-  $real_command_path = pick ($command_path, "${tp::cli::real_tp_params['destination']['path']}/${app}")
+  $real_command_path = pick ($command_path, "${tp::real_tp_params['destination']['path']}/${app}")
 
   case $facts['service_provider'] {
     'systemd': {

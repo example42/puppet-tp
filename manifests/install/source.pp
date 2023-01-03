@@ -83,8 +83,8 @@ define tp::install::source (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  $tp_dir          = $tp::cli::real_tp_params['conf']['path']
-  $destination_dir = "${tp::cli::real_tp_params['data']['path']}/source"
+  $tp_dir          = $tp::real_tp_params['conf']['path']
+  $destination_dir = "${tp::real_tp_params['data']['path']}/source"
   $real_source = $ensure ? {
     'absent' => false,
     default  => pick($source, getvar('settings.git_source'), false),

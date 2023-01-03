@@ -80,7 +80,7 @@ define tp::install::image (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  $tp_dir          = $tp::cli::real_tp_params['conf']['path']
+  $tp_dir          = $tp::real_tp_params['conf']['path']
   $real_docker_image = $ensure ? {
     'absent' => false,
     default  => pick($docker_image, getvar('settings.docker_image'), false),

@@ -175,7 +175,7 @@ define tp::install (
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Boolean                 $auto_prereq      = pick($::tp::auto_prereq, false),
+  Boolean                 $auto_prereq      = pick(getvar('tp::auto_prereq'), false),
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -185,13 +185,13 @@ define tp::install (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
-  Boolean                 $cli_enable       = pick($tp::cli_enable, true),
+  Boolean                 $cli_enable       = pick(getvar('tp::cli_enable'), true),
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,
 
   Boolean                 $debug            = false,
-  String[1]               $debug_dir           = '/tmp',
+  String[1]               $debug_dir        = '/tmp',
 
   String[1]               $data_module      = 'tinydata',
 
@@ -216,14 +216,8 @@ define tp::install (
 
   # v4 code
   if $use_v4 {
-    if has_key($facts,'identity') {
-      $real_tp_params = $facts['identity']['privileged'] ? {
-        false   => $tp_params['user'],
-        default => $tp_params['global'],
-      }
-    } else {
-      $real_tp_params = $tp_params['global']
-    }
+    include tp
+    $real_tp_params = $tp::real_tp_params
     $default_install_params = {
       ensure         => $ensure,
       auto_prereq    => $auto_prereq,
@@ -281,7 +275,7 @@ define tp::install (
     # Cli integration
     if $cli_enable {
       include tp::cli
-      $tp_dir = $tp::cli::tp_dir
+      $tp_dir = $tp::tp_dir
       file { "${tp_dir}/app/${sane_app}":
         ensure  => tp::ensure2file($ensure),
         content => inline_epp('<%= $settings.to_yaml %>'),

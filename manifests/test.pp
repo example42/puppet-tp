@@ -16,9 +16,6 @@ define tp::test (
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
-  String[1]               $base_dir            = "${tp::tp_dir}/test",
-  String[1]               $app_dir             = "${tp::tp_dir}/app",
-  String[1]               $shellvars_dir       = "${tp::tp_dir}/shellvars",
 
   Boolean                 $verbose             = false,
   Boolean                 $cli_enable          = pick($tp::cli_enable, true),
@@ -30,6 +27,9 @@ define tp::test (
 
   include tp
 
+  $base_dir            = "${tp::tp_dir}/test"
+  $app_dir             = "${tp::tp_dir}/app"
+  $shellvars_dir       = "${tp::tp_dir}/shellvars"
   # Default options and computed variables
   $options_defaults = {
     check_timeout          => '10',

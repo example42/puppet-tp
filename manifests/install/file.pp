@@ -82,10 +82,10 @@ define tp::install::file (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  $tp_dir          = $tp::cli::real_tp_params['conf']['path']
-  $destination_dir = $tp::cli::real_tp_params['destination']['path']
-  $download_dir    = "${tp::cli::real_tp_params['data']['path']}/download/${app}"
-  $extract_dir     = "${tp::cli::real_tp_params['data']['path']}/extract/${app}"
+  $tp_dir          = $tp::real_tp_params['conf']['path']
+  $destination_dir = $tp::real_tp_params['destination']['path']
+  $download_dir    = "${tp::real_tp_params['data']['path']}/download/${app}"
+  $extract_dir     = "${tp::real_tp_params['data']['path']}/extract/${app}"
 
   $real_destination = pick($destination, "${destination_dir}/${app}")
 

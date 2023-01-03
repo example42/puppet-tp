@@ -7,10 +7,10 @@
 define tp::build (
   Stdlib::Absolutepath $build_dir,
   Variant[Boolean,String] $ensure             = present,
-  Tp::Fail $on_missing_data    = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data    = pick(getvar('tp::on_missing_data'),'notify'),
   Hash $settings                              = {},
   String[1] $data_module                      = 'tinydata',
-  Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
+  Boolean $auto_prereq                        = pick(getvar('tp::auto_prereq'), false),
   Optional[Boolean] $build                    = undef,
   Optional[Boolean] $install                  = undef,
   Optional[Boolean] $manage_user              = undef,
@@ -18,10 +18,11 @@ define tp::build (
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 ) {
+  include tp
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
-  $destination_dir = $tp::cli::real_tp_params['destination']['path']
-  $flags_dir = $tp::cli::flags_dir
+  $destination_dir = $tp::real_tp_params['destination']['path']
+  $flags_dir = $tp::flags_dir
 
   if pick($build, getvar('settings.build.enable'), false ) {
     if $auto_prereq and getvar('settings.build.prerequisites') {
