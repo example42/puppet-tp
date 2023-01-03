@@ -26,9 +26,10 @@ class tp (
 
   Hash $tp_params                    = {},
   Hash $tp_commands                  = {},
-  Boolean $auto_prereq               = true,
+  Boolean $auto_prereq               = false,
 
   # Legacy params
+  #Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
   String $tp_owner                   = 'root',
   String $tp_group                   = 'root',
   String $tp_mode                    = '0755',
@@ -37,6 +38,7 @@ class tp (
   String $check_package_command      = 'puppet resource package',
   String $check_repo_path            = '',
   String $check_repo_path_post       = '',
+  #Stdlib::Absolutepath $tp_dir       = '/etc/tp',
   Optional[String] $ruby_path        = undef,
   String $lib_source                 = 'puppet:///modules/tp/lib/',
   Boolean $suppress_tp_warnings      = true,
