@@ -5,7 +5,9 @@ require 'spec_helper'
 describe 'tp::build' do
   let(:title) { 'namevar' }
   let(:params) do
-    {}
+    {
+      'build_dir' => '/tmp/build',
+    }
   end
 
   on_supported_os.each do |os, os_facts|

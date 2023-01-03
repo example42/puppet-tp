@@ -18,7 +18,6 @@ define tp::test (
   String[1]               $data_module         = 'tinydata',
 
   Boolean                 $verbose             = false,
-  Boolean                 $cli_enable          = pick($tp::cli_enable, true),
 
 ) {
   # Settings evaluation
