@@ -1,8 +1,6 @@
 ---
-tp::tp_path: 'C:/ProgramData/PuppetLabs/tp/bin/tp'
 tp::tp_owner: 'Administrator'
 tp::tp_group: 'Administrators'
-tp::tp_dir: 'C:/ProgramData/PuppetLabs/tp'
 tp::info_script_path: 'C:/ProgramData/PuppetLabs/bin/run_info.ps1'
 tp::debug_script_path: 'C:/ProgramData/PuppetLabs/bin/run_debug.ps1'
 
