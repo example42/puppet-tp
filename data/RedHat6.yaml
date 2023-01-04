@@ -1,3 +1,11 @@
 ---
 tp::check_service_command: 'service'
 tp::check_service_command_post: 'status'
+
+
+tp::tp_commands:
+  check:
+    service:
+      command: 'service'
+      post_command: 'status'
+

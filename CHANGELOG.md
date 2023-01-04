@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 3.8.0
+
+-   Added tp::use_v4 setting to use Puppet 4 compatible code
+-   Added v4 code for tp, tp::install
+-   Added tp::cli class to manage tp command in v4
+-   Added tp::install::package to manage apps from packages
+-   Added tp::install::file to download apps from release urls
+-   Added tp::fail function and data type and on_missing_data setting
+-   Added tp::url_replace and tp::create_everything functions
+-   Separated all old code, files and templaes from v4 specific
+-   Added tp::install::source to download apps from source repos
+-   Added tp::install::image to download and install app container image
+-   Params tp::tp_dir and tp::tp_path have been replaced by tp::tp_params and derived from identify fact 
+-   Added v4 entrypoints for Hiera data driven tp resources: tp::<resource>s and tp::osfamily_resources
+-   Deprecated the corresponding tp::<resource>_hash and tp::osfamily_<resource>_hash
+
 ## 3.7.0
 
 -   tp desktop noapply command renamed to tp desktop preview

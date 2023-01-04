@@ -19,9 +19,9 @@ define tp::debug (
   String[1]               $base_dir            = '/etc/tp/debug',
   String[1]               $app_dir             = '/etc/tp/app',
 
-  Stdlib::Absolutepath    $debug_command        = $tp::debug_script_path,
+  Stdlib::Absolutepath    $debug_command       = $tp::debug_script_path,
   Boolean                 $verbose             = false,
-  Boolean                 $cli_enable          = false,
+  Boolean                 $cli_enable          = pick($tp::cli_enable, true),
 
 ) {
   # Settings evaluation

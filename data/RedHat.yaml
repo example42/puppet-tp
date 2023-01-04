@@ -4,3 +4,20 @@ tp::check_package_command: 'rpm -q'
 tp::check_repo_path: '/etc/yum.repos.d/'
 tp::check_repo_path_post: '.repo'
 tp::info_package_command: 'rpm -qi'
+
+tp::tp_commands:
+  check:
+    service:
+      command: 'systemctl status'
+    package:
+      command: 'rpm -q'
+    repo:
+      path: '/etc/yum.repos.d'
+      command: echo 'Check repo not supported on this OS'
+      post_command: '.repo'
+  info:
+    package:
+      command: 'rpm -qi'
+  debug:
+    package:
+      command: 'rpm -qi'

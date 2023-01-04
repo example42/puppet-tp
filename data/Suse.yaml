@@ -4,3 +4,14 @@ tp::check_package_command: 'rpm -q'
 tp::check_repo_path: '/etc/zypp/repos.d/'
 tp::check_repo_path_post: '.repo'
 
+
+tp::tp_commands:
+  check:
+    service:
+      command: 'systemctl status'
+    package:
+      command: 'rpm -q'
+    repo:
+      path: '/etc/zypp/repos.d'
+      command: echo 'Check repo not supported on this OS'
+      post_command: '.repo'

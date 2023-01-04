@@ -1,0 +1,27 @@
+#!/bin/bash
+# Tp v4
+app=${1:-'no'}
+infoblock=${2:-'all'}
+
+# Source helper functions
+. <%= $tp::tp_dir %>/bin/functions.sh
+. <%= $tp::tp_dir %>/shellvars/$app
+
+if [ "$infoblock" != 'all' ]; then
+    . "<%= $tp::tp_dir %>/bin/run_info/${infoblock}"
+else
+    for f in $(ls -1 <%= $tp::tp_dir %>/bin/run_info/); do
+        . "<%= $tp::tp_dir %>/bin/run_info/${f}"
+    done
+fi
+if [ ! -z $info_commands ]; then
+    for i in "${!info_commands[@]}" ; do
+        if [ "$infoblock" != 'all' && "$infoblock" == "$i"]; then
+            echo_title "${HOSTNAME} - ${app} - ${i}: ${info_commands[$i]}"
+            show_command "${info_commands[$i]}"
+        elif [ "$infoblock" == 'all' && "$infoblock" == "$i"]; then
+            echo_title "${HOSTNAME} - ${app} - ${i}: ${info_commands[$i]}"
+            show_command "${info_commands[$i]}"
+        fi
+    done
+fi

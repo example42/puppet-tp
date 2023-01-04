@@ -136,10 +136,10 @@ define tp::repo (
     case $facts['os']['family'] {
       'Suse': {
         if !empty($settings[zypper_repofile_url]) {
-          $zypper_command = "zypper -n addrepo ${settings[zypper_repofile_url]}"
+          $zypper_command = "zypper addrepo ${settings[zypper_repofile_url]}"
           $zypper_unless = "zypper repos  | grep ${settings[repo_name]}"
         } else {
-          $zypper_command = "zypper -n addrepo ${settings[repo_url]} ${settings[repo_name]}"
+          $zypper_command = "zypper addrepo ${settings[repo_url]} ${settings[repo_name]}"
           $zypper_unless = "zypper repos -u | grep ${settings[repo_url]}"
         }
         if !defined(Exec["zypper_addrepo_${title}"]) {
@@ -185,6 +185,11 @@ define tp::repo (
             $unless  = undef
             $creates = $apt_key_path
             $command = "wget -O - ${settings[key_url]} | gpg --dearmor > ${apt_key_path}"
+
+            exec { "Ensure ${apt_gpg_key_dir} exists for ${title}":
+              command => "mkdir -p ${apt_gpg_key_dir}",
+              creates => $apt_gpg_key_dir,
+            }
             # $key_nospaces = regsubst($settings[key],' ','','G')
             # $unless = "for f in /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/*.{asc,gpg} /etc/apt/keyrings/*.{asc,gpg} ; do gpg --list-keys --keyid-format short --no-default-keyring --keyring \$f; done | grep -q \"${key_nospaces}\"",  # lint:ignore:140chars
           } else {
@@ -264,6 +269,7 @@ define tp::repo (
       notify => $repo_file_notify,
     }
   }
+
   # Debugging
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')

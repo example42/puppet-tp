@@ -6,3 +6,23 @@ tp::check_package_command: 'brew info'
 tp::check_repo_path: '/opt/homebrew/Library/Taps'
 tp::check_repo_path_post: ''
 tp::info_package_command: 'brew info -v'
+
+
+tp::tp_commands:
+  check:
+    service:
+      command: 'launchctl print system/'
+      post_command: " | grep 'running'"
+    package:
+      command: 'brew info'
+    repo:
+      path: '/opt/homebrew/Library/Taps'
+      command: echo 'Check repo not supported on this OS'
+      post_command: ''
+  info:
+    package:
+      command: 'brew info -v'
+  debug:
+    package:
+      command: 'brew info -v'
+

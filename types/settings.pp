@@ -92,15 +92,23 @@ type Tp::Settings = Struct[{
     Optional[version_command] => String,
     Optional[debug_commands] => Hash,
 
-    Optional[user_config_file_path] => Stdlib::Absolutepath,
-    Optional[user_config_file_owner] => String,
-    Optional[user_config_file_group] => String,
-    Optional[user_config_file_mode] => String,
-    Optional[user_conf_dir_path] => Stdlib::Absolutepath,
-    Optional[user_data_dir_path] => Stdlib::Absolutepath,
-
-    Optional[website_url] => String,
-
+    #v4
     Optional[winget_package_name] => String,
     Optional[choco_package_name] => String,
+
+    Optional[configs]      => Hash,
+    Optional[user_configs] => Hash,
+    Optional[dirs]         => Hash,
+    Optional[user_dirs]    => Hash,
+    Optional[ports]        => Hash,
+    Optional[commands]     => Hash,
+    Optional[releases]     => Hash,
+    Optional[install]      => Hash,
+    Optional[build]        => Hash,
+    Optional[install_method] => Enum['package', 'source', 'file', 'image'],
+    Optional[docker_args]  => String,
+    Optional[description]  => String,
+    Optional[website]      => String,
+    Optional[issues]       => String,
+    Optional[website]  => String,
 }]

@@ -21,7 +21,7 @@ define tp::info (
 
   Stdlib::Absolutepath    $info_command        = $tp::info_script_path,
   Boolean                 $verbose             = false,
-  Boolean                 $cli_enable          = false,
+  Boolean                 $cli_enable          = pick($tp::cli_enable, true),
 
 ) {
   # Settings evaluation

@@ -17,7 +17,7 @@ describe 'tp::conf', :type => :define do
       let(:facts) { os_facts }
       apps.each do | app |
         appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
-        context "wiht app #{app}" do
+        context "with app #{app}" do
           let(:title) { app }
           let(:pre_condition) { "tp::install { #{app}: }" }
           default_file_params = {
@@ -28,6 +28,7 @@ describe 'tp::conf', :type => :define do
             'group'   => appdata['config_file_group'],
             'notify'  => "Service[#{appdata['service_name']}]",
             'require' => "Package[#{appdata['package_name']}]",
+            'validate_cmd' => appdata['validate_cmd'],
           }
           context 'without any param' do
             it { is_expected.to compile.with_all_deps }
