@@ -26,3 +26,5 @@ validate_cmd: "sshd -t -f %"
 repo_package_provider: rpm
 init_system: systemd
 version_command: "ssh -V"
+init_file_path: "/etc/sysconfig/sshd"
+config_file_format: 'inifile'
