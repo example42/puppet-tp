@@ -185,7 +185,7 @@ define tp::install (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
-  Boolean                 $cli_enable       = pick(getvar('tp::cli_enable'), true),
+  Boolean                 $cli_enable       = pick(getvar('tp::cli_enable'), false),
   Boolean                 $puppi_enable     = false,
   Boolean                 $test_enable      = false,
   Variant[Undef,String]   $test_template    = undef,

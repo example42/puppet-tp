@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 # Apps to test against. Data is in spec/tpdata/
-apps = ['rsyslog']
+apps = ['postfix','openssh']
 
 # Sample options and rendered templates to test upon
 sample_options = {
@@ -28,6 +28,7 @@ describe 'tp::conf', :type => :define do
             'group'   => appdata['config_file_group'],
             'notify'  => "Service[#{appdata['service_name']}]",
             'require' => "Package[#{appdata['package_name']}]",
+            'validate_cmd' => appdata['validate_cmd'],
           }
           context 'without any param' do
             it { is_expected.to compile.with_all_deps }

@@ -7,7 +7,7 @@
 class tp (
   Enum['present','absent'] $ensure   = 'present',
   Boolean $use_v4                    = false,
-  Boolean $cli_enable                = true,
+  Boolean $cli_enable                = false,
   Boolean $purge_dirs                = false,
   String[1] $data_module             = 'tinydata',
 
