@@ -13,6 +13,8 @@
 -   Added tp::install::source to download apps from source repos
 -   Added tp::install::image to download and install app container image
 -   Params tp::tp_dir and tp::tp_path have been replaced by tp::tp_params and derived from identify fact 
+-   Added v4 entrypoints for Hiera data driven tp resources: tp::<resource>s and tp::osfamily_resources
+-   Deprecated the corresponding tp::<resource>_hash and tp::osfamily_<resource>_hash
 
 ## 3.7.0
 

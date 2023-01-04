@@ -125,66 +125,67 @@ class tp (
   $extract_dir = "${real_tp_params['data']['path']}/extract"
   $flags_dir = "${real_tp_params['data']['path']}/flags"
 
-  if $use_v4 {
-    $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
-    # tp 4 new entrypoints
-    $resources.each |$resource| {
-      $resource_data = lookup("tp::${resource}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${resource}",'first'),{})) # puppet-lint:ignore:140chars
-      $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${resource}",{})
-      case $resource_data {
-        Hash: {
-          $resource_data.each |$kk,$vv| {
-            create_resources("tp::${resource}", { $kk => {} }, $resource_defaults + $vv)
-          }
-        }
-        Array: {
-          create_resources("tp::${resource}", { $resource_data.unique => {} }, $resource_defaults)
-        }
-        String: {
-          create_resources("tp::${resource}", { $resource_data => {} }, $resource_defaults)
-        }
-        Undef: {
-          # do nothing
-        }
-        default: {
-          tp::fail($on_missing_data, "Missing data for tp::${resource}s : ${resource_data}. Expected: String, Array, Hash, Undef.")
+  $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
+  # tp 4 new entrypoints
+  $resources.each |$resource| {
+    $resource_data = lookup("tp::${resource}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${resource}",'first'),{})) # puppet-lint:ignore:140chars
+    $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${resource}",{})
+    case $resource_data {
+      Hash: {
+        $resource_data.each |$kk,$vv| {
+          create_resources("tp::${resource}", { $kk => {} }, $resource_defaults + $vv)
         }
       }
+      Array: {
+        create_resources("tp::${resource}", { $resource_data.unique => {} }, $resource_defaults)
+      }
+      String: {
+        create_resources("tp::${resource}", { $resource_data => {} }, $resource_defaults)
+      }
+      Undef: {
+        # do nothing
+      }
+      default: {
+        tp::fail($on_missing_data, "Missing data for tp::${resource}s : ${resource_data}. Expected: String, Array, Hash, Undef.")
+      }
     }
+  }
 
-    $osfamily_resources.each |$k,$v| {
-      if $facts['os']['family'] == $k {
-        $v.each |$res,$val| {
-          $res.each |$resource| {
-            if $res == $resource {
-              $resource_data = lookup("tp::${res}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${res}",'first'),{}))
-              $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${k}",{})
-              case $resource_data {
-                Hash: {
-                  $resource_data.each |$kk,$vv| {
-                    create_resources("tp::${resource}", $kk, $resource_defaults + $vv)
-                  }
+  $osfamily_resources.each |$k,$v| {
+    if $facts['os']['family'] == $k {
+      $v.each |$res,$val| {
+        $res.each |$resource| {
+          if $res == $resource {
+            $resource_data = lookup("tp::${res}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${res}",'first'),{}))
+            $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${k}",{})
+            case $resource_data {
+              Hash: {
+                $resource_data.each |$kk,$vv| {
+                  create_resources("tp::${resource}", $kk, $resource_defaults + $vv)
                 }
-                Array: {
-                  $resource_data.unique.each |$kk| {
-                    create_resources("tp::${resource}", { $kk => {} }, $resource_defaults)
-                  }
+              }
+              Array: {
+                $resource_data.unique.each |$kk| {
+                  create_resources("tp::${resource}", { $kk => {} }, $resource_defaults)
                 }
-                String: {
-                  create_resources("tp::${resource}", $resource_data, $resource_defaults)
-                }
-                Undef: {
-                  # do nothing
-                }
-                default: {
-                  fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
-                }
+              }
+              String: {
+                create_resources("tp::${resource}", $resource_data, $resource_defaults)
+              }
+              Undef: {
+                # do nothing
+              }
+              default: {
+                fail("Unsupported type for ${resource_data}. Valid types are String, Array, Hash, Undef.")
               }
             }
           }
         }
       }
     }
+  }
+
+  if $use_v4 {
     if $cli_enable {
       include 'tp::cli'
     }
