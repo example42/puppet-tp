@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'tp::service' do
   let(:title) { 'my_app' }
+  let(:pre_condition) { "include tp" }
   let(:params) do
     {
       ensure: 'present',
