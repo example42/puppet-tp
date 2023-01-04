@@ -35,7 +35,6 @@ describe 'tp::service' do
       mode: 'normal',
     }
   end
-
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -51,7 +50,6 @@ describe 'tp::service' do
           owner: 'root',
           group: 'root',
           mode: '0644',
-          content: template('tp/inifile_with_stanzas.erb'),
           notify: 'Exec[tp systemctl daemon-reload]',
           before: 'Service[my_app]',
         )
