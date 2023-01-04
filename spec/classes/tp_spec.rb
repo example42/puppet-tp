@@ -64,7 +64,8 @@ describe 'tp' do
           'force'   => true,
           'recurse' => true,
         } 
-        it { is_expected.to contain_file('/etc/tp').only_with(dir_params) }
+        it { is_expected.to contain_file('/etc/tp').only_with(dir_params) } if os != 'windows-2008 R2-x64' and os != 'windows-2012 R2-x64'
+        it { is_expected.to contain_file('C:/ProgramData/PuppetLabs/tp').only_with(dir_params) } if os == 'windows-2008 R2-x64' or os == 'windows-2012 R2-x64'
       end
 
     end

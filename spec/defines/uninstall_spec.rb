@@ -50,7 +50,7 @@ describe 'tp::uninstall', :type => :define do
           total_count = total_count.to_i + 1 # yumrepo
         end
         if appdata['key'] and appdata['key_url'] and appdata['repo_url'] and os == 'ubuntu-16.04-x86_64'
-          total_count = total_count.to_i + 1 # file $app.list
+          total_count = total_count.to_i + 2 # file $app.list
           file_count = file_count.to_i + 1   # file $app.list
         end
         if appdata['key'] and ( appdata['package_name'] and appdata['package_name'] !=0 ) and os == 'ubuntu-16.04-x86_64'

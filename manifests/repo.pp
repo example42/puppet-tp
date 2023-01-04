@@ -179,7 +179,7 @@ define tp::repo (
 
         $aptrepo_title = pick($settings[repo_filename],$title)
 
-        if !empty($settings[key]) and !empty($settings[key_url]) and $ensure != 'absent' {
+        if !empty($settings[key]) and !empty($settings[key_url]) {
           $apt_key_path = "${apt_gpg_key_dir}/${title}.gpg"
           if $apt_safe_trusted_key {
             $unless  = undef

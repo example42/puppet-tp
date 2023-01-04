@@ -40,25 +40,43 @@
 
 ## Module description
 
-Example42's tp (short for Tiny Puppet) module can manage **every application** on **every Operating System** (Linux flavours, Solaris, macOS, Windows).
+Example42's tp (short for Tiny Puppet) module can manage **every application** (relevant tinydata is needed) on **every Operating System** (Linux flavours, Solaris, macOS, Windows) using different **methods** (native packages, packages from upstream repos, release tarballs, git source, docker container).
 
-It provides Puppet user defined types to:
+It permits allows this as **code**, via Puppet user defined types:
 
--   Install applications' packages and manage their services (`tp::install`)
+-   Install applications' packages and manage their services (`tp::install`) using different methods
 -   Handle eventual relevant repos, allowing to choose between native distro repos or the ones from upstream developer (`tp::repo`)
 -   Manage applications configuration files (`tp::conf`)
 -   Manage whole directories (`tp::dir`), also from an SCM source.
+-   Add custom test and debug options (`tp::test`, `tp::debug`)
+-   Download app's source code (`tp::source`)
+
+via the **command line** tool `tp`, that allows to:
+
+-   Install applications with single command (`tp install <app>`)
+-   Test if they are working correctly (`tp test [app]`)
+-   Get information about them (`tp info [app]`)
+-   Troubleshoot them (`tp debug [app]`)
+-   See their version (`tp version [app]`) 
+-   Show their logs (`tp log [app]`)
+-   Manage desktop configurations as code without a Puppet server (`tp desktop`)
+
+via **Bolt tasks**, that permits to orchestrate the above operations on remote nodes.
 
 ### Features
 
 The main features of tp module are:
 
 -   Quick, easy to use, standard, coherent, powerful interface to applications installation and their config files management.
+-   Multiple installation options
 -   Out of the box and easily expandable support for most common Operating Systems.
 -   Modular data source design. Support for an easily growing [set of applications](https://github.com/example42/tinydata/tree/master/data).
 -   Smooth coexistence with any existing Puppet modules setup: it's up to the user to decide when to use tp and when to use a dedicated module.
 -   Application data stored in a configurable separated module ([tinydata](https://github.com/example42/tinydata) is the default source for applications data).
--   Optional CLI command (`tp`) which can be used to install, test, query for logs any tp managed application.
+-   Optional CLI command (`tp`) which can be used to install, test, get info, troubleshoot and query for logs any tp managed application.
+-   Optional Bolt tasks to perform the above actions on remote nodes.
+-   Usable both by total beginners and experienced sysadmins: interface is simple but allows powerful customisations
+
 
 ### Use cases
 
@@ -82,8 +100,8 @@ To see real-world usage of tp defines give a look to:
 
 -   The [profiles](https://github.com/example42/puppet-psick/tree/master/manifests) in the psick module where tp is used widely.
 -   Usage samples in [hieradata](https://github.com/example42/psick-hieradata/search?q=%27tp%3A%3A%27).
--   The [tp_profile](https://github.com/example42/puppet-tp_profile) module which contains standard classes for different applications which rely entirely on tp resources. (DEPRECATED)
 -   The [psick_profile](https://github.com/example42/psick_profile) module which is contains more profiles for common applications.
+-   The [tp-desktop](https://github.com/example42/tp-desktop) repository, used to mabage desktop configurations as code using puppet apply (serverless).
 
 ## Setup
 
@@ -96,7 +114,7 @@ TP can be installed as any other module:
 -   From the forge, adding to Puppetfile and entry like
 
           mod 'example42-tp', 'latest' # For latest version
-          mod 'example42-tp', '3.0.0'  # For a specific version (recommended)
+          mod 'example42-tp', '3.8.0'  # For a specific version (recommended)
 
 -   From the forge, initializing a new Bolt project with this module:
 
@@ -124,6 +142,12 @@ Once tp module is added to the modulepath the (optional) tp command can be insta
 -   Full directories, whose source can also be an SCM repository.
 
 ### Getting started with tp
+
+Starting from version 3.8.0, a technology preview of tp 4 features is available by specifying the use_v4 parameter:
+
+    tp::use_v4: true
+
+
 
 Here follows an example of tp resources used inside a custom profile where the content of a configuration file is based on a template with custom values.
 
