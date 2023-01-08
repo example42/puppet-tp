@@ -104,10 +104,30 @@ class tp (
     'absent'  => 'absent',
   }
 
-  deprecation('conf_hash', 'Replace with confs')
-  deprecation('dir_hash', 'Replace with dirs')
-  deprecation('settings_hash', 'Replace with my_settings')
-  deprecation('options_hash', 'Replace with options')
+  if $conf_hash != {} {
+    deprecation('conf_hash', 'Replace with confs')
+  }
+  if $dir_hash != {} {
+    deprecation('dir_hash', 'Replace with dirs')
+  }
+  if $install_hash != {} {
+    deprecation('install_hash', 'Replace with installs')
+  }
+  if $concat_hash != {} {
+    deprecation('concat_hash', 'No more supported')
+  }
+  if $stdmod_hash != {} {
+    deprecation('stdmod__hash', 'No more supported')
+  }
+  if $puppi_hash != {} {
+    deprecation('puppi_hash', 'No more supported')
+  }
+  if $repo_hash != {} {
+    deprecation('repo_hash', 'Replace with repos')
+  }
+  if $options_hash != {} {
+    deprecation('options_hash', 'Replace with options')
+  }
 
   if has_key($facts,'identity') {
     $real_tp_params = $facts['identity']['privileged'] ? {

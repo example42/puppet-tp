@@ -30,8 +30,6 @@
 # @param auto_prereq If to automatically install the app's prerequisites
 #   (if defined in tinydata)
 #
-# @param cli_enable If to enable the CLI for this app
-#
 # @param version The version to install. If not set, what's set in the ensure
 #   parameter is used
 #
@@ -64,7 +62,6 @@ define tp::install::file (
   Hash $settings                              = {},
 
   Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
-  Boolean $cli_enable                         = pick($tp::cli_enable, true),
 
   Optional[String]               $version     = undef,
   Optional[String]               $source      = undef,
@@ -213,17 +210,10 @@ define tp::install::file (
         ensure          => $ensure,
         on_missing_data => $on_missing_data,
         settings        => $settings,
-        data_module     => $data_module,
+        my_options      => getvar('settings.install.systemd_options', {}),
       }
     }
   } else {
-    tp::fail($on_missing_data, "tp::install::file missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].base_path, settings.releases.[version].filename}") # lint:ignore:140chars
-  }
-
-  if $cli_enable {
-    tp::test { "${app}_file":
-      ensure  => tp::ensure2file($ensure),
-      content => "ls -l ${download_dir}/${real_filename}",
-    }
+    tp::fail($on_missing_data, "tp::install::file ${app} - Missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].base_path, settings.releases.[version].filename}") # lint:ignore:140chars
   }
 }

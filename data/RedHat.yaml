@@ -12,9 +12,8 @@ tp::tp_commands:
     package:
       command: 'rpm -q'
     repo:
-      path: '/etc/yum.repos.d'
-      command: echo 'Check repo not supported on this OS'
-      post_command: '.repo'
+      path: '/etc/yum.repos.d/'
+      path_post: '.repo'
   info:
     package:
       command: 'rpm -qi'

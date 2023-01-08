@@ -604,7 +604,7 @@ define tp::install (
 
     # Optional cli integration
     $tp_basedir = $facts['os']['family'] ? {
-      'windows' => 'C:/Program Files/Puppet Labs/Puppet/tp',
+      'windows' => 'C:/ProgramData/PuppetLabs/tp',
       default   => '/etc/tp',
     }
 

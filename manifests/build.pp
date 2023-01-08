@@ -91,7 +91,7 @@ define tp::build (
         }
       }
       default: {
-        tp::fail($on_missing_data, 'tp::build missing tinydata: settings.install.files is not a Hash, Array or String') # lint:ignore:140chars
+        tp::fail($on_missing_data, "tp::build ${app} - Missing tinydata: settings.install.files is not a Hash, Array or String") # lint:ignore:140chars
       }
     }
 

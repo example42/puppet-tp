@@ -86,9 +86,6 @@
 #   required for the installation of the application. If they are defined in
 #   tp data.
 #
-# @param cli_enable Enable cli integration.
-#   If true, tp commands to query apps installed via tp are added to the system.
-#
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
 #
@@ -101,8 +98,6 @@ define tp::install::package (
   Hash                    $settings         = {},
   Hash                    $releases         = {},
   Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
-
-  Boolean                 $cli_enable       = pick($tp::cli_enable, true),
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
@@ -308,7 +303,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data, "tp::install::package. No data for ${packages}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data, "tp::install::package ${app} - No data for ${packages}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }
@@ -371,7 +366,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data,"tp::install::package - ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }
