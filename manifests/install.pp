@@ -157,8 +157,8 @@ define tp::install (
   Optional[String] $version                 = undef,
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
-  Optional[Boolean] $build                    = undef,
-  Optional[Boolean] $install                  = undef,
+  Optional[Boolean] $build                  = undef,
+  Optional[Boolean] $install                = undef,
 
 # Legacy params preserved
 #  Boolean                 $auto_prereq      = false,
@@ -205,13 +205,21 @@ define tp::install (
   deprecation('options_hash', 'Replace with options')
 
   # Settings evaluation
+  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
   $local_settings = delete_undef_values( {
       install_method => $install_method,
       repo           => $repo,
       upstream_repo  => $upstream_repo,
+      git_source     => $install_method ? {
+        'source' => $source,
+        default  => undef,
+      },
+      destination    => pick(getvar('tinydata_settings.install_method'), $install_method) ? {
+        'source' => pick($destination, "${tp::real_tp_params['data']['path']}/source/${app}"),
+        default  => undef,
+      },
   })
 
-  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
   $settings = $tinydata_settings + $settings_hash + $my_settings + $local_settings
 
   # v4 code

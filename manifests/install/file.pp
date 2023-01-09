@@ -102,19 +102,9 @@ define tp::install::file (
   }
 
   # Download and unpack source
-  if $version and $ensure != 'absent' {
-    $real_version = $version
-    $real_filename = pick(tp::url_replace(getvar('settings.releases.version.file_name'), $real_version), getvar('settings.releases.file_name'), $app) # lint-ignore: 140chars
-  } elsif $ensure !~ /^present$|^latest$|^absent$/ {
-    $real_version = $ensure
-    $real_filename = pick(tp::url_replace(getvar('settings.releases.version.file_name'), $real_version), getvar('settings.releases.file_name'), $app) # lint-ignore: 140chars
-  } elsif getvar('settings.releases.latest_version'){
-    $real_version = getvar('settings.releases.latest_version')
-    $real_filename = pick(tp::url_replace(getvar('settings.releases.version.file_name'), $real_version), getvar('settings.releases.file_name'), $app) # lint-ignore: 140chars
-  } else {
-    $real_version = ''
-    tp::fail($on_missing_data, "tp::install::file - ${app} - No version specified and missing tinydata: settings.releases.latest_version")
-  }
+  $real_version = tp::get_version($ensure,$version,$settings)
+  $real_filename = pick(tp::url_replace(getvar('settings.releases.version.file_name'), $real_version), getvar('settings.releases.file_name'), $app) # lint-ignore: 140chars
+
   if getvar('settings.releases.base_url') {
     $real_base_url = getvar('settings.releases.base_url')
   } else {

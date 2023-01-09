@@ -163,7 +163,9 @@ def tp_test(app)
       image_repository = settings['image']['name'].split(':')[0]
       run_command("docker image ls | grep  " + image_repository + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - image: #{settings['image']['name']}")
     end
-
+    if settings.dig('git_source') != nil and settings['install_method'] == 'source'
+      run_command("ls " + settings['destination'] + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - source: #{settings['git_source']} in #{settings['destination']}")
+    end
 
     # Check service if defined
     if settings['service_name'] and settings['service_name'] != ""

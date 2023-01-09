@@ -23,12 +23,6 @@
 # @param my_settings Custom settings hash. It's merged with and can
 #   override the default tinydata settings key for the managed app
 #
-# @param my_releases Custom releases hash. It's merged with and can
-#   override the default tinydata releases key for the managed app
-#
-# @param my_build Custom build hash. It's merged with and can override
-#   the default tinydata build key for the managed app
-#
 # @param auto_prereq If to automatically install the app's prerequisites
 #   (if defined in tinydata)
 #
@@ -67,7 +61,6 @@ define tp::install::source (
 
   Optional[String]               $version     = undef,
   Optional[String]               $source      = undef,
-  Optional[Stdlib::Absolutepath] $destination = undef,
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 
@@ -79,18 +72,13 @@ define tp::install::source (
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
+  $destination = getvar('settings.destination')
 
   $tp_dir          = $tp::real_tp_params['conf']['path']
-  $destination_dir = "${tp::real_tp_params['data']['path']}/source"
   $real_source = $ensure ? {
     'absent' => false,
     default  => pick($source, getvar('settings.git_source'), false),
   }
-  $real_destination = pick($destination, "${destination_dir}/${app}")
-
-#  tp::create_dir { "tp::install::file - create_dir ${real_destination}":
-#    path   => $real_destination,
-#  }
 
   # Automatic dependencies management, if data defined
   if $auto_prereq and getvar('settings.releases.prerequisites') and $ensure != 'absent' {
@@ -99,15 +87,18 @@ define tp::install::source (
 
   if $real_source {
     tp::source { $app:
-      ensure => $ensure,
-      source => $real_source,
-      path   => $real_destination,
+      ensure          => $ensure,
+      source          => $real_source,
+      path            => $destination,
+      vcsrepo_options => delete_undef_values( {
+          revision => $version,
+      }),
     }
 
     if pick($build, getvar('settings.build.enable'), false ) {
       tp::build { $app:
         ensure          => $ensure,
-        build_dir       => $real_destination,
+        build_dir       => $destination,
         on_missing_data => $on_missing_data,
         settings        => $settings,
         data_module     => $data_module,
@@ -120,9 +111,6 @@ define tp::install::source (
     }
 
     if pick($install, getvar('settings.install.enable'), false ) {
-      if getvar('releases.install.resources') and $ensure != 'absent' {
-        tp::create_everything ( getvar('releases.install.resources'), {})
-      }
       if pick($manage_service, getvar('settings.install.manage_service'), false ) {
         tp::service { $app:
           ensure          => $ensure,
@@ -136,5 +124,4 @@ define tp::install::source (
   } else {
     tp::fail($on_missing_data, "tp::install::source ${app} - Missing parameter source or tinydata: settings.git_url") # lint:ignore:140chars
   }
-
 }

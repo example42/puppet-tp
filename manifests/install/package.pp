@@ -96,7 +96,6 @@ define tp::install::package (
   # V4
   Optional[String]        $version          = undef,
   Hash                    $settings         = {},
-  Hash                    $releases         = {},
   Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
 
   Boolean                 $auto_repo        = true,
@@ -125,10 +124,10 @@ define tp::install::package (
     $package_provider = $settings[package_provider]
   }
 
-  if $settings[package_source] == Variant[Undef,String[0]] {
+  if $settings[package_source] =~ Variant[Undef,String[0]] {
     $package_source = undef
   } else {
-    $package_source = $settings[package_source]
+    $package_source = tp::url_replace(getvar('settings.package_source'),tp::get_version($ensure,$version,$settings))
   }
 
   if $settings[package_install_options] == Variant[Undef,String[0]] {
@@ -271,7 +270,6 @@ define tp::install::package (
         $package_defaults = {
           ensure   => $plain_ensure,
           provider => $package_provider,
-          source   => $package_source,
         }
         $packages.each |$kk,$vv| {
           package { $kk:
