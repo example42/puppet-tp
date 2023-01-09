@@ -4,7 +4,8 @@
   "parameters": {
     "app": {
       "description": "The application to test",
-      "type": "Optional[String[1]]"
+      "type": "Optional[String[1]]",
+      "default": "all"
     }
   }
 }
