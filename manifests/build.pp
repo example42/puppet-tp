@@ -58,35 +58,35 @@ define tp::build (
     case $files {
       Hash: {
         $files.each | $k,$v | {
-          file { $k:
+          tp::copy_file { $k:
             ensure => pick($v['ensure'],$ensure),
             path   => pick($v['path'], "${destination_dir}/${k}"),
             owner  => pick($v['owner'], $owner),
             group  => pick($v['group'], $group),
             mode   => pick($v['mode'], '0755'),
-            source => pick($v['source'],"file://${build_dir}/${k}"),
+            source => pick($v['source'],"${build_dir}/${k}"),
           }
         }
       }
       Array: {
         $files.each | $k | {
-          file { "${destination_dir}/${k}":
+          tp::copy_file { "${destination_dir}/${k}":
             ensure => $ensure,
             path   => "${destination_dir}/${k}",
             owner  => $owner,
             group  => $group,
-            source => "file://${build_dir}/${k}",
+            source => "${build_dir}/${k}",
             mode   => '0755',
           }
         }
       }
       String: {
-        file { "${destination_dir}/${files}":
+        tp::copy_file { "${destination_dir}/${files}":
           ensure => $ensure,
           path   => "${destination_dir}/${files}",
           owner  => $owner,
           group  => $group,
-          source => "file://${build_dir}/${files}",
+          source => "${build_dir}/${files}",
           mode   => '0755',
         }
       }

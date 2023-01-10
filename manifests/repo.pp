@@ -46,7 +46,7 @@ define tp::repo (
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
-  $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings = tp_lookup($title,'settings',$data_module,'deep_merge')
   $user_settings = {
     repo_url           => $repo_url,
     key_url            => $key_url,

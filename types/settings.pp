@@ -87,14 +87,16 @@ type Tp::Settings = Struct[{
     Optional[git_source] => String,
     Optional[git_destination] => String,
 
-    Optional[info_commands] => Hash,
-    Optional[run_commands] => Hash,
+    Optional[info_commands]   => Hash,
+    Optional[run_commands]    => Hash,
     Optional[version_command] => String,
-    Optional[debug_commands] => Hash,
+    Optional[debug_commands]  => Hash,
 
     #v4
     Optional[winget_package_name] => String,
-    Optional[choco_package_name] => String,
+    Optional[choco_package_name]  => String,
+    Optional[scoop_package_name]  => String,
+    Optional[brew_package_name]   => String,
 
     Optional[configs]      => Hash,
     Optional[user_configs] => Hash,

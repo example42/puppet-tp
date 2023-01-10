@@ -16,7 +16,7 @@ define tp::source (
 
 ) {
   # Settings evaluation
-  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings=tp_lookup($title,'settings',$data_module,'deep_merge')
   $settings = $tp_settings + $my_settings
 
   if $settings[git_source] or $source {

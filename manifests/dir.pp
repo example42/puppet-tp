@@ -175,10 +175,10 @@ define tp::dir (
 
   if $title =~ /^\/.*$/ {
     # If title is an absolute path do a safe lookup to a dummy app
-    $tp_settings = tp_lookup('test','settings','tinydata','merge')
+    $tp_settings = tp_lookup('test','settings','tinydata','deep_merge')
     $title_path = $title
   } else {
-    $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+    $tp_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
     $title_path = undef
   }
 
