@@ -121,7 +121,11 @@ define tp::install::file (
     'absent' => false,
     default  => pick($source, $real_url),
   }
-  $extracted_dir = tp::url_replace(pick(getvar('settings.releases.extracted_dir'),getvar('settings.releases.version.extracted_dir'),basename($real_filename)), $real_version)  # lint-ignore: 140chars
+  $extracted_dir = getvar('settings.releases.version.extracted_dir') ? {
+    String  => tp::url_replace(getvar('settings.releases.version.extracted_dir'), $real_version), # lint-ignore: 140chars
+    default => tp::url_replace(basename($real_filename), $real_version),
+  }
+  $extracted_file = getvar('settings.releases.version.extracted_file')
 
   if $real_source {
     $source_filetype = pick(getvar('settings.releases.file_format'),'zip')
@@ -145,9 +149,7 @@ define tp::install::file (
       default    => '',
     }
 
-    $real_extracted_dir = basename($extracted_dir)
-
-    $real_postextract_cwd = "${extract_dir}/${real_extracted_dir}"
+    $real_postextract_cwd = "${extract_dir}/${extracted_dir}"
 
     Exec {
       path        => $facts['path'],
@@ -163,16 +165,19 @@ define tp::install::file (
     }
 
     if $extract_command {
+      $extract_creates = $extracted_dir ? {
+        ''      => "${extract_dir}/${extracted_file}",
+        default => "${extract_dir}/${extracted_dir}",
+      }
       exec { "Extract ${real_filename} from ${download_dir} - ${title}":
         command => "mkdir -p ${extract_dir} && cd ${extract_dir} && ${extract_command} ${download_dir}/${real_filename} ${extract_command_second_arg}", # lint:ignore:140chars
-        # unless  => "ls ${extract_dir}/${real_extracted_dir}",
-        creates => "${extract_dir}/${real_extracted_dir}",
+        creates => $extract_creates,
         require => [Exec["Downloading ${title} from ${real_source} to ${download_dir}"], Tp::Create_dir["tp::install::file - extract_dir ${extract_dir}"]], # lint:ignore:140chars
         notify  => Exec["Chown ${real_filename} in ${extract_dir} - ${title}"],
       }
 
       exec { "Chown ${real_filename} in ${extract_dir} - ${title}":
-        command     => "chown -R ${owner}:${group} ${extract_dir}/${real_extracted_dir}",
+        command     => "chown -R ${owner}:${group} ${extract_dir}/${extracted_dir}",
         refreshonly => true,
         require     => Exec["Extract ${real_filename} from ${download_dir} - ${title}"],
       }

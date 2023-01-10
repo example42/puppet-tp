@@ -214,8 +214,9 @@ define tp::install (
         'source' => $source,
         default  => undef,
       },
-      destination    => pick(getvar('tinydata_settings.install_method'), $install_method) ? {
+      destination    => pick($install_method, getvar('tinydata_settings.install_method')) ? {
         'source' => pick($destination, "${tp::real_tp_params['data']['path']}/source/${app}"),
+        'file'   => pick($destination, "${tp::real_tp_params['data']['path']}/download/${app}"),
         default  => undef,
       },
   })

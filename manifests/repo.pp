@@ -258,15 +258,15 @@ define tp::repo (
       'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
     }
     $repo_file_notify = $facts['os']['family'] ? {
-      'Debian' => 'Exec["tp_apt_update"]',
+      'Debian' => Exec['tp_apt_update'],
       'RedHat' => undef,
-      'Suse'   => 'Exec["zypper refresh"]',
+      'Suse'   => Exec['zypper refresh'],
     }
     exec { "Download repo file for ${title}":
       command => "wget ${settings[repo_file_url]} -q -O ${repo_file_path}",
       creates => $repo_file_path,
       path    => $facts['path'],
-      notify => $repo_file_notify,
+      notify  => $repo_file_notify,
     }
   }
 
