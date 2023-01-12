@@ -7,11 +7,12 @@
 # resources.
 #
 # @param source The source of the file to copy (must be a valid path)
+# @param ensure If to create (present) or remove (absent)the target file
+# @param path The path of the file to create. Default $title
 # @param owner The owner of the created file
 # @param group The group of the created file
 # @param mode The mode of the created file
-# @param path The path of the file to create. Default $title
-# @param source The source file to copy
+# @param overwrite If to overwrite the target file when already existing
 define tp::copy_file (
   Stdlib::AbsolutePath $source,
   Enum['present','absent'] $ensure = 'present',

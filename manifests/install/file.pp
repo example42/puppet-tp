@@ -103,29 +103,33 @@ define tp::install::file (
 
   # Download and unpack source
   $real_version = tp::get_version($ensure,$version,$settings)
-  $real_filename = pick(tp::url_replace(getvar('settings.releases.version.file_name'), $real_version), getvar('settings.releases.file_name'), $app) # lint-ignore: 140chars
+  $real_filename = pick(tp::url_replace(getvar('settings.releases.file_name'), $real_version), $app) # lint-ignore: 140chars
 
-  if getvar('settings.releases.base_url') {
-    $real_base_url = getvar('settings.releases.base_url')
+  if getvar('settings.releases.release_url') {
+    $composed_url = getvar('settings.releases.release_url')
   } else {
-    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url")
+    if getvar('settings.releases.base_url') {
+      $real_base_url = getvar('settings.releases.base_url')
+    } else {
+      tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url")
+    }
+    if getvar('settings.releases.base_path') {
+      $real_base_path = getvar('settings.releases.base_path')
+    } else {
+      tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_path") # lint-ignore: 140chars
+    }
+    $composed_url = "${real_base_url}/${real_base_path}/${real_filename}"
   }
-  if getvar('settings.releases.version.base_path')or getvar('settings.releases.base_path') {
-    $real_base_path = pick(getvar('settings.releases.version.base_path'), getvar('settings.releases.base_path'))
-  } else {
-    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_path or settings.releases.version.base_path") # lint-ignore: 140chars
-  }
-  $composed_url = "${real_base_url}/${real_base_path}${real_filename}" # lint-ignore: 140chars
   $real_url = tp::url_replace($composed_url, $real_version) # lint-ignore: 140chars
   $real_source = $ensure ? {
     'absent' => false,
     default  => pick($source, $real_url),
   }
-  $extracted_dir = getvar('settings.releases.version.extracted_dir') ? {
-    String  => tp::url_replace(getvar('settings.releases.version.extracted_dir'), $real_version), # lint-ignore: 140chars
+  $extracted_dir = getvar('settings.releases.extracted_dir') ? {
+    String  => tp::url_replace(getvar('settings.releases.extracted_dir'), $real_version), # lint-ignore: 140chars
     default => tp::url_replace(basename($real_filename), $real_version),
   }
-  $extracted_file = getvar('settings.releases.version.extracted_file')
+  $extracted_file = getvar('settings.releases.extracted_file')
 
   if $real_source {
     $source_filetype = pick(getvar('settings.releases.file_format'),'zip')

@@ -81,8 +81,8 @@ define tp::install::source (
   }
 
   # Automatic dependencies management, if data defined
-  if $auto_prereq and getvar('settings.releases.prerequisites') and $ensure != 'absent' {
-    tp::create_everything ( getvar('settings.releases.prerequisites'), {})
+  if $auto_prereq and getvar('settings.build.prerequisites') and $ensure != 'absent' {
+    tp::create_everything ( getvar('settings.build.prerequisites'), {})
   }
 
   if $real_source {
