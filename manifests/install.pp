@@ -143,13 +143,14 @@ define tp::install (
 
   # V4 params
   Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
+  Tp::Fail $on_missing_data    = pick($tp::on_missing_data,'notify'),
 
-  Hash                    $confs            = {},
-  Hash                    $dirs             = {},
+  Hash $confs            = {},
+  Hash $dirs             = {},
 
-  Hash                    $options          = {},
+  Hash $options          = {},
 
-  Hash                    $my_settings      = {},
+  Hash $my_settings      = {},
 
   Hash $tp_params                           = {},
   Hash $params                              = {},
@@ -157,8 +158,6 @@ define tp::install (
   Optional[String] $version                 = undef,
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
-  Optional[Boolean] $build                  = undef,
-  Optional[Boolean] $install                = undef,
 
 # Legacy params preserved
 #  Boolean                 $auto_prereq      = false,
@@ -221,18 +220,18 @@ define tp::install (
       },
   })
 
-  $settings = $tinydata_settings + $settings_hash + $my_settings + $local_settings
+  $settings = deep_merge($tinydata_settings,$settings_hash,$my_settings,$local_settings)
 
   # v4 code
   if $use_v4 {
     include tp
     $real_tp_params = $tp::real_tp_params
     $default_install_params = {
-      ensure         => $ensure,
-      auto_prereq    => $auto_prereq,
-      data_module    => $data_module,
-      settings       => $settings,
-      version        => $version,
+      ensure          => $ensure,
+      auto_prereq     => $auto_prereq,
+      settings        => $settings,
+      version         => $version,
+      on_missing_data => $on_missing_data,
     }
 
     # If not user specified or set as settings.install_method, the default
@@ -242,6 +241,7 @@ define tp::install (
     case $real_install_method {
       'package': {
         $default_install_package_params = {
+          data_module           => $data_module,
           upstream_repo         => $upstream_repo,
           auto_repo             => $auto_repo,
           repo                  => $repo,
@@ -264,8 +264,6 @@ define tp::install (
         $default_install_file_params = {
           source      => $source,
           destination => $destination,
-          build       => $build,
-          install     => $install,
         }
         tp::install::file { $app:
           * => $default_install_params + $default_install_file_params + $params,
@@ -308,7 +306,7 @@ define tp::install (
       }
     }
 
-    if $options_hash != {} and getvar('settings.config_file_format') {
+    if $options_hash != {} and getvar('settings.files.config.format') {
       tp::conf { $app:
         * => $conf_defaults,
       }

@@ -29,6 +29,9 @@
 # @param command_path The full path of the command to use when starting the service.
 #  In normal mode with systemd is the value of ExecStart
 #
+# @param systemd_symlink The symlink to systemd unit file under /lib/systemd/system.
+#   If not set link will be /etc/systemd/system/multi-user.target.wants/${app}.service
+#
 define tp::service (
   Variant[Boolean,String] $ensure              = present,
 
@@ -43,6 +46,8 @@ define tp::service (
 
   Optional[String] $docker_image               = undef,
   Optional[Stdlib::Absolutepath] $command_path = undef,
+
+  Optional[String] $systemd_symlink            = undef,
 
 ) {
   $app = $title
@@ -155,7 +160,7 @@ define tp::service (
         content => template(pick(getvar('settings.image.systemd_template'),'tp/inifile_with_stanzas.erb')),
         notify  => [Exec['tp systemctl daemon-reload'], Service[$app]],
       }
-      $symlink_path = pick(getvar('settings.install.systemd_symlink'),"/etc/systemd/system/multi-user.target.wants/${app}.service") # lint:ignore:140chars
+      $symlink_path = pick($systemd_symlink,"/etc/systemd/system/multi-user.target.wants/${app}.service") # lint:ignore:140chars
       file { $symlink_path:
         ensure => link,
         target => "/lib/systemd/system/${app}.service",

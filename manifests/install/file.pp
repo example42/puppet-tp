@@ -21,11 +21,7 @@
 # @param tp_params The tp_params hash to use. If not set, the global $tp::tp_params
 #   is used.
 #
-# @param my_settings Custom settings hash. It's merged with and can
-#   override the default tinydata settings key for the managed app
-#
-# @param my_build Custom build hash. It's merged with and can override
-#   the default tinydata build key for the managed app
+# @param settings The tinydata settings to use merged with params managed in tp::install
 #
 # @param auto_prereq If to automatically install the app's prerequisites
 #   (if defined in tinydata)
@@ -41,12 +37,6 @@
 # @param owner The owner of the app's downloaded and extracted files
 #
 # @param group The group of the app's downloaded and extracted files
-#
-# @param install If to install the app's binaries to destination
-#
-# @param manage_service If to manage the app's service
-#
-# @param data_module The module where to find the tinydata for the app
 #
 # @example Install an app from a release package. (Tinydaya must be present)
 #   tp::install { 'prometheus':
@@ -69,12 +59,6 @@ define tp::install::file (
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 
-  Optional[Boolean] $build                    = undef,
-  Optional[Boolean] $install                  = undef,
-  Optional[Boolean] $manage_service           = undef,
-  Optional[Boolean] $manage_user              = undef,
-
-  String[1] $data_module                      = 'tinydata',
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
@@ -104,23 +88,13 @@ define tp::install::file (
   # Download and unpack source
   $real_version = tp::get_version($ensure,$version,$settings)
   $real_filename = pick(tp::url_replace(getvar('settings.releases.file_name'), $real_version), $app) # lint-ignore: 140chars
-
-  if getvar('settings.releases.release_url') {
-    $composed_url = getvar('settings.releases.release_url')
+  if getvar('settings.releases.base_url') {
+    $real_base_url = pick(tp::url_replace(getvar('settings.releases.base_url'), $real_version), $app)
+    $real_url = "${real_base_url}/${real_filename}"
   } else {
-    if getvar('settings.releases.base_url') {
-      $real_base_url = getvar('settings.releases.base_url')
-    } else {
-      tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url")
-    }
-    if getvar('settings.releases.base_path') {
-      $real_base_path = getvar('settings.releases.base_path')
-    } else {
-      tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_path") # lint-ignore: 140chars
-    }
-    $composed_url = "${real_base_url}/${real_base_path}/${real_filename}"
+    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url") # lint-ignore: 140chars
   }
-  $real_url = tp::url_replace($composed_url, $real_version) # lint-ignore: 140chars
+
   $real_source = $ensure ? {
     'absent' => false,
     default  => pick($source, $real_url),
@@ -178,41 +152,28 @@ define tp::install::file (
         creates => $extract_creates,
         require => [Exec["Downloading ${title} from ${real_source} to ${download_dir}"], Tp::Create_dir["tp::install::file - extract_dir ${extract_dir}"]], # lint:ignore:140chars
         notify  => Exec["Chown ${real_filename} in ${extract_dir} - ${title}"],
+        before  => Tp::Setup["tp::install::file ${app}"],
       }
 
       exec { "Chown ${real_filename} in ${extract_dir} - ${title}":
         command     => "chown -R ${owner}:${group} ${extract_dir}/${extracted_dir}",
         refreshonly => true,
         require     => Exec["Extract ${real_filename} from ${download_dir} - ${title}"],
+        before      => Tp::Setup["tp::install::file ${app}"],
       }
     }
 
-    if pick($build, getvar('settings.build.enable'), false)
-    or pick($install, getvar('settings.install.enable'), false) {
-      tp::build { $app:
-        ensure          => $ensure,
-        build_dir       => $real_postextract_cwd,
-        on_missing_data => $on_missing_data,
-        settings        => $settings,
-        data_module     => $data_module,
-        auto_prereq     => $auto_prereq,
-        owner           => $owner,
-        group           => $group,
-        build           => $build,
-        install         => $install,
-        manage_user     => $manage_user,
-      }
-    }
-
-    if pick($manage_service, getvar('settings.install.manage_service'), false ) {
-      tp::service { $app:
-        ensure          => $ensure,
-        on_missing_data => $on_missing_data,
-        settings        => $settings,
-        my_options      => getvar('settings.install.systemd_options', {}),
-      }
+    tp::setup { "tp::install::file ${app}":
+      ensure          => $ensure,
+      setup_data      => 'release',
+      source_dir      => $real_postextract_cwd,
+      app             => $app,
+      on_missing_data => $on_missing_data,
+      settings        => $settings,
+      owner           => $owner,
+      group           => $group,
     }
   } else {
-    tp::fail($on_missing_data, "tp::install::file ${app} - Missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].base_path, settings.releases.[version].filename}") # lint:ignore:140chars
+    tp::fail($on_missing_data, "tp::install::file ${app} - Missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].filename}") # lint:ignore:140chars
   }
 }

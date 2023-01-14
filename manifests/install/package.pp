@@ -111,7 +111,6 @@ define tp::install::package (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
-
   String[1]               $data_module      = 'tinydata',
 
 ) {
@@ -196,7 +195,7 @@ define tp::install::package (
         if $settings[package_name] {
           Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
         }
-        package { "${settings[package_prerequisites]}": }
+        package { $settings[package_prerequisites]: }
         # ensure_packages("${settings[package_prerequisites]}")
       }
       default: {}
@@ -282,8 +281,10 @@ define tp::install::package (
           ensure   => $plain_ensure,
           provider => $package_provider,
         }
-        package { $kk:
-          * => $package_defaults + pick($settings[package_params],{}),
+        $packages.each |$k| {
+          package { $k:
+            * => $package_defaults + pick($settings[package_params],{}),
+          }
         }
       }
       String[1]: {
@@ -343,8 +344,10 @@ define tp::install::package (
           enable  => $service_enable,
           require => $service_require,
         }
-        service { $kk:
-          * => $service_defaults + pick($settings[service_params],{}),
+        $services.each |$k| {
+          service { $k:
+            * => $service_defaults + pick($settings[service_params],{}),
+          }
         }
       }
       String[1]: {

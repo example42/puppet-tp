@@ -32,17 +32,9 @@
 # @param source The source URL to download the app from. If not set, the
 #   URL is taken from tinydata
 #
-# @param destination The destination path where to install the app to.
-#
 # @param owner The owner of the app's downloaded and extracted files
 #
 # @param group The group of the app's downloaded and extracted files
-#
-# @param install If to install the app's binaries to destination
-#
-# @param manage_service If to manage the app's service
-#
-# @param data_module The module where to find the tinydata for the app
 #
 # @example Install an app from a release package. (Tinydaya must be present)
 #   tp::install { 'prometheus':
@@ -64,11 +56,6 @@ define tp::install::source (
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 
-  Optional[Boolean] $build                    = undef,
-  Optional[Boolean] $install                  = undef,
-  Optional[Boolean] $manage_service           = undef,
-
-  String[1] $data_module      = 'tinydata',
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
@@ -95,31 +82,15 @@ define tp::install::source (
       }),
     }
 
-    if pick($build, getvar('settings.build.enable'), false ) {
-      tp::build { $app:
-        ensure          => $ensure,
-        build_dir       => $destination,
-        on_missing_data => $on_missing_data,
-        settings        => $settings,
-        data_module     => $data_module,
-        auto_prereq     => $auto_prereq,
-        owner           => $owner,
-        group           => $group,
-        install         => $install,
-        require         => Tp::Source[$app],
-      }
-    }
-
-    if pick($install, getvar('settings.install.enable'), false ) {
-      if pick($manage_service, getvar('settings.install.manage_service'), false ) {
-        tp::service { $app:
-          ensure          => $ensure,
-          on_missing_data => $on_missing_data,
-          settings        => $settings,
-          require         => Tp::Source[$app],
-          my_options      => getvar('settings.install.systemd_options', {}),
-        }
-      }
+    tp::setup { "tp::install::source ${app}":
+      ensure          => $ensure,
+      setup_data      => 'source',
+      source_dir      => $destination,
+      app             => $app,
+      on_missing_data => $on_missing_data,
+      settings        => $settings,
+      owner           => $owner,
+      group           => $group,
     }
   } else {
     tp::fail($on_missing_data, "tp::install::source ${app} - Missing parameter source or tinydata: settings.git_url") # lint:ignore:140chars
