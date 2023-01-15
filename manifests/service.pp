@@ -116,7 +116,7 @@ define tp::service (
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.website'),"Search: ${app}"),
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
             'After'         => 'docker.service',
             'Requires'      => 'docker.service',
           },
@@ -134,15 +134,15 @@ define tp::service (
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.website'),"Search: ${app}"),
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
           },
           'Service' => {
             'ExecStart'       => $real_command_path,
             'Restart'         => 'always',
             'RestartSec'      => '10s',
-            'User'            => pick(getvar('settings.process_user'), 'root'),
-            'Group'           => pick(getvar('settings.process_group'), 'root'),
-            'EnvironmentFile' => pick(getvar('settings.init_file_path'),getvar('settings.configs.init.path'),"/etc/default/${app}"), # lint:ignore:140chars
+            'User'            => pick(getvar('settings.service.main.process_user'),getvar('settings.process_user'),'root'),
+            'Group'           => pick(getvar('settings.service.main.process_group'),getvar('settings.process_group'),'root'),
+            'EnvironmentFile' => pick(getvar('settings.configs.init.path'),getvar('settings.init_file_path'),"/etc/default/${app}"), # lint:ignore:140chars
             'ExecReload'      => '/bin/kill -HUP $MAINPID',
           },
           'Install' => {

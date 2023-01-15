@@ -64,7 +64,7 @@ define tp::install::source (
   $tp_dir          = $tp::real_tp_params['conf']['path']
   $real_source = $ensure ? {
     'absent' => false,
-    default  => pick($source, getvar('settings.git_source'), false),
+    default  => pick($source,getvar('settings.urls.source'),getvar('settings.git_source'), false),
   }
 
   # Automatic dependencies management, if data defined
