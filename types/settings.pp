@@ -1,9 +1,10 @@
 type Tp::Settings = Struct[{
+
+    # v3
     Optional[upstream_repo] => Boolean,
 
     Optional[package_name] => Variant[String,Array],
     Optional[package_ensure] => String,
-    Optional[package_provider] => String,
     Optional[package_params] => Hash,
 
     Optional[service_name] => Variant[String,Array],
@@ -32,11 +33,10 @@ type Tp::Settings = Struct[{
     Optional[config_dir_recurse] => Boolean,
     Optional[config_dir_params] => Hash,
 
-    Optional[log_file_path] => Stdlib::Absolutepath,
+    Optional[log_file_path] => Variant[Stdlib::Absolutepath,Array[Stdlib::Absolutepath]],
     Optional[pid_file_path] => Stdlib::Absolutepath,
     Optional[init_file_path] => Stdlib::Absolutepath,
     Optional[init_file_template] => String,
-    Optional[init_system] => String,
 
     Optional[conf_dir_path] => Stdlib::Absolutepath,
     Optional[data_dir_path] => Stdlib::Absolutepath,
@@ -87,30 +87,34 @@ type Tp::Settings = Struct[{
     Optional[git_source] => String,
     Optional[git_destination] => String,
 
-    Optional[info_commands]   => Hash,
-    Optional[run_commands]    => Hash,
-    Optional[version_command] => String,
-    Optional[debug_commands]  => Hash,
+    # v3 and v4
+    Optional[info_commands]    => Hash[String,Variant[String,Tp::Settings::Command]],
+    Optional[run_commands]     => Hash[String,Variant[String,Tp::Settings::Command]],
+    Optional[debug_commands]   => Hash[String,Variant[String,Tp::Settings::Command]],
+    Optional[version_command]  => String,
+    Optional[help_command]     => String,
+    Optional[package_provider] => String,
 
-    #v4
-    Optional[winget_package_name] => String,
-    Optional[choco_package_name]  => String,
-    Optional[scoop_package_name]  => String,
-    Optional[brew_package_name]   => String,
+    # v4
+    Optional[preinstall]     => Hash[String,Variant[String,Array,Hash]],
+    Optional[postinstall]    => Hash[String,Variant[String,Array,Hash]],
 
-    Optional[configs]      => Hash,
-    Optional[user_configs] => Hash,
-    Optional[dirs]         => Hash,
-    Optional[user_dirs]    => Hash,
-    Optional[ports]        => Hash,
-    Optional[commands]     => Hash,
-    Optional[releases]     => Hash,
-    Optional[setup]        => Hash,
-    Optional[build]        => Hash,
+    Optional[init_system]    => String,
+
+    Optional[configs]        => Hash[String,Tp::Settings::Config],
+    Optional[user_configs]   => Hash[String,Tp::Settings::Config],
+    Optional[dirs]           => Hash[String,Tp::Settings::Dir],
+    Optional[user_dirs]      => Hash[String,Tp::Settings::Dir],
+    Optional[ports]          => Hash[String,Tp::Settings::Port],
+    Optional[releases]       => Tp::Settings::Releases,
+    Optional[setup]          => Tp::Settings::Setup,
+    Optional[build]          => Tp::Settings::Build,
     Optional[install_method] => Enum['package', 'source', 'file', 'image'],
-    Optional[docker_args]  => String,
-    Optional[description]  => String,
-    Optional[website]      => String,
-    Optional[issues]       => String,
-    Optional[urls]         => Hash,
+    Optional[docker_args]    => String,
+    Optional[description]    => String,
+    Optional[urls]           => Hash[String,Stdlib::HTTPUrl],
+    Optional[packages]       => Hash[String,Tp::Settings::Package],
+    Optional[services]       => Hash[String,Tp::Settings::Service],
+    Optional[repos]          => Hash[String,Tp::Settings::Repo],
+
 }]

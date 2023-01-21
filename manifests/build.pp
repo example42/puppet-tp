@@ -31,10 +31,9 @@ define tp::build (
     if getvar('settings.build.execs') {
       getvar('settings.build.execs').each | $c,$v | {
         if getvar('v.creates') =~ Undef
-        and getvar('v.unless') =~ Undef
         and getvar('v.onlyif') =~ Undef {
-          $creates_suffix = " && touch ${flags_dir}/${app}_${c}"
-          $creates        = "${flags_dir}/${app}_${c}"
+          $creates_suffix = " && touch ${flags_dir}/${app}_${v['name']}"
+          $creates        = "${flags_dir}/${app}_${v['name']}"
         } else {
           $creates_suffix = ''
           $creates = undef
@@ -44,7 +43,7 @@ define tp::build (
           path          => $facts['path'],
           creates       => $creates,
         }
-        exec { "${app} - tp::build exec - ${c}":
+        exec { "${app} - tp::build exec - ${v['name']}":
           * => $default_exec_params + $v + {
             command => "${v['command']}${creates_suffix}",
           },
