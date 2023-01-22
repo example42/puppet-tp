@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 3.9.0
+
+-   tp::install::* defines simplified and aligned to semifinal v4 tinydata structure
+-   Added function tp::get_version
+-   Added function tp::title_replace
+-   Changed lookup method to deep_merge to all tp_lookup function calls
+-   Added define tp::copy_file
+-   Added define tp::service
+-   Added define tp::setup
+-   Added data types to match v4 tinydata structures
+-   Updated tp::dir to v4
+-   Updated tp::file to v4
+
 ## 3.8.0
 
 -   Added tp::use_v4 setting to use Puppet 4 compatible code

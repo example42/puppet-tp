@@ -198,10 +198,18 @@ define tp::install (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  deprecation('conf_hash', 'Replace with confs')
-  deprecation('dir_hash', 'Replace with dirs')
-  deprecation('settings_hash', 'Replace with my_settings')
-  deprecation('options_hash', 'Replace with options')
+  if $conf_hash != {} {
+    deprecation('conf_hash', 'Replace with confs')
+  }
+  if $dir_hash != {} {
+    deprecation('dir_hash', 'Replace with dirs')
+  }
+  if $options_hash != {} {
+    deprecation('options_hash', 'Replace with options')
+  }
+  if $settings_hash != {} {
+    deprecation('settings_hash', 'Replace with my_settings')
+  }
 
   # Settings evaluation
   $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')

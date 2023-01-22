@@ -4,20 +4,29 @@
 # set in the title.
 # If the vcsrepo parameter is set, the content of the directory is populated
 # from the url defined in the source parameter.
-# If no vcsrepo is used, the directory is manage by the native file resource.
+# If no vcsrepo is used, the directory is managed by Puppet native file resource.
 # The actual path of the managed directory is determined with this logic:
 # - If the path parameter is passed, that's the path used
 # - If an absolute dir path is set in the title, then it's used this path
 # - If no path is explicitly set and the title contains only the app
 #   name (ex: 'apache') then it's managed its *main* configuration directory
 #   as determined tp's data/ directory.
-# - If no path is set and the title is :: separated (ex: 'apache::conf'), then
-#   the dir path name is set by the second element set in the title.
-#   Common names for dir types are:
+# - If you use the base_dir parameter then the dir path name is set by according
+#   to the base_dir path
+#   Common names for base_dir  are:
 #    - config (default, it refers to the main configuraion directory of the app)
 #    - conf (a conf.d style directory where to place configuration fragments)
 #    - log (the logs dir, if exists)
 #    - data (where application data is stored)
+#    - home (the application home dir)
+#   Any dir defined in tinydata under settings.dirs.${base_dir}.path can be referred
+#   by the base_dir parameter.
+#
+# If Puppet is executed as a non privileged user, the tinydata settings used are
+# settings.user_dirs instead of settings.dirs.
+# settings.user_dirs are also used when the scope parameter is set to user, in that
+# case the directory is managed in the home directory of the user set via the
+# owner parameter (default root).
 #
 # @example management of apache main configuration directory:
 #
@@ -130,6 +139,9 @@ define tp::dir (
 
   String[1]              $ensure             = 'present',
 
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
+  Hash $my_settings      = {},
+
   Variant[Undef,String,Array] $source        = undef,
   Variant[Undef,Boolean,String] $vcsrepo     = false,
   Hash                   $vcsrepo_options    = {},
@@ -160,10 +172,14 @@ define tp::dir (
   String[1]              $data_module        = 'tinydata',
 
 ) {
+  # Deprecations
+  if $settings_hash != {} {
+    deprecation('settings_hash', 'Replace with my_settings')
+  }
+
   # Settings evaluation
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
-  $dir = $title_elements[1]
 
   # Check if repo or upstream_repo are set in tp::install
   if defined_with_params(Tp::Install[$app]) {
@@ -182,25 +198,50 @@ define tp::dir (
     $title_path = undef
   }
 
-  $settings = $tp_settings + $settings_hash
   $prefix = $scope ? {
-    'global' => '',
+    'global' => $facts['identity']['privileged'] ? {
+      true  => '',
+      false => 'user_',
+    },
     'user'   => 'user_',
   }
-  $base_dir_path = $settings["${prefix}${base_dir}_dir_path"]
-  $real_path      = pick($path, $title_path, $base_dir_path)
-  $manage_path    = "${path_prefix}${real_path}"
-  $manage_mode    = pick($mode, $settings[config_dir_mode])
-  $manage_owner   = pick($owner, $settings[config_dir_owner])
-  $manage_group   = pick($group, $settings[config_dir_group])
+  $temp_settings = deep_merge($tp_settings,$settings_hash,$my_settings)
+  $base_dir_path   = pick(getvar("temp_settings.${prefix}dirs.${base_dir}.path"), getvar("temp_settings.${base_dir}_dir_path"))
+  $calculated_path = pick($path, $title_path, $base_dir_path)
+  $real_path       = "${path_prefix}${calculated_path}"
+
+  $local_file_params = delete_undef_values({
+    'path'    => $real_path,
+    'mode'    => $mode,
+    'owner'   => $owner,
+    'group'   => $group,
+    'recurse' => $recurse,
+    'purge'   => $purge,
+    'force'   => $force,
+  })
+
+  $local_settings = {
+    "${prefix}dirs" => {
+      "${base_dir}" => $local_file_params,
+    }
+  }
+
+  $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
+  $real_mode    = pick_default(getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar("settings.${base_dir}_dir_mode"))
+  $real_owner   = pick_default(getvar("settings.${prefix}dirs.${base_dir}.owner"), getvar("settings.${base_dir}_dir_owner"))
+  $real_group   = pick_default(getvar("settings.${prefix}dirs.${base_dir}.group"), getvar("settings.${base_dir}_dir_group"))
+  $real_recurse = pick_default(getvar("settings.${prefix}dirs.${base_dir}.recurse"), getvar("settings.${base_dir}_dir_recurse"))
+  $real_purge   = pick_default(getvar("settings.${prefix}dirs.${base_dir}.purge"), getvar("settings.${base_dir}_dir_purge"))
+  $real_force   = pick_default(getvar("settings.${prefix}dirs.${base_dir}.force"), getvar("settings.${base_dir}_dir_force"))
 
   # Set require if package_name is present and title is not a abs path
-  if $settings[package_name] and $settings[package_name] != '' {
-    $package_ref = "Package[${settings[package_name]}]"
+  $real_package_name = pick_default(tp::title_replace(getvar('settings.packages.main.name'),$app), getvar('settings.package_name'))
+  if $real_package_name and $real_package_name != '' {
+    $package_ref = "Package[${real_package_name}]"
   } else {
     $package_ref = undef
   }
-  $manage_require = $config_dir_require ? {
+  $real_require = $config_dir_require ? {
     ''        => undef,
     false     => undef,
     true      => $package_ref,
@@ -208,12 +249,13 @@ define tp::dir (
   }
 
   # Set notify if service_name is present
-  if $settings[service_name] and $settings[service_name] != '' {
-    $service_ref = "Service[${settings[service_name]}]"
+  $real_service_name = pick_default(tp::title_replace(getvar('settings.services.main.name'),$app), getvar('settings.service_name'))
+  if $real_service_name and $real_service_name != '' {
+    $service_ref = "Service[${real_service_name}]"
   } else {
     $service_ref = undef
   }
-  $manage_notify  = $config_dir_notify ? {
+  $real_notify  = $config_dir_notify ? {
     ''        => undef,
     false     => undef,
     true      => $service_ref,
@@ -228,10 +270,10 @@ define tp::dir (
 
   # Finally, the resources managed
   if $path_parent_create {
-    $path_parent = dirname($manage_path)
+    $path_parent = dirname($real_path)
     $exec_before = $vcsrepo ? {
-      undef   => File[$manage_path],
-      default => Vcsrepo[$manage_path],
+      undef   => File[$real_path],
+      default => Vcsrepo[$real_path],
     }
     exec { "mkdir for tp::dir ${title}":
       command => "/bin/mkdir -p ${path_parent}",
@@ -245,33 +287,34 @@ define tp::dir (
       ensure   => $ensure_vcsrepo,
       source   => $source,
       provider => $vcsrepo,
-      owner    => $manage_owner,
-      group    => $manage_group,
+      owner    => $real_owner,
+      group    => $real_group,
     }
-    vcsrepo { $manage_path:
+    vcsrepo { $real_path:
       * => $vcsrepo_defaults + $vcsrepo_options,
     }
   } else {
     $file_params = {
       ensure  => $ensure_dir,
       source  => $source,
-      path    => $manage_path,
-      mode    => $manage_mode,
-      owner   => $manage_owner,
-      group   => $manage_group,
-      require => $manage_require,
-      notify  => $manage_notify,
-      recurse => $recurse,
-      purge   => $purge,
-      force   => $force,
+      path    => $real_path,
+      mode    => $real_mode,
+      owner   => $real_owner,
+      group   => $real_group,
+      require => $real_require,
+      notify  => $real_notify,
+      recurse => $real_recurse,
+      purge   => $real_purge,
+    #  force   => $real_force,
     }
-    file { $manage_path:
-      * => $file_params + pick($settings[config_dir_params],{}),
+    file { $real_path:
+      * => $file_params + pick(getvar("settings.${prefix}dirs.${base_dir}.params"),getvar("settings.${base_dir}_dir_params"),{}),
     }
   }
 
   # Debugging
   if $debug == true {
+    deprecation('debug', 'Parameter deprecated')
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_dir_debug_${title}":
       ensure  => $ensure,
