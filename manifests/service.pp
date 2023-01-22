@@ -35,7 +35,7 @@
 define tp::service (
   Variant[Boolean,String] $ensure              = present,
 
-  Tp::Fail $on_missing_data                    = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   Hash $settings                               = {},
   Hash $my_options                             = {},

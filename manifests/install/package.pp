@@ -96,12 +96,12 @@ define tp::install::package (
   # V4
   Optional[String]        $version          = undef,
   Hash                    $settings         = {},
-  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -114,13 +114,17 @@ define tp::install::package (
   String[1]               $data_module      = 'tinydata',
 
 ) {
-  $app = $title
+  $title_elements = split ($title, '::')
+  $app = $title_elements[0]
+  $base_package = pick($title_elements[1],'main')
   $sane_app = regsubst($app, '/', '_', 'G')
 
+  $package_provider = pick(getparam("packages.${base_package}.package_provider"),getparam("packages.${app}.package_provider"))
+
   if $settings[package_provider] == Variant[Undef,String[0]] {
-    $package_provider = undef
+    $real_package_provider = undef
   } else {
-    $package_provider = $settings[package_provider]
+    $real_package_provider = $settings[package_provider]
   }
 
   if $settings[package_source] =~ Variant[Undef,String[0]] {
@@ -268,7 +272,7 @@ define tp::install::package (
       Hash: {
         $package_defaults = {
           ensure   => $plain_ensure,
-          provider => $package_provider,
+          provider => $real_package_provider,
         }
         $packages.each |$kk,$vv| {
           package { $kk:
@@ -279,7 +283,7 @@ define tp::install::package (
       Array: {
         $package_defaults = {
           ensure   => $plain_ensure,
-          provider => $package_provider,
+          provider => $real_package_provider,
         }
         $packages.each |$k| {
           package { $k:
@@ -290,7 +294,7 @@ define tp::install::package (
       String[1]: {
         $package_defaults = {
           ensure          => pick($version,$ensure),
-          provider        => $package_provider,
+          provider        => $real_package_provider,
           source          => $package_source,
           install_options => $package_install_options,
         }

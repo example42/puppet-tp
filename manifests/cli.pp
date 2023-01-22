@@ -11,7 +11,7 @@ class tp::cli (
   Boolean $cli_enable                = pick($tp::cli_enable, true),
 
   String[1] $data_module = pick($tp::data_module,'tinydata'),
-  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
 ) {
   $file_ensure = tp::ensure2file($ensure)

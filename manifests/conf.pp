@@ -286,13 +286,13 @@ define tp::conf (
     'user'   => 'user_',
   }
   if $file and $file != '' {
-    $real_dir = pick(getvar("temp_settings.${prefix}dirs.${base_dir}.path"), getvar("temp_settings.${base_dir}_dir_path"))
+    $real_dir = pick(getvar("temp_settings.${base_dir}_dir_path"), getvar("temp_settings.${prefix}dirs.${base_dir}.path"))
     $auto_path = $base_file ? {
       'config' => "${real_dir}/${file}",
-      default  => pick(getvar("temp_settings.${prefix}files.${base_file}.path"), getvar("temp_settings.${base_file}_file_path"))
+      default  => pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
     }
   } else {
-    $auto_path = pick(getvar("temp_settings.${prefix}files.${base_file}.path"), getvar("temp_settings.${base_file}_file_path"))
+    $auto_path = pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
   }
   $calculated_path  = pick($path, $auto_path)
   $real_path    = "${path_prefix}${calculated_path}"
@@ -304,17 +304,21 @@ define tp::conf (
     'group'   => $group,
   })
 
-  $local_settings = {
+  $local_settings = delete_undef_values({
     "${prefix}files" => {
       "${base_file}" => $local_file_params,
-    }
-  }
+    },
+    "${base_file}_file_mode" => $mode,
+    "${base_file}_file_owner" => $owner,
+    "${base_file}_file_group" => $group,
+    "${base_file}_file_path" => $real_path,
+  })
 
   $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 
-  $real_mode  = pick_default(getvar("settings.${prefix}files.${base_file}.mode"), getvar("settings.files.${base_file}.mode"), getvar("settings.${base_file}_file_mode"))
-  $real_owner = pick_default(getvar("settings.${prefix}files.${base_file}.owner"), getvar("settings.files.${base_file}.owner"), getvar("settings.${base_file}_file_owner"))
-  $real_group = pick_default(getvar("settings.${prefix}files.${base_file}.group"), getvar("settings.files.${base_file}.group"), getvar("settings.${base_file}_file_group"))
+  $real_mode  = pick_default(getvar("settings.${base_file}_file_mode"), getvar("settings.${prefix}files.${base_file}.mode"), getvar("settings.files.${base_file}.mode"))
+  $real_owner = pick_default(getvar("settings.${base_file}_file_owner"), getvar("settings.${prefix}files.${base_file}.owner"), getvar("settings.files.${base_file}.owner"))
+  $real_group = pick_default(getvar("settings.${base_file}_file_group"), getvar("settings.${prefix}files.${base_file}.group"), getvar("settings.files.${base_file}.group"))
 
   # Set options and file content
   $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'deep_merge')
@@ -342,7 +346,7 @@ define tp::conf (
 
   # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
   # if on tinydata is set config_file_format
-  $real_config_file_format = pick_default(getvar("settings.${prefix}files.${base_file}.file_format"), getvar("settings.files.${base_file}.file_format"), getvar("settings.${base_file}_file_format"))
+  $real_config_file_format = pick_default(getvar("settings.${base_file}_file_format"), getvar("settings.${prefix}files.${base_file}.file_format"), getvar("settings.files.${base_file}.file_format"))
   if $content_params =~ Undef and $real_config_file_format and $options != {} {
     $real_content = $real_config_file_format ? {
       'yaml' => to_yaml($options),
@@ -359,7 +363,7 @@ define tp::conf (
   }
 
   # Set require if package_name is present
-  $real_package_name = pick_default(tp::title_replace(getvar('settings.packages.main.name'),$app), getvar('settings.package_name'))
+  $real_package_name = pick_default(getvar('settings.package_name'), tp::title_replace(getvar('settings.packages.main.name'),$app))
   if $real_package_name and $real_package_name != '' {
     $package_ref = "Package[${real_package_name}]"
   } else {
@@ -373,7 +377,7 @@ define tp::conf (
   }
 
   # Set notify if service_name is present
-  $real_service_name = pick_default(tp::title_replace(getvar('settings.services.main.name'),$app), getvar('settings.service_name'))
+  $real_service_name = pick_default(getvar('settings.service_name'), tp::title_replace(getvar('settings.services.main.name'),$app))
   if $real_service_name and $real_service_name != '' {
     $service_ref = "Service[${real_service_name}]"
   } else {
@@ -385,7 +389,7 @@ define tp::conf (
     true      => $service_ref,
     default   => $config_file_notify,
   }
-  $validate_cmd = pick_default(getvar("settings.${prefix}files.${base_file}.validate_cmd"), getvar("settings.files.${base_file}.validate_cmd"), getvar('settings.validate_cmd'))
+  $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), getvar("settings.files.${base_file}.validate_cmd"))
   $default_validate_cmd = $validate_cmd ? {
     String => $validate_cmd,
     Hash   => getvar("settings.validate_cmd.${base_dir}"),
@@ -420,7 +424,7 @@ define tp::conf (
   }
 
   file { $real_path:
-    * => $file_params + pick(getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"), getvar("settings.${base_file}_file_params"),{}),
+    * => $file_params + pick(getvar("settings.${base_file}_file_params"), getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"),{}),
   }
 
   # Debugging

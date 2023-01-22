@@ -143,7 +143,9 @@ define tp::install (
 
   # V4 params
   Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
-  Tp::Fail $on_missing_data    = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
+
+  String $base_package   = 'main',
 
   Hash $confs            = {},
   Hash $dirs             = {},
@@ -250,6 +252,7 @@ define tp::install (
       'package': {
         $default_install_package_params = {
           data_module           => $data_module,
+          base_package          => $base_package,
           upstream_repo         => $upstream_repo,
           auto_repo             => $auto_repo,
           repo                  => $repo,
