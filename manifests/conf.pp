@@ -220,6 +220,7 @@ define tp::conf (
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
   Hash                       $my_settings      = {},
   Hash                       $my_options       = {},
+  Boolean                    $use_v4           = pick(getvar('tp::use_v4'),false),
 
   Variant[Undef,String,Array] $source          = undef,
   Variant[Undef,String,Array] $template        = undef,
@@ -261,178 +262,319 @@ define tp::conf (
     deprecation('options_hash', 'Replace with my_options')
   }
 
-  # Settings evaluation
-  $title_elements = split ($title, '::')
-  $app = $title_elements[0]
-  $file = $title_elements[1]
+  if $use_v4 {
+    # Settings evaluation
+    $title_elements = split ($title, '::')
+    $app = $title_elements[0]
+    $file = $title_elements[1]
 
-  # Check if repo or upstream_repo are set in tp::install
-  if defined_with_params(Tp::Install[$app]) {
-    $repo = getparam(Tp::Install[$app],'repo')
-  }
-  if defined_with_params(Tp::Install[$app]) {
-    $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
-  }
+    # Check if repo or upstream_repo are set in tp::install
+    if defined_with_params(Tp::Install[$app]) {
+      $repo = getparam(Tp::Install[$app],'repo')
+    }
+    if defined_with_params(Tp::Install[$app]) {
+      $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
+    }
 
-  $tp_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
-  $temp_settings = deep_merge($tp_settings,$settings_hash,$my_settings)
+    $tp_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+    $temp_settings = deep_merge($tp_settings,$settings_hash,$my_settings)
 
-  # Find file path
-  $prefix = $scope ? {
-    'global' => $facts['identity']['privileged'] ? {
-      true  => '',
-      false => 'user_',
-    },
-    'user'   => 'user_',
-  }
-  if $file and $file != '' {
-    $real_dir = pick(getvar("temp_settings.${base_dir}_dir_path"), getvar("temp_settings.${prefix}dirs.${base_dir}.path"))
-    $auto_path = $base_file ? {
-      'config' => "${real_dir}/${file}",
-      default  => pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
+    # Find file path
+    $prefix = $scope ? {
+      'global' => $facts['identity']['privileged'] ? {
+        true  => '',
+        false => 'user_',
+      },
+      'user'   => 'user_',
+    }
+    if $file and $file != '' {
+      $real_dir = pick(getvar("temp_settings.${base_dir}_dir_path"), getvar("temp_settings.${prefix}dirs.${base_dir}.path"))
+      $auto_path = $base_file ? {
+        'config' => "${real_dir}/${file}",
+        default  => pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
+      }
+    } else {
+      $auto_path = pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
+    }
+    $calculated_path  = pick($path, $auto_path)
+    $real_path    = "${path_prefix}${calculated_path}"
+
+    $local_file_params = delete_undef_values({
+      'path'    => $real_path,
+      'mode'    => $mode,
+      'owner'   => $owner,
+      'group'   => $group,
+    })
+
+    $local_settings = delete_undef_values({
+      "${prefix}files" => {
+        "${base_file}" => $local_file_params,
+      },
+      "${base_file}_file_mode" => $mode,
+      "${base_file}_file_owner" => $owner,
+      "${base_file}_file_group" => $group,
+      "${base_file}_file_path" => $real_path,
+    })
+    $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
+
+    $real_mode  = pick_default(getvar("settings.${base_file}_file_mode"), getvar("settings.${prefix}files.${base_file}.mode"), getvar("settings.files.${base_file}.mode"),undef) # lint:ignore:140chars
+    $real_owner = pick_default(getvar("settings.${base_file}_file_owner"), getvar("settings.${prefix}files.${base_file}.owner"), getvar("settings.files.${base_file}.owner"),undef) # lint:ignore:140chars
+    $real_group = pick_default(getvar("settings.${base_file}_file_group"), getvar("settings.${prefix}files.${base_file}.group"), getvar("settings.files.${base_file}.group"),undef) # lint:ignore:140chars
+
+    # Set options and file content
+    $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'deep_merge')
+    $options = deep_merge($tp_options,$options_hash,$my_options,)
+
+    $epp_params = {
+      options      => $options,
+      options_hash => $options_hash,
+      settings     => $settings,
+    }
+    if $content {
+      $content_params = $content
+    } elsif $template {
+      $template_ext = $template[-4,4]
+      $content_params = $template_ext ? {
+        '.epp'  => epp($template,$epp_params),
+        '.erb'  => template($template),
+        default => template($template),
+      }
+    } elsif $epp {
+      $content_params = epp($epp,$epp_params)
+    } else {
+      $content_params = undef
+    }
+
+    # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
+    # if on tinydata is set config_file_format
+    $real_config_file_format = pick_default(getvar("settings.${base_file}_file_format"), getvar("settings.${prefix}files.${base_file}.file_format"), getvar("settings.files.${base_file}.file_format"),undef)
+    if $content_params =~ Undef and $real_config_file_format and $options != {} {
+      $real_content = $real_config_file_format ? {
+        'yaml' => to_yaml($options),
+        'json' => to_json($options),
+        'hcl' => to_hcl($options),
+        'inifile' => template('tp/inifile.erb'),
+        'inifile_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
+        'spaced' => template('tp/spaced.erb'),
+        'spaced_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
+        default => undef,
+      }
+    } else {
+      $real_content = $content_params
+    }
+
+    # Set require if package_name is present
+    $real_package_name = pick_default(getvar('settings.package_name'), tp::title_replace(getvar('settings.packages.main.name'),$app),undef)
+    if $real_package_name and $real_package_name != '' {
+      $package_ref = "Package[${real_package_name}]"
+    } else {
+      $package_ref = undef
+    }
+    $real_require = $config_file_require ? {
+      ''        => undef,
+      false     => undef,
+      true      => $package_ref,
+      default   => $config_file_require,
+    }
+
+    # Set notify if service_name is present
+    $real_service_name = pick_default(getvar('settings.service_name'), tp::title_replace(getvar('settings.services.main.name'),$app),undef)
+    if $real_service_name and $real_service_name != '' {
+      $service_ref = "Service[${real_service_name}]"
+    } else {
+      $service_ref = undef
+    }
+    $real_notify  = $config_file_notify ? {
+      ''        => undef,
+      false     => undef,
+      true      => $service_ref,
+      default   => $config_file_notify,
+    }
+    $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), getvar("settings.files.${base_file}.validate_cmd"), undef) # lint-ignore:140chars
+    $default_validate_cmd = $validate_cmd ? {
+      String => $validate_cmd,
+      Hash   => getvar("settings.validate_cmd.${base_dir}"),
+      Undef  => undef,
+    }
+    $real_validate_cmd = $validate_syntax ? {
+      undef => $default_validate_cmd,
+      true  => $default_validate_cmd,
+      false => undef,
+    }
+
+    # Resources
+    if $path_parent_create {
+      $path_parent = dirname($real_path)
+      exec { "mkdir for tp::conf ${title}":
+        command => "/bin/mkdir -p ${path_parent}",
+        creates => $path_parent,
+        before  => File[$real_path],
+      }
+    }
+    $file_params = {
+      ensure       => tp::ensure2file($ensure),
+      source       => $source,
+      content      => $real_content,
+      path         => $real_path,
+      mode         => $real_mode,
+      owner        => $real_owner,
+      group        => $real_group,
+      require      => $real_require,
+      notify       => $real_notify,
+      validate_cmd => $real_validate_cmd,
+    }
+
+    file { $real_path:
+      * => $file_params + pick(getvar("settings.${base_file}_file_params"), getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"), {}),
     }
   } else {
-    $auto_path = pick(getvar("temp_settings.${base_file}_file_path"), getvar("temp_settings.${prefix}files.${base_file}.path"))
-  }
-  $calculated_path  = pick($path, $auto_path)
-  $real_path    = "${path_prefix}${calculated_path}"
+    #v3 code
 
-  $local_file_params = delete_undef_values({
-    'path'    => $real_path,
-    'mode'    => $mode,
-    'owner'   => $owner,
-    'group'   => $group,
-  })
+    # Settings evaluation
+    $title_elements = split ($title, '::')
+    $app = $title_elements[0]
+    $file = $title_elements[1]
 
-  $local_settings = delete_undef_values({
-    "${prefix}files" => {
-      "${base_file}" => $local_file_params,
-    },
-    "${base_file}_file_mode" => $mode,
-    "${base_file}_file_owner" => $owner,
-    "${base_file}_file_group" => $group,
-    "${base_file}_file_path" => $real_path,
-  })
-  $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
-
-  $real_mode  = pick_default(getvar("settings.${base_file}_file_mode"), getvar("settings.${prefix}files.${base_file}.mode"), getvar("settings.files.${base_file}.mode"),undef) # lint:ignore:140chars
-  $real_owner = pick_default(getvar("settings.${base_file}_file_owner"), getvar("settings.${prefix}files.${base_file}.owner"), getvar("settings.files.${base_file}.owner"),undef) # lint:ignore:140chars
-  $real_group = pick_default(getvar("settings.${base_file}_file_group"), getvar("settings.${prefix}files.${base_file}.group"), getvar("settings.files.${base_file}.group"),undef) # lint:ignore:140chars
-
-  # Set options and file content
-  $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'deep_merge')
-  $options = deep_merge($tp_options,$options_hash,$my_options,)
-
-  $epp_params = {
-    options      => $options,
-    options_hash => $options_hash,
-    settings     => $settings,
-  }
-  if $content {
-    $content_params = $content
-  } elsif $template {
-    $template_ext = $template[-4,4]
-    $content_params = $template_ext ? {
-      '.epp'  => epp($template,$epp_params),
-      '.erb'  => template($template),
-      default => template($template),
+    if defined_with_params(Tp::Install[$app]) {
+      $repo = getparam(Tp::Install[$app],'repo')
     }
-  } elsif $epp {
-    $content_params = epp($epp,$epp_params)
-  } else {
-    $content_params = undef
-  }
-
-  # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
-  # if on tinydata is set config_file_format
-  $real_config_file_format = pick_default(getvar("settings.${base_file}_file_format"), getvar("settings.${prefix}files.${base_file}.file_format"), getvar("settings.files.${base_file}.file_format"),undef)
-  if $content_params =~ Undef and $real_config_file_format and $options != {} {
-    $real_content = $real_config_file_format ? {
-      'yaml' => to_yaml($options),
-      'json' => to_json($options),
-      'hcl' => to_hcl($options),
-      'inifile' => template('tp/inifile.erb'),
-      'inifile_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
-      'spaced' => template('tp/spaced.erb'),
-      'spaced_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
-      default => undef,
+    if defined_with_params(Tp::Install[$app]) {
+      $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
     }
-  } else {
-    $real_content = $content_params
-  }
+    $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
+    $settings = $tp_settings + $settings_hash
 
-  # Set require if package_name is present
-  $real_package_name = pick_default(getvar('settings.package_name'), tp::title_replace(getvar('settings.packages.main.name'),$app),undef)
-  if $real_package_name and $real_package_name != '' {
-    $package_ref = "Package[${real_package_name}]"
-  } else {
-    $package_ref = undef
-  }
-  $real_require = $config_file_require ? {
-    ''        => undef,
-    false     => undef,
-    true      => $package_ref,
-    default   => $config_file_require,
-  }
+    $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
+    $options = $tp_options + $options_hash
 
-  # Set notify if service_name is present
-  $real_service_name = pick_default(getvar('settings.service_name'), tp::title_replace(getvar('settings.services.main.name'),$app),undef)
-  if $real_service_name and $real_service_name != '' {
-    $service_ref = "Service[${real_service_name}]"
-  } else {
-    $service_ref = undef
-  }
-  $real_notify  = $config_file_notify ? {
-    ''        => undef,
-    false     => undef,
-    true      => $service_ref,
-    default   => $config_file_notify,
-  }
-  $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), getvar("settings.files.${base_file}.validate_cmd"), undef) # lint-ignore:140chars
-  $default_validate_cmd = $validate_cmd ? {
-    String => $validate_cmd,
-    Hash   => getvar("settings.validate_cmd.${base_dir}"),
-    Undef  => undef,
-  }
-  $real_validate_cmd = $validate_syntax ? {
-    undef => $default_validate_cmd,
-    true  => $default_validate_cmd,
-    false => undef,
-  }
-
-  # Resources
-  if $path_parent_create {
-    $path_parent = dirname($real_path)
-    exec { "mkdir for tp::conf ${title}":
-      command => "/bin/mkdir -p ${path_parent}",
-      creates => $path_parent,
-      before  => File[$real_path],
+    if $file and $file != '' {
+      $prefix = $scope ? {
+        'global' => '',
+        'user'   => 'user_',
+      }
+      $real_dir = $settings["${prefix}${base_dir}_dir_path"]
+      $auto_path = $base_file ? {
+        'config' => "${real_dir}/${file}",
+        default  => $settings["${prefix}${base_file}_file_path"],
+      }
+    } else {
+      $auto_path = $settings["${base_file}_file_path"]
     }
-  }
-  $file_params = {
-    ensure       => tp::ensure2file($ensure),
-    source       => $source,
-    content      => $real_content,
-    path         => $real_path,
-    mode         => $real_mode,
-    owner        => $real_owner,
-    group        => $real_group,
-    require      => $real_require,
-    notify       => $real_notify,
-    validate_cmd => $real_validate_cmd,
-  }
+    $real_path      = pick($path, $auto_path)
+    $manage_path    = "${path_prefix}${real_path}"
+    $manage_mode    = pick($mode, $settings[config_file_mode])
+    $manage_owner   = pick($owner, $settings[config_file_owner])
+    $manage_group   = pick($group, $settings[config_file_group])
 
-  file { $real_path:
-    * => $file_params + pick(getvar("settings.${base_file}_file_params"), getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"), {}),
-  }
+    $epp_params = {
+      options      => $options,
+      options_hash => $options_hash,
+      settings     => $settings,
+    }
+    # Find out the file's content value
+    if $content {
+      $content_params = $content
+    } elsif $template {
+      $template_ext = $template[-4,4]
+      $content_params = $template_ext ? {
+        '.epp'  => epp($template,$epp_params),
+        '.erb'  => template($template),
+        default => template($template),
+      }
+    } elsif $epp {
+      $content_params = epp($epp,$epp_params)
+    } else {
+      $content_params = undef
+    }
 
-  # Debugging
-  if $debug == true {
-    $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
-    file { "tp_conf_debug_${title}":
-      ensure  => $ensure,
-      content => $debug_scope,
-      path    => "${debug_dir}/tp_conf_debug_${title}",
+    # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
+    # if on tinydata is set config_file_format
+    if $content_params =~ Undef and $settings[config_file_format] and $options_hash != {} {
+      $manage_content = $settings[config_file_format] ? {
+        'yaml' => to_yaml($options_hash),
+        'json' => to_json($options_hash),
+        'hcl' => to_hcl($options_hash),
+        'inifile' => template('tp/inifile.erb'),
+        'inifile_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
+        'spaced' => template('tp/spaced.erb'),
+        'spaced_with_stanzas' => template('tp/inifile_with_stanzas.erb'),
+        default => undef,
+      }
+    } else {
+      $manage_content = $content_params
+    }
+
+    # Set require if package_name is present
+    if $settings[package_name] and $settings[package_name] != '' {
+      $package_ref = "Package[${settings[package_name]}]"
+    } else {
+      $package_ref = undef
+    }
+    $manage_require = $config_file_require ? {
+      ''        => undef,
+      false     => undef,
+      true      => $package_ref,
+      default   => $config_file_require,
+    }
+
+    # Set notify if service_name is present
+    if $settings[service_name] and $settings[service_name] != '' {
+      $service_ref = "Service[${settings[service_name]}]"
+    } else {
+      $service_ref = undef
+    }
+    $manage_notify  = $config_file_notify ? {
+      ''        => undef,
+      false     => undef,
+      true      => $service_ref,
+      default   => $config_file_notify,
+    }
+
+    $default_validate_cmd = $settings['validate_cmd'] ? {
+      String => $settings['validate_cmd'],
+      Hash   => $settings['validate_cmd'][$base_dir],
+      Undef  => undef,
+    }
+    $manage_validate_cmd = $validate_syntax ? {
+      undef => $default_validate_cmd,
+      true  => $default_validate_cmd,
+      false => undef,
+    }
+
+    # Resources
+    if $path_parent_create {
+      $path_parent = dirname($manage_path)
+      exec { "mkdir for tp::conf ${title}":
+        command => "/bin/mkdir -p ${path_parent}",
+        creates => $path_parent,
+        before  => File[$manage_path],
+      }
+    }
+    $file_params = {
+      ensure       => $ensure,
+      source       => $source,
+      content      => $manage_content,
+      path         => $manage_path,
+      mode         => $manage_mode,
+      owner        => $manage_owner,
+      group        => $manage_group,
+      require      => $manage_require,
+      notify       => $manage_notify,
+      validate_cmd => $manage_validate_cmd,
+    }
+
+    file { $manage_path:
+      * => $file_params + pick($settings[config_file_params],{}),
+    }
+
+    # Debugging
+    if $debug == true {
+      $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
+      file { "tp_conf_debug_${title}":
+        ensure  => $ensure,
+        content => $debug_scope,
+        path    => "${debug_dir}/tp_conf_debug_${title}",
+      }
     }
   }
 }
