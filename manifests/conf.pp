@@ -564,7 +564,7 @@ define tp::conf (
     }
 
     file { $manage_path:
-      * => $file_params + pick($settings[config_file_params],{}),
+      * => $file_params + pick($settings[config_file_params], {}),
     }
 
     # Debugging
