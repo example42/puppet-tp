@@ -128,7 +128,7 @@ define tp::repo (
         }
       }
       package { $settings[repo_package_name]:
-        * => $package_params + pick($settings[repo_package_params],{}),
+        * => $package_params + pick($settings[repo_package_params], {}),
       }
     }
   } else {
@@ -165,7 +165,7 @@ define tp::repo (
             gpgkey     => $settings[key_url],
             priority   => $settings[yum_priority],
             mirrorlist => $settings[yum_mirrorlist],
-            *          => pick($settings[yumrepo_params],{}),
+            *          => pick($settings[yumrepo_params], {}),
           }
         }
       }

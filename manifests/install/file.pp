@@ -48,7 +48,7 @@ define tp::install::file (
 
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
-  Hash $tp_params                             = pick($tp::tp_params,{}),
+  Hash $tp_params                             = pick($tp::tp_params, {}),
   Hash $settings                              = {},
 
   Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
@@ -131,7 +131,7 @@ define tp::install::file (
 
     Exec {
       path        => $facts['path'],
-      environment => pick(getvar('release.exec_environment'),[]),
+      environment => pick(getvar('release.exec_environment'), []),
       timeout     => pick(getvar('release.exec_timout'),'600'),
     }
 

@@ -45,7 +45,7 @@ define tp::install::image (
 
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
-  Hash $tp_params                 = pick($tp::tp_params,{}),
+  Hash $tp_params                 = pick($tp::tp_params, {}),
   Hash $settings                  = {},
 
   Boolean $auto_prereq            = pick($tp::auto_prereq, false),

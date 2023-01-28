@@ -215,7 +215,7 @@ define tp::install (
 
   # Settings evaluation
   $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
-  $local_settings = delete_undef_values( {
+  $local_settings = delete_undef_values({
       install_method => $install_method,
       repo           => $repo,
       upstream_repo  => $upstream_repo,
@@ -510,7 +510,7 @@ define tp::install (
       }
       $settings[package_name].each |$pkg| {
         package { $pkg:
-          * => $package_defaults + pick($settings[package_params],{}),
+          * => $package_defaults + pick($settings[package_params], {}),
         }
       }
     }
@@ -522,7 +522,7 @@ define tp::install (
         install_options => $package_install_options,
       }
       package { $settings[package_name]:
-        * => $package_defaults + pick($settings[package_params],{}),
+        * => $package_defaults + pick($settings[package_params], {}),
       }
     }
 
@@ -535,7 +535,7 @@ define tp::install (
           require => $service_require,
         }
         service { $svc:
-          * => $service_defaults + pick($settings[service_params],{}),
+          * => $service_defaults + pick($settings[service_params], {}),
         }
       }
     }

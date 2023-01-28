@@ -19,7 +19,7 @@ define tp::setup (
   $destination_dir = $tp::real_tp_params['destination']['path']
 
   # Setup settings are a result from the merge of keys settings.$setup_data.setup and settings.setup
-  $setup_settings = deep_merge(getvar('settings.setup',{}),getvar("settings.${setup_data}.setup",{}))
+  $setup_settings = deep_merge(getvar('settings.setup', {}),getvar("settings.${setup_data}.setup", {}))
 
   if pick(getvar('setup_settings.enable'), false ) {
     if pick(getvar('setup_settings.manage_service'), false ) {

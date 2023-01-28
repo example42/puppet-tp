@@ -46,7 +46,7 @@ define tp::install::source (
 
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
-  Hash $tp_params                             = pick($tp::tp_params,{}),
+  Hash $tp_params                             = pick($tp::tp_params, {}),
   Hash $settings                              = {},
 
   Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
@@ -77,7 +77,7 @@ define tp::install::source (
       ensure          => $ensure,
       source          => $real_source,
       path            => $destination,
-      vcsrepo_options => delete_undef_values( {
+      vcsrepo_options => delete_undef_values({
           revision => $version,
       }),
     }

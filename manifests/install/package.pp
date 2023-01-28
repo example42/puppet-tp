@@ -276,7 +276,7 @@ define tp::install::package (
         }
         $packages.each |$kk,$vv| {
           package { $kk:
-            * => $package_defaults + pick($settings[package_params],{} + $vv),
+            * => $package_defaults + pick($settings[package_params], {} + $vv),
           }
         }
       }
@@ -287,7 +287,7 @@ define tp::install::package (
         }
         $packages.each |$k| {
           package { $k:
-            * => $package_defaults + pick($settings[package_params],{}),
+            * => $package_defaults + pick($settings[package_params], {}),
           }
         }
       }
@@ -299,7 +299,7 @@ define tp::install::package (
           install_options => $package_install_options,
         }
         package { $packages:
-          * => $package_defaults + pick($settings[package_params],{}),
+          * => $package_defaults + pick($settings[package_params], {}),
         }
       }
       Undef: {
@@ -338,7 +338,7 @@ define tp::install::package (
         }
         $services.each |$kk,$vv| {
           service { $kk:
-            * => $service_defaults + pick($settings[service_params],{} + $vv),
+            * => $service_defaults + pick($settings[service_params], {} + $vv),
           }
         }
       }
@@ -350,7 +350,7 @@ define tp::install::package (
         }
         $services.each |$k| {
           service { $k:
-            * => $service_defaults + pick($settings[service_params],{}),
+            * => $service_defaults + pick($settings[service_params], {}),
           }
         }
       }
@@ -361,7 +361,7 @@ define tp::install::package (
           require => $service_require,
         }
         service { $services:
-          * => $service_defaults + pick($settings[service_params],{}),
+          * => $service_defaults + pick($settings[service_params], {}),
         }
       }
       Undef: {
@@ -371,7 +371,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.") # lint-ignore:140chars
       }
     }
   }
