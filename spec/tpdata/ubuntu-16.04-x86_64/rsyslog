@@ -28,3 +28,4 @@ repo_package_provider: dpkg
 init_system: systemd
 version_command: "rsyslogd -v"
 
+install_method: package

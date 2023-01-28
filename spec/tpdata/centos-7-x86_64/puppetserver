@@ -34,3 +34,4 @@ repo_package_url: https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.
 repo_package_provider: rpm
 init_system: systemd
 
+install_method: package

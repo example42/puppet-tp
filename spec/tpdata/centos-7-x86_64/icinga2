@@ -32,3 +32,4 @@ repo_package_url: https://packages.icinga.com/epel/7/release/noarch/icinga-rpm-r
 tp_prerequisites:
   - epel
 init_system: systemd
+install_method: package
