@@ -101,7 +101,6 @@ define tp::install::package (
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,

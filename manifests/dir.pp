@@ -235,12 +235,12 @@ define tp::dir (
 
 
   $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
-  $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"))
-  $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"))
-  $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"))
-  $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"))
-  $real_purge   = pick_default(getvar("settings.${base_dir}_dir_purge"), getvar("settings.${prefix}dirs.${base_dir}.purge"))
-  $real_force   = pick_default(getvar("settings.${base_dir}_dir_force"), getvar("settings.${prefix}dirs.${base_dir}.force"))
+  $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), undef)
+  $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), undef)
+  $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"), undef)
+  $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"), undef)
+  $real_purge   = pick_default(getvar("settings.${base_dir}_dir_purge"), getvar("settings.${prefix}dirs.${base_dir}.purge"), undef)
+  $real_force   = pick_default(getvar("settings.${base_dir}_dir_force"), getvar("settings.${prefix}dirs.${base_dir}.force"), undef)
 
   # Set require if package_name is present and title is not a abs path
   $real_package_name = pick_default(getvar('settings.package_name'), tp::title_replace(getvar('settings.packages.main.name'),$app))
@@ -257,7 +257,7 @@ define tp::dir (
   }
 
   # Set notify if service_name is present
-  $real_service_name = pick_default(getvar('settings.service_name'), tp::title_replace(getvar('settings.services.main.name'),$app))
+  $real_service_name = pick_default(getvar('settings.service_name'), tp::title_replace(getvar('settings.services.main.name'),$app),undef)
   if $real_service_name and $real_service_name != '' {
     $service_ref = "Service[${real_service_name}]"
   } else {
