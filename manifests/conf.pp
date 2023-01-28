@@ -423,7 +423,7 @@ define tp::conf (
   }
 
   file { $real_path:
-    * => $file_params + pick(getvar("settings.${base_file}_file_params"), getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"),{}),
+    * => $file_params + pick(getvar("settings.${base_file}_file_params"), getvar("settings.${prefix}files.${base_file}.params"), getvar("settings.files.${base_file}.params"), {}),
   }
 
   # Debugging

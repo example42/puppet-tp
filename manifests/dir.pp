@@ -233,7 +233,6 @@ define tp::dir (
     "${base_dir}_dir_force"   => $force,
   })
 
-
   $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
   $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), undef)
   $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), undef)
@@ -316,7 +315,7 @@ define tp::dir (
     #  force   => $real_force,
     }
     file { $real_path:
-      * => $file_params + pick(getvar("settings.${base_dir}_dir_params"),getvar("settings.${prefix}dirs.${base_dir}.params"),{}),
+      * => $file_params + pick(getvar("settings.${base_dir}_dir_params"),getvar("settings.${prefix}dirs.${base_dir}.params"), {}),
     }
   }
 

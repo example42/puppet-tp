@@ -27,4 +27,5 @@ validate_cmd: "sshd -t -f %"
 repo_package_provider: dpkg
 init_system: systemd
 version_command: "ssh -V"
-config_file_format: 'inifile'install_method: package
+config_file_format: 'inifile'
+install_method: package
