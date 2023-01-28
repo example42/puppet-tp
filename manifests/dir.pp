@@ -428,7 +428,7 @@ define tp::dir (
         force   => $force,
       }
       file { $manage_path:
-        * => $file_params + pick($settings[config_dir_params],{}),
+        * => $file_params + pick($settings[config_dir_params], {}),
       }
     }
 
