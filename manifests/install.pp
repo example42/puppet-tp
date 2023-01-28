@@ -430,7 +430,7 @@ define tp::install (
           if $settings[package_name] {
             Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
           }
-          package { "${settings[package_prerequisites]}": }
+          package { $settings[package_prerequisites]: }
           # ensure_packages("${settings[package_prerequisites]}")
         }
         default: {}

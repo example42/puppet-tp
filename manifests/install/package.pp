@@ -101,6 +101,7 @@ define tp::install::package (
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
+  Optional[Boolean]       $auto_prereq      = undef,
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -161,7 +162,7 @@ define tp::install::package (
       before               => Package[$settings[package_name]],
       data_module          => $data_module,
       repo                 => $repo,
-      settings_hash        => $settings_hash,
+      settings_hash        => $settings,
       exec_environment     => $repo_exec_environment,
       upstream_repo        => $use_upstream_repo,
       apt_safe_trusted_key => $apt_safe_trusted_key,
