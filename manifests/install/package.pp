@@ -95,6 +95,7 @@ define tp::install::package (
 
   # V4
   Optional[String]        $version          = undef,
+  Optional[String]        $base_package     = undef,
   Hash                    $settings         = {},
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
@@ -116,10 +117,10 @@ define tp::install::package (
 ) {
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
-  $base_package = pick($title_elements[1],'main')
+  $real_ase_package = pick($base_package,$title_elements[1],'main')
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  $package_provider = pick(getparam("packages.${base_package}.package_provider"),getparam("packages.${app}.package_provider"))
+  $package_provider = pick_default(getvar("packages.${real_base_package}.package_provider"), getvar("packages.${app}.package_provider"))
 
   if $settings[package_provider] == Variant[Undef,String[0]] {
     $real_package_provider = undef

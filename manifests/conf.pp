@@ -317,9 +317,9 @@ define tp::conf (
     })
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 
-    $real_mode  = pick_default(getvar("settings.${base_file}_file_mode"), getvar("settings.${prefix}files.${base_file}.mode"), getvar("settings.files.${base_file}.mode"),undef) # lint:ignore:140chars
-    $real_owner = pick_default(getvar("settings.${base_file}_file_owner"), getvar("settings.${prefix}files.${base_file}.owner"), getvar("settings.files.${base_file}.owner"),undef) # lint:ignore:140chars
-    $real_group = pick_default(getvar("settings.${base_file}_file_group"), getvar("settings.${prefix}files.${base_file}.group"), getvar("settings.files.${base_file}.group"),undef) # lint:ignore:140chars
+    $real_mode  = pick(getvar("settings.${base_file}_file_mode"), getvar("settings.${prefix}files.${base_file}.mode"), getvar('settings.config_file_mode')) # lint:ignore:140chars
+    $real_owner = pick(getvar("settings.${base_file}_file_owner"), getvar("settings.${prefix}files.${base_file}.owner"), getvar('settings.config_file_owner')) # lint:ignore:140chars
+    $real_group = pick(getvar("settings.${base_file}_file_group"), getvar("settings.${prefix}files.${base_file}.group"), getvar('settings.config_file_group')) # lint:ignore:140chars
 
     # Set options and file content
     $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'deep_merge')
@@ -390,10 +390,11 @@ define tp::conf (
       true      => $service_ref,
       default   => $config_file_notify,
     }
-    $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), getvar("settings.files.${base_file}.validate_cmd"), undef) # lint-ignore:140chars
+    $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), undef) # lint-ignore:140chars
     $default_validate_cmd = $validate_cmd ? {
+      ''     => undef,
       String => $validate_cmd,
-      Hash   => getvar("settings.validate_cmd.${base_dir}"),
+      Hash   => pick_default(getvar("settings.validate_cmd.${base_dir}"), undef),
       Undef  => undef,
     }
     $real_validate_cmd = $validate_syntax ? {

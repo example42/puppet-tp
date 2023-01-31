@@ -141,7 +141,7 @@ define tp::dir (
 
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
   Hash $my_settings      = {},
-  Boolean                    $use_v4           = pick(getvar('tp::use_v4'),false),
+  Boolean                  $use_v4           = pick(getvar('tp::use_v4'),false),
 
   Variant[Undef,String,Array] $source        = undef,
   Variant[Undef,Boolean,String] $vcsrepo     = false,
@@ -208,7 +208,7 @@ define tp::dir (
       'user'   => 'user_',
     }
     $temp_settings = deep_merge($tp_settings,$settings_hash,$my_settings)
-    $base_dir_path   = pick(getvar("temp_settings.${base_dir}_dir_path"), getvar("temp_settings.${prefix}dirs.${base_dir}.path"))
+    $base_dir_path   = pick_default(getvar("temp_settings.${base_dir}_dir_path"), getvar("temp_settings.${prefix}dirs.${base_dir}.path"))
     $calculated_path = pick($path, $title_path, $base_dir_path)
     $real_path       = "${path_prefix}${calculated_path}"
 
@@ -236,12 +236,12 @@ define tp::dir (
     })
 
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
-    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar("settings.${base_dir}_dir_mode"), undef)
-    $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), getvar("settings.${base_dir}_dir_owner"), undef)
-    $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"), getvar("settings.${base_dir}_dir_group"), ndef)
-    $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"), getvar("settings.${base_dir}_dir_recurse"), undef)
-    $real_purge   = pick_default(getvar("settings.${base_dir}_dir_purge"), getvar("settings.${prefix}dirs.${base_dir}.purge"), getvar("settings.${base_dir}_dir_purge"), undef)
-    $real_force   = pick_default(getvar("settings.${base_dir}_dir_force"), getvar("settings.${prefix}dirs.${base_dir}.force"), getvar("settings.${base_dir}_dir_force"), undef)
+    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar('settings.config_dir_mode'), undef)
+    $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), getvar('settings.config_dir_owner'), undef)
+    $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"), getvar('settings.config_dir_group'), undef)
+    $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"), getvar('settings.config__dir_recurse'), undef)
+    $real_purge   = pick_default(getvar("settings.${base_dir}_dir_purge"), getvar("settings.${prefix}dirs.${base_dir}.purge"), getvar('settings.config_dir_purge'), undef)
+    $real_force   = pick_default(getvar("settings.${base_dir}_dir_force"), getvar("settings.${prefix}dirs.${base_dir}.force"), getvar('settings.config_dir_force'), undef)
 
     # Set require if package_name is present and title is not a abs path
     $real_package_name = pick_default(getvar('settings.package_name'), tp::title_replace(getvar('settings.packages.main.name'),$app))
