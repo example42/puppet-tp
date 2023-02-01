@@ -14,12 +14,16 @@ jobs:
     name: 'Deploy to forge'
     runs-on: ubuntu-latest
     if: github.repository_owner == 'example42'
-    container: puppet/puppet-dev-tools:2022-11-01-8e11537
+    container: puppet/pdk:2.6.1.0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Publish to the Forge
-        run: /usr/local/bin/pdk bundle exec rake module:push 
-        env:
-          BLACKSMITH_FORGE_USERNAME: '${{ secrets.PUPPET_FORGE_USERNAME }}'
-          BLACKSMITH_FORGE_API_KEY: '${{ secrets.PUPPET_FORGE_API_KEY }}'
+      - name: "PDK Build"
+        uses: docker://puppet/pdk:2.6.1.0
+        with:
+          args: 'build'
+      - name: "Push to Forge"
+        uses: docker://puppet/pdk:2.6.1.0
+        with:
+          args: 'release publish --forge-token ${{ secrets.PUPPET_FORGE_API_KEY }} --force'
+
