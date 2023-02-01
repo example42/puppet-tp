@@ -14,7 +14,7 @@ jobs:
     name: 'Deploy to forge'
     runs-on: ubuntu-latest
     if: github.repository_owner == 'example42'
-    container: puppet/puppet-dev-tools:4.x
+    container: puppet/puppet-dev-tools:2022-11-14-8e11537
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
