@@ -307,7 +307,8 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data, "tp::install::package ${app} - No data for ${packages}. Valid types are String, Array, Hash, Undef.")
+        # do nothing
+#        tp::fail($on_missing_data, "tp::install::package ${app} - No data for ${packages}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }
