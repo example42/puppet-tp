@@ -31,3 +31,4 @@ mailq_path: "/usr/bin/mailq.postfix"
 init_file_path: "/etc/sysconfig/postfix"
 init_system: systemd
 validate_cmd: 'postconf -n'
+install_method: package

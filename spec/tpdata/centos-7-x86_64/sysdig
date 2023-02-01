@@ -19,3 +19,4 @@ key: F1C3BD80
 key_url: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
 repo_package_provider: rpm
 init_system: systemd
+install_method: package

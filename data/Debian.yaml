@@ -13,9 +13,8 @@ tp::tp_commands:
     package:
       command: 'dpkg -l'
     repo:
-      path: '/etc/apt/sources.list.d'
-      command: echo 'Check repo not supported on this OS'
-      post_command: ''
+      path: '/etc/apt/sources.list.d/'
+      path_post: '.list'
   info:
     package:
       command: 'dpkg -s'

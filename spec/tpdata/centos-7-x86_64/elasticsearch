@@ -30,3 +30,4 @@ init_file_path: "/etc/sysconfig/elasticsearch"
 tp_prerequisites:
   elastic_repo: {}
 init_system: systemd
+install_method: package

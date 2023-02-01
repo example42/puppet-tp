@@ -104,10 +104,30 @@ class tp (
     'absent'  => 'absent',
   }
 
-  deprecation('conf_hash', 'Replace with confs')
-  deprecation('dir_hash', 'Replace with dirs')
-  deprecation('settings_hash', 'Replace with my_settings')
-  deprecation('options_hash', 'Replace with options')
+  if $conf_hash != {} {
+    deprecation('conf_hash', 'Replace with confs')
+  }
+  if $dir_hash != {} {
+    deprecation('dir_hash', 'Replace with dirs')
+  }
+  if $install_hash != {} {
+    deprecation('install_hash', 'Replace with installs')
+  }
+  if $concat_hash != {} {
+    deprecation('concat_hash', 'No more supported')
+  }
+  if $stdmod_hash != {} {
+    deprecation('stdmod__hash', 'No more supported')
+  }
+  if $puppi_hash != {} {
+    deprecation('puppi_hash', 'No more supported')
+  }
+  if $repo_hash != {} {
+    deprecation('repo_hash', 'Replace with repos')
+  }
+  if $options_hash != {} {
+    deprecation('options_hash', 'Replace with options')
+  }
 
   if has_key($facts,'identity') {
     $real_tp_params = $facts['identity']['privileged'] ? {
@@ -128,8 +148,8 @@ class tp (
   $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
   # tp 4 new entrypoints
   $resources.each |$resource| {
-    $resource_data = lookup("tp::${resource}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${resource}",'first'),{})) # puppet-lint:ignore:140chars
-    $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${resource}",{})
+    $resource_data = lookup("tp::${resource}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${resource}",'first'), {})) # puppet-lint:ignore:140chars
+    $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${resource}", {})
     case $resource_data {
       Hash: {
         $resource_data.each |$kk,$vv| {
@@ -156,8 +176,8 @@ class tp (
       $v.each |$res,$val| {
         $res.each |$resource| {
           if $res == $resource {
-            $resource_data = lookup("tp::${res}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${res}",'first'),{}))
-            $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${k}",{})
+            $resource_data = lookup("tp::${res}s",Variant[Hash,Array[String],String,Undef],pick(getvar("merge_behaviours.${res}",'first'), {}))
+            $resource_defaults = { data_module => $data_module } + getvar("resources_defaults.${k}", {})
             case $resource_data {
               Hash: {
                 $resource_data.each |$kk,$vv| {
@@ -343,7 +363,7 @@ class tp (
 
     $install_hash_merged = $install_hash_merge_behaviour ? {
       'first' => $install_hash,
-      default => lookup('tp::install_hash',Variant[Hash,Array[String]],$install_hash_merge_behaviour,{})
+      default => lookup('tp::install_hash',Variant[Hash,Array[String]],$install_hash_merge_behaviour, {})
     }
     case $install_hash_merged {
       Array: {
@@ -366,7 +386,7 @@ class tp (
 
     $osfamily_install_hash_merged = $osfamily_install_hash_merge_behaviour ? {
       'first' => $osfamily_install_hash,
-      default => lookup('tp::osfamily_install_hash',Variant[Hash,Array[String],String],$osfamily_install_hash_merge_behaviour,{})
+      default => lookup('tp::osfamily_install_hash',Variant[Hash,Array[String],String],$osfamily_install_hash_merge_behaviour, {})
     }
     $osfamily_install_hash_merged.each |$k,$v| {
       if $facts['os']['family'] == $k {
@@ -399,7 +419,7 @@ class tp (
     # tp::conf
     $conf_hash_merged = $conf_hash_merge_behaviour ? {
       'first' => $conf_hash,
-      default => lookup('tp::conf_hash',Hash,$conf_hash_merge_behaviour,{})
+      default => lookup('tp::conf_hash',Hash,$conf_hash_merge_behaviour, {})
     }
     $conf_hash_merged.each |$k,$v| {
       tp::conf { $k:
@@ -409,7 +429,7 @@ class tp (
 
     $osfamily_conf_hash_merged = $osfamily_conf_hash_merge_behaviour ? {
       'first' => $osfamily_conf_hash,
-      default => lookup('tp::osfamily_conf_hash',Hash,$osfamily_conf_hash_merge_behaviour,{})
+      default => lookup('tp::osfamily_conf_hash',Hash,$osfamily_conf_hash_merge_behaviour, {})
     }
     $osfamily_conf_hash_merged.each |$k,$v| {
       if $facts['os']['family'] == $k {
@@ -428,7 +448,7 @@ class tp (
 
     $dir_hash_merged = $dir_hash_merge_behaviour ? {
       'first' => $dir_hash,
-      default => lookup('tp::dir_hash',Hash,$dir_hash_merge_behaviour,{})
+      default => lookup('tp::dir_hash',Hash,$dir_hash_merge_behaviour, {})
     }
     $dir_hash_merged.each |$k,$v| {
       tp::dir { $k:
@@ -438,7 +458,7 @@ class tp (
 
     $concat_hash_merged = $concat_hash_merge_behaviour ? {
       'first' => $concat_hash,
-      default => lookup('tp::concat_hash',Hash,$concat_hash_merge_behaviour,{})
+      default => lookup('tp::concat_hash',Hash,$concat_hash_merge_behaviour, {})
     }
     $concat_hash_merged.each |$k,$v| {
       tp::concat { $k:
@@ -448,7 +468,7 @@ class tp (
 
     $stdmod_hash_merged = $stdmod_hash_merge_behaviour ? {
       'first' => $stdmod_hash,
-      default => lookup('tp::stdmod_hash',Hash,$stdmod_hash_merge_behaviour,{})
+      default => lookup('tp::stdmod_hash',Hash,$stdmod_hash_merge_behaviour, {})
     }
     $stdmod_hash_merged.each |$k,$v| {
       tp::stdmod { $k:
@@ -458,7 +478,7 @@ class tp (
 
     $puppi_hash_merged = $puppi_hash_merge_behaviour ? {
       'first' => $puppi_hash,
-      default => lookup('tp::puppi_hash',Hash,$puppi_hash_merge_behaviour,{})
+      default => lookup('tp::puppi_hash',Hash,$puppi_hash_merge_behaviour, {})
     }
     $puppi_hash.each |$k,$v| {
       tp::puppi { $k:
@@ -468,7 +488,7 @@ class tp (
 
     $repo_hash_merged = $repo_hash_merge_behaviour ? {
       'first' => $repo_hash,
-      default => lookup('tp::repo_hash',Hash,$repo_hash_merge_behaviour,{})
+      default => lookup('tp::repo_hash',Hash,$repo_hash_merge_behaviour, {})
     }
     $repo_hash.each |$k,$v| {
       tp::repo { $k:

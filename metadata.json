@@ -1,6 +1,6 @@
 {
   "name": "example42-tp",
-  "version": "3.8.0",
+  "version": "3.9.0",
   "author": "example42",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
@@ -132,7 +132,7 @@
       "version_requirement": ">= 0.0.1 < 6.0.0"
     }
   ],
-  "pdk-version": "2.4.0",
+  "pdk-version": "2.6.1",
   "template-url": "https://github.com/puppetlabs/pdk-templates#main",
-  "template-ref": "tags/2.5.0-0-g806810b"
+  "template-ref": "heads/main-0-g383f471"
 }

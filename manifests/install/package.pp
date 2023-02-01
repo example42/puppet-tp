@@ -86,9 +86,6 @@
 #   required for the installation of the application. If they are defined in
 #   tp data.
 #
-# @param cli_enable Enable cli integration.
-#   If true, tp commands to query apps installed via tp are added to the system.
-#
 # @param data_module Name of the module where tp data is looked for
 #  Default is tinydata: https://github.com/example42/tinydata
 #
@@ -98,16 +95,14 @@ define tp::install::package (
 
   # V4
   Optional[String]        $version          = undef,
+  Optional[String]        $base_package     = undef,
   Hash                    $settings         = {},
-  Hash                    $releases         = {},
-  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
-
-  Boolean                 $cli_enable       = pick($tp::cli_enable, true),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   Boolean                 $auto_repo        = true,
   Boolean                 $auto_conf        = true,
   Optional[Boolean]       $auto_prerequisites = undef,
-  Boolean $auto_prereq                        = pick($tp::auto_prereq, false),
+  Optional[Boolean]       $auto_prereq      = undef,
 
   Optional[Boolean]       $upstream_repo    = undef,
   Variant[Undef,String]   $repo             = undef,
@@ -117,23 +112,26 @@ define tp::install::package (
   Boolean                 $manage_service   = true,
   Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
 
-
   String[1]               $data_module      = 'tinydata',
 
 ) {
-  $app = $title
+  $title_elements = split ($title, '::')
+  $app = $title_elements[0]
+  $real_ase_package = pick($base_package,$title_elements[1],'main')
   $sane_app = regsubst($app, '/', '_', 'G')
 
+  $package_provider = pick_default(getvar("packages.${real_base_package}.package_provider"), getvar("packages.${app}.package_provider"))
+
   if $settings[package_provider] == Variant[Undef,String[0]] {
-    $package_provider = undef
+    $real_package_provider = undef
   } else {
-    $package_provider = $settings[package_provider]
+    $real_package_provider = $settings[package_provider]
   }
 
-  if $settings[package_source] == Variant[Undef,String[0]] {
+  if $settings[package_source] =~ Variant[Undef,String[0]] {
     $package_source = undef
   } else {
-    $package_source = $settings[package_source]
+    $package_source = tp::url_replace(getvar('settings.package_source'),tp::get_version($ensure,$version,$settings))
   }
 
   if $settings[package_install_options] == Variant[Undef,String[0]] {
@@ -165,7 +163,7 @@ define tp::install::package (
       before               => Package[$settings[package_name]],
       data_module          => $data_module,
       repo                 => $repo,
-      settings_hash        => $settings_hash,
+      settings_hash        => $settings,
       exec_environment     => $repo_exec_environment,
       upstream_repo        => $use_upstream_repo,
       apt_safe_trusted_key => $apt_safe_trusted_key,
@@ -202,7 +200,7 @@ define tp::install::package (
         if $settings[package_name] {
           Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
         }
-        package { "${settings[package_prerequisites]}": }
+        package { $settings[package_prerequisites]: }
         # ensure_packages("${settings[package_prerequisites]}")
       }
       default: {}
@@ -268,47 +266,49 @@ define tp::install::package (
   }
 
   # Resources
-  $packages = pick($settings['package_name'])
+  $packages = pick_default(getvar('settings.package_name'), getvar('settings.packages.main.name'))
 
   if $manage_package {
     case $packages {
       Hash: {
         $package_defaults = {
           ensure   => $plain_ensure,
-          provider => $package_provider,
-          source   => $package_source,
+          provider => $real_package_provider,
         }
         $packages.each |$kk,$vv| {
           package { $kk:
-            * => $package_defaults + pick($settings[package_params],{} + $vv),
+            * => $package_defaults + pick($settings[package_params], {} + $vv),
           }
         }
       }
       Array: {
         $package_defaults = {
           ensure   => $plain_ensure,
-          provider => $package_provider,
+          provider => $real_package_provider,
         }
-        package { $kk:
-          * => $package_defaults + pick($settings[package_params],{}),
+        $packages.each |$k| {
+          package { $k:
+            * => $package_defaults + pick($settings[package_params], {}),
+          }
         }
       }
       String[1]: {
         $package_defaults = {
           ensure          => pick($version,$ensure),
-          provider        => $package_provider,
+          provider        => $real_package_provider,
           source          => $package_source,
           install_options => $package_install_options,
         }
         package { $packages:
-          * => $package_defaults + pick($settings[package_params],{}),
+          * => $package_defaults + pick($settings[package_params], {}),
         }
       }
       Undef: {
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data, "tp::install::package. No data for ${packages}. Valid types are String, Array, Hash, Undef.")
+        # do nothing
+#        tp::fail($on_missing_data, "tp::install::package ${app} - No data for ${packages}. Valid types are String, Array, Hash, Undef.")
       }
     }
   }
@@ -340,7 +340,7 @@ define tp::install::package (
         }
         $services.each |$kk,$vv| {
           service { $kk:
-            * => $service_defaults + pick($settings[service_params],{} + $vv),
+            * => $service_defaults + pick($settings[service_params], {} + $vv),
           }
         }
       }
@@ -350,8 +350,10 @@ define tp::install::package (
           enable  => $service_enable,
           require => $service_require,
         }
-        service { $kk:
-          * => $service_defaults + pick($settings[service_params],{}),
+        $services.each |$k| {
+          service { $k:
+            * => $service_defaults + pick($settings[service_params], {}),
+          }
         }
       }
       String[1]: {
@@ -361,7 +363,7 @@ define tp::install::package (
           require => $service_require,
         }
         service { $services:
-          * => $service_defaults + pick($settings[service_params],{}),
+          * => $service_defaults + pick($settings[service_params], {}),
         }
       }
       Undef: {
@@ -371,7 +373,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data,"tp::install::package - ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.")
+        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.") # lint-ignore:140chars
       }
     }
   }

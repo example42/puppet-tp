@@ -25,7 +25,7 @@ define tp::debug (
 
 ) {
   # Settings evaluation
-  $tp_settings=tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings=tp_lookup($title,'settings',$data_module,'deep_merge')
   $settings = $tp_settings + $settings_hash
 
   include tp

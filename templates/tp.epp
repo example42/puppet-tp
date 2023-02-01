@@ -28,7 +28,7 @@ PIP_COMMAND = %x{which pip "#{suppress_warnings}"}.size.>(0) ? %x{which pip "#{s
 TP_APP_DIR = '<%= $tp_dir %>/app'
 TP_TEST_DIR = '<%= $tp_dir %>/test'
 TP_INFO_DIR = '<%= $tp_dir %>/info'
-TP_DEGUB_DIR = '<%= $tp_dir %>/debug'
+TP_DEBUG_DIR = '<%= $tp_dir %>/debug'
 
 <% if $osfamily == 'windows' { -%>
 TINYDATA_DIRS = [
@@ -159,12 +159,24 @@ def tp_test(app)
         end
       end
     end
+    if settings.dig('image', 'name') != nil and settings['install_method'] == 'image'
+      image_repository = settings['image']['name'].split(':')[0]
+      run_command("docker image ls | grep  " + image_repository + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - image: #{settings['image']['name']}")
+    end
+    if settings.dig('git_source') != nil and settings['install_method'] == 'source'
+      run_command("ls " + settings['destination'] + " " + COMMAND_REDIR , "#{NODENAME} - #{app} - source: #{settings['git_source']} in #{settings['destination']}")
+    end
 
     # Check service if defined
     if settings['service_name'] and settings['service_name'] != ""
       Array(settings['service_name']).each do |s|
         run_command("<%= $options['check_service_command'] %> #{s} <%= $options['check_service_command_post'] %> #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - service: #{s}")
       end
+<% if $facts['service_provider'] == 'systemd' { -%>
+      if settings['install_method'] != 'package'
+        run_command("ls /lib/systemd/system/#{app}.service #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - systemd unit file: /lib/systemd/system/#{app}.service")
+      end
+<% } -%>
     end
 
   rescue

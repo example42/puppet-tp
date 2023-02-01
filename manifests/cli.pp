@@ -4,14 +4,14 @@
 class tp::cli (
   Enum['present','absent'] $ensure   = 'present',
   Boolean $manage_tp                 = true,
-  Hash $tp_commands                  = lookup('tp::tp_commands',{}),
+  Hash $tp_commands                  = lookup('tp::tp_commands', {}),
 
   Hash $options                      = {},
   Boolean $purge_dirs                = true,
   Boolean $cli_enable                = pick($tp::cli_enable, true),
 
   String[1] $data_module = pick($tp::data_module,'tinydata'),
-  Tp::Fail $on_missing_data = pick($tp::on_missing_data,'notify'),
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
 ) {
   $file_ensure = tp::ensure2file($ensure)
@@ -38,8 +38,8 @@ class tp::cli (
       'check_service_command'      => getvar('tp_commands.check.service.command'),
       'check_service_command_post' => getvar('tp_commands.service.post_command'),
       'check_package_command'      => getvar('tp_commands.check.package.command'),
-      'check_repo_path'            => getvar('tp_commands.check.repo.command'),
-      'check_repo_path_post'       => getvar('tp_commands.check.repo.post_commandcommand'),
+      'check_repo_path'            => getvar('tp_commands.check.repo.path'),
+      'check_repo_path_post'       => getvar('tp_commands.check.repo.path_post'),
       'info_package_command'       => getvar('tp_commands.info.package'),
       'info_script_path'           => $info_script_path,
       'debug_package_command'      => getvar('tp_commands.debug.package.command'),

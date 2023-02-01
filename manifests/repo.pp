@@ -46,7 +46,7 @@ define tp::repo (
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
-  $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings = tp_lookup($title,'settings',$data_module,'deep_merge')
   $user_settings = {
     repo_url           => $repo_url,
     key_url            => $key_url,
@@ -128,7 +128,7 @@ define tp::repo (
         }
       }
       package { $settings[repo_package_name]:
-        * => $package_params + pick($settings[repo_package_params],{}),
+        * => $package_params + pick($settings[repo_package_params], {}),
       }
     }
   } else {
@@ -165,7 +165,7 @@ define tp::repo (
             gpgkey     => $settings[key_url],
             priority   => $settings[yum_priority],
             mirrorlist => $settings[yum_mirrorlist],
-            *          => pick($settings[yumrepo_params],{}),
+            *          => pick($settings[yumrepo_params], {}),
           }
         }
       }
@@ -258,15 +258,15 @@ define tp::repo (
       'Suse'   => "/etc/zypp/repos.d/${repo_file_name}.repo",
     }
     $repo_file_notify = $facts['os']['family'] ? {
-      'Debian' => 'Exec["tp_apt_update"]',
+      'Debian' => Exec['tp_apt_update'],
       'RedHat' => undef,
-      'Suse'   => 'Exec["zypper refresh"]',
+      'Suse'   => Exec['zypper refresh'],
     }
     exec { "Download repo file for ${title}":
       command => "wget ${settings[repo_file_url]} -q -O ${repo_file_path}",
       creates => $repo_file_path,
       path    => $facts['path'],
-      notify => $repo_file_notify,
+      notify  => $repo_file_notify,
     }
   }
 

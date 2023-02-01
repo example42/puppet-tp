@@ -3,7 +3,7 @@ module Puppet::Parser::Functions
 
   newfunction(:tp_lookup4, :type => :rvalue, :doc => "
   Looks for tp data. Usage:
-  $tp_settings=tp_lookup($title,'settings','site','merge')
+  $tp_settings=tp_lookup($title,'settings','site','deep_merge')
   ") do |args|
     unless args.length >= 3
       raise Puppet::ParseError, ("tp_lookup(): wrong number of arguments (#{args.length}; must be 2 or 3)")

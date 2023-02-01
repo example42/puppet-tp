@@ -143,13 +143,16 @@ define tp::install (
 
   # V4 params
   Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
+  Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
-  Hash                    $confs            = {},
-  Hash                    $dirs             = {},
+  String $base_package   = 'main',
 
-  Hash                    $options          = {},
+  Hash $confs            = {},
+  Hash $dirs             = {},
 
-  Hash                    $my_settings      = {},
+  Hash $options          = {},
+
+  Hash $my_settings      = {},
 
   Hash $tp_params                           = {},
   Hash $params                              = {},
@@ -157,8 +160,6 @@ define tp::install (
   Optional[String] $version                 = undef,
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
-  Optional[Boolean] $build                    = undef,
-  Optional[Boolean] $install                  = undef,
 
 # Legacy params preserved
 #  Boolean                 $auto_prereq      = false,
@@ -199,31 +200,48 @@ define tp::install (
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  deprecation('conf_hash', 'Replace with confs')
-  deprecation('dir_hash', 'Replace with dirs')
-  deprecation('settings_hash', 'Replace with my_settings')
-  deprecation('options_hash', 'Replace with options')
+  if $conf_hash != {} {
+    deprecation('conf_hash', 'Replace with confs')
+  }
+  if $dir_hash != {} {
+    deprecation('dir_hash', 'Replace with dirs')
+  }
+  if $options_hash != {} {
+    deprecation('options_hash', 'Replace with options')
+  }
+  if $settings_hash != {} {
+    deprecation('settings_hash', 'Replace with my_settings')
+  }
 
   # Settings evaluation
-  $local_settings = delete_undef_values( {
+  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+  $local_settings = delete_undef_values({
       install_method => $install_method,
       repo           => $repo,
       upstream_repo  => $upstream_repo,
+      git_source     => $install_method ? {
+        'source' => $source,
+        default  => undef,
+      },
+      destination    => pick($install_method, getvar('tinydata_settings.install_method')) ? {
+        'source' => pick($destination, "${tp::real_tp_params['data']['path']}/source/${app}"),
+        'file'   => pick($destination, "${tp::real_tp_params['data']['path']}/download/${app}"),
+        default  => undef,
+      },
   })
 
-  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
-  $settings = $tinydata_settings + $settings_hash + $my_settings + $local_settings
+  $settings = deep_merge($tinydata_settings,$settings_hash,$my_settings,$local_settings)
 
   # v4 code
   if $use_v4 {
     include tp
     $real_tp_params = $tp::real_tp_params
     $default_install_params = {
-      ensure         => $ensure,
-      auto_prereq    => $auto_prereq,
-      data_module    => $data_module,
-      settings       => $settings,
-      version        => $version,
+      ensure          => $ensure,
+      auto_prereq     => $auto_prereq,
+      settings        => $settings,
+      version         => $version,
+      on_missing_data => $on_missing_data,
     }
 
     # If not user specified or set as settings.install_method, the default
@@ -233,6 +251,8 @@ define tp::install (
     case $real_install_method {
       'package': {
         $default_install_package_params = {
+          data_module           => $data_module,
+          base_package          => $base_package,
           upstream_repo         => $upstream_repo,
           auto_repo             => $auto_repo,
           repo                  => $repo,
@@ -255,8 +275,6 @@ define tp::install (
         $default_install_file_params = {
           source      => $source,
           destination => $destination,
-          build       => $build,
-          install     => $install,
         }
         tp::install::file { $app:
           * => $default_install_params + $default_install_file_params + $params,
@@ -299,7 +317,7 @@ define tp::install (
       }
     }
 
-    if $options_hash != {} and getvar('settings.config_file_format') {
+    if $options_hash != {} and getvar('settings.files.config.format') {
       tp::conf { $app:
         * => $conf_defaults,
       }
@@ -412,7 +430,7 @@ define tp::install (
           if $settings[package_name] {
             Package[$settings[package_prerequisites]] -> Package[$settings[package_name]]
           }
-          package { "${settings[package_prerequisites]}": }
+          package { $settings[package_prerequisites]: }
           # ensure_packages("${settings[package_prerequisites]}")
         }
         default: {}
@@ -492,7 +510,7 @@ define tp::install (
       }
       $settings[package_name].each |$pkg| {
         package { $pkg:
-          * => $package_defaults + pick($settings[package_params],{}),
+          * => $package_defaults + pick($settings[package_params], {}),
         }
       }
     }
@@ -504,7 +522,7 @@ define tp::install (
         install_options => $package_install_options,
       }
       package { $settings[package_name]:
-        * => $package_defaults + pick($settings[package_params],{}),
+        * => $package_defaults + pick($settings[package_params], {}),
       }
     }
 
@@ -517,7 +535,7 @@ define tp::install (
           require => $service_require,
         }
         service { $svc:
-          * => $service_defaults + pick($settings[service_params],{}),
+          * => $service_defaults + pick($settings[service_params], {}),
         }
       }
     }
@@ -604,7 +622,7 @@ define tp::install (
 
     # Optional cli integration
     $tp_basedir = $facts['os']['family'] ? {
-      'windows' => 'C:/Program Files/Puppet Labs/Puppet/tp',
+      'windows' => 'C:/ProgramData/PuppetLabs/tp',
       default   => '/etc/tp',
     }
 

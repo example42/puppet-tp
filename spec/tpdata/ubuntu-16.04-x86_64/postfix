@@ -32,3 +32,4 @@ init_file_path: "/etc/default/postfix"
 repo_package_provider: dpkg
 init_system: systemd
 validate_cmd: 'postconf -n'
+install_method: package

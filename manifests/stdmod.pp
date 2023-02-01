@@ -47,7 +47,7 @@ define tp::stdmod (
 
 ) {
   # Settings evaluation
-  $tp_settings = tp_lookup($title,'settings',$data_module,'merge')
+  $tp_settings = tp_lookup($title,'settings',$data_module,'deep_merge')
   $user_settings = {
     package_name              => $package_name,
     package_ensure            => $package_ensure,
