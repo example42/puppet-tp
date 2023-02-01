@@ -28,7 +28,7 @@ PIP_COMMAND = %x{which pip "#{suppress_warnings}"}.size.>(0) ? %x{which pip "#{s
 TP_APP_DIR = '<%= $tp_dir %>/app'
 TP_TEST_DIR = '<%= $tp_dir %>/test'
 TP_INFO_DIR = '<%= $tp_dir %>/info'
-TP_DEGUB_DIR = '<%= $tp_dir %>/debug'
+TP_DEBUG_DIR = '<%= $tp_dir %>/debug'
 
 <% if $osfamily == 'windows' { -%>
 TINYDATA_DIRS = [

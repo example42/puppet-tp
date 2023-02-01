@@ -266,7 +266,7 @@ define tp::install::package (
   }
 
   # Resources
-  $packages = pick($settings['package_name'])
+  $packages = pick_default(getvar('settings.package_name'), getvar('settings.packages.main.name'))
 
   if $manage_package {
     case $packages {
