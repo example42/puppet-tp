@@ -390,7 +390,7 @@ define tp::conf (
       true      => $service_ref,
       default   => $config_file_notify,
     }
-    $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), undef) # lint-ignore:140chars
+    $validate_cmd = pick_default(getvar('settings.validate_cmd'), getvar("settings.${prefix}files.${base_file}.validate_cmd"), undef) # lint:ignore:140chars
     $default_validate_cmd = $validate_cmd ? {
       ''     => undef,
       String => $validate_cmd,

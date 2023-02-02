@@ -142,6 +142,7 @@ class tp::cli (
         content => epp('tp/run_debug/package_debug.epp'),
       }
       file { $debug_script_path:
+        mode    => '0755',
         path    => $debug_script_path,
         content => epp($debug_script_template, { 'options' => $real_options }),
       }

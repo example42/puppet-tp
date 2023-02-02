@@ -11,7 +11,7 @@ infoblock=${2:-'all'}
 if [ "$infoblock" != 'all' ]; then
     . "<%= $tp::tp_dir %>/bin/run_debug/${infoblock}"
 else
-    for f in $(ls -1 <%= $tp::tp_dir %>/run_debug/); do
+    for f in $(ls -1 <%= $tp::tp_dir %>/bin/run_debug/); do
         . "<%= $tp::tp_dir %>/bin/run_debug/${f}"
     done
 fi

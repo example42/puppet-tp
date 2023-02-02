@@ -1,0 +1,14 @@
+---
+tp::check_package_command: 'dnf info'
+tp::info_package_command: 'dnf info'
+
+tp::tp_commands:
+  check:
+    package:
+      command: 'dnf info'
+  info:
+    package:
+      command: 'dnf info'
+  debug:
+    package:
+      command: 'dnf info'

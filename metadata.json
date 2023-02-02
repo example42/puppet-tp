@@ -15,6 +15,10 @@
     {
       "name": "example42/tinydata",
       "version_requirement": ">= 0.0.1 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/vcsrepo",
+      "version_requirement": ">= 0.0.1 < 6.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -113,18 +117,12 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.9.0 < 9.0.0"
+      "version_requirement": ">= 6.0.0 < 9.0.0"
     }
   ],
-  "checksums": {
-  },
   "optional_dependencies": [
     {
       "name": "puppetlabs/chocolatey",
-      "version_requirement": ">= 0.0.1 < 6.0.0"
-    },
-    {
-      "name": "puppetlabs/vcsrepo",
       "version_requirement": ">= 0.0.1 < 6.0.0"
     },
     {

@@ -189,6 +189,7 @@ define tp::repo (
             exec { "Ensure ${apt_gpg_key_dir} exists for ${title}":
               command => "mkdir -p ${apt_gpg_key_dir}",
               creates => $apt_gpg_key_dir,
+              path    => $facts['path'],
             }
             # $key_nospaces = regsubst($settings[key],' ','','G')
             # $unless = "for f in /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/*.{asc,gpg} /etc/apt/keyrings/*.{asc,gpg} ; do gpg --list-keys --keyid-format short --no-default-keyring --keyring \$f; done | grep -q \"${key_nospaces}\"",  # lint:ignore:140chars
@@ -202,7 +203,7 @@ define tp::repo (
               command     => $command,
               unless      => $unless,
               creates     => $creates,
-              path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+              path        => $facts['path'],
               before      => File["${aptrepo_title}.list"],
               user        => 'root',
               environment => $exec_environment,

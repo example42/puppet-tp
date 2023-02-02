@@ -252,9 +252,9 @@ define tp::install::package (
   if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
     $settings[exec_postinstall].each | $k , $v | {
       if $settings[package_name] {
-        Package[$settings[package_name]] -> Exec[$k]
+        Package[$settings[package_name]] -> Exec["${app} - ${k}"]
       }
-      exec { $k:
+      exec { "${app} - ${k}":
         * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
       }
     }
@@ -373,7 +373,7 @@ define tp::install::package (
         # do nothing
       }
       default: {
-        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.") # lint-ignore:140chars
+        tp::fail($on_missing_data,"tp::install::package ${app} - Unsupported type for ${services}. Valid types are String, Array, Hash, Undef.") # lint:ignore:140chars
       }
     }
   }

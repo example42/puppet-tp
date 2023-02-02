@@ -6,7 +6,7 @@
 # @example
 #   tp::setup { 'namevar': }
 define tp::setup (
-  Enum['source','release'] $setup_data,
+  Enum['source','releases'] $setup_data,
   StdLib::Absolutepath $source_dir,
   String $app,
   Variant[Boolean,String] $ensure             = present,
