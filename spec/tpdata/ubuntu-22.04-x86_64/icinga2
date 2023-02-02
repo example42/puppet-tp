@@ -1,0 +1,83 @@
+---
+upstream_repo: false
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+install_method: package
+packages:
+  main:
+    ensure: present
+    source:
+    install_options: []
+    params: {}
+    providers: {}
+    manage: true
+  devel:
+    name: "$TITLE-devel"
+    ensure: present
+    manage: false
+  doc:
+    name: "$TITLE-doc"
+    ensure: present
+    manage: false
+  libs:
+    name: "$TITLE-libs"
+    ensure: present
+    manage: false
+services:
+  main:
+    process_user: root
+    process_group: root
+    ensure: running
+    enable: true
+    params: {}
+files:
+  config:
+    owner: root
+    group: root
+    mode: '0644'
+  init:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile
+  systemd:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile_with_stanzas
+dirs:
+  config:
+    owner: root
+    group: root
+  conf:
+    owner: root
+    group: root
+repo_package_provider: dpkg
+init_system: systemd
+repos:
+  default:
+    package_provider: dpkg
+package_name: icinga2
+service_name: icinga2
+config_file_path: "/etc/icinga2/icinga2.conf"
+config_dir_path: "/etc/icinga2"
+conf_dir_path: "/etc/icinga2/conf.d"
+features_dir_path: "/etc/icinga2/features-enabled"
+pid_file_path: "/var/run/icinga2/icinga2.pid"
+log_file_path:
+- "/var/log/icinga2/icinga2.log"
+- "/var/log/icinga2/error.log"
+log_dir_path: "/var/log/icinga2"
+process_name: icinga2
+process_user: icinga
+process_group: icinga
+init_file_path: "/etc/default/icinga2"
