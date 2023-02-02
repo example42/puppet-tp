@@ -5,38 +5,34 @@
 
 ## Table of Contents
 
-1.  [Module description - What Tiny Puppet does?](#module-description)
-    -   [Features](#features)
-    -   [Use cases](#use-cases)
-
-2.  [Setup](#setup)
-    -   [What tp affects](#what-tp-affects)
-    -   [Getting started with tp](#getting-started-with-tp)
-
-3.  [Usage in Puppet code](#usage-in-puppet-code)
-    -   [Common uses](#common-uses)
-    -   [Installing packages - tp::install](#installing-packages---tpinstall)
-    -   [Installation alternatives - tp::stdmod](#installation-alternatives---tpstdmod)
-    -   [Managing configurations - tp::conf](#managing-configurations---tpconf)
-    -   [Managing directories - tp::dir](#managing-directories---tpdir)
-    -   [Managing repositories - tp::repo](#managing-repositories---tprepo)
-    -   [Automated and easy testing - tp::test](#automated-and-easy-testing---tptest)
-    -   [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
-
-4.  [Updating tiny data and using alternative data sources](#updating-tiny-data-and-using-alternative-data-sources)
-
-5.  [Usage on the command line](#usage-on-the-command-line)
-
-6.  [Reference](#reference)
-    -   [Classes](#classes)
-    -   [Defined Types](#defined-types)
-    -   [Types](#types)
-    -   [Functions](#functions)
-    -   [Tasks](#tasks)
-
-7.  [Prerequisites and limitations](#prerequisites-and-limitations)
-
-8.  [Additional info](#additional-info)
+- [Tiny Puppet](#tiny-puppet)
+  - [Table of Contents](#table-of-contents)
+  - [Module description](#module-description)
+    - [Features](#features)
+    - [Use cases](#use-cases)
+  - [Setup](#setup)
+    - [What tp affects](#what-tp-affects)
+    - [Getting started with tp](#getting-started-with-tp)
+  - [Usage in Puppet code](#usage-in-puppet-code)
+    - [Common uses](#common-uses)
+    - [Installing packages - tp::install](#installing-packages---tpinstall)
+    - [Installation alternatives - tp::stdmod](#installation-alternatives---tpstdmod)
+    - [Managing configurations - tp::conf](#managing-configurations---tpconf)
+      - [tp::conf file paths conventions](#tpconf-file-paths-conventions)
+    - [Managing directories - tp::dir](#managing-directories---tpdir)
+    - [Managing repositories - tp::repo](#managing-repositories---tprepo)
+    - [Automated and easy testing - tp::test](#automated-and-easy-testing---tptest)
+    - [Configuring tp resources via Hiera](#configuring-tp-resources-via-hiera)
+  - [Updating tiny data and using alternative data sources](#updating-tiny-data-and-using-alternative-data-sources)
+  - [Usage on the command line](#usage-on-the-command-line)
+  - [Reference](#reference)
+    - [Classes](#classes)
+    - [Defined types](#defined-types)
+    - [Types](#types)
+    - [Functions](#functions)
+    - [Tasks](#tasks)
+  - [Prerequisites and limitations](#prerequisites-and-limitations)
+  - [Additional info](#additional-info)
 
 ## Module description
 
@@ -76,7 +72,6 @@ The main features of tp module are:
 -   Optional CLI command (`tp`) which can be used to install, test, get info, troubleshoot and query for logs any tp managed application.
 -   Optional Bolt tasks to perform the above actions on remote nodes.
 -   Usable both by total beginners and experienced sysadmins: interface is simple but allows powerful customisations
-
 
 ### Use cases
 
@@ -146,8 +141,6 @@ Once tp module is added to the modulepath the (optional) tp command can be insta
 Starting from version 3.8.0, a technology preview of tp 4 features is available by specifying the use_v4 parameter:
 
     tp::use_v4: true
-
-
 
 Here follows an example of tp resources used inside a custom profile where the content of a configuration file is based on a template with custom values.
 
@@ -220,11 +213,11 @@ Some parameters are available to manage tp::install automation:
 -   **auto_conf** Default: true. If true and tinydata relevant is present a default configuration is provided (this could happen just when some basic configuration is needed to actually activate the service).
 -   **auto_prereq**  Default: false. If true eventual package, tp::install or other dependencies are installed automatically. This is set to false by default in order to minimize duplicated resources risk, but might be required to set up specific applications correctly.
 
-      tp::install { 'consul':
-        upstream_repo => true,
-        auto_conf     => true,
-        auto_prereq   => false,
-      }
+    tp::install { 'consul':
+      upstream_repo => true,
+      auto_conf     => true,
+      auto_prereq   => false,
+    }
 
 Other parameters are available to manage integrations:
 

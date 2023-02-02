@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 3.9.1
+
+-   Fixed tp debug cli command
+-   Fixed tp test command on apps without packages
+-   Fixed possible resource duplicstion when multiple app with exec_postinstall setting are present in the catalog
+-   Fixed repo keys managmeent when apt_safe_trusted_key is true
+-   Updated metadata.json to reflect factual compatibility with only Puppet 6 or later
+-   Updated metadata.json to have puppetlabs/vcsrepo as a dependency
+-   Updated sample tinydata and OS tests in unit tests
+-   Fixed tp uninstall command to remove also tp data files
+
 ## 3.9.0
 
 -   tp::install::* defines simplified and aligned to semifinal v4 tinydata structure
