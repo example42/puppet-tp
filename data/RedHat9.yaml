@@ -1,6 +1,7 @@
 ---
 tp::check_package_command: 'dnf info'
 tp::info_package_command: 'dnf info'
+tp::debug_package_command: 'dnf info'
 
 tp::tp_commands:
   check:
