@@ -13,7 +13,7 @@ function tp::url_replace (
   }
   $versioned_url = regsubst($url,'\$VERSION', $_version, 'G')
   $os_replaced_url = regsubst($versioned_url,'\$OS', downcase($facts['kernel']), 'G')
-  $arch_replaced_url = regsubst($os_replaced_url,'\$ARCH', downcase($translated_arch), 'G') # lint-ignore: 140chars
+  $arch_replaced_url = regsubst($os_replaced_url,'\$ARCH', downcase($translated_arch), 'G') # lint:ignore:140chars
 
   return $arch_replaced_url
 }

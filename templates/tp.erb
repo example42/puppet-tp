@@ -410,7 +410,7 @@ when 'install'
 
 when 'uninstall'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent }'" + suppress_warnings)
+    exec ("puppet apply -t -e 'tp::install { " + app + ": ensure => absent , cli_enable => true }'" + suppress_warnings)
   else
     puts "You can't uninstall apps with tp wihout having the tp module locally installed"
   end

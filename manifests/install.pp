@@ -224,8 +224,8 @@ define tp::install (
         default  => undef,
       },
       destination    => pick($install_method, getvar('tinydata_settings.install_method')) ? {
-        'source' => pick($destination, "${tp::real_tp_params['data']['path']}/source/${app}"),
-        'file'   => pick($destination, "${tp::real_tp_params['data']['path']}/download/${app}"),
+        'source' => pick($destination, "${tp::data_dir}/source/${app}"),
+        'file'   => pick($destination, "${tp::data_dir}/download/${app}"),
         default  => undef,
       },
   })
@@ -482,9 +482,9 @@ define tp::install (
     if $auto_prereq and $settings['exec_postinstall'] and $ensure != 'absent' {
       $settings[exec_postinstall].each | $k , $v | {
         if $settings[package_name] {
-          Package[$settings[package_name]] -> Exec[$k]
+          Package[$settings[package_name]] -> Exec["${app} - ${k}"]
         }
-        exec { $k:
+        exec { "${app} - ${k}":
           * => { 'path' => '/bin:/usr/bin:/sbin:/usr/sbin' } + $v,
         }
       }
@@ -516,7 +516,7 @@ define tp::install (
     }
     if $settings[package_name] =~ String[1] and $manage_package {
       $package_defaults = {
-        ensure          => $ensure,
+        ensure          => $plain_ensure,
         provider        => $package_provider,
         source          => $package_source,
         install_options => $package_install_options,
@@ -544,7 +544,7 @@ define tp::install (
     if $settings[git_source] {
       if ! $settings[package_name] or $settings[git_use] {
         tp::dir { $app:
-          ensure  => $ensure,
+          ensure  => tp::ensure2dir($ensure),
           path    => pick ($settings[git_destination], "/opt/${app}"),
           source  => $settings[git_source],
           vcsrepo => 'git',
@@ -642,7 +642,7 @@ define tp::install (
     if $debug == true {
       $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
       file { "tp_install_debug_${sane_app}":
-        ensure  => $plain_ensure,
+        ensure  => tp::ensure2file($ensure),
         content => $debug_scope,
         path    => "${debug_dir}/tp_install_debug_${sane_app}",
       }

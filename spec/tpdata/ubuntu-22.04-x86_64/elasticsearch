@@ -1,0 +1,86 @@
+---
+upstream_repo: true
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+install_method: package
+packages:
+  main:
+    ensure: present
+    source:
+    install_options: []
+    params: {}
+    providers: {}
+    manage: true
+  devel:
+    name: "$TITLE-devel"
+    ensure: present
+    manage: false
+  doc:
+    name: "$TITLE-doc"
+    ensure: present
+    manage: false
+  libs:
+    name: "$TITLE-libs"
+    ensure: present
+    manage: false
+services:
+  main:
+    process_user: root
+    process_group: root
+    ensure: running
+    enable: true
+    params: {}
+files:
+  config:
+    owner: root
+    group: root
+    mode: '0644'
+  init:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile
+  systemd:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile_with_stanzas
+dirs:
+  config:
+    owner: root
+    group: root
+  conf:
+    owner: root
+    group: root
+repo_package_provider: dpkg
+init_system: systemd
+repos:
+  default:
+    package_provider: dpkg
+package_name: elasticsearch
+service_name: elasticsearch
+config_file_path: "/etc/elasticsearch/elasticsearch.yml"
+config_file_format: yaml
+config_dir_path: "/etc/elasticsearch"
+pid_file_path: "/var/run/elasticsearch.pid"
+log_file_path: "/var/log/elasticsearch/elasticsearch.log"
+log_dir_path: "/var/log/elasticsearch"
+data_dir_path: "/var/lib/elasticsearch"
+process_name: java
+process_extra_name: elasticsearch
+process_user: elasticsearch
+process_group: elasticsearch
+tcp_port: '9200'
+init_file_path: "/etc/default/elasticsearch"
+tp_prerequisites:
+  elastic_repo: {}
+

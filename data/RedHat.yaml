@@ -4,6 +4,7 @@ tp::check_package_command: 'rpm -q'
 tp::check_repo_path: '/etc/yum.repos.d/'
 tp::check_repo_path_post: '.repo'
 tp::info_package_command: 'rpm -qi'
+tp::debug_package_command: 'rpm -qi'
 
 tp::tp_commands:
   check:

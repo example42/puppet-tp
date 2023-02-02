@@ -1,0 +1,74 @@
+---
+upstream_repo: true
+package_ensure: present
+service_ensure: running
+service_enable: true
+config_file_owner: root
+config_file_group: root
+config_file_mode: '0644'
+config_dir_owner: root
+config_dir_group: root
+config_dir_mode: '0755'
+config_dir_purge: false
+config_dir_recurse: true
+install_method: package
+packages:
+  main:
+    ensure: present
+    source:
+    install_options: []
+    params: {}
+    providers: {}
+    manage: true
+  devel:
+    name: "$TITLE-devel"
+    ensure: present
+    manage: false
+  doc:
+    name: "$TITLE-doc"
+    ensure: present
+    manage: false
+  libs:
+    name: "$TITLE-libs"
+    ensure: present
+    manage: false
+services:
+  main:
+    process_user: root
+    process_group: root
+    ensure: running
+    enable: true
+    params: {}
+files:
+  config:
+    owner: root
+    group: root
+    mode: '0644'
+  init:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile
+  systemd:
+    owner: root
+    group: root
+    mode: '0644'
+    format: inifile_with_stanzas
+dirs:
+  config:
+    owner: root
+    group: root
+  conf:
+    owner: root
+    group: root
+repo_package_provider: rpm
+init_system: systemd
+repos:
+  default:
+    package_provider: rpm
+package_name: sysdig
+repo_url: http://download.draios.com/stable/rpm/$basearch
+key: F1C3BD80
+key_url: https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public
+tp_prerequisites:
+- dkms

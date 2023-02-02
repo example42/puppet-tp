@@ -32,6 +32,3 @@ https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/pupp
 	"postCreateCommand": "pdk --version",
 }
 ```
-
-
-
