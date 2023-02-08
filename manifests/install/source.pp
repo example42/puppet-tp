@@ -82,16 +82,6 @@ define tp::install::source (
       }),
     }
 
-    tp::setup { "tp::install::source ${app}":
-      ensure          => $ensure,
-      setup_data      => 'source',
-      source_dir      => $destination,
-      app             => $app,
-      on_missing_data => $on_missing_data,
-      settings        => $settings,
-      owner           => $owner,
-      group           => $group,
-    }
   } else {
     tp::fail($on_missing_data, "tp::install::source ${app} - Missing parameter source or tinydata: settings.git_url") # lint:ignore:140chars
   }

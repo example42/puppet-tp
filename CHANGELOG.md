@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.9.2
+
+-   Added support for $MAJVERSION variable in tinydata
+-   Added support for xz release files
+
 ## 3.9.1
 
 -   Fixed tp debug cli command

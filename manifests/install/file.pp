@@ -66,7 +66,7 @@ define tp::install::file (
   $tp_dir          = $tp::real_tp_params['conf']['path']
   $destination_dir = $tp::real_tp_params['destination']['path']
   $download_dir    = "${tp::real_tp_params['data']['path']}/download/${app}"
-  $extract_dir     = "${tp::real_tp_params['data']['path']}/extract/${app}"
+  $extract_dir     = pick(getvar('settings.releases.extract_dir'),"${tp::real_tp_params['data']['path']}/extract/${app}")
 
   $real_destination = pick($destination, "${destination_dir}/${app}")
 
@@ -87,9 +87,11 @@ define tp::install::file (
 
   # Download and unpack source
   $real_version = tp::get_version($ensure,$version,$settings)
-  $real_filename = pick(tp::url_replace(getvar('settings.releases.file_name'), $real_version), $app) # lint:ignore:140chars
+  $real_majversion = tp::get_version($ensure,$version,$settings,'major')
+  $real_filename = pick(tp::url_replace(pick(getvar('settings.releases.file_name'),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
+  #$real_filename = tp::url_replace(pick(getvar('settings.releases.file_name'), $app), $real_version, $real_majversion) # lint:ignore:140chars
   if getvar('settings.releases.base_url') {
-    $real_base_url = pick(tp::url_replace(getvar('settings.releases.base_url'), $real_version), $app)
+    $real_base_url = tp::url_replace(pick(getvar('settings.releases.base_url'), $app), $real_version, $real_majversion)
     $real_url = "${real_base_url}/${real_filename}"
   } else {
     tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url") # lint:ignore:140chars
@@ -97,11 +99,11 @@ define tp::install::file (
 
   $real_source = $ensure ? {
     'absent' => false,
-    default  => pick($source, $real_url),
+    default  => pick_default($source, $real_url),
   }
   $extracted_dir = getvar('settings.releases.extracted_dir') ? {
-    String  => tp::url_replace(getvar('settings.releases.extracted_dir'), $real_version), # lint:ignore:140chars
-    default => tp::url_replace(basename($real_filename), $real_version),
+    String  => tp::url_replace(getvar('settings.releases.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
+    default => tp::url_replace(basename($real_filename), $real_version, $real_majversion),
   }
   $extracted_file = getvar('settings.releases.extracted_file')
 
@@ -111,6 +113,7 @@ define tp::install::file (
       '' => $source_filetype ? {
         'tgz'     => 'tar -zxf',
         'gz'      => 'tar -zxf',
+        'xz'      => 'tar -xvf',
         'tar.gz'  => 'tar -zxf',
         'bz2'     => 'tar -jxf',
         'tar'     => 'tar -xf',
@@ -163,16 +166,6 @@ define tp::install::file (
       }
     }
 
-    tp::setup { "tp::install::file ${app}":
-      ensure          => $ensure,
-      setup_data      => 'releases',
-      source_dir      => $real_postextract_cwd,
-      app             => $app,
-      on_missing_data => $on_missing_data,
-      settings        => $settings,
-      owner           => $owner,
-      group           => $group,
-    }
   } else {
     tp::fail($on_missing_data, "tp::install::file ${app} - Missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].filename}") # lint:ignore:140chars
   }

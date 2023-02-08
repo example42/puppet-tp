@@ -6,7 +6,7 @@
 # @example
 #   tp::setup { 'namevar': }
 define tp::setup (
-  Enum['source','releases'] $setup_data,
+  Tp::Install_method $setup_data,
   StdLib::Absolutepath $source_dir,
   String $app,
   Variant[Boolean,String] $ensure             = present,
@@ -20,6 +20,9 @@ define tp::setup (
 
   # Setup settings are a result from the merge of keys settings.$setup_data.setup and settings.setup
   $setup_settings = deep_merge(getvar('settings.setup', {}),getvar("settings.${setup_data}.setup", {}))
+
+  $real_version = tp::get_version($ensure,undef,$setup_settings)
+  $real_majversion = tp::get_version($ensure,undef,$setup_settings,'major')
 
   if pick(getvar('setup_settings.enable'), false ) {
     if pick(getvar('setup_settings.manage_service'), false ) {
@@ -79,8 +82,17 @@ define tp::setup (
       }
     }
 
-    if pick(getvar('setup_settings.manage_user'), false) and getvar('settings.process_user') {
-      user { getvar('settings.process_user'):
+    $links = getvar('setup_settings.links', {})
+    $links.each | $k,$v | {
+      file { $k:
+        ensure => link,
+        target => tp::url_replace($v,$real_version,$real_majversion),
+        before => $before_tp_service,
+      }
+    }
+
+    if pick(getvar('setup_settings.manage_user'), false) and getvar('setup_settings.process_user') {
+      user { getvar('setup_settings.process_user'):
         ensure     => $ensure,
         managehome => true,
         before     => $before_tp_service,
