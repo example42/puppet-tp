@@ -142,7 +142,7 @@ define tp::install (
   Boolean                 $use_v4           = pick(getvar('tp::use_v4'),false),
 
   # V4 params
-  Optional[Enum['package', 'image', 'file', 'source']] $install_method = undef,
+  Tp::Install_method $install_method = undef,
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
 
   String $base_package   = 'main',
@@ -215,20 +215,41 @@ define tp::install (
 
   # Settings evaluation
   $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+
+  $real_install_method = pick($install_method, getvar('tinydata_settings.install_method'), 'package')
+  $real_version = tp::get_version($ensure,$version,$tinydata_settings)
+  $real_majversion = tp::get_version($ensure,$version,$tinydata_settings,'major')
+  $real_filename = pick(tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
+  if getvar('tinydata_settings.releases.base_url') {
+    $real_base_url = tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
+    $real_url = "${real_base_url}/${real_filename}"
+  } else {
+    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
+  }
+
+  $extracted_dir = getvar('tinydata_settings.releases.extracted_dir') ? {
+    String  => tp::url_replace(getvar('tinydata_settings.releases.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
+    default => tp::url_replace(basename($real_filename), $real_version, $real_majversion),
+  }
+  $extracted_file = getvar('tinydata_settings.releases.extracted_file')
+
+
+
   $local_settings = delete_undef_values({
-      install_method => $install_method,
+      install_method => $real_install_method,
       repo           => $repo,
       upstream_repo  => $upstream_repo,
-      git_source     => $install_method ? {
+      git_source     => $real_install_method ? {
         'source' => $source,
         default  => undef,
       },
-      destination    => pick($install_method, getvar('tinydata_settings.install_method')) ? {
+      destination    => $real_install_method ? {
         'source' => pick($destination, "${tp::data_dir}/source/${app}"),
         'file'   => pick($destination, "${tp::data_dir}/download/${app}"),
         default  => undef,
       },
   })
+
 
   $settings = deep_merge($tinydata_settings,$settings_hash,$my_settings,$local_settings)
 
@@ -243,10 +264,21 @@ define tp::install (
       version         => $version,
       on_missing_data => $on_missing_data,
     }
-
     # If not user specified or set as settings.install_method, the default
     # installation method is 'package'
-    $real_install_method = pick($install_method, getvar('settings.install_method'), 'package')
+
+    # Setup
+    tp::setup { "tp::install::${real_install_method} ${app}":
+      ensure          => $ensure,
+      setup_data      => $real_install_method,
+      source_dir      => $destination,
+      app             => $app,
+      on_missing_data => $on_missing_data,
+      settings        => $settings,
+      owner           => $owner,
+      group           => $group,
+    }
+# on releases      source_dir      => $real_postextract_cwd,
 
     case $real_install_method {
       'package': {
@@ -296,7 +328,7 @@ define tp::install (
       $tp_dir = $tp::tp_dir
       file { "${tp_dir}/app/${sane_app}":
         ensure  => tp::ensure2file($ensure),
-        content => inline_epp('<%= $settings.to_yaml %>'),
+        content => $settings.to_yaml,
       }
       file { "${tp_dir}/shellvars/${sane_app}":
         ensure  => tp::ensure2file($ensure),

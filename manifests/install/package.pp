@@ -131,7 +131,7 @@ define tp::install::package (
   if $settings[package_source] =~ Variant[Undef,String[0]] {
     $package_source = undef
   } else {
-    $package_source = tp::url_replace(getvar('settings.package_source'),tp::get_version($ensure,$version,$settings))
+    $package_source = tp::url_replace(getvar('settings.package_source'),tp::get_version($ensure,$version,$settings),tp::get_version($ensure,$version,$settings,'major'))
   }
 
   if $settings[package_install_options] == Variant[Undef,String[0]] {
