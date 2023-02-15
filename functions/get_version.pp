@@ -7,13 +7,13 @@ function tp::get_version (
   Enum['full', 'major'] $_version_type = 'full',
 ) {
   if $_version_type == 'major' {
-    $real_version = pick_default(getvar('_settings.releases.latest_version_major'))
+    $real_version = pick_default(getvar('_settings.release.latest_version_major'))
   } elsif $_version != undef and $_ensure != 'absent' {
     $real_version = $_version
   } elsif $_ensure !~ /^present$|^latest$|^absent$/ {
     $real_version = $_ensure
-  } elsif getvar('_settings.releases.latest_version') {
-    $real_version = getvar('_settings.releases.latest_version')
+  } elsif getvar('_settings.release.latest_version') {
+    $real_version = getvar('_settings.release.latest_version')
   } else {
     $real_version = ''
   }

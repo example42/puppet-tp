@@ -16,12 +16,6 @@
 # @example installation of postfix
 #   tp::install { 'postfix': }
 #
-# @example installation of prometheus directly from a binary of the given version
-#   tp::install { 'prometheus':
-#     install_method: 'file'
-#     ensure: '2.41.0',
-#   }
-#
 # @example installation of a specific version of a package
 # Note: the version MUST be a valid for the underlying package provider.
 # This setting is not used if there's an array of packages to install
@@ -117,15 +111,14 @@ define tp::install::package (
 ) {
   $title_elements = split ($title, '::')
   $app = $title_elements[0]
-  $real_ase_package = pick($base_package,$title_elements[1],'main')
+  $real_base_package = pick($base_package,$title_elements[1],'main')
   $sane_app = regsubst($app, '/', '_', 'G')
 
-  $package_provider = pick_default(getvar("packages.${real_base_package}.package_provider"), getvar("packages.${app}.package_provider"))
-
-  if $settings[package_provider] == Variant[Undef,String[0]] {
+  $package_provider = pick_default(getvar("settings.packages.${real_base_package}.package_provider"), getvar('settings.package_provider'))
+  if $package_provider =~ Variant[Undef,String[0]] {
     $real_package_provider = undef
   } else {
-    $real_package_provider = $settings[package_provider]
+    $real_package_provider = $package_provider
   }
 
   if $settings[package_source] =~ Variant[Undef,String[0]] {
@@ -313,7 +306,7 @@ define tp::install::package (
     }
   }
 
-  $services = pick_default($settings['service_name'],undef)
+  $services = pick_default(getvar('settings.services'), getvar('settings.service_name'),undef)
   if $manage_service {
     $service_ensure = $ensure ? {
       'absent' => 'stopped',
@@ -340,7 +333,7 @@ define tp::install::package (
         }
         $services.each |$kk,$vv| {
           service { $kk:
-            * => $service_defaults + pick($settings[service_params], {} + $vv),
+            * => $service_defaults + pick(getvar("settings.services.${kk}.params"), getvar('settings.service_params'), {}),
           }
         }
       }
@@ -352,7 +345,7 @@ define tp::install::package (
         }
         $services.each |$k| {
           service { $k:
-            * => $service_defaults + pick($settings[service_params], {}),
+            * => $service_defaults + pick(getvar("settings.services.${kk}.params"), getvar('settings.service_params'), {}),
           }
         }
       }
@@ -363,7 +356,7 @@ define tp::install::package (
           require => $service_require,
         }
         service { $services:
-          * => $service_defaults + pick($settings[service_params], {}),
+          * => $service_defaults + pick(getvar("settings.services.${services}.params"), getvar('settings.service_params'), {}),
         }
       }
       Undef: {

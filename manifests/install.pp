@@ -18,7 +18,7 @@
 #
 # @example installation of prometheus directly from a binary of the given version
 #   tp::install { 'prometheus':
-#     install_method: 'file'
+#     install_method: 'release'
 #     ensure: '2.41.0',
 #   }
 #
@@ -161,6 +161,10 @@ define tp::install (
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
 
+
+  String[1] $owner = pick(getvar('identity.user'),'root'),
+  String[1] $group = pick(getvar('identity.group'),'root'),
+
 # Legacy params preserved
 #  Boolean                 $auto_prereq      = false,
 #  Boolean                 $cli_enable       = false,
@@ -220,18 +224,18 @@ define tp::install (
   $real_version = tp::get_version($ensure,$version,$tinydata_settings)
   $real_majversion = tp::get_version($ensure,$version,$tinydata_settings,'major')
   $real_filename = pick(tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
-  if getvar('tinydata_settings.releases.base_url') {
+  if getvar('tinydata_settings.release.base_url') {
     $real_base_url = tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
     $real_url = "${real_base_url}/${real_filename}"
   } else {
-    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
+    tp::fail($on_missing_data, "tp::install::release - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
   }
 
-  $extracted_dir = getvar('tinydata_settings.releases.extracted_dir') ? {
-    String  => tp::url_replace(getvar('tinydata_settings.releases.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
+  $extracted_dir = getvar('tinydata_settings.release.extracted_dir') ? {
+    String  => tp::url_replace(getvar('tinydata_settings.release.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
     default => tp::url_replace(basename($real_filename), $real_version, $real_majversion),
   }
-  $extracted_file = getvar('tinydata_settings.releases.extracted_file')
+  $extracted_file = getvar('tinydata_settings.release.extracted_file')
 
 
 
@@ -244,9 +248,9 @@ define tp::install (
         default  => undef,
       },
       destination    => $real_install_method ? {
-        'source' => pick($destination, "${tp::data_dir}/source/${app}"),
-        'file'   => pick($destination, "${tp::data_dir}/download/${app}"),
-        default  => undef,
+        'source'  => pick($destination, "${tp::data_dir}/source/${app}"),
+        'release' => pick($destination, "${tp::data_dir}/download/${app}"),
+        default   => undef,
       },
   })
 
@@ -271,14 +275,14 @@ define tp::install (
     tp::setup { "tp::install::${real_install_method} ${app}":
       ensure          => $ensure,
       setup_data      => $real_install_method,
-      source_dir      => $destination,
+      source_dir      => getvar('settings.destination'),
       app             => $app,
       on_missing_data => $on_missing_data,
       settings        => $settings,
       owner           => $owner,
       group           => $group,
     }
-# on releases      source_dir      => $real_postextract_cwd,
+# on       source_dir      => $real_postextract_cwd,
 
     case $real_install_method {
       'package': {
@@ -299,22 +303,32 @@ define tp::install (
         }
       }
       'source': {
+        $default_install_source_params = {
+          owner       => $owner,
+          group       => $group,
+        }
         tp::install::source { $app:
-          * => $default_install_params + $params,
+          * => $default_install_params + $default_install_source_params + $params,
         }
       }
-      'file': {
+      'release': {
         $default_install_file_params = {
           source      => $source,
           destination => $destination,
+          owner       => $owner,
+          group       => $group,
         }
-        tp::install::file { $app:
+        tp::install::release { $app:
           * => $default_install_params + $default_install_file_params + $params,
         }
       }
       'image': {
+        $default_install_image_params = {
+          owner       => $owner,
+          group       => $group,
+        }
         tp::install::image { $app:
-          * => $default_install_params + $params,
+          * => $default_install_params + $default_install_image_params + $params,
         }
       }
       default: {

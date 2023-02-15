@@ -86,10 +86,11 @@ class tp::cli (
         }
       }
       $epp_params = {
-        'real_ruby_path' => $real_ruby_path,
-        'options'        => $real_options,
+        'real_ruby_path'       => $real_ruby_path,
+        'options'              => $real_options,
         'suppress_tp_warnings' => $suppress_tp_warnings,
-        'tp_dir'         => $tp::tp_dir,
+        'suppress_tp_output'   => $suppress_tp_output,
+        'tp_dir'               => $tp::tp_dir,
       }
       file { $tp::tp_path:
         path    => $tp::tp_path,
