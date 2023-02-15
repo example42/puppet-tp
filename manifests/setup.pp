@@ -7,7 +7,7 @@
 #   tp::setup { 'namevar': }
 define tp::setup (
   Tp::Install_method $setup_data,
-  StdLib::Absolutepath $source_dir,
+  Optional[StdLib::Absolutepath] $source_dir,
   String $app,
   Variant[Boolean,String] $ensure             = present,
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
@@ -39,46 +39,48 @@ define tp::setup (
     }
 
     $files = getvar('setup_settings.files', {})
-    case $files {
-      Hash: {
-        $files.each | $k,$v | {
-          tp::copy_file { $k:
-            ensure => pick($v['ensure'],$ensure),
-            path   => pick($v['path'], "${destination_dir}/${k}"),
-            owner  => pick($v['owner'], $owner),
-            group  => pick($v['group'], $group),
-            mode   => pick($v['mode'], '0755'),
-            source => pick($v['source'],"${source_dir}/${k}"),
-            before => $before_tp_service,
+    if $source_dir {
+      case $files {
+        Hash: {
+          $files.each | $k,$v | {
+            tp::copy_file { $k:
+              ensure => pick($v['ensure'],$ensure),
+              path   => pick($v['path'], "${destination_dir}/${k}"),
+              owner  => pick($v['owner'], $owner),
+              group  => pick($v['group'], $group),
+              mode   => pick($v['mode'], '0755'),
+              source => pick($v['source'],"${source_dir}/${k}"),
+              before => $before_tp_service,
+            }
           }
         }
-      }
-      Array: {
-        $files.each | $k | {
-          tp::copy_file { "${destination_dir}/${k}":
+        Array: {
+          $files.each | $k | {
+            tp::copy_file { "${destination_dir}/${k}":
+              ensure => $ensure,
+              path   => "${destination_dir}/${k}",
+              owner  => $owner,
+              group  => $group,
+              source => "${source_dir}/${k}",
+              mode   => '0755',
+              before => $before_tp_service,
+            }
+          }
+        }
+        String: {
+          tp::copy_file { "${destination_dir}/${files}":
             ensure => $ensure,
-            path   => "${destination_dir}/${k}",
+            path   => "${destination_dir}/${files}",
             owner  => $owner,
             group  => $group,
-            source => "${source_dir}/${k}",
+            source => "${source_dir}/${files}",
             mode   => '0755',
             before => $before_tp_service,
           }
         }
-      }
-      String: {
-        tp::copy_file { "${destination_dir}/${files}":
-          ensure => $ensure,
-          path   => "${destination_dir}/${files}",
-          owner  => $owner,
-          group  => $group,
-          source => "${source_dir}/${files}",
-          mode   => '0755',
-          before => $before_tp_service,
+        default: {
+          tp::fail($on_missing_data, "tp::setup ${app} - Missing tinydata: settings.setup.files or settings.${setup_data}.setup.files is not a Hash, Array or String") # lint:ignore:140chars
         }
-      }
-      default: {
-        tp::fail($on_missing_data, "tp::setup ${app} - Missing tinydata: settings.setup.files or settings.${setup_data}.setup.files is not a Hash, Array or String") # lint:ignore:140chars
       }
     }
 

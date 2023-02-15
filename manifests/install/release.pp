@@ -1,4 +1,4 @@
-# @define tp::install::file
+# @define tp::install::release
 #
 # This define installs the application (app) set in the given title downloading
 # the relevant file or tarball.
@@ -38,12 +38,8 @@
 #
 # @param group The group of the app's downloaded and extracted files
 #
-# @example Install an app from a release package. (Tinydaya must be present)
-#   tp::install { 'prometheus':
-#     install_method => 'file',
-#   }
 #
-define tp::install::file (
+define tp::install::release (
   Variant[Boolean,String] $ensure             = present,
 
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
@@ -66,55 +62,56 @@ define tp::install::file (
   $tp_dir          = $tp::real_tp_params['conf']['path']
   $destination_dir = $tp::real_tp_params['destination']['path']
   $download_dir    = "${tp::real_tp_params['data']['path']}/download/${app}"
-  $extract_dir     = pick(getvar('settings.releases.extract_dir'),"${tp::real_tp_params['data']['path']}/extract/${app}")
+  $extract_dir     = pick(getvar('settings.release.extract_dir'),"${tp::real_tp_params['data']['path']}/extract/${app}")
 
   $real_destination = pick($destination, "${destination_dir}/${app}")
 
   $retrieve_command = getvar('tp_params.settings.retrieve_command')
   $retrieve_args = getvar('tp_params.settings.retrieve_args')
 
-  tp::create_dir { "tp::install::file - create_dir ${download_dir}":
+  tp::create_dir { "tp::install::release - create_dir ${download_dir}":
     path   => $download_dir,
   }
-  tp::create_dir { "tp::install::file - extract_dir ${extract_dir}":
+  tp::create_dir { "tp::install::release - extract_dir ${extract_dir}":
     path => $extract_dir,
   }
 
   # Automatic dependencies management, if data defined
-  if $auto_prereq and getvar('settings.releases.prerequisites') and $ensure != 'absent' {
-    tp::create_everything ( getvar('settings.releases.prerequisites'), {})
+  if $auto_prereq and getvar('settings.release.prerequisites') and $ensure != 'absent' {
+    tp::create_everything ( getvar('settings.release.prerequisites'), {})
   }
 
   # Download and unpack source
   $real_version = tp::get_version($ensure,$version,$settings)
   $real_majversion = tp::get_version($ensure,$version,$settings,'major')
-  $real_filename = pick(tp::url_replace(pick(getvar('settings.releases.file_name'),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
-  #$real_filename = tp::url_replace(pick(getvar('settings.releases.file_name'), $app), $real_version, $real_majversion) # lint:ignore:140chars
-  if getvar('settings.releases.base_url') {
-    $real_base_url = tp::url_replace(pick(getvar('settings.releases.base_url'), $app), $real_version, $real_majversion)
+  $real_filename = pick(tp::url_replace(pick(getvar('settings.release.file_name'),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
+  #$real_filename = tp::url_replace(pick(getvar('settings.release.file_name'), $app), $real_version, $real_majversion) # lint:ignore:140chars
+  if getvar('settings.release.base_url') {
+    $real_base_url = tp::url_replace(pick(getvar('settings.release.base_url'), $app), $real_version, $real_majversion)
     $real_url = "${real_base_url}/${real_filename}"
   } else {
-    tp::fail($on_missing_data, "tp::install::file - ${app} - Missing tinydata: settings.releases.base_url") # lint:ignore:140chars
+    tp::fail($on_missing_data, "tp::install::release - ${app} - Missing tinydata: settings.release.base_url") # lint:ignore:140chars
   }
 
   $real_source = $ensure ? {
     'absent' => false,
     default  => pick_default($source, $real_url),
   }
-  $extracted_dir = getvar('settings.releases.extracted_dir') ? {
-    String  => tp::url_replace(getvar('settings.releases.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
+  $extracted_dir = getvar('settings.release.extracted_dir') ? {
+    String  => tp::url_replace(getvar('settings.release.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
     default => tp::url_replace(basename($real_filename), $real_version, $real_majversion),
   }
-  $extracted_file = getvar('settings.releases.extracted_file')
+  $extracted_file = getvar('settings.release.extracted_file')
 
   if $real_source {
-    $source_filetype = pick(getvar('settings.releases.file_format'),'zip')
+    $source_filetype = pick(getvar('settings.release.file_format'),'zip')
     $extract_command = getvar('tp_params.settings.extract_command') ? {
       '' => $source_filetype ? {
         'tgz'     => 'tar -zxf',
         'gz'      => 'tar -zxf',
-        'xz'      => 'tar -xvf',
         'tar.gz'  => 'tar -zxf',
+        'xz'      => 'tar -xvf',
+        'tar.xz'  => 'tar -xvf',
         'bz2'     => 'tar -jxf',
         'tar'     => 'tar -xf',
         'zip'     => 'unzip',
@@ -142,7 +139,7 @@ define tp::install::file (
       cwd     => $download_dir,
       command => "${retrieve_command} ${retrieve_args} ${real_source}",
       creates => "${download_dir}/${real_filename}",
-      require => Tp::Create_dir["tp::install::file - create_dir ${download_dir}"],
+      require => Tp::Create_dir["tp::install::release - create_dir ${download_dir}"],
     }
 
     if $extract_command {
@@ -153,20 +150,20 @@ define tp::install::file (
       exec { "Extract ${real_filename} from ${download_dir} - ${title}":
         command => "mkdir -p ${extract_dir} && cd ${extract_dir} && ${extract_command} ${download_dir}/${real_filename} ${extract_command_second_arg}", # lint:ignore:140chars
         creates => $extract_creates,
-        require => [Exec["Downloading ${title} from ${real_source} to ${download_dir}"], Tp::Create_dir["tp::install::file - extract_dir ${extract_dir}"]], # lint:ignore:140chars
+        require => [Exec["Downloading ${title} from ${real_source} to ${download_dir}"], Tp::Create_dir["tp::install::release - extract_dir ${extract_dir}"]], # lint:ignore:140chars
         notify  => Exec["Chown ${real_filename} in ${extract_dir} - ${title}"],
-        before  => Tp::Setup["tp::install::file ${app}"],
+        before  => Tp::Setup["tp::install::release ${app}"],
       }
 
       exec { "Chown ${real_filename} in ${extract_dir} - ${title}":
         command     => "chown -R ${owner}:${group} ${extract_dir}/${extracted_dir}",
         refreshonly => true,
         require     => Exec["Extract ${real_filename} from ${download_dir} - ${title}"],
-        before      => Tp::Setup["tp::install::file ${app}"],
+        before      => Tp::Setup["tp::install::release ${app}"],
       }
     }
 
   } else {
-    tp::fail($on_missing_data, "tp::install::file ${app} - Missing parameter source or tinydata: settings.releases.base_url, settings.releases.[version].filename}") # lint:ignore:140chars
+    tp::fail($on_missing_data, "tp::install::release ${app} - Missing parameter source or tinydata: settings.release.base_url, settings.release.[version].filename}") # lint:ignore:140chars
   }
 }

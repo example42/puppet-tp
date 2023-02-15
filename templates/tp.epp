@@ -1,4 +1,4 @@
-<%- | Hash $options = {}, Boolean $suppress_tp_warnings = true, String $tp_dir, String $real_ruby_path | -%>
+<%- | Hash $options = {}, Boolean $suppress_tp_warnings = true, Boolean $suppress_tp_output = false, String $tp_dir, String $real_ruby_path | -%>
 #!<%= $real_ruby_path %>
 require 'fileutils'
 require 'yaml'
@@ -6,6 +6,7 @@ require 'yaml'
 $action = ARGV[0] ? ARGV[0] : 'none'
 app = ARGV[1] ? ARGV[1] : 'all'
 infoblock = ARGV[2] ? ARGV[2] : 'all'
+version = ARGV[3] ? ARGV[3] : ''
 NODENAME = %x{hostname}.gsub("\n",'')
 REPO_DIR = %x{pwd}.gsub("\n",'')
 
@@ -422,7 +423,16 @@ when 'list'
 
 when 'install'
   if TINYDATA_DIR != '/'
-    exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true }'" + suppress_warnings)
+    if infoblock == 'all'
+      install_method = 'package'
+    else
+      install_method = infoblock
+    end
+    if version != ''
+      exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true , install_method => " + install_method + ", version => " + version + ",}'" + suppress_warnings)
+    else
+      exec ("puppet apply -t -e 'tp::install { " + app + ": auto_prereq => true , cli_enable => true , install_method => " + install_method + ",}'" + suppress_warnings)
+    end
   else
     puts "You need to puppet install example42-tp to install apps from cli."
   end

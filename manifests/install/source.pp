@@ -38,7 +38,7 @@
 #
 # @example Install an app from a release package. (Tinydaya must be present)
 #   tp::install { 'prometheus':
-#     install_method => 'file',
+#     install_method => 'release',
 #   }
 #
 define tp::install::source (

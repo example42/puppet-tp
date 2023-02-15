@@ -4,6 +4,9 @@
 
 -   Added support for $MAJVERSION variable in tinydata
 -   Added support for xz release files
+-   Refactorings in install type management:
+    -   install_type file renamed to release
+    -   settings are computed in tp::install and used in tp::install::* defines
 
 ## 3.9.1
 
