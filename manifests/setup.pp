@@ -6,10 +6,11 @@
 # @example
 #   tp::setup { 'namevar': }
 define tp::setup (
-  Tp::Install_method $setup_data,
+  Tp::Install_method $install_method,
   Optional[StdLib::Absolutepath] $source_dir,
   String $app,
   Variant[Boolean,String] $ensure             = present,
+  Optional[String] $version  = undef,
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),
   Hash $settings                              = {},
 
@@ -18,11 +19,11 @@ define tp::setup (
 ) {
   $destination_dir = $tp::real_tp_params['destination']['path']
 
-  # Setup settings are a result from the merge of keys settings.$setup_data.setup and settings.setup
-  $setup_settings = deep_merge(getvar('settings.setup', {}),getvar("settings.${setup_data}.setup", {}))
+  # Setup settings are a result from the merge of keys settings.$install_method.setup and settings.setup
+  $setup_settings = deep_merge(getvar('settings.setup', {}),getvar("settings.${install_method}.setup", {}))
 
-  $real_version = tp::get_version($ensure,undef,$setup_settings)
-  $real_majversion = tp::get_version($ensure,undef,$setup_settings,'major')
+  $real_version = tp::get_version($ensure,$version,$setup_settings)
+  $real_majversion = tp::get_version($ensure,$version,$setup_settings,'major')
 
   if pick(getvar('setup_settings.enable'), false ) {
     if pick(getvar('setup_settings.manage_service'), false ) {
@@ -79,7 +80,7 @@ define tp::setup (
           }
         }
         default: {
-          tp::fail($on_missing_data, "tp::setup ${app} - Missing tinydata: settings.setup.files or settings.${setup_data}.setup.files is not a Hash, Array or String") # lint:ignore:140chars
+          tp::fail($on_missing_data, "tp::setup ${app} - Missing tinydata: settings.setup.files or settings.${install_method}.setup.files is not a Hash, Array or String") # lint:ignore:140chars
         }
       }
     }
