@@ -218,24 +218,24 @@ define tp::install (
   }
 
   # Settings evaluation
-  $tinydata_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+  $tp_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
 
-  $real_install_method = pick($install_method, getvar('tinydata_settings.install_method'), 'package')
-  $real_version = tp::get_version($ensure,$version,$tinydata_settings)
-  $real_majversion = tp::get_version($ensure,$version,$tinydata_settings,'major')
-  $real_filename = pick(tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
-  if getvar('tinydata_settings.release.base_url') {
-    $real_base_url = tp::url_replace(pick(getvar("tinydata_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
+  $real_install_method = pick($install_method, getvar('tp_settings.install_method'), 'package')
+  $real_version = tp::get_version($ensure,$version,$tp_settings)
+  $real_majversion = tp::get_version($ensure,$version,$tp_settings,'major')
+  $real_filename = pick(tp::url_replace(pick(getvar("tp_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
+  if getvar('tp_settings.release.base_url') {
+    $real_base_url = tp::url_replace(pick(getvar("tp_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
     $real_url = "${real_base_url}/${real_filename}"
   } else {
     tp::fail($on_missing_data, "tp::install::release - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
   }
 
-  $extracted_dir = getvar('tinydata_settings.release.extracted_dir') ? {
-    String  => tp::url_replace(getvar('tinydata_settings.release.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
+  $extracted_dir = getvar('tp_settings.release.extracted_dir') ? {
+    String  => tp::url_replace(getvar('tp_settings.release.extracted_dir'), $real_version, $real_majversion), # lint:ignore:140chars
     default => tp::url_replace(basename($real_filename), $real_version, $real_majversion),
   }
-  $extracted_file = getvar('tinydata_settings.release.extracted_file')
+  $extracted_file = getvar('tp_settings.release.extracted_file')
 
 
 
@@ -252,10 +252,26 @@ define tp::install (
         'release' => pick($destination, "${tp::data_dir}/download/${app}"),
         default   => undef,
       },
+      packages => delete_undef_values({
+        main => delete_undef_values({
+          name => tp::title_replace(getvar('settings.packages.main.name'),$app),
+      }),
+      }),
+      release => delete_undef_values({
+        base_url    => $real_base_url,
+        file_name   => $real_filename,
+        url         => $real_url,
+        extracted_dir => $extracted_dir,
+        extracted_file => $extracted_file,
+        setup => delete_undef_values({
+          enable => getvar('tp_settings.release.setup.enable'),
+          links  => getvar('tp_settings.release.setup.links'),
+        }),
+      }),
   })
 
 
-  $settings = deep_merge($tinydata_settings,$settings_hash,$my_settings,$local_settings)
+  $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 
   # v4 code
   if $use_v4 {
@@ -274,7 +290,8 @@ define tp::install (
     # Setup
     tp::setup { "tp::install::${real_install_method} ${app}":
       ensure          => $ensure,
-      setup_data      => $real_install_method,
+      version         => $real_version,
+      install_method      => $real_install_method,
       source_dir      => getvar('settings.destination'),
       app             => $app,
       on_missing_data => $on_missing_data,
