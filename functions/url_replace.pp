@@ -10,7 +10,7 @@ function tp::url_replace (
     'x86_64' => 'amd64',
     'x64'    => 'amd64',
     'i386'   => '386',
-    default  => $facts['os']['architecture'],
+    default  => pick_default($facts['os']['architecture'], ''),
   }
   $versioned_url = regsubst($url,'\$VERSION', $_version, 'G')
   if $_majversion == undef {

@@ -9,7 +9,7 @@
     -   install_type file renamed to release
     -   settings are computed in tp::install and used in tp::install::* defines
 -   get_version and url_replace functions accept an addtional version type paramter
--   Widenet support for variables in tinydata
+-   Widened support for variables in tinydata
 
 ## 3.9.1
 
