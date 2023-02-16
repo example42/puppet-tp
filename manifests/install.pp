@@ -237,8 +237,6 @@ define tp::install (
   }
   $extracted_file = getvar('tp_settings.release.extracted_file')
 
-
-
   $local_settings = delete_undef_values({
       install_method => $real_install_method,
       repo           => $repo,
@@ -269,7 +267,6 @@ define tp::install (
         }),
       }),
   })
-
 
   $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 

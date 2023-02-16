@@ -162,7 +162,6 @@ define tp::install::release (
         before      => Tp::Setup["tp::install::release ${app}"],
       }
     }
-
   } else {
     tp::fail($on_missing_data, "tp::install::release ${app} - Missing parameter source or tinydata: settings.release.base_url, settings.release.[version].filename}") # lint:ignore:140chars
   }

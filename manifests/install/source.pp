@@ -81,7 +81,6 @@ define tp::install::source (
           revision => $version,
       }),
     }
-
   } else {
     tp::fail($on_missing_data, "tp::install::source ${app} - Missing parameter source or tinydata: settings.git_url") # lint:ignore:140chars
   }
