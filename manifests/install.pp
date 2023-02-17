@@ -161,7 +161,6 @@ define tp::install (
   Optional[String] $source                  = undef,
   Optional[String] $destination             = undef,
 
-
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 
