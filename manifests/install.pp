@@ -223,11 +223,13 @@ define tp::install (
   $real_version = tp::get_version($ensure,$version,$tp_settings)
   $real_majversion = tp::get_version($ensure,$version,$tp_settings,'major')
   $real_filename = pick(tp::url_replace(pick(getvar("tp_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
-  if getvar('tp_settings.release.base_url') {
-    $real_base_url = tp::url_replace(pick(getvar("tp_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
-    $real_url = "${real_base_url}/${real_filename}"
-  } else {
-    tp::fail($on_missing_data, "tp::install::release - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
+  if $use_v4 {
+    if getvar('tp_settings.release.base_url') {
+      $real_base_url = tp::url_replace(pick(getvar("tp_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
+      $real_url = "${real_base_url}/${real_filename}"
+    } else {
+      tp::fail($on_missing_data, "tp::install::release - ${app} - Missing tinydata: settings.${real_install_method}.base_url") # lint:ignore:140chars
+    }
   }
 
   $extracted_dir = getvar('tp_settings.release.extracted_dir') ? {
@@ -255,7 +257,7 @@ define tp::install (
       }),
       }),
       release => delete_undef_values({
-        base_url    => $real_base_url,
+        base_url    => pick_default($real_base_url),
         file_name   => $real_filename,
         url         => $real_url,
         extracted_dir => $extracted_dir,

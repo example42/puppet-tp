@@ -10,6 +10,7 @@
     -   settings are computed in tp::install and used in tp::install::* defines
 -   get_version and url_replace functions accept an addtional version type paramter
 -   Widened support for variables in tinydata
+-   Removed legacy facts for Puppet 8 compatibility
 
 ## 3.9.1
 

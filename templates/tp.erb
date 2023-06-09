@@ -27,7 +27,7 @@ TP_TEST_DIR = '<%= @tp_dir %>/test'
 TP_INFO_DIR = '<%= @tp_dir %>/info'
 TP_RUN_INFO_DIR = '<%= @tp_dir %>/run_info'
 
-<% if @osfamily == 'windows' -%>
+<% if @os['family'] == 'windows' -%>
 TINYDATA_DIRS = [
   "#{ENV['HOMEPATH']}/.puppetlabs/etc/code/modules/tinydata/data",
   - 'C:/Program Files/Puppet Labs/Puppet/puppet/modules/tinydata/data'
@@ -255,7 +255,7 @@ def desktop_apply(desktop_name,extra_options)
     repo_dirname=File.basename(repo_dir)
     local_modulepath=`puppet config print modulepath`.strip
     if File.exist?("#{repo_dir}/environment.conf")
-<% if @osfamily == 'windows' -%>
+<% if @os['family'] == 'windows' -%>
       modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
 <% else -%>
       modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:/etc/puppetlabs/code/environments/production/modules"
