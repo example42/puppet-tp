@@ -129,7 +129,7 @@ class tp (
     deprecation('options_hash', 'Replace with options')
   }
 
-  if has_key($facts,'identity') {
+  if 'identity' in $facts {
     $real_tp_params = $facts['identity']['privileged'] ? {
       false   => $tp_params['user'],
       default => $tp_params['global'],
@@ -244,7 +244,7 @@ class tp (
     }
 
     # Cli dirs and files
-    if has_key($facts,'identity') {
+    if 'identity' in $facts {
       $real_cli_enable = $facts['identity']['privileged'] ? {
         false   => false,
         default => $cli_enable,
@@ -390,7 +390,7 @@ class tp (
     }
     $osfamily_install_hash_merged.each |$k,$v| {
       if $facts['os']['family'] == $k {
-        if has_key($osfamily_install_defaults, $k) {
+        if $k in $osfamily_install_defaults {
           $os_defaults = $osfamily_install_defaults[$k]
         } else {
           $os_defaults = {}
@@ -433,7 +433,7 @@ class tp (
     }
     $osfamily_conf_hash_merged.each |$k,$v| {
       if $facts['os']['family'] == $k {
-        if has_key($osfamily_conf_defaults, $k) {
+        if $k in $osfamily_conf_defaults {
           $os_defaults = $osfamily_conf_defaults[$k]
         } else {
           $os_defaults = {}
