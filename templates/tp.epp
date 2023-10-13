@@ -134,7 +134,7 @@ def tp_test(app)
     settings = check_yaml app
 
     # Run custom test script if exists
-    if File.exists?(TP_TEST_DIR + "/#{app}")
+    if File.exist?(TP_TEST_DIR + "/#{app}")
       run_command("#{TP_TEST_DIR}/#{app} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - custom: #{TP_TEST_DIR}/#{app}")
     end
 
@@ -189,7 +189,7 @@ def tp_info(app,infoblock='all')
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/info/
-    if File.exists?(TP_INFO_DIR + "/#{app}")
+    if File.exist?(TP_INFO_DIR + "/#{app}")
       run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
     end
 
@@ -223,7 +223,7 @@ def tp_debug(app,infoblock='all')
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/debug/
-    if File.exists?(TP_DEBUG_DIR + "/#{app}")
+    if File.exist?(TP_DEBUG_DIR + "/#{app}")
       run_command(TP_DEBUG_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_DEBUG_DIR}/#{app}")
     end
 
@@ -273,7 +273,7 @@ def desktop_apply(desktop_name,extra_options)
     repo_dir=REPO_DIR
     repo_dirname=File.basename(repo_dir)
     local_modulepath=`puppet config print modulepath`.strip
-    if File.exists?("#{repo_dir}/environment.conf")
+    if File.exist?("#{repo_dir}/environment.conf")
 <% if $osfamily == 'windows' { -%>
       modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
 <% } else { -%>
@@ -321,7 +321,7 @@ end
 def desktop_show(desktop)
   data_file="#{REPO_DIR}/data/desktops/#{desktop}.yaml"
   begin
-    if File.exists?(data_file)
+    if File.exist?(data_file)
       puts "Showing #{data_file}"
       # %x[cat #{data_file}]
       # system("cat #{data_file}")

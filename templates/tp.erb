@@ -61,7 +61,7 @@ uninstall: Uninstall the given application with tp
 test: Test if the given (or all) application is correctly working
 log: Tail the logs of the given (or all) application (CTRL+C to exit)
 list: List all the applications for which tinydata is present
-info: Show all info on a given application or the topic specified by args 
+info: Show all info on a given application or the topic specified by args
 debug: Troubleshoot an app, showing information useful for debugging
 source: Git clone the source code of the specified app
 version: Show the version of apps managed with tp
@@ -128,7 +128,7 @@ def tp_test(app)
     settings = check_yaml app
 
     # Run custom test script if exists
-    if File.exists?(TP_TEST_DIR + "/#{app}")
+    if File.exist?(TP_TEST_DIR + "/#{app}")
       run_command("#{TP_TEST_DIR}/#{app} #{COMMAND_REDIR}" , "#{NODENAME} - #{app} - custom: #{TP_TEST_DIR}/#{app}")
     end
 
@@ -171,10 +171,10 @@ def tp_info(app,infoblock='all')
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/info/
-    if File.exists?(TP_INFO_DIR + "/#{app}")
+    if File.exist?(TP_INFO_DIR + "/#{app}")
       run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
     end
-    
+
     # Run default checks via /etc/tp/run_info.sh
     if infoblock != 'all'
       run_command("<%= @options['info_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
@@ -205,10 +205,10 @@ def tp_debug(app,infoblock='all')
     settings = check_yaml app
 
     # Run custom test script if exists under /etc/tp/debug/
-    if File.exists?(TP_INFO_DIR + "/#{app}")
+    if File.exist?(TP_INFO_DIR + "/#{app}")
       run_command(TP_INFO_DIR + "/#{app}" , "#{NODENAME} - #{app} - #{TP_INFO_DIR}/#{app}")
     end
-    
+
     # Run default checks via /etc/tp/run_debug.sh
     if infoblock != 'all'
       run_command("<%= @options['debug_script_path'] %> " + app + ' ' + infoblock , "#{NODENAME} - #{app} - #{infoblock}")
@@ -254,7 +254,7 @@ def desktop_apply(desktop_name,extra_options)
     repo_dir=REPO_DIR
     repo_dirname=File.basename(repo_dir)
     local_modulepath=`puppet config print modulepath`.strip
-    if File.exists?("#{repo_dir}/environment.conf")
+    if File.exist?("#{repo_dir}/environment.conf")
 <% if @osfamily == 'windows' -%>
       modulepath="--modulepath #{repo_dir}/site:#{local_modulepath}:C:/ProgramData/PuppetLabs/code/environments/production/modules"
 <% else -%>
@@ -302,7 +302,7 @@ end
 def desktop_show(desktop)
   data_file="#{REPO_DIR}/data/desktops/#{desktop}.yaml"
   begin
-    if File.exists?(data_file)
+    if File.exist?(data_file)
       puts "Showing #{data_file}"
       # %x[cat #{data_file}]
       # system("cat #{data_file}")
