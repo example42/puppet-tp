@@ -37,13 +37,15 @@ module Puppet::Parser::Functions
         repo = ''
       end
 
+      os = lookupvar("::os")
+
       model = {
-        :title                     => app,
-        :osfamily                  => Facter.value('os')['family'],
-        :operatingsystem           => Facter.value('os')['name'],
-        :operatingsystemmajrelease => Facter.value('os')['release']['major'],
-        :operatingsystemrelease    => Facter.value('os')['release']['full'],
-        :repo                      => repo,
+        :title => app,
+        :osfamily => os['family'],
+        :operatingsystem => os['name'],
+        :operatingsystemmajrelease => os['release']['major'],
+        :operatingsystemrelease => os['release']['full'],
+        :repo => repo,
       }
 
       hiera[:hierarchy].reverse!.each { | p |
