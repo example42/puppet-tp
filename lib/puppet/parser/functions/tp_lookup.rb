@@ -18,7 +18,7 @@ module Puppet::Parser::Functions
     value = { }
 
     if mp = Puppet::Module.find(datamodule, compiler.environment.to_s)
-      
+
       hiera_file_path  = mp.path + '/data/' + app + '/hiera.yaml'
 
       unless File.exist?(hiera_file_path)
@@ -39,13 +39,13 @@ module Puppet::Parser::Functions
 
       model = {
         :title                     => app,
-        :osfamily                  => lookupvar("::osfamily"),
-        :operatingsystem           => lookupvar("::operatingsystem"),
-        :operatingsystemmajrelease => lookupvar("::operatingsystemmajrelease"),
-        :operatingsystemrelease    => lookupvar("::operatingsystemrelease"),
+        :osfamily                  => Facter.value('os')['family'],
+        :operatingsystem           => Facter.value('os')['name'],
+        :operatingsystemmajrelease => Facter.value('os')['release']['major'],
+        :operatingsystemrelease    => Facter.value('os')['release']['full'],
         :repo                      => repo,
       }
-       
+
       hiera[:hierarchy].reverse!.each { | p |
         conf_file_path = mp.path + '/data/' + p % model + '.yaml'
 
