@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.9.2
+## 3.10.0
 
 -   Added support for $MAJVERSION variable in tinydata
 -   Added support for xz release files
