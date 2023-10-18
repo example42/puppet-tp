@@ -53,7 +53,7 @@
 #
 #   tp::conf { 'openssh':
 #     template            => 'site/openssh/sshd_config',
-#     options_hash        => hiera('openssh::options_hash'),
+#     options_hash        => lookup('openssh::options_hash'),
 #   }
 #
 #

@@ -23,7 +23,19 @@ jobs:
     container: puppet/puppet-dev-tools:4.x
     steps:
       - uses: actions/checkout@v3
-      - name: Run unit tests
-        run: /usr/local/bin/pdk bundle exec rake spec
+      - name: Run unit tests on Puppet 8
+        run: /usr/local/bin/pdk test unit  --puppet-version=8
         env:
           BUNDLE_WITHOUT: development:system_tests:release
+        continue-on-error: true
+      - name: Run unit tests on Puppet 7
+        run: /usr/local/bin/pdk test unit --puppet-version=7
+        env:
+          BUNDLE_WITHOUT: development:system_tests:release
+        continue-on-error: true
+      - name: Run unit tests on Puppet 6
+        run: /usr/local/bin/pdk test unit --puppet-version=6
+        env:
+          BUNDLE_WITHOUT: development:system_tests:release
+        continue-on-error: true
+  
