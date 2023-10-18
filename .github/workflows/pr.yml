@@ -8,7 +8,7 @@ jobs:
     name: 'Static code analysys'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    container: puppet/puppet-dev-tools:4.x
+    container: puppet/pdk:3.0.0.0
     steps:
       - uses: actions/checkout@v3
       - name: Run static validations
@@ -20,7 +20,7 @@ jobs:
     name: 'Unit tests'
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    container: puppet/puppet-dev-tools:4.x
+    container: puppet/pdk:3.0.0.0
     steps:
       - uses: actions/checkout@v3
       - name: Run unit tests on Puppet 8
