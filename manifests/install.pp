@@ -287,7 +287,7 @@ define tp::install (
     tp::setup { "tp::install::${real_install_method} ${app}":
       ensure          => $ensure,
       version         => $real_version,
-      install_method      => $real_install_method,
+      install_method  => $real_install_method,
       source_dir      => getvar('settings.destination'),
       app             => $app,
       on_missing_data => $on_missing_data,

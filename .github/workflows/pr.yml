@@ -24,12 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run unit tests on Puppet 8
-        run: /usr/local/bin/pdk test unit  --puppet-version=8
+        run: /usr/local/bin/pdk test unit --puppet-version=8 --parallel
         env:
           BUNDLE_WITHOUT: development:system_tests:release
         continue-on-error: true
       - name: Run unit tests on Puppet 7
-        run: /usr/local/bin/pdk test unit --puppet-version=7
+        run: /usr/local/bin/pdk test unit --puppet-version=7 --parallel
         env:
           BUNDLE_WITHOUT: development:system_tests:release
         continue-on-error: true
