@@ -213,26 +213,26 @@ define tp::dir (
     $real_path       = "${path_prefix}${calculated_path}"
 
     $local_file_params = delete_undef_values({
-      'path'    => $real_path,
-      'mode'    => $mode,
-      'owner'   => $owner,
-      'group'   => $group,
-      'recurse' => $recurse,
-      'purge'   => $purge,
-      'force'   => $force,
+        'path'    => $real_path,
+        'mode'    => $mode,
+        'owner'   => $owner,
+        'group'   => $group,
+        'recurse' => $recurse,
+        'purge'   => $purge,
+        'force'   => $force,
     })
 
     $local_settings = delete_undef_values({
-      "${prefix}dirs" => {
-        "${base_dir}" => $local_file_params,
-      },
-      "${base_dir}_dir_mode"    => $mode,
-      "${base_dir}_dir_owner"   => $owner,
-      "${base_dir}_dir_group"   => $group,
-      "${base_dir}_dir_path"    => $real_path,
-      "${base_dir}_dir_recurse" => $recurse,
-      "${base_dir}_dir_purge"   => $purge,
-      "${base_dir}_dir_force"   => $force,
+        "${prefix}dirs" => {
+          "${base_dir}" => $local_file_params,
+        },
+        "${base_dir}_dir_mode"    => $mode,
+        "${base_dir}_dir_owner"   => $owner,
+        "${base_dir}_dir_group"   => $group,
+        "${base_dir}_dir_path"    => $real_path,
+        "${base_dir}_dir_recurse" => $recurse,
+        "${base_dir}_dir_purge"   => $purge,
+        "${base_dir}_dir_force"   => $force,
     })
 
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
@@ -314,7 +314,7 @@ define tp::dir (
         notify  => $real_notify,
         recurse => $real_recurse,
         purge   => $real_purge,
-      #  force   => $real_force,
+        # force   => $real_force,
       }
       file { $real_path:
         * => $file_params + pick(getvar("settings.${base_dir}_dir_params"),getvar("settings.${prefix}dirs.${base_dir}.params"), {}),

@@ -300,20 +300,20 @@ define tp::conf (
     $real_path    = "${path_prefix}${calculated_path}"
 
     $local_file_params = delete_undef_values({
-      'path'    => $real_path,
-      'mode'    => $mode,
-      'owner'   => $owner,
-      'group'   => $group,
+        'path'    => $real_path,
+        'mode'    => $mode,
+        'owner'   => $owner,
+        'group'   => $group,
     })
 
     $local_settings = delete_undef_values({
-      "${prefix}files" => {
-        "${base_file}" => $local_file_params,
-      },
-      "${base_file}_file_mode" => $mode,
-      "${base_file}_file_owner" => $owner,
-      "${base_file}_file_group" => $group,
-      "${base_file}_file_path" => $real_path,
+        "${prefix}files" => {
+          "${base_file}" => $local_file_params,
+        },
+        "${base_file}_file_mode" => $mode,
+        "${base_file}_file_owner" => $owner,
+        "${base_file}_file_group" => $group,
+        "${base_file}_file_path" => $real_path,
     })
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 
