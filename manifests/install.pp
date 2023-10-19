@@ -239,34 +239,34 @@ define tp::install (
   $extracted_file = getvar('tp_settings.release.extracted_file')
 
   $local_settings = delete_undef_values({
-      install_method => $real_install_method,
-      repo           => $repo,
-      upstream_repo  => $upstream_repo,
-      git_source     => $real_install_method ? {
-        'source' => $source,
-        default  => undef,
-      },
-      destination    => $real_install_method ? {
-        'source'  => pick($destination, "${tp::data_dir}/source/${app}"),
-        'release' => pick($destination, "${tp::data_dir}/download/${app}"),
-        default   => undef,
-      },
-      packages => delete_undef_values({
-        main => delete_undef_values({
-          name => tp::title_replace(getvar('settings.packages.main.name'),$app),
+    install_method => $real_install_method,
+    repo           => $repo,
+    upstream_repo  => $upstream_repo,
+    git_source     => $real_install_method ? {
+      'source' => $source,
+      default  => undef,
+    },
+    destination    => $real_install_method ? {
+      'source'  => pick($destination, "${tp::data_dir}/source/${app}"),
+      'release' => pick($destination, "${tp::data_dir}/download/${app}"),
+      default   => undef,
+    },
+    packages => delete_undef_values({
+      main => delete_undef_values({
+        name => tp::title_replace(getvar('settings.packages.main.name'),$app),
+    }),
+    }),
+    release => delete_undef_values({
+      base_url    => pick_default(getvar('real_base_url')),
+      file_name   => $real_filename,
+      url         => $real_url,
+      extracted_dir => $extracted_dir,
+      extracted_file => $extracted_file,
+      setup => delete_undef_values({
+        enable => getvar('tp_settings.release.setup.enable'),
+        links  => getvar('tp_settings.release.setup.links'),
       }),
-      }),
-      release => delete_undef_values({
-        base_url    => pick_default($real_base_url),
-        file_name   => $real_filename,
-        url         => $real_url,
-        extracted_dir => $extracted_dir,
-        extracted_file => $extracted_file,
-        setup => delete_undef_values({
-          enable => getvar('tp_settings.release.setup.enable'),
-          links  => getvar('tp_settings.release.setup.links'),
-        }),
-      }),
+    }),
   })
 
   $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
