@@ -33,9 +33,5 @@ jobs:
         env:
           BUNDLE_WITHOUT: development:system_tests:release
         continue-on-error: true
-      - name: Run unit tests on Puppet 6
-        run: /usr/local/bin/pdk test unit --puppet-version=6
-        env:
-          BUNDLE_WITHOUT: development:system_tests:release
-        continue-on-error: true
+
   

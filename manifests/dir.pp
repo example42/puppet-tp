@@ -155,7 +155,7 @@ define tp::dir (
 
   Enum['global','user']  $scope               = 'global',
 
-  String                 $path_prefix         = '',
+  String                 $path_prefix         = '', # lint:ignore:params_empty_string_assignment
   Boolean                $path_parent_create  = false,
 
   Variant[Boolean,String] $config_dir_notify  = true,

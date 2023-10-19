@@ -13,7 +13,6 @@ define tp::create_dir (
   Optional[String] $mode     = undef,
   Stdlib::AbsolutePath $path = $title,
 ) {
-
   $mkdir_command = $facts['os']['family'] ? {
     'windows' => "New-Item -ItemType Directory -Force -Path '${path}'",
     default   => "mkdir -p '${path}'",

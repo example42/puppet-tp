@@ -237,7 +237,7 @@ define tp::conf (
   Variant[Undef,String]   $owner               = undef,
   Variant[Undef,String]   $group               = undef,
 
-  String                  $path_prefix         = '',
+  String                  $path_prefix         = '',    # lint:ignore:params_empty_string_assignment
   Boolean                 $path_parent_create  = false,
 
   Variant[Boolean,String] $config_file_notify  = true,

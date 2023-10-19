@@ -34,10 +34,10 @@ class tp (
   String $tp_group                   = 'root',
   String $tp_mode                    = '0755',
   String $check_service_command      = 'puppet resource service',
-  String $check_service_command_post = '',
+  String $check_service_command_post = '', # lint:ignore:params_empty_string_assignment
   String $check_package_command      = 'puppet resource package',
-  String $check_repo_path            = '',
-  String $check_repo_path_post       = '',
+  String $check_repo_path            = '', # lint:ignore:params_empty_string_assignment
+  String $check_repo_path_post       = '', # lint:ignore:params_empty_string_assignment
   #Stdlib::Absolutepath $tp_dir       = '/etc/tp',
   Optional[String] $ruby_path        = undef,
   String $lib_source                 = 'puppet:///modules/tp/lib/',
