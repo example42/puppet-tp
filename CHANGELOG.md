@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.10.1
+
+-   Changed CI containers used
+-   Added unit tests for Puppet 6, 7 and 8
+-   Lints and fix on undefined vars
+
 ## 3.10.0
 
 -   Added support for $MAJVERSION variable in tinydata
