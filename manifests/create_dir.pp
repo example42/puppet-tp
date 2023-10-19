@@ -10,7 +10,7 @@
 define tp::create_dir (
   Optional[String] $owner    = undef,
   Optional[String] $group    = undef,
-  Optional[String] $mode     = undef,
+  Optional[Stdlib::Filemode] $mode     = undef,
   Stdlib::AbsolutePath $path = $title,
 ) {
   $mkdir_command = $facts['os']['family'] ? {
@@ -34,22 +34,21 @@ define tp::create_dir (
       exec { "chown ${owner} ${title}":
         command => "chown '${owner}' '${path}'",
         path    => $facts['path'],
-        onlyif  => "[ stat -c '%U' '${path}' != '${owner}' ]",
+        onlyif  => "[ \$(stat -c '%U' '${path}') != '${owner}' ]",
       }
     }
     if $group {
       exec { "chgrp ${group} ${title}":
         command => "chgrp '${group}' '${path}'",
         path    => $facts['path'],
-        onlyif  => "[ stat -c '%G' '${path}' != '${group}' ]",
+        onlyif  => "[ \$(stat -c '%G' '${path}') != '${group}' ]",
       }
     }
     if $mode {
       exec { "chmod ${mode} ${title}":
-        command     => "chmod '${mode}' '${path}'",
-        path        => '/bin:/sbin:/usr/sbin:/usr/bin',
-        subscribe   => Exec["Create directory ${title}"],
-        refreshonly => true,
+        command   => "chmod '${mode}' '${path}'",
+        path      => '/bin:/sbin:/usr/sbin:/usr/bin',
+        onlyif    => "[ 0\$(stat -c '%a' '${path}') != '${mode}' ]",
       }
     }
   }

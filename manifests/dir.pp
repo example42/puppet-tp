@@ -236,7 +236,7 @@ define tp::dir (
     })
 
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
-    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar('settings.config_dir_mode'), undef)
+    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar('settings.config_dir_mode'), '0755')
     $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), getvar('settings.config_dir_owner'), undef)
     $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"), getvar('settings.config_dir_group'), undef)
     $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"), getvar('settings.config__dir_recurse'), undef)
