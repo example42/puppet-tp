@@ -187,7 +187,7 @@ define tp::install (
   Hash                    $tp_repo_params   = {},
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
-  Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
+  Boolean                 $apt_safe_trusted_key = pick(getvar('tp::apt_safe_trusted_key'), false),
 
   Boolean                 $cli_enable       = pick(getvar('tp::cli_enable'), false),
   Boolean                 $puppi_enable     = false,
@@ -239,11 +239,11 @@ define tp::install (
   $extracted_file = getvar('tp_settings.release.extracted_file')
 
   $local_settings = delete_undef_values({
-      install_method => $real_install_method,
-      repo           => $repo,
-      upstream_repo  => $upstream_repo,
+      install_method => getvar('real_install_method'),
+      repo           => getvar('repo'),
+      upstream_repo  => getvar('upstream_repo'),
       git_source     => $real_install_method ? {
-        'source' => $source,
+        'source' => getvar('source'),
         default  => undef,
       },
       destination    => $real_install_method ? {
@@ -252,20 +252,18 @@ define tp::install (
         default   => undef,
       },
       packages => delete_undef_values({
-        main => delete_undef_values({
           name => tp::title_replace(getvar('settings.packages.main.name'),$app),
       }),
-      }),
       release => delete_undef_values({
-        base_url    => pick_default($real_base_url),
-        file_name   => $real_filename,
-        url         => $real_url,
-        extracted_dir => $extracted_dir,
-        extracted_file => $extracted_file,
-        setup => delete_undef_values({
-          enable => getvar('tp_settings.release.setup.enable'),
-          links  => getvar('tp_settings.release.setup.links'),
-        }),
+          base_url       => getvar('real_base_url'),
+          file_name      => getvar('real_filename'),
+          url            => getvar('real_url'),
+          extracted_dir  => getvar('extracted_dir'),
+          extracted_file => getvar('extracted_file'),
+          setup => delete_undef_values({
+              enable => getvar('tp_settings.release.setup.enable'),
+              links  => getvar('tp_settings.release.setup.links'),
+          }),
       }),
   })
 
@@ -289,7 +287,7 @@ define tp::install (
     tp::setup { "tp::install::${real_install_method} ${app}":
       ensure          => $ensure,
       version         => $real_version,
-      install_method      => $real_install_method,
+      install_method  => $real_install_method,
       source_dir      => getvar('settings.destination'),
       app             => $app,
       on_missing_data => $on_missing_data,

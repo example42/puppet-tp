@@ -195,7 +195,7 @@ Configure the application main configuration file a custom erb template which us
 
     tp::conf { 'rsyslog':
       template     => 'site/rsyslog/rsyslog.conf.erb',
-      options_hash => hiera('rsyslog::options_hash'),
+      options_hash => lookup('rsyslog::options_hash'),
     }
 
 Populate any custom directory from a Git repository (it requires Puppet Labs' vcsrepo module):

@@ -104,7 +104,7 @@ define tp::install::package (
   Hash                    $tp_repo_params   = {},
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
-  Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
+  Boolean                 $apt_safe_trusted_key = pick(getvar('tp::apt_safe_trusted_key'), false),
 
   String[1]               $data_module      = 'tinydata',
 
@@ -345,7 +345,7 @@ define tp::install::package (
         }
         $services.each |$k| {
           service { $k:
-            * => $service_defaults + pick(getvar("settings.services.${kk}.params"), getvar('settings.service_params'), {}),
+            * => $service_defaults + pick(getvar("settings.services.${k}.params"), getvar('settings.service_params'), {}),
           }
         }
       }

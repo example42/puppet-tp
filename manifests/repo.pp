@@ -29,7 +29,7 @@ define tp::repo (
   Variant[Undef,String[1]] $apt_release          = undef,
   Variant[Undef,String[1]] $apt_repos            = undef,
   Variant[Undef,String[1]] $apt_pin              = undef,
-  Boolean $apt_safe_trusted_key                  = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
+  Boolean $apt_safe_trusted_key                  = pick(getvar('tp::apt_safe_trusted_key'), false),
   Stdlib::Absolutepath $apt_gpg_key_dir          = '/etc/apt/keyrings',
 
   Variant[Undef,String[1]] $zypper_repofile_url  = undef,

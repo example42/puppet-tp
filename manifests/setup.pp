@@ -7,8 +7,8 @@
 #   tp::setup { 'namevar': }
 define tp::setup (
   Tp::Install_method $install_method,
-  Optional[StdLib::Absolutepath] $source_dir,
   String $app,
+  Optional[StdLib::Absolutepath] $source_dir = undef,
   Variant[Boolean,String] $ensure             = present,
   Optional[String] $version  = undef,
   Tp::Fail $on_missing_data = pick(getvar('tp::on_missing_data'),'notify'),

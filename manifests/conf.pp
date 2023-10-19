@@ -53,7 +53,7 @@
 #
 #   tp::conf { 'openssh':
 #     template            => 'site/openssh/sshd_config',
-#     options_hash        => hiera('openssh::options_hash'),
+#     options_hash        => lookup('openssh::options_hash'),
 #   }
 #
 #
@@ -237,7 +237,7 @@ define tp::conf (
   Variant[Undef,String]   $owner               = undef,
   Variant[Undef,String]   $group               = undef,
 
-  String                  $path_prefix         = '',
+  String                  $path_prefix         = '',    # lint:ignore:params_empty_string_assignment
   Boolean                 $path_parent_create  = false,
 
   Variant[Boolean,String] $config_file_notify  = true,
@@ -300,20 +300,20 @@ define tp::conf (
     $real_path    = "${path_prefix}${calculated_path}"
 
     $local_file_params = delete_undef_values({
-      'path'    => $real_path,
-      'mode'    => $mode,
-      'owner'   => $owner,
-      'group'   => $group,
+        'path'    => $real_path,
+        'mode'    => $mode,
+        'owner'   => $owner,
+        'group'   => $group,
     })
 
     $local_settings = delete_undef_values({
-      "${prefix}files" => {
-        "${base_file}" => $local_file_params,
-      },
-      "${base_file}_file_mode" => $mode,
-      "${base_file}_file_owner" => $owner,
-      "${base_file}_file_group" => $group,
-      "${base_file}_file_path" => $real_path,
+        "${prefix}files" => {
+          "${base_file}" => $local_file_params,
+        },
+        "${base_file}_file_mode" => $mode,
+        "${base_file}_file_owner" => $owner,
+        "${base_file}_file_group" => $group,
+        "${base_file}_file_path" => $real_path,
     })
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
 

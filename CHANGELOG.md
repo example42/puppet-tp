@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.10.1
+
+-   Changed CI containers used
+-   Unit tests for Puppet 7 and 8
+-   Lints and fix on undefined vars
+-   Updated tp::create_dir
+
 ## 3.10.0
 
 -   Added support for $MAJVERSION variable in tinydata

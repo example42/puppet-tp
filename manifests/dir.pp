@@ -155,7 +155,7 @@ define tp::dir (
 
   Enum['global','user']  $scope               = 'global',
 
-  String                 $path_prefix         = '',
+  String                 $path_prefix         = '', # lint:ignore:params_empty_string_assignment
   Boolean                $path_parent_create  = false,
 
   Variant[Boolean,String] $config_dir_notify  = true,
@@ -213,30 +213,30 @@ define tp::dir (
     $real_path       = "${path_prefix}${calculated_path}"
 
     $local_file_params = delete_undef_values({
-      'path'    => $real_path,
-      'mode'    => $mode,
-      'owner'   => $owner,
-      'group'   => $group,
-      'recurse' => $recurse,
-      'purge'   => $purge,
-      'force'   => $force,
+        'path'    => $real_path,
+        'mode'    => $mode,
+        'owner'   => $owner,
+        'group'   => $group,
+        'recurse' => $recurse,
+        'purge'   => $purge,
+        'force'   => $force,
     })
 
     $local_settings = delete_undef_values({
-      "${prefix}dirs" => {
-        "${base_dir}" => $local_file_params,
-      },
-      "${base_dir}_dir_mode"    => $mode,
-      "${base_dir}_dir_owner"   => $owner,
-      "${base_dir}_dir_group"   => $group,
-      "${base_dir}_dir_path"    => $real_path,
-      "${base_dir}_dir_recurse" => $recurse,
-      "${base_dir}_dir_purge"   => $purge,
-      "${base_dir}_dir_force"   => $force,
+        "${prefix}dirs" => {
+          "${base_dir}" => $local_file_params,
+        },
+        "${base_dir}_dir_mode"    => $mode,
+        "${base_dir}_dir_owner"   => $owner,
+        "${base_dir}_dir_group"   => $group,
+        "${base_dir}_dir_path"    => $real_path,
+        "${base_dir}_dir_recurse" => $recurse,
+        "${base_dir}_dir_purge"   => $purge,
+        "${base_dir}_dir_force"   => $force,
     })
 
     $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
-    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar('settings.config_dir_mode'), undef)
+    $real_mode    = pick_default(getvar("settings.${base_dir}_dir_mode"), getvar("settings.${prefix}dirs.${base_dir}.mode"), getvar('settings.config_dir_mode'), '0755')
     $real_owner   = pick_default(getvar("settings.${base_dir}_dir_owner"), getvar("settings.${prefix}dirs.${base_dir}.owner"), getvar('settings.config_dir_owner'), undef)
     $real_group   = pick_default(getvar("settings.${base_dir}_dir_group"), getvar("settings.${prefix}dirs.${base_dir}.group"), getvar('settings.config_dir_group'), undef)
     $real_recurse = pick_default(getvar("settings.${base_dir}_dir_recurse"), getvar("settings.${prefix}dirs.${base_dir}.recurse"), getvar('settings.config__dir_recurse'), undef)
@@ -314,7 +314,7 @@ define tp::dir (
         notify  => $real_notify,
         recurse => $real_recurse,
         purge   => $real_purge,
-      #  force   => $real_force,
+        # force   => $real_force,
       }
       file { $real_path:
         * => $file_params + pick(getvar("settings.${base_dir}_dir_params"),getvar("settings.${prefix}dirs.${base_dir}.params"), {}),
