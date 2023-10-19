@@ -109,7 +109,7 @@ define tp::stdmod (
       default => $service_ensure,
     }
     $config_dir_ensure = directory
-    $config_file_ensure = present
+    $config_file_ensure = file
   }
 
   # Dependency class
@@ -173,7 +173,7 @@ define tp::stdmod (
   if $debug == true {
     $debug_scope = inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*)/ } %>')
     file { "tp_stdmod_debug_${title}":
-      ensure  => present,
+      ensure  => $config_file_ensure ,
       content => $debug_scope,
       path    => "${debug_dir}/tp_stdmod_debug_${title}",
     }

@@ -4,7 +4,7 @@
 class tp::cli (
   Enum['present','absent'] $ensure   = 'present',
   Boolean $manage_tp                 = true,
-  Hash $tp_commands                  = lookup('tp::tp_commands', {}),
+  Hash $tp_commands                  = pick($tp::tp_commands, {}),
 
   Hash $options                      = {},
   Boolean $purge_dirs                = true,

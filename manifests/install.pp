@@ -187,7 +187,7 @@ define tp::install (
   Hash                    $tp_repo_params   = {},
   Boolean                 $manage_package   = true,
   Boolean                 $manage_service   = true,
-  Boolean                 $apt_safe_trusted_key = lookup('tp::apt_safe_trusted_key', Boolean , first, false),
+  Boolean                 $apt_safe_trusted_key = pick(getvar('tp::apt_safe_trusted_key'), false),
 
   Boolean                 $cli_enable       = pick(getvar('tp::cli_enable'), false),
   Boolean                 $puppi_enable     = false,

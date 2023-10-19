@@ -46,9 +46,9 @@ define tp::create_dir (
     }
     if $mode {
       exec { "chmod ${mode} ${title}":
-        command   => "chmod '${mode}' '${path}'",
-        path      => '/bin:/sbin:/usr/sbin:/usr/bin',
-        onlyif    => "[ 0\$(stat -c '%a' '${path}') != '${mode}' ]",
+        command => "chmod '${mode}' '${path}'",
+        path    => '/bin:/sbin:/usr/sbin:/usr/bin',
+        onlyif  => "[ 0\$(stat -c '%a' '${path}') != '${mode}' ]",
       }
     }
   }
