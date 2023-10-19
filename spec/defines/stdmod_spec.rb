@@ -76,7 +76,7 @@ describe 'tp::stdmod', :type => :define do
               'debug'     => true,
               'debug_dir' => '/var/tmp',
             } end
-            it { is_expected.to contain_file("tp_stdmod_debug_#{app}").with('ensure' => 'present', 'path' => "/var/tmp/tp_stdmod_debug_#{app}") }
+            it { is_expected.to contain_file("tp_stdmod_debug_#{app}").with('ensure' => 'file', 'path' => "/var/tmp/tp_stdmod_debug_#{app}") }
           end          
         end
       end

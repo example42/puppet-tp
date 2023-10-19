@@ -13,10 +13,10 @@ describe 'tp_lookup' do
           expect(Puppet::Parser::Functions.function("tp_lookup")).to eq("function_tp_lookup")
         end
       
-        it "should raise a ParseError if there are less than 3 arguments" do
-          expect { scope.function_tp_lookup(["1"]) }.to( raise_error(Puppet::Error))
-          expect { scope.function_tp_lookup(["1","2"]) }.to( raise_error(Puppet::Error))
-        end
+        it { is_expected.to run.with_params.and_raise_error(Puppet::ParseError, %r{wrong number of arguments}i) }
+        it { is_expected.to run.with_params(["1"]).and_raise_error(Puppet::ParseError, %r{wrong number of arguments}i) }
+        it { is_expected.to run.with_params(["1","2"]).and_raise_error(Puppet::ParseError, %r{wrong number of arguments}i) }
+
       end
       apps.each do | app |
         appdata=YAML.safe_load(File.read(File.join(File.dirname(__FILE__), "../tpdata/#{os}/#{app}")))
