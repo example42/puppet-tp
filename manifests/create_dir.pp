@@ -45,10 +45,11 @@ define tp::create_dir (
       }
     }
     if $mode {
+      $short_mode = regsubst($mode, '^0', '')
       exec { "chmod ${mode} ${title}":
         command => "chmod '${mode}' '${path}'",
         path    => '/bin:/sbin:/usr/sbin:/usr/bin',
-        onlyif  => "[ 0\$(stat -c '%a' '${path}') != '${mode}' ]",
+        onlyif  => "[ \$(stat -c '%a' '${path}') != '${short_mode}' ]",
       }
     }
   }
