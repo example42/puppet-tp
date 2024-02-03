@@ -8,6 +8,7 @@
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
   "dependencies": [ 
+    {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 3.2.0 < 10.0.0"
     },

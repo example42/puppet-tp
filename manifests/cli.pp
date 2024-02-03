@@ -48,7 +48,7 @@ class tp::cli (
     $real_options = $options_defaults + $options
 
     $real_ruby_path = $ruby_path ? {
-      undef   => $facts['aio_agent_version'] ? {
+      undef   => getvar('facts.aio_agent_version') ? {
         undef   => '/usr/bin/env ruby',
         ''      => '/usr/bin/env ruby',
         default => $facts['os']['family'] ? {
@@ -61,92 +61,90 @@ class tp::cli (
 
     File {
       ensure  => $file_ensure,
-      mode    => $real_tp_params['mode'],
-      owner   => $real_tp_params['owner'],
-      group   => $real_tp_params['group'],
+      mode    => $tp::tp_dirs_mode,
+      owner   => $tp::tp_dirs_owner,
+      group   => $tp::tp_dirs_group,
     }
 
-    if $cli_enable {
-      $dirs = [$tp::tp_dir , "${tp::tp_dir}/app" , "${tp::tp_dir}/shellvars" , "${tp::tp_dir}/test", "${tp::tp_dir}/info", "${tp::tp_dir}/debug"]
-      $dirs.each | $d | {
-        file { $d:
-          ensure  => $dir_ensure,
-          purge   => $purge_dirs,
-          force   => $purge_dirs,
-          recurse => $purge_dirs,
-        }
+    $dirs = [$tp::tp_dir , "${tp::tp_dir}/app" , "${tp::tp_dir}/shellvars" , "${tp::tp_dir}/test", "${tp::tp_dir}/info", "${tp::tp_dir}/debug"]
+    $dirs.each | $d | {
+      file { $d:
+        ensure  => $dir_ensure,
+        purge   => $purge_dirs,
+        force   => $purge_dirs,
+        recurse => $purge_dirs,
       }
-      $work_dirs = [$tp::data_dir, $tp::download_dir , $tp::extract_dir , $tp::flags_dir]
-      $work_dirs.each | $d | {
-        file { $d:
-          ensure  => $dir_ensure,
+    }
+    $work_dirs = [$tp::data_dir, $tp::download_dir , $tp::extract_dir , $tp::flags_dir]
+    $work_dirs.each | $d | {
+      file { $d:
+        ensure  => $dir_ensure,
 #          purge   => $purge_dirs,
 #          force   => $purge_dirs,
 #          recurse => $purge_dirs,
-        }
       }
-      $epp_params = {
-        'real_ruby_path'       => $real_ruby_path,
-        'options'              => $real_options,
-        'suppress_tp_warnings' => $suppress_tp_warnings,
-        'suppress_tp_output'   => $suppress_tp_output,
-        'tp_dir'               => $tp::tp_dir,
-      }
-      file { $tp::tp_path:
-        path    => $tp::tp_path,
-        content => epp('tp/tp.epp', $epp_params),
-      }
+    }
+    $epp_params = {
+      'real_ruby_path'       => $real_ruby_path,
+      'options'              => $real_options,
+      'suppress_tp_warnings' => $suppress_tp_warnings,
+      'suppress_tp_output'   => $suppress_tp_output,
+      'tp_dir'               => $tp::tp_dir,
+    }
+    file { $tp::tp_path:
+      path    => $tp::tp_path,
+      content => epp('tp/tp.epp', $epp_params),
+    }
 
-      if $facts['os']['family'] == 'windows' {
-        file { "${tp::tp_path}.bat":
-          content => epp('tp/tp.bat.epp'),
-        }
-      } else {
-        file { '/usr/sbin/tp':
-          ensure => link,
-          target => $tp::tp_path,
-        }
+    if $facts['os']['family'] == 'windows' {
+      file { "${tp::tp_path}.bat":
+        content => epp('tp/tp.bat.epp'),
       }
+    } else {
+      file { '/usr/sbin/tp':
+        ensure => link,
+        target => $tp::tp_path,
+      }
+    }
 
-      file { 'bin dir':
-        ensure  => $dir_ensure,
-        path    => "${tp::tp_dir}/bin",
-        source  => $real_tp_params['bin']['args']['source'],
-        recurse => true,
-      }
-      file { 'info scripts':
-        ensure  => $dir_ensure,
-        path    => "${tp::tp_dir}/bin/run_info",
-        source  => $info_source,
-        recurse => true,
-      }
-      file { 'package_info':
-        mode    => '0755',
-        path    => "${tp::tp_dir}/bin/run_info/package_info",
-        content => epp('tp/run_info/package_info.epp'),
-      }
+    file { 'bin dir':
+      ensure  => $dir_ensure,
+      path    => "${tp::tp_dir}/bin",
+      source  => $real_tp_params['bin']['args']['source'],
+      recurse => true,
+    }
+    file { 'info scripts':
+      ensure  => $dir_ensure,
+      path    => "${tp::tp_dir}/bin/run_info",
+      source  => $info_source,
+      recurse => true,
+    }
+    file { 'package_info':
+      mode    => '0755',
+      path    => "${tp::tp_dir}/bin/run_info/package_info",
+      content => epp('tp/run_info/package_info.epp'),
+    }
 
-      file { $info_script_path:
-        mode    => '0755',
-        path    => $info_script_path,
-        content => epp($info_script_template, { 'options' => $real_options }),
-      }
+    file { $info_script_path:
+      mode    => '0755',
+      path    => $info_script_path,
+      content => epp($info_script_template, { 'options' => $real_options }),
+    }
 
-      file { 'debug scripts':
-        ensure => $dir_ensure,
-        path   => "${tp::tp_dir}/bin/run_debug",
-        source => $debug_source,
-      }
-      file { 'package_debug':
-        mode    => '0755',
-        path    => "${tp::tp_dir}/bin/run_debug/package_debug",
-        content => epp('tp/run_debug/package_debug.epp'),
-      }
-      file { $debug_script_path:
-        mode    => '0755',
-        path    => $debug_script_path,
-        content => epp($debug_script_template, { 'options' => $real_options }),
-      }
+    file { 'debug scripts':
+      ensure => $dir_ensure,
+      path   => "${tp::tp_dir}/bin/run_debug",
+      source => $debug_source,
+    }
+    file { 'package_debug':
+      mode    => '0755',
+      path    => "${tp::tp_dir}/bin/run_debug/package_debug",
+      content => epp('tp/run_debug/package_debug.epp'),
+    }
+    file { $debug_script_path:
+      mode    => '0755',
+      path    => $debug_script_path,
+      content => epp($debug_script_template, { 'options' => $real_options }),
     }
   }
 }

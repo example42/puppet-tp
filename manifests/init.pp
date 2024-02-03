@@ -30,8 +30,8 @@ class tp (
 
   # Legacy params
   #Stdlib::Absolutepath $tp_path      = '/usr/local/bin/tp',
-  String $tp_owner                   = 'root',
-  String $tp_group                   = 'root',
+  Optional[String] $tp_owner         = undef,
+  Optional[String] $tp_group         = undef,
   String $tp_mode                    = '0755',
   String $check_service_command      = 'puppet resource service',
   String $check_service_command_post = '', # lint:ignore:params_empty_string_assignment
@@ -141,9 +141,14 @@ class tp (
   $tp_dir = $real_tp_params['conf']['path']
   $destination_dir = $real_tp_params['destination']['path']
   $data_dir = $real_tp_params['data']['path']
+  $bin_dir = $real_tp_params['bin']['path']
   $download_dir = "${real_tp_params['data']['path']}/download"
   $extract_dir = "${real_tp_params['data']['path']}/extract"
   $flags_dir = "${real_tp_params['data']['path']}/flags"
+  $tp_dirs_mode = $real_tp_params['mode']
+  $tp_dirs_owner = $real_tp_params['owner']
+  $tp_dirs_group = $real_tp_params['group']
+
 
   $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
   # tp 4 new entrypoints
@@ -253,7 +258,7 @@ class tp (
       $real_cli_enable = $cli_enable
     }
     if $real_cli_enable {
-      file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test"]:
+      file { [$tp_dir , "${tp_dir}/app" , "${tp_dir}/shellvars" , "${tp_dir}/test" , "${tp_dir}/bin"]:
         ensure  => $dir_ensure,
         mode    => $tp_mode,
         owner   => $tp_owner,
@@ -294,6 +299,7 @@ class tp (
           mode    => $tp_mode,
           source  => $lib_source,
           recurse => true,
+          force   => true,
         }
         file { 'info dir':
           ensure => $dir_ensure,
@@ -301,6 +307,7 @@ class tp (
           owner  => $tp_owner,
           group  => $tp_group,
           mode   => $tp_mode,
+          force  => true,
         }
         file { 'info scripts':
           ensure  => $dir_ensure,
@@ -310,6 +317,7 @@ class tp (
           mode    => $tp_mode,
           source  => $info_source,
           recurse => true,
+          force   => true,
         }
         file { 'package_info':
           ensure  => $file_ensure,
@@ -334,6 +342,7 @@ class tp (
           owner  => $tp_owner,
           group  => $tp_group,
           mode   => $tp_mode,
+          force  => true,
         }
         file { 'debug scripts':
           ensure  => $dir_ensure,
@@ -343,6 +352,7 @@ class tp (
           mode    => $tp_mode,
           source  => $debug_source,
           recurse => true,
+          force   => true,
         }
         file { 'package_debug':
           ensure  => $file_ensure,
