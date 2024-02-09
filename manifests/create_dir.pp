@@ -10,7 +10,7 @@
 define tp::create_dir (
   Optional[String] $owner    = undef,
   Optional[String] $group    = undef,
-  Optional[Stdlib::Filemode] $mode     = undef,
+  Optional[Stdlib::Filemode] $mode = undef,
   Stdlib::AbsolutePath $path = $title,
 ) {
   $mkdir_command = $facts['os']['family'] ? {
@@ -23,9 +23,9 @@ define tp::create_dir (
   }
 
   exec { "Create directory ${title}":
-    command  => $mkdir_command,
-    path     => $facts['path'],
-    creates  => $path,
+    command => $mkdir_command,
+    path    => $facts['path'],
+    creates => $path,
 #    provider => $command_provider,
   }
 
