@@ -45,13 +45,14 @@ define tp::setup (
         Hash: {
           $files.each | $k,$v | {
             tp::copy_file { $k:
-              ensure => pick($v['ensure'],$ensure),
-              path   => pick($v['path'], "${destination_dir}/${k}"),
-              owner  => pick($v['owner'], $owner),
-              group  => pick($v['group'], $group),
-              mode   => pick($v['mode'], '0755'),
-              source => pick($v['source'],"${source_dir}/${k}"),
-              before => $before_tp_service,
+              ensure    => pick($v['ensure'],$ensure),
+              path      => pick($v['path'], "${destination_dir}/${k}"),
+              owner     => pick($v['owner'], $owner),
+              group     => pick($v['group'], $group),
+              mode      => pick($v['mode'], '0755'),
+              source    => pick($v['source'],"${source_dir}/${k}"),
+              notify    => $before_tp_service,
+              overwrite => pick($v['overwrite'],false),
             }
           }
         }
@@ -64,7 +65,7 @@ define tp::setup (
               group  => $group,
               source => "${source_dir}/${k}",
               mode   => '0755',
-              before => $before_tp_service,
+              notify => $before_tp_service,
             }
           }
         }
@@ -76,7 +77,7 @@ define tp::setup (
             group  => $group,
             source => "${source_dir}/${files}",
             mode   => '0755',
-            before => $before_tp_service,
+            notify => $before_tp_service,
           }
         }
         default: {
@@ -90,7 +91,7 @@ define tp::setup (
       file { $k:
         ensure => link,
         target => tp::url_replace($v,$real_version,$real_majversion),
-        before => $before_tp_service,
+        notify => $before_tp_service,
       }
     }
 

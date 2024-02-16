@@ -70,17 +70,74 @@
 # @param ensure Manage application status.
 #   Valid values are present, absent or the package version number.
 #
+# @param app The name of the application to install.
+#   If not specified, it defaults to the title of the resource.
+#
+# @param use_v4 Boolean to use v4 code
+#   If true, the tp v4 code is used, otherwise the legacy one.
+#
+# @param install_method The method to use for the app installation.
+#   If not specified, it defaults to the one specified in the tinydata.
+#   Valid values are package, source, release, image.
+#
+# @param on_missing_data What to do if tinydata is missing
+#   Common values are notify, fail, ignore.
+#   Valid values are 'alert','crit','debug','emerg','err','info','notice','warning','notify','ignore'
+#
+# @param base_package The package to use for the installation.
+#   If not specified, it defaults to 'main'. Can be different according to
+#   tinydata settings. (e.g. 'client', 'server', 'common')
+#
+# @param confs An hash of tp::conf resources to create.
+#   These resources will refer to the same application specified in the $title.
+#   Replaces the deprecated conf_hash parameter.
+#
 # @param conf_hash An hash of tp::conf resources to create.
 #   These resources will refer to the same application specified in the $title.
+#   Deprecated, use confs instead.
+#
+# @param dirs An hash of tp::dir resources to create.
+#   These resources will refer to the same application specified in the $title.
+#   Replaces the deprecated dir_hash parameter.
 #
 # @param dir_hash  An hash of tp::dir resources to create.
 #   These resources will refer to the same application specified in the $title.
+#   Deprecated, use dirs instead.
 #
-# @param options_hash Generic hash of configuration parameters specific for the
-#   app, they are passed to tp::test if test_enable parameter is true
+# @param options An hash of options to pass to the tp::conf defines set in confs #    usable as key/values in custom templates (use the $options var to access them).
+#    Replaces the deprecated options_hash parameter.
 #
-# @param settings_hash An hash that can override the application settings tp
-#   returns, according to the underlying OS and the default behaviour
+# @param options_hash An hash of options to pass to the tp::conf defines set in confs #    usable as key/values in custom templates (use the $options var to access them).
+#    Deprecated, use options instead.
+#
+# @param my_settings An hash of settings to override the ones coming from tinydata
+#   This is useful to override the default settings for the application.
+#   Replaces the deprecated settings_hash parameter.
+#
+# @param settings_hash An hash of settings to override the ones coming from tinydata
+#   This is useful to override the default settings for the application.
+#   Deprecated, use my_settings instead.
+#
+# @param params An hash of additional parameters to pass to the tp::install::* defines,
+#   in case it is used. These params are merged with the ones coming from
+#   the internal logic and are supposed to be used for special cases.
+#
+# @param version The version of the application to install.
+#   If not specified, it defaults to the one specified in the ensure parameter, #   (if different from 'present', 'absent' or 'latest') or to what's defined
+#   in the tinydata.
+#   If the version is not specified, the latest available version is installed.
+#
+# @param source The source of the application to install.
+#   Used only when install_method is 'release' or 'source'.
+#
+# @param destination The destination path where to install the application.
+#   Used only when install_method is 'source' or 'release'.
+#
+# @param owner The user used to install the application.
+#   Default: root
+#
+# @param group The group of the user used to install the application.
+#   Default: root
 #
 # @param upstream_repo Boolean to enable usage of upstream repo for the app and
 #   install packages from it rather than default local OS one
@@ -100,7 +157,7 @@
 #
 # @repo_exec_environment Array to use for the environment argument of exec types
 #   used inside tp::repo define. Used if $auto_repo is true. Can be useful when trying
-#   to use tp::repo from behing  a proxy
+#   to use tp::repo from behind a proxy
 #
 # @param tp_repo_params An hash of additional parameters to pass to the tp::repo define,
 #   in case it is used. These params are merged with the ones coming from other
@@ -137,6 +194,7 @@
 define tp::install (
 
   Variant[Boolean,String] $ensure           = present,
+  String                  $app              = $title,
 
   # Temporary flag to use v4 code
   Boolean                 $use_v4           = pick(getvar('tp::use_v4'),false),
@@ -154,7 +212,6 @@ define tp::install (
 
   Hash $my_settings      = {},
 
-  Hash $tp_params                           = {},
   Hash $params                              = {},
 
   Optional[String] $version                 = undef,
@@ -200,29 +257,35 @@ define tp::install (
   String[1]               $data_module      = 'tinydata',
 
 ) {
-  $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
 
   if $conf_hash != {} {
     deprecation('conf_hash', 'Replace with confs')
   }
+  $all_confs = $conf_hash + $confs
+
   if $dir_hash != {} {
     deprecation('dir_hash', 'Replace with dirs')
   }
+  $all_dirs = $dir_hash + $dirs
+
   if $options_hash != {} {
     deprecation('options_hash', 'Replace with options')
   }
+  $all_options = $options_hash + $options
+
   if $settings_hash != {} {
     deprecation('settings_hash', 'Replace with my_settings')
   }
 
   # Settings evaluation
   $tp_settings = tp_lookup($app,'settings',$data_module,'deep_merge')
+  $all_but_local_settings = deep_merge($tp_settings,$settings_hash,$my_settings)
 
-  $real_install_method = pick($install_method, getvar('tp_settings.install_method'), 'package')
-  $real_version = tp::get_version($ensure,$version,$tp_settings)
-  $real_majversion = tp::get_version($ensure,$version,$tp_settings,'major')
-  $real_filename = pick(tp::url_replace(pick(getvar("tp_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
+  $real_install_method = pick($install_method, getvar('all_but_local_settings.install_method'), 'package')
+  $real_version = tp::get_version($ensure,$version,$all_but_local_settings)
+  $real_majversion = tp::get_version($ensure,$version,$all_but_local_settings,'major')
+  $real_filename = pick(tp::url_replace(pick(getvar("all_but_local_settings.${real_install_method}.file_name"),$app), $real_version, $real_majversion), $app) # lint:ignore:140chars
   if $use_v4 {
     if getvar('tp_settings.release.base_url') {
       $real_base_url = tp::url_replace(pick(getvar("tp_settings.${real_install_method}.base_url"), $app), $real_version, $real_majversion)
@@ -248,7 +311,7 @@ define tp::install (
       },
       destination    => $real_install_method ? {
         'source'  => pick($destination, "${tp::data_dir}/source/${app}"),
-        'release' => pick($destination, "${tp::data_dir}/download/${app}"),
+        'release' => pick($destination, "${tp::data_dir}/extract/${app}/${extracted_dir}"),
         default   => undef,
       },
       packages => delete_undef_values({
@@ -267,7 +330,7 @@ define tp::install (
       }),
   })
 
-  $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$local_settings)
+  $settings = deep_merge($all_but_local_settings,$local_settings)
 
   # v4 code
   if $use_v4 {
@@ -317,8 +380,10 @@ define tp::install (
       }
       'source': {
         $default_install_source_params = {
-          owner       => $owner,
-          group       => $group,
+          owner           => $owner,
+          group           => $group,
+          source          => $source,
+          destination     => $destination,
         }
         tp::install::source { $app:
           * => $default_install_params + $default_install_source_params + $params,
@@ -367,16 +432,16 @@ define tp::install (
     $conf_defaults = {
       'ensure'        => tp::ensure2file($ensure),
       'settings_hash' => $settings,
-      'options_hash'  => $options_hash + $options,
+      'options_hash'  => $all_options,
       'data_module'   => $data_module,
     }
-    $confs.each |$k,$v| {
+    $all_confs.each |$k,$v| {
       tp::conf { $k:
         * => $conf_defaults + $v,
       }
     }
 
-    if $options_hash != {} and getvar('settings.files.config.format') {
+    if $all_options != {} and pick_default(getvar('settings.files.config.format'),getvar('settings.config_file_format')) {
       tp::conf { $app:
         * => $conf_defaults,
       }
@@ -386,7 +451,7 @@ define tp::install (
       'settings_hash' => $settings,
       'data_module'   => $data_module,
     }
-    $dirs.each |$k,$v| {
+    $all_dirs.each |$k,$v| {
       tp::dir { $k:
         * => $dir_defaults + $v,
       }
@@ -615,32 +680,32 @@ define tp::install (
     $conf_defaults = {
       'ensure'        => tp::ensure2file($ensure),
       'settings_hash' => $settings,
-      'options_hash'  => $options_hash,
+      'options_hash'  => $all_options,
       'data_module'   => $data_module,
     }
-    if $conf_hash != {} {
-      $conf_hash.each |$k,$v| {
-        tp::conf { $k:
-          * => $conf_defaults + $v,
-        }
+
+    $all_confs.each |$k,$v| {
+      tp::conf { $k:
+        * => $conf_defaults + $v,
       }
     }
-    if $options_hash != {} and $settings[config_file_format] {
+
+    if $all_options != {} and $settings[config_file_format] {
       tp::conf { $app:
         * => $conf_defaults,
       }
     }
+
     # Manage additional tp::dir as in dir_hash
     $dir_defaults = {
       'ensure'        => tp::ensure2dir($ensure),
       'settings_hash' => $settings,
       'data_module'   => $data_module,
     }
-    if $dir_hash != {} {
-      $dir_hash.each |$k,$v| {
-        tp::dir { $k:
-          * => $dir_defaults + $v,
-        }
+
+    $all_dirs.each |$k,$v| {
+      tp::dir { $k:
+        * => $dir_defaults + $v,
       }
     }
 
@@ -648,14 +713,14 @@ define tp::install (
     if $auto_conf and $settings['config_file_template'] {
       ::tp::conf { $app:
         template     => $settings['config_file_template'],
-        options_hash => $options_hash,
+        options_hash => $all_options,
         data_module  => $data_module,
       }
     }
     if $auto_conf and $settings['init_file_template'] {
       ::tp::conf { "${app}::init":
         template     => $settings['init_file_template'],
-        options_hash => $options_hash,
+        options_hash => $all_options,
         base_file    => 'init',
         data_module  => $data_module,
       }
@@ -665,7 +730,7 @@ define tp::install (
     if $test_enable and $test_template {
       tp::test { $app:
         settings_hash => $settings,
-        options_hash  => $options_hash,
+        options_hash  => $all_options,
         template      => $test_template,
         data_module   => $data_module,
       }

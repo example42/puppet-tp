@@ -149,7 +149,6 @@ class tp (
   $tp_dirs_owner = $real_tp_params['owner']
   $tp_dirs_group = $real_tp_params['group']
 
-
   $resources = ['repo', 'install', 'uninstall', 'conf', 'dir', 'test', 'info', 'debug', 'image' , 'source' , 'desktop', 'build']
   # tp 4 new entrypoints
   $resources.each |$resource| {

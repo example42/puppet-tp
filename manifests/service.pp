@@ -92,7 +92,7 @@ define tp::service (
           undef: {
             $mount_mapping = getvar('settings.dirs') ? {
               undef   => '',
-              default => join(getvar('settings.dirs').map |$k,$v| { "-v ${v['path']}:${v['path']}" }, ' '),
+              default => join(getvar('settings.dirs').map |$k,$v| { if getvar('v.path') { "-v ${v['path']}:${v['path']}" } }, ' '),
             }
           }
           String[0]: {
@@ -113,12 +113,20 @@ define tp::service (
         }
 
         $docker_args = pick_default(getvar('settings.docker.args'),'')
+        $docker_after = $facts['os']['family'] ? {
+          'RedHat' => 'network-online.target',
+          default  => 'docker.service',
+        }
+        $docker_requires = $facts['os']['family'] ? {
+          'RedHat' => 'network-online.target',
+          default  => 'docker.service',
+        }
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
-            'After'         => 'docker.service',
-            'Requires'      => 'docker.service',
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'), "Search ${app}"),
+            'After'         => $docker_after,
+            'Requires'      => $docker_requires,
           },
           'Service' => {
 #            'ExecStartPre' => "/usr/bin/docker stop ${app} ; /usr/bin/docker rm ${app} ; /usr/bin/docker pull ${settings['docker_image']}",
@@ -134,7 +142,7 @@ define tp::service (
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search ${app}"),
           },
           'Service' => {
             'ExecStart'       => $real_command_path,

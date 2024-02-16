@@ -25,13 +25,15 @@ define tp::copy_file (
   if $overwrite {
     $exec_creates = undef
     $exec_unless  = "diff ${source} ${path} >/dev/null"
+    $cp_force     = '-f'
   } else {
     $exec_creates = $path
     $exec_unless  = undef
+    $cp_force     = ''
   }
   if $ensure == 'present' {
     exec { "tp::copy_file ${title}":
-      command => "cp ${source} ${path}",
+      command => "cp ${cp_force} ${source} ${path}",
       path    => $facts['path'],
       creates => $exec_creates,
       unless  => $exec_unless,
