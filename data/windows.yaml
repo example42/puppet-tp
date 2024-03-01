@@ -1,59 +1,41 @@
 ---
-tp::tp_owner: 'Administrator'
-tp::tp_group: 'Administrators'
-tp::info_script_path: 'C:/ProgramData/PuppetLabs/bin/run_info.ps1'
-tp::debug_script_path: 'C:/ProgramData/PuppetLabs/bin/run_debug.ps1'
-
+tp::tp_owner: ~
+tp::tp_group: ~
+#tp::tp_owner: 'Administrator'
+#tp::tp_group: 'Administrators'
+tp::info_script_path: 'C:/ProgramData/PuppetLabs/tp/bin/run_info.ps1'
+tp::debug_script_path: 'C:/ProgramData/PuppetLabs/tp/bin/run_debug.ps1'
+#tp::cli::ensure: 'absent'
+#tp::ensure: 'absent'
 # tp 4 new entrypoints
 ## tp cli configurations
 tp::tp_params:
   global:
+    owner: ~
+    group: ~
+    mode: '0775'
     tp:
       path: 'C:/ProgramData/PuppetLabs/tp/bin/tp'
-      args:
-        owner: 'Administrator'
-        group: 'Administrators'
     conf:
       path: 'C:/ProgramData/PuppetLabs/tp'
-      args:
-        ensure: 'directory'
-        owner: 'Administrator'
-        group: 'Administrators'
     data:
       path: 'C:/ProgramData/PuppetLabs/tp/lib'
-      args:
-        ensure: 'directory'
-        owner: 'Administrator'
-        group: 'Administrators'
     bin:
       path: 'C:/ProgramData/PuppetLabs/tp/bin'
       args:
-        ensure: 'directory'
-        owner: 'Administrator'
-        group: 'Administrators'
-        source: 'puppet:///modules/tp/bin'
+        source: 'puppet:///modules/tp/bin_windows'
     destination:
       path: 'C:/ProgramData/PuppetLabs/tp'
   user:
     tp:
       path: '~/.tp/bin/tp'
-      args:
-        mode: '0755'
     conf:
       path: '~/.tp/etc'
-      args:
-        ensure: 'directory'
-        mode: '0755'
     data:
       path: '~/.tp/lib'
-      args:
-        ensure: 'directory'
-        mode: '0755'
     bin:
       path: '~/.tp/bin'
       args:
-        ensure: 'directory'
-        mode: '0755'
         source: 'puppet:///modules/tp/bin'
     destination:
       path: '~/.tp/bin'
