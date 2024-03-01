@@ -394,7 +394,7 @@ define tp::conf (
     $default_validate_cmd = $validate_cmd ? {
       ''     => undef,
       String => $validate_cmd,
-      Hash   => pick_default(getvar("settings.validate_cmd.${base_dir}"), undef),
+      Hash   => getvar("settings.validate_cmd.${base_dir}"),
       Undef  => undef,
     }
     $real_validate_cmd = $validate_syntax ? {
@@ -402,7 +402,6 @@ define tp::conf (
       true  => $default_validate_cmd,
       false => undef,
     }
-
     # Resources
     if $path_parent_create {
       $path_parent = dirname($real_path)
@@ -532,6 +531,7 @@ define tp::conf (
     }
 
     $default_validate_cmd = $settings['validate_cmd'] ? {
+      ''     => undef,
       String => $settings['validate_cmd'],
       Hash   => $settings['validate_cmd'][$base_dir],
       Undef  => undef,
