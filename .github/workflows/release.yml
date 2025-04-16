@@ -14,16 +14,16 @@ jobs:
     name: 'Deploy to forge'
     runs-on: ubuntu-latest
     if: github.repository_owner == 'example42'
-    container: puppet/pdk:2.6.1.0
+    container: puppet/pdk:3.4.0.1.55.g4519dd0
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: "PDK Build"
-        uses: docker://puppet/pdk:2.6.1.0
+        uses: docker://puppet/pdk:3.4.0.1.55.g4519dd0
         with:
           args: 'build'
       - name: "Push to Forge"
-        uses: docker://puppet/pdk:2.6.1.0
+        uses: docker://puppet/ppdk:3.4.0.1.55.g4519dd0
         with:
           args: 'release publish --forge-token ${{ secrets.PUPPET_FORGE_API_KEY }} --force'
 
