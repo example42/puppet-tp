@@ -23,7 +23,7 @@ jobs:
         with:
           args: 'build'
       - name: "Push to Forge"
-        uses: docker://puppet/ppdk:3.4.0.1.55.g4519dd0
+        uses: docker://puppet/pdk:3.4.0.1.55.g4519dd0
         with:
           args: 'release publish --forge-token ${{ secrets.PUPPET_FORGE_API_KEY }} --force'
 
