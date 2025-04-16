@@ -56,10 +56,11 @@ define tp::install::source (
   String[1] $owner = pick(getvar('identity.user'),'root'),
   String[1] $group = pick(getvar('identity.group'),'root'),
 
+  Stdlib::Absolutepath $destination = getvar('settings.destination'),
+
 ) {
   $app = $title
   $sane_app = regsubst($app, '/', '_', 'G')
-  $destination = getvar('settings.destination')
 
   $tp_dir          = $tp::real_tp_params['conf']['path']
   $real_source = $ensure ? {

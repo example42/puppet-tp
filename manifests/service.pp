@@ -92,7 +92,7 @@ define tp::service (
           undef: {
             $mount_mapping = getvar('settings.dirs') ? {
               undef   => '',
-              default => join(getvar('settings.dirs').map |$k,$v| { "-v ${v['path']}:${v['path']}" }, ' '),
+              default => join(getvar('settings.dirs').map |$k,$v| { if getvar('v.path') { if getvar('os.selinux.enabled') { "-v ${v['path']}:${v['path']}:Z" } else { "-v ${v['path']}:${v['path']}" } } }, ' '), # lint:ignore:140chars
             }
           }
           String[0]: {
@@ -102,10 +102,10 @@ define tp::service (
             $mount_mapping = "-v ${settings['image']['mounts']}"
           }
           Array: {
-            $mount_mapping = join(getvar('settings.image.mounts').map|$k| { "-v ${k}" }, ' ')
+            $mount_mapping = join(getvar('settings.image.mounts').map|$k| { if getvar('os.selinux.enabled') { "-v ${k}:${k}:Z" } else { "-v ${k}:${k}" } }, ' ') # lint:ignore:140chars
           }
           Hash: {
-            $mount_mapping = join(getvar('settings.image.mounts').map |$k,$v| { "-v ${k}:${v}" }, ' ')
+            $mount_mapping = join(getvar('settings.image.mounts').map |$k,$v| { if getvar('v.path') { if getvar('os.selinux.enabled') { "-v ${v['path']}:${v['path']}:Z" } else { "-v ${v['path']}:${v['path']}" } } }, ' ') # lint:ignore:140chars
           }
           default: {
             tp::fail($on_missing_data, "tp::service ${app} - settings.image.mounts is not a valid type")
@@ -113,18 +113,33 @@ define tp::service (
         }
 
         $docker_args = pick_default(getvar('settings.docker.args'),'')
+        $cidfile = '%t/%n.ctr-id'
+        $docker_command = $facts['os']['family'] ? {
+          'RedHat' => '/usr/bin/podman',
+          default  => '/usr/bin/docker',
+        }
+        $docker_after = $facts['os']['family'] ? {
+          'RedHat' => 'network-online.target',
+          default  => 'docker.service',
+        }
+        $docker_requires = $facts['os']['family'] ? {
+          'RedHat' => 'network-online.target',
+          default  => 'docker.service',
+        }
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
-            'After'         => 'docker.service',
-            'Requires'      => 'docker.service',
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'), "Search ${app}"),
+            'After'         => $docker_after,
+            'Requires'      => $docker_requires,
           },
           'Service' => {
-#            'ExecStartPre' => "/usr/bin/docker stop ${app} ; /usr/bin/docker rm ${app} ; /usr/bin/docker pull ${settings['docker_image']}",
-            'ExecStart'    => "/usr/bin/docker run --rm --name ${app} ${docker_args} ${port_mapping} ${mount_mapping} ${docker_image}",
+            'ExecStartPre' => "/bin/rm -f ${cidfile}",
+            'ExecStart'    => "${docker_command} run --rm --cidfile=${cidfile} --name ${app} ${docker_args} ${port_mapping} ${mount_mapping} ${docker_image}",
             'Restart'      => 'always',
             'RestartSec'   => '10s',
+            'ExecStop'     => "${docker_command} stop --ignore --cidfile=${cidfile}",
+            'ExecStopPost' => "${docker_command} rm -f --ignore --cidfile=${cidfile}",
           },
           'Install' => {
             'WantedBy' => 'multi-user.target',
@@ -134,7 +149,7 @@ define tp::service (
         $options_defaults = {
           'Unit' => {
             'Description'   => pick(getvar('settings.description'),"${app} service"),
-            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search: ${app}"),
+            'Documentation' => pick(getvar('settings.urls.documentation'),getvar('settings.urls.website'),"Search ${app}"),
           },
           'Service' => {
             'ExecStart'       => $real_command_path,

@@ -1,13 +1,13 @@
 {
   "name": "example42-tp",
-  "version": "3.10.1",
+  "version": "3.10.2",
   "author": "example42",
   "summary": "Tiny Puppet",
   "license": "Apache-2.0",
   "source": "https://github.com/example42/puppet-tp",
   "project_page": "https://github.com/example42/puppet-tp",
   "issues_url": "https://github.com/example42/puppet-tp/issues",
-  "dependencies": [
+  "dependencies": [ 
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 3.2.0 < 10.0.0"

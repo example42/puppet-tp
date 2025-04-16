@@ -10,7 +10,7 @@
 define tp::create_dir (
   Optional[String] $owner    = undef,
   Optional[String] $group    = undef,
-  Optional[Stdlib::Filemode] $mode     = undef,
+  Optional[Stdlib::Filemode] $mode = undef,
   Stdlib::AbsolutePath $path = $title,
 ) {
   $mkdir_command = $facts['os']['family'] ? {
@@ -23,10 +23,10 @@ define tp::create_dir (
   }
 
   exec { "Create directory ${title}":
-    command  => $mkdir_command,
-    path     => $facts['path'],
-    creates  => $path,
-    provider => $command_provider,
+    command => $mkdir_command,
+    path    => $facts['path'],
+    creates => $path,
+#    provider => $command_provider,
   }
 
   if $facts['os']['family'] != 'windows' {
@@ -45,10 +45,11 @@ define tp::create_dir (
       }
     }
     if $mode {
+      $short_mode = regsubst($mode, '^0', '')
       exec { "chmod ${mode} ${title}":
         command => "chmod '${mode}' '${path}'",
         path    => '/bin:/sbin:/usr/sbin:/usr/bin',
-        onlyif  => "[ 0\$(stat -c '%a' '${path}') != '${mode}' ]",
+        onlyif  => "[ \$(stat -c '%a' '${path}') != '${short_mode}' ]",
       }
     }
   }

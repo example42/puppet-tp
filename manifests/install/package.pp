@@ -332,8 +332,16 @@ define tp::install::package (
           require => $service_require,
         }
         $services.each |$kk,$vv| {
-          service { $kk:
-            * => $service_defaults + pick(getvar("settings.services.${kk}.params"), getvar('settings.service_params'), {}),
+          if $vv['name'] != '' and $vv['manage'] != false {
+            if $kk == 'main' {
+              $service_title = $app
+            } else {
+              $service_title = $kk
+            }
+            $service_params = pick(getvar("settings.services.${kk}.params"), getvar('settings.service_params'), {})
+            service { $service_title:
+              * => $service_defaults + { name => pick($vv['name'],$service_title) } + $service_params,
+            }
           }
         }
       }

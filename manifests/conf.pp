@@ -394,7 +394,7 @@ define tp::conf (
     $default_validate_cmd = $validate_cmd ? {
       ''     => undef,
       String => $validate_cmd,
-      Hash   => pick_default(getvar("settings.validate_cmd.${base_dir}"), undef),
+      Hash   => getvar("settings.validate_cmd.${base_dir}"),
       Undef  => undef,
     }
     $real_validate_cmd = $validate_syntax ? {
@@ -402,7 +402,6 @@ define tp::conf (
       true  => $default_validate_cmd,
       false => undef,
     }
-
     # Resources
     if $path_parent_create {
       $path_parent = dirname($real_path)
@@ -446,7 +445,7 @@ define tp::conf (
     $settings = $tp_settings + $settings_hash
 
     $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
-    $options = $tp_options + $options_hash
+    $options = deep_merge($tp_options,$options_hash,$my_options,)
 
     if $file and $file != '' {
       $prefix = $scope ? {
@@ -490,7 +489,7 @@ define tp::conf (
 
     # If user doesn't provide a $content, $template or $epp but provides $options_hash we check
     # if on tinydata is set config_file_format
-    if $content_params =~ Undef and $settings[config_file_format] and $options_hash != {} {
+    if $content_params =~ Undef and $settings[config_file_format] and $options != {} {
       $manage_content = $settings[config_file_format] ? {
         'yaml' => to_yaml($options_hash),
         'json' => to_json($options_hash),
@@ -532,6 +531,7 @@ define tp::conf (
     }
 
     $default_validate_cmd = $settings['validate_cmd'] ? {
+      ''     => undef,
       String => $settings['validate_cmd'],
       Hash   => $settings['validate_cmd'][$base_dir],
       Undef  => undef,
