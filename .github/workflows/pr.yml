@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 10
     container: puppet/pdk:3.0.0.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run static validations
         run: /usr/local/bin/pdk bundle exec rake validate lint check
         env:
@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 60
     container: puppet/pdk:3.0.0.0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run unit tests on Puppet 8
         run: /usr/local/bin/pdk test unit --puppet-version=8 --parallel
         env:
