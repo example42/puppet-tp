@@ -442,7 +442,7 @@ define tp::conf (
       $upstream_repo = getparam(Tp::Install[$app],'upstream_repo')
     }
     $tp_settings = tp_lookup($app,'settings',$data_module,'merge')
-    $settings = $tp_settings + $settings_hash
+    $settings = deep_merge($tp_settings,$settings_hash,$my_settings)
 
     $tp_options = tp_lookup($app,"options::${base_file}",$data_module,'merge')
     $options = deep_merge($tp_options,$options_hash,$my_options,)

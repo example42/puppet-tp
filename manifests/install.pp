@@ -430,10 +430,10 @@ define tp::install (
 
     # Additional confs and dirs
     $conf_defaults = {
-      'ensure'        => tp::ensure2file($ensure),
-      'settings_hash' => $settings,
-      'options_hash'  => $all_options,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2file($ensure),
+      'my_settings' => $settings,
+      'my_options'  => $all_options,
+      'data_module' => $data_module,
     }
     $all_confs.each |$k,$v| {
       tp::conf { $k:
@@ -447,9 +447,9 @@ define tp::install (
       }
     }
     $dir_defaults = {
-      'ensure'        => tp::ensure2dir($ensure),
-      'settings_hash' => $settings,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2dir($ensure),
+      'my_settings' => $settings,
+      'data_module' => $data_module,
     }
     $all_dirs.each |$k,$v| {
       tp::dir { $k:
@@ -678,10 +678,10 @@ define tp::install (
 
     # Manage additional tp::conf as in conf_hash
     $conf_defaults = {
-      'ensure'        => tp::ensure2file($ensure),
-      'settings_hash' => $settings,
-      'options_hash'  => $all_options,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2file($ensure),
+      'my_settings' => $settings,
+      'my_options'  => $all_options,
+      'data_module' => $data_module,
     }
 
     $all_confs.each |$k,$v| {
@@ -698,9 +698,9 @@ define tp::install (
 
     # Manage additional tp::dir as in dir_hash
     $dir_defaults = {
-      'ensure'        => tp::ensure2dir($ensure),
-      'settings_hash' => $settings,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2dir($ensure),
+      'my_settings' => $settings,
+      'data_module' => $data_module,
     }
 
     $all_dirs.each |$k,$v| {
