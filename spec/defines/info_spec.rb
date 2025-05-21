@@ -55,30 +55,30 @@ describe 'tp::info', :type => :define do
             let(:params) { { 'source' => 'puppet:///modules/tp/spec' } }
             it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('source' => 'puppet:///modules/tp/spec')) }
           end
-          context 'with template => tp/spec/sample.erb and sample options_hash' do
+          context 'with template => tp/spec/sample.erb and sample my_options' do
             let(:params) do {
-              'template'     => 'tp/spec/sample.erb',
-              'options_hash' => sample_options,
+              'template'   => 'tp/spec/sample.erb',
+              'my_options' => sample_options,
             } end
             it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_erb)) }
           end
-          context 'with template => tp/spec/sample.epp and sample options_hash' do
+          context 'with template => tp/spec/sample.epp and sample my_options' do
             let(:params) do {
-              'template'     => 'tp/spec/sample.epp',
-              'options_hash' => sample_options,
+              'template'   => 'tp/spec/sample.epp',
+              'my_options' => sample_options,
             } end
             it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
           end
-          context 'with epp => tp/spec/sample.epp and sample options_hash' do
+          context 'with epp => tp/spec/sample.epp and sample my_options' do
             let(:params) do {
-              'epp'          => 'tp/spec/sample.epp',
-              'options_hash' => sample_options,
+              'epp'        => 'tp/spec/sample.epp',
+              'my_options' => sample_options,
             } end
             it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => sample_epp)) }
           end
           context 'with content => sample' do
             let(:params) do {
-              'content'     => 'sample',
+              'content' => 'sample',
             } end
             it { is_expected.to contain_file("/etc/tp/info/#{app}").only_with(default_file_params.merge('content' => 'sample')) }
           end

@@ -175,7 +175,7 @@ define tp::dir (
 ) {
   # Deprecations
   if $settings_hash != {} {
-    deprecation('settings_hash', 'Replace with my_settings')
+    tp::fail($on_missing_data, "Module ${caller_module_name} needs updates: Parameter settings_hash in tp::dir is deprecated, replace it with my_settings")
   }
 
   if $use_v4 {
@@ -344,7 +344,7 @@ define tp::dir (
       $title_path = undef
     }
 
-    $settings = $tp_settings + $settings_hash
+    $settings = deep_merge($tp_settings,$settings_hash,$my_settings)
     $prefix = $scope ? {
       'global' => '',
       'user'   => 'user_',

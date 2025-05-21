@@ -181,7 +181,7 @@
 #   app that can be used in the provided erb or epp templates respectively as
 #   @options_hash['key'] or $options_hash['key'],
 #
-# @param settings_hash An hash that can override the application settings tp
+# @param my_settings An hash that can override the application settings tp
 #   returns, according to the underlying Operating System and the default
 #   behaviour.
 #
@@ -256,10 +256,10 @@ define tp::conf (
 ) {
   # Deprecations
   if $settings_hash != {} {
-    deprecation('settings_hash', 'Replace with my_settings')
+    tp::fail($on_missing_data, "Module ${caller_module_name} needs updates: Parameter settings_hash in tp::conf is deprecated, replace it with my_settings")
   }
   if $options_hash != {} {
-    deprecation('options_hash', 'Replace with my_options')
+    tp::fail($on_missing_data, "Module ${caller_module_name} needs updates: Parameter options_hash in tp::conf is deprecated, replace it with my_options")
   }
 
   if $use_v4 {

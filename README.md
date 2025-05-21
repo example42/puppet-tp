@@ -155,14 +155,14 @@ Here follows an example of tp resources used inside a custom profile where the c
 
       # Configuration of sshd_config server configuration file (main config file)
       tp::conf { 'openssh':
-        template     => $server_template,
-        options_hash => $options,
+        template   => $server_template,
+        my_options => $options,
       }
 
       # Configuration of ssh_config client configuration file
       tp::conf { 'openssh::ssh_config':
-        template     => $client_template,
-        options_hash => $options,
+        template   => $client_template,
+        my_options => $options,
       }
     }
 
@@ -191,11 +191,11 @@ Install an application with default settings (package installed, service started
 
     tp::install { 'redis': }
 
-Configure the application main configuration file a custom erb template which uses data from a custom $options_hash:
+Configure the application main configuration file a custom erb template which uses data from a custom $my_options:
 
     tp::conf { 'rsyslog':
-      template     => 'site/rsyslog/rsyslog.conf.erb',
-      options_hash => lookup('rsyslog::options_hash'),
+      template   => 'site/rsyslog/rsyslog.conf.erb',
+      my_options => lookup('rsyslog::my_options'),
     }
 
 Populate any custom directory from a Git repository (it requires Puppet Labs' vcsrepo module):
@@ -225,7 +225,7 @@ Other parameters are available to manage integrations:
 -   **puppi_enable** Default: false. Installs [Puppi](https://github.com/example42/puppi) and enables puppi integration.
 -   **test_enable** Default: false. If to enable automatic testing of the managed application.
 -   **test_template** Default: undef. If provided, the provided erb template is used to test the application (instead of default tests).
--   **options_hash** Default: {}. An optional hash where to set variable to use in test_template.
+-   **my_options** Default: {}. An optional hash where to set variable to use in test_template.
 
 Some specific params are to handle repos:
 
@@ -239,7 +239,7 @@ These parameters allow to skip management of packages or services:
 
 Some parameters allow to configure tp::conf and tp::dir resources directly from tp::install (inheriting the same settings and options):
 
--   **conf_hash**. Default: { }. A hash of tp::conf resources to create. These resources will refer to the same application specified in the tp::install $title and inherits the settings ensure, settings_hash, options_hash and data_module
+-   **conf_hash**. Default: { }. A hash of tp::conf resources to create. These resources will refer to the same application specified in the tp::install $title and inherits the settings ensure, settings_hash, my_options and data_module
 -   **dir_hash**. Default: { }. A hash of tp::dir resources to create, as for the conf one.
 
 Parameters are also available to customise the tiny data settings which affect package and service names, repos settings, file paths and so on. The params are common to all the tp defines, check [Updating tiny data and using alternative data sources](#Updating-tiny-data-and-using-alternative-data-sources) section for details.
@@ -253,7 +253,7 @@ An example with a custom test for the rabbitmq service:
       cli_enable    => true,
       test_enable   => true,
       test_template => 'profile/rabbitmb/tp_test.erb',
-      options_hash  => { 'server' => "rabbitmq.${::domain}" }
+      my_options    => { 'server' => "rabbitmq.${::domain}" }
     }
 
 It's possible to specify the version of the package to install (the provided version must be available in the configured repos):
@@ -294,8 +294,8 @@ It's possible to manage files with different methods, for example directly provi
 or providing a custom template with custom options:
 
     tp::conf { 'openssh::ssh_config':
-      template     => 'profile/openssh/ssh_config.erb',
-      options_hash => {
+      template   => 'profile/openssh/ssh_config.erb',
+      my_options => {
         UsePAM        => 'yes',
         X11Forwarding => 'no',
       } 
@@ -303,7 +303,7 @@ or providing a custom template with custom options:
 
 Via the template parameter with can both specify files .erb suffix (used as `content => template($template)`) or with .epp suffix  (used as `content => epp($template)`). If not .erb or .epp suffix is present in the template value, then it's treates as and erb (`content => template($template)`).
 
-In the profile/templates/openssh/ssh_config.erb template you will have the contents you want and use the above options with something like (note you can use both the @options and the @options_hash variable):
+In the profile/templates/openssh/ssh_config.erb template you will have the contents you want and use the above options with something like (note you can use both the @options and the @my_options variable):
 
     [...]
     UsePAM <%= @options['UsePAM'] %>
@@ -323,10 +323,10 @@ also it's possible to provide the source to use, instead of managing it with the
                        'puppet:///modules/site/redis/redis.conf' ] ,
     }
 
-For applications for which it exists the setting 'config_file_format' you can just pass the hash of options_hash of settings to configure and tp::conf creates a valid configuration file for the application:
+For applications for which it exists the setting 'config_file_format' you can just pass the hash of my_options of settings to configure and tp::conf creates a valid configuration file for the application:
 
     tp::conf { 'filebeat':
-      options_hash => {
+      my_options => {
         filebeat.modules => ['module: system']
         syslog => {
           enabled   => true,
@@ -339,7 +339,7 @@ This example makes much more sense if based on Hiera data (see [Configuring tp r
 
     tp::conf_hash:
       filebeat:
-        options_hash:
+        my_options:
           filebeat.modules:
           - module: system
           syslog:
@@ -530,15 +530,15 @@ Or you can use a specific `tp::test` define:
 
     tp::test { 'rabbitmq':
       template => 'profile/rabbimq/tptest.erb',
-      options_hash => {
+      my_options => {
         port => '11111',
         host => 'localhost',
       },
     }
 
-All the keys set via the $options_hash parameter can be used in the erb template with sopmething like:
+All the keys set via the $my_options parameter can be used in the erb template with sopmething like:
 
-    port_to_check=<%= @options_hash['port'] >
+    port_to_check=<%= @my_options['port'] >
 
 The `tp::test` define has the following parameters to manage the content of the test script (placed under `/etc/tp/test/$title`):
 

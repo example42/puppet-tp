@@ -105,28 +105,25 @@ class tp (
   }
 
   if $conf_hash != {} {
-    deprecation('conf_hash', 'Replace with confs')
+    tp::fail('notify', 'Parameter conf_hash in class tp is deprecated, replace it with confs')
   }
   if $dir_hash != {} {
-    deprecation('dir_hash', 'Replace with dirs')
+    tp::fail('notify', 'Parameter dir_hash in class tp is deprecated, replace it with dirs')
   }
   if $install_hash != {} {
-    deprecation('install_hash', 'Replace with installs')
+    tp::fail('notify', 'Parameter install_hash in class tp is deprecated, replace it with installs')
   }
   if $concat_hash != {} {
-    deprecation('concat_hash', 'No more supported')
+    tp::fail('notify', 'Parameter concat_hash in class tp is no more supported')
   }
   if $stdmod_hash != {} {
-    deprecation('stdmod__hash', 'No more supported')
+    tp::fail('notify', 'Parameter stdmod_hash in class tp is no more supported')
   }
   if $puppi_hash != {} {
-    deprecation('puppi_hash', 'No more supported')
+    tp::fail('notify', 'Parameter puppi_hash in class tp is no more supported')
   }
   if $repo_hash != {} {
-    deprecation('repo_hash', 'Replace with repos')
-  }
-  if $options_hash != {} {
-    deprecation('options_hash', 'Replace with options')
+    tp::fail('notify', 'Parameter repo_hash in class tp is no more supported')
   }
 
   if 'identity' in $facts {
