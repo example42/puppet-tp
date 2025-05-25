@@ -35,12 +35,12 @@
 #     upstream_repo => true,
 #   }
 #
-# @example installation and configuration via an options_hash
+# @example installation and configuration via an my_options
 # Note: this works when auto_conf is true (as default) AND when
 # is defined $settings['config_file_template'] with a valid template
 # in the used data module (default: tinydata)
 #   tp::install { 'puppetserver':
-#     options_hash => lookup('puppetserver::options', {merge => deep}),
+#     my_options => lookup('puppetserver::options', {merge => deep}),
 #   }
 #
 # @example installation and configuration via a custom hash of tp::conf
@@ -54,7 +54,7 @@
 #
 # @example installation with custom settings
 #   tp::install { 'apache':
-#     settings_hash       => {
+#     my_settings       => {
 #        package_name     => 'opt_apache',
 #        service_enable   => false,
 #        config_file_path => '/opt/apache/conf/httpd.conf',
@@ -104,11 +104,13 @@
 #   These resources will refer to the same application specified in the $title.
 #   Deprecated, use dirs instead.
 #
-# @param options An hash of options to pass to the tp::conf defines set in confs #    usable as key/values in custom templates (use the $options var to access them).
+# @param my_options An hash of options to pass to the tp::conf defines set in confs
+#    usable as key/values in custom templates (use the $options var to access them).
 #    Replaces the deprecated options_hash parameter.
 #
-# @param options_hash An hash of options to pass to the tp::conf defines set in confs #    usable as key/values in custom templates (use the $options var to access them).
-#    Deprecated, use options instead.
+# @param options_hash An hash of options to pass to the tp::conf defines set in confs
+#    usable as key/values in custom templates (use the $options var to access them).
+#    Deprecated, use my_options instead.
 #
 # @param my_settings An hash of settings to override the ones coming from tinydata
 #   This is useful to override the default settings for the application.
@@ -169,7 +171,7 @@
 # @param auto_conf Boolean to enable automatic configuration of the application.
 #   If true and there's are valid values for tinydata $settings['config_file_template']
 #   and $settings['init_file_template'] then the relevant
-#   file is managed according to tinydata defaults and user's $options_hash.
+#   file is managed according to tinydata defaults and user's $my_options.
 #
 # @param cli_enable Enable cli integration.
 #   If true, tp commands to query apps installed via tp are added to the system.
@@ -208,7 +210,7 @@ define tp::install (
   Hash $confs            = {},
   Hash $dirs             = {},
 
-  Hash $options          = {},
+  Hash $my_options       = {},
 
   Hash $my_settings      = {},
 
@@ -260,22 +262,22 @@ define tp::install (
   $sane_app = regsubst($app, '/', '_', 'G')
 
   if $conf_hash != {} {
-    deprecation('conf_hash', 'Replace with confs')
+    tp::fail('notify', 'Parameter conf_hash in tp::conf is deprecated, replace it with confs')
   }
   $all_confs = $conf_hash + $confs
 
   if $dir_hash != {} {
-    deprecation('dir_hash', 'Replace with dirs')
+    tp::fail('notify', 'Parameter dir_hash in tp::conf is deprecated, replace it with dirs')
   }
   $all_dirs = $dir_hash + $dirs
 
   if $options_hash != {} {
-    deprecation('options_hash', 'Replace with options')
+    tp::fail('notify', 'Parameter options_hash in tp::conf is deprecated, replace it with my_options')
   }
-  $all_options = $options_hash + $options
+  $all_options = $options_hash + $my_options
 
   if $settings_hash != {} {
-    deprecation('settings_hash', 'Replace with my_settings')
+    tp::fail('notify', 'Parameter settings_hash in tp::conf is deprecated, replace it with my_settings')
   }
 
   # Settings evaluation
@@ -430,10 +432,10 @@ define tp::install (
 
     # Additional confs and dirs
     $conf_defaults = {
-      'ensure'        => tp::ensure2file($ensure),
-      'settings_hash' => $settings,
-      'options_hash'  => $all_options,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2file($ensure),
+      'my_settings' => $settings,
+      'my_options'  => $all_options,
+      'data_module' => $data_module,
     }
     $all_confs.each |$k,$v| {
       tp::conf { $k:
@@ -447,9 +449,9 @@ define tp::install (
       }
     }
     $dir_defaults = {
-      'ensure'        => tp::ensure2dir($ensure),
-      'settings_hash' => $settings,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2dir($ensure),
+      'my_settings' => $settings,
+      'data_module' => $data_module,
     }
     $all_dirs.each |$k,$v| {
       tp::dir { $k:
@@ -517,7 +519,7 @@ define tp::install (
         before               => Package[$settings[package_name]],
         data_module          => $data_module,
         repo                 => $repo,
-        settings_hash        => $settings_hash,
+        my_settings          => $settings_hash,
         exec_environment     => $repo_exec_environment,
         upstream_repo        => $use_upstream_repo,
         apt_safe_trusted_key => $apt_safe_trusted_key,
@@ -528,7 +530,7 @@ define tp::install (
     }
 
     if $auto_prerequisites {
-      deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
+      tp::fail('notify', 'Parameter auto_prerequisites in tp::install is ignored, Use auto_prereq')
     }
 
     # Automatic dependencies management, if data defined
@@ -678,10 +680,10 @@ define tp::install (
 
     # Manage additional tp::conf as in conf_hash
     $conf_defaults = {
-      'ensure'        => tp::ensure2file($ensure),
-      'settings_hash' => $settings,
-      'options_hash'  => $all_options,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2file($ensure),
+      'my_settings' => $settings,
+      'my_options'  => $all_options,
+      'data_module' => $data_module,
     }
 
     $all_confs.each |$k,$v| {
@@ -698,9 +700,9 @@ define tp::install (
 
     # Manage additional tp::dir as in dir_hash
     $dir_defaults = {
-      'ensure'        => tp::ensure2dir($ensure),
-      'settings_hash' => $settings,
-      'data_module'   => $data_module,
+      'ensure'      => tp::ensure2dir($ensure),
+      'my_settings' => $settings,
+      'data_module' => $data_module,
     }
 
     $all_dirs.each |$k,$v| {
@@ -711,28 +713,28 @@ define tp::install (
 
     # Automatically manage config files and any Puppet resource, if tinydata defined
     if $auto_conf and $settings['config_file_template'] {
-      ::tp::conf { $app:
-        template     => $settings['config_file_template'],
-        options_hash => $all_options,
-        data_module  => $data_module,
+      tp::conf { $app:
+        template    => $settings['config_file_template'],
+        my_options  => $all_options,
+        data_module => $data_module,
       }
     }
     if $auto_conf and $settings['init_file_template'] {
-      ::tp::conf { "${app}::init":
-        template     => $settings['init_file_template'],
-        options_hash => $all_options,
-        base_file    => 'init',
-        data_module  => $data_module,
+      tp::conf { "${app}::init":
+        template    => $settings['init_file_template'],
+        my_options  => $all_options,
+        base_file   => 'init',
+        data_module => $data_module,
       }
     }
 
     # Optional test automation integration
     if $test_enable and $test_template {
       tp::test { $app:
-        settings_hash => $settings,
-        options_hash  => $all_options,
-        template      => $test_template,
-        data_module   => $data_module,
+        my_settings => $settings,
+        my_options  => $all_options,
+        template    => $test_template,
+        data_module => $data_module,
       }
     }
 

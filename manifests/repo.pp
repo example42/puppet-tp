@@ -6,6 +6,8 @@
 define tp::repo (
 
   Boolean                   $enabled             = true,
+
+  Hash                      $my_settings         = {},
   Hash                      $settings_hash       = {},
 
   Variant[Undef,String]     $repo                = undef,
@@ -43,6 +45,11 @@ define tp::repo (
   String[1]                $data_module          = 'tinydata',
 
 ) {
+  # Deprecations
+  if $settings_hash != {} {
+    tp::fail('notify', 'Parameter settings_hash in tp::repo is deprecated, replace it with my_settings')
+  }
+
   # Settings evaluation
   $enabled_num = bool2num($enabled)
   $ensure      = bool2ensure($enabled)
@@ -62,7 +69,7 @@ define tp::repo (
     zypper_repofile_url => $zypper_repofile_url,
   }
   $user_settings_clean = delete_undef_values($user_settings)
-  $settings = $tp_settings + $settings_hash + $user_settings_clean
+  $settings = deep_merge($tp_settings,$settings_hash,$my_settings,$user_settings_clean)
 
   $manage_yum_gpgcheck = $yum_gpgcheck ? {
     undef   => $settings[key_url] ? {

@@ -11,8 +11,10 @@ define tp::test (
   Variant[Undef,String,Array] $template        = undef,
   Variant[Undef,String]   $epp                 = undef,
   Variant[Undef,String]   $content             = undef,
-
+  Hash                    $my_options          = {},
   Hash                    $options_hash        = {},
+
+  Hash                    $my_settings         = {},
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
@@ -20,9 +22,17 @@ define tp::test (
   Boolean                 $verbose             = false,
 
 ) {
+  # Deprecations
+  if $settings_hash != {} {
+    tp::fail('notify', 'Parameter settings_hash in tp::test is deprecated, replace it with my_settings')
+  }
+  if $options_hash != {} {
+    tp::fail('notify', 'Parameter options_hash in tp::test is deprecated, replace it with my_options')
+  }
+
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'deep_merge')
-  $settings = $tp_settings + $settings_hash
+  $settings = deep_merge($tp_settings,$settings_hash,$my_settings)
 
   include tp
 
@@ -44,15 +54,15 @@ define tp::test (
     check_port_host        => '127.0.0.1',
   }
 
-  $options = merge($options_defaults, $options_hash)
+  $options = deep_merge($options_defaults, $options_hash, $my_options)
 
   $array_package_name=any2array($settings['package_name'])
   $array_service_name=any2array($settings['service_name'])
   $array_tcp_port=any2array($settings['tcp_port'])
 
   $epp_params = {
-    options => $options,
-    options_hash => $options_hash,
+    options    => $options,
+    my_options => $my_options,
   }
   # Find out the file's content value
   if $content {

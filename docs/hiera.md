@@ -32,8 +32,10 @@ On hiera yaml files then you can have somethig as follows (not actually recommen
           template: "site/apache/mime.types.erb"
         mysql:
           template: "site/mysql/my.cnf.erb"
-          options_hash:
-            
+          my_options:
+            'innodb_buffer_pool_size': 512M
+            'innodb_log_file_size': 128M
+            'innodb_flush_log_at_trx_commit': 2
 
       tp::dir_hash:
         apache::certs:

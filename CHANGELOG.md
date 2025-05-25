@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 3.10.3
+- Fix warnings
+
 ## 3.10.2
 
 - Fixed options param in tp::conf where use_v4 is false

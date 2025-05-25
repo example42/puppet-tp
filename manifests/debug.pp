@@ -12,7 +12,10 @@ define tp::debug (
   Variant[Undef,String]   $epp                 = undef,
   Variant[Undef,String]   $content             = undef,
 
+  Hash                    $my_options          = {},
   Hash                    $options_hash        = {},
+
+  Hash                    $my_settings         = {},
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
@@ -24,9 +27,17 @@ define tp::debug (
   Boolean                 $cli_enable          = pick($tp::cli_enable, true),
 
 ) {
+  # Deprecations
+  if $settings_hash != {} {
+    tp::fail('notify', "Module ${caller_module_name} needs updates: Parameter settings_hash in tp::debug is deprecated, replace it with my_settings")
+  }
+  if $options_hash != {} {
+    tp::fail('notify', "Module ${caller_module_name} needs updates: Parameter options_hash in tp::debug is deprecated, replace it with my_options")
+  }
+
   # Settings evaluation
   $tp_settings=tp_lookup($title,'settings',$data_module,'deep_merge')
-  $settings = $tp_settings + $settings_hash
+  $settings = deep_merge($tp_settings,$settings_hash,$my_settings)
 
   include tp
 
@@ -35,7 +46,7 @@ define tp::debug (
     debug_command           => $debug_command,
   }
 
-  $options = merge($options_defaults, $options_hash)
+  $options = deep_merge($options_defaults, $options_hash, $my_options)
 
   $array_package_name=any2array($settings['package_name'])
   $array_service_name=any2array($settings['service_name'])

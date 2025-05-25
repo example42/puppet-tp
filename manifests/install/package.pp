@@ -29,12 +29,12 @@
 #     upstream_repo => true,
 #   }
 #
-# @example installation and configuration via an options_hash
+# @example installation and configuration via an my_options
 # Note: this works when auto_conf is true (as default) AND when
 # is defined $settings['config_file_template'] with a valid template
 # in the used data module (default: tinydata)
 #   tp::install { 'puppetserver':
-#     options_hash => lookup('puppetserver::options', {merge => deep}),
+#     my_options => lookup('puppetserver::options', {merge => deep}),
 #   }
 #
 # @example installation and configuration via a custom hash of tp::conf
@@ -167,7 +167,7 @@ define tp::install::package (
   }
 
   if $auto_prerequisites {
-    deprecation('auto_prerequisites','Ignored. Parameter renamed to auto_prereq. s/auto_prerequisites/auto_prereq')
+    tp::fail('notify', 'Parameter auto_prerequisites in tp::install is ignored, Use auto_prereq')
   }
 
   # Automatic dependencies management, if data defined
