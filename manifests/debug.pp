@@ -46,7 +46,7 @@ define tp::debug (
     debug_command           => $debug_command,
   }
 
-  $options = deep_merge($options_defaults, $options_hash $my_options)
+  $options = deep_merge($options_defaults, $options_hash, $my_options)
 
   $array_package_name=any2array($settings['package_name'])
   $array_service_name=any2array($settings['service_name'])

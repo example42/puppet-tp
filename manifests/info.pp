@@ -15,7 +15,7 @@ define tp::info (
   Hash                    $my_options          = {},
   Hash                    $options_hash        = {},
 
-  Hash                    $my_settings         = {}
+  Hash                    $my_settings         = {},
   Hash                    $settings_hash       = {},
 
   String[1]               $data_module         = 'tinydata',
