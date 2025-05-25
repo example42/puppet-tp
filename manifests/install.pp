@@ -714,17 +714,17 @@ define tp::install (
     # Automatically manage config files and any Puppet resource, if tinydata defined
     if $auto_conf and $settings['config_file_template'] {
       tp::conf { $app:
-        template     => $settings['config_file_template'],
-        my_options => $all_options,
-        data_module  => $data_module,
+        template    => $settings['config_file_template'],
+        my_options  => $all_options,
+        data_module => $data_module,
       }
     }
     if $auto_conf and $settings['init_file_template'] {
       tp::conf { "${app}::init":
-        template     => $settings['init_file_template'],
-        my_options => $all_options,
-        base_file    => 'init',
-        data_module  => $data_module,
+        template    => $settings['init_file_template'],
+        my_options  => $all_options,
+        base_file   => 'init',
+        data_module => $data_module,
       }
     }
 
